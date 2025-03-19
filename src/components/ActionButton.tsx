@@ -13,6 +13,8 @@ interface ButtonProps {
 const ActionButton = (props: ButtonProps) => {
     const [clicksCounted, setClicksCounted] = createSignal(0);
 
+    props.minClickBeforeSkip ||= 4;
+
     console.log("Rendering ActionButton, isInputPresent:", props.isInputPresent);
 
     // Reset the clicksCounted signal when isCorrect changes
@@ -44,16 +46,16 @@ const ActionButton = (props: ButtonProps) => {
                             : 'next-button'
                 }
                 onClick={handleClick}
-                disabled={!props.isInputPresent} // ✅ Now correctly reactive
+                disabled={!props.isInputPresent}
             >
                 {props.isCorrect === null
-                    ? t('next')
+                    ? t('check')
                     : props.isCorrect === true
                         ? t('correct_next')
                         : t('try_again')}
             </button>
 
-            {clicksCounted() >= (props.minClickBeforeSkip ?? 2) && (
+            {!props.isCorrect && clicksCounted() >= (props.minClickBeforeSkip) && (
                 <button class='skip-button' onClick={props.onComplete}>{t('skip')}</button>
             )}
         </>
