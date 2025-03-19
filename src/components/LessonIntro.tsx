@@ -15,14 +15,18 @@ const LessonIntro = ({ title, description, index, children, onContinue }: Lesson
     return (
         <article class="lesson-intro">
             <section class="card">
-                <h2>
-                    {t('lesson')} {index + 1}
-                </h2>
-                <h3>{title}</h3>
+                <header>
+                    <h2>
+                        {t('lesson')} {index + 1}
+                    </h2>
+                    <h3>{title}</h3>
+                </header>
+
                 {description && (<p class="description">{description}</p>)}
-                <div class="buttons">
+
+                <footer>
                     <button class='next-button' onClick={onContinue}>{t('begin')}</button>
-                </div>
+                </footer>
             </section>
 
             {children && (

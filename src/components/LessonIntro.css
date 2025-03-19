@@ -2,10 +2,20 @@
 
 .lesson-intro {
     width: 100%;
-    margin-top: 0.3em;
+    height: 100%;
+}
+
+.lesson-intro .card {
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    gap: 0;
+    justify-content: space-evenly
+}
+
+@media (min-height: 800px) {
+    .lesson-intro .card {
+        max-height: 40em;
+    }
 }
 
 .lesson-intro .about h2,
@@ -24,9 +34,9 @@
     text-align: center;
 }
 
-.lesson-intro .buttons {
+.lesson-intro footer {
     margin-top: 2em;
-    float: right;
+    text-align: right;
 }
 
 .lesson-intro .next-button {
