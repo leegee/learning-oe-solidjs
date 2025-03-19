@@ -1,8 +1,7 @@
 import js from '@eslint/js'
 import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import solidPlugin from 'eslint-plugin-solid'
+import tseslint from '@typescript-eslint/eslint-plugin'
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -14,15 +13,12 @@ export default tseslint.config(
       globals: globals.browser,
     },
     plugins: {
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      'solid': solidPlugin,
     },
     rules: {
-      ...reactHooks.configs.recommended.rules,
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
+      // Solid-specific rules
+      'solid/jsx-no-undef': 'error', // For ensuring JSX elements are defined
+      'solid/props-rule': 'warn', // You can add Solid-specific rules here
     },
   },
 )

@@ -1,28 +1,27 @@
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { JSX } from 'solid-js';
+import { t } from '../i18n';
 import './LessonIntro.css';
 
 interface LessonIntroProps {
     title: string;
     description?: string;
     index: number;
-    children?: ReactNode;
+    children?: JSX.Element;
     onContinue: () => void;
 }
 
 const LessonIntro = ({ title, description, index, children, onContinue }: LessonIntroProps) => {
-    const { t } = useTranslation();
 
     return (
-        <article className="lesson-intro">
-            <section className="card">
+        <article class="lesson-intro">
+            <section class="card">
                 <h2>
                     {t('lesson')} {index + 1}
                 </h2>
                 <h3>{title}</h3>
-                {description && (<p className="description">{description}</p>)}
-                <div className="buttons">
-                    <button className='next-button' onClick={onContinue}>{t('begin')}</button>
+                {description && (<p class="description">{description}</p>)}
+                <div class="buttons">
+                    <button class='next-button' onClick={onContinue}>{t('begin')}</button>
                 </div>
             </section>
 

@@ -1,6 +1,6 @@
 // BlanksCard.tsx
-import { useState, useEffect } from 'react';
-import { useTranslation } from "react-i18next";
+import { createSignal, createEffect, For } from 'solid-js';
+import { t } from '../../i18n';
 
 import { shuffleArray } from '../../lib/shuffle-array.ts';
 import { type Card } from './Card.ts';
@@ -21,22 +21,20 @@ interface BlanksCardProps {
 }
 
 const BlanksCard = ({ card, onCorrect, onIncorrect, onComplete }: BlanksCardProps) => {
-    const [langs, setLangs] = useState<setQandALangsReturnType>(setQandALangs(card));
-    const [shuffledWords, setShuffledWords] = useState<string[]>([]);
-    const [selectedWords, setSelectedWords] = useState<string[]>([]);
-    const [isComplete, setIsComplete] = useState(false);
-    const [currentSentence, setCurrentSentence] = useState<string>(card.question);
-    const [shake, setShake] = useState<string | null>(null);
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+    const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
+    const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
+    const [isComplete, setIsComplete] = createSignal(false);
+    const [currentSentence, setCurrentSentence] = createSignal<string>(card.question);
+    const [shake, setShake] = createSignal<string | null>(null);
 
-    const { t } = useTranslation();
-
-    useEffect(() => {
+    createEffect(() => {
         setShuffledWords(shuffleArray(card.words.map(word => word.word)));
         setLangs(setQandALangs(card));
-    }, [card]);
+    });
 
     const handleWordClick = (word: string) => {
-        const firstBlankIndex = currentSentence.indexOf('__');
+        const firstBlankIndex = currentSentence().indexOf('__');
 
         if (firstBlankIndex === -1) {
             return;
@@ -45,12 +43,12 @@ const BlanksCard = ({ card, onCorrect, onIncorrect, onComplete }: BlanksCardProp
         const isCorrect = card.words.find((item) => item.word === word && item.correct);
 
         if (isCorrect) {
-            const expectedWord = card.words.filter(word => word.correct)[selectedWords.length].word;
+            const expectedWord = card.words.filter(word => word.correct)[selectedWords().length].word;
 
             if (word === expectedWord) {
                 onCorrect();
-                setSelectedWords((prev) => [...prev, word]);
-                let updatedSentence = currentSentence;
+                setSelectedWords([...selectedWords(), word]);
+                let updatedSentence = currentSentence();
                 updatedSentence = updatedSentence.replace(/__+/, word);
                 setCurrentSentence(updatedSentence);
             } else {
@@ -68,52 +66,54 @@ const BlanksCard = ({ card, onCorrect, onIncorrect, onComplete }: BlanksCardProp
     };
 
     // Check if all correct words are selected in the correct order
-    useEffect(() => {
+    createEffect(() => {
         const correctOrder = card.words.filter(word => word.correct).map(item => item.word);
-        if (selectedWords.length === correctOrder.length && selectedWords.every((word, index) => word === correctOrder[index])) {
+        if (selectedWords().length === correctOrder.length && selectedWords().every((word, index) => word === correctOrder[index])) {
             setIsComplete(true);
         }
-    }, [selectedWords, card]);
+    });
 
     const handleNextClick = () => {
-        if (isComplete) {
+        if (isComplete()) {
             onComplete();
         }
     };
 
     return (
         <>
-            <section className="card blanks-card">
+            <section class="card blanks-card">
 
                 <h4>{t('fill_in_the_blanks')}</h4>
-                <h3 className="question" lang={langs.q}>{currentSentence}</h3>
+                <h3 class="question" lang={langs().q}>{currentSentence()}</h3>
 
-                <div className="word-options">
-                    {shuffledWords.map((word, index) => {
-                        const isSelected = selectedWords.includes(word);
-                        const isCorrect = card.words.find((item) => item.word === word && item.correct);
+                <div class="word-options">
+                    <For each={shuffledWords()}>
+                        {(word) => {
+                            const isSelected = selectedWords().includes(word);
+                            const isCorrect = card.words.find((item) => item.word === word && item.correct);
 
-                        return (
-                            <button
-                                key={index}
-                                lang={langs.a}
-                                onClick={() => handleWordClick(word)}
-                                disabled={isSelected}
-                                className={
-                                    `word-option 
+                            return (
+                                <button
+                                    lang={langs().a}
+                                    onClick={() => handleWordClick(word)}
+                                    disabled={isSelected}
+                                    class={
+                                        `word-option 
                                     ${isSelected ? isCorrect ? 'correct' : 'incorrect' : ''}
-                                    ${shake === word ? 'shake' : ''}
-                                `}
-                            >
-                                {word}
-                            </button>
-                        );
-                    })}
+                                    ${shake() === word ? 'shake' : ''}
+                                `
+                                    }
+                                >
+                                    {word}
+                                </button>
+                            );
+                        }}
+                    </For>
                 </div>
             </section>
 
-            {isComplete && (
-                <button className="next-button" onClick={handleNextClick}>
+            {isComplete() && (
+                <button class="next-button" onClick={handleNextClick}>
                     {t('next')}
                 </button>
             )}

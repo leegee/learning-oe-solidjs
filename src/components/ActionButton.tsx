@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { createSignal, createEffect } from 'solid-js';
+import { t } from '../i18n';
 import './ActionButton.css';
 
 interface ButtonProps {
@@ -11,14 +11,13 @@ interface ButtonProps {
 }
 
 const ActionButton = ({ isCorrect, isInputPresent, minClickBeforeSkip, onCheckAnswer, onComplete }: ButtonProps) => {
-    const { t } = useTranslation();
-    const [clicksCounted, setClicksCounted] = useState<number>(0);
+    const [clicksCounted, setClicksCounted] = createSignal(0);
 
     minClickBeforeSkip = minClickBeforeSkip || 2;
 
-    useEffect(() => {
+    createEffect(() => {
         setClicksCounted(0);
-    }, [isCorrect, isInputPresent]);
+    });
 
     const handleClick = () => {
         setClicksCounted((prev) => prev + 1);
@@ -33,7 +32,7 @@ const ActionButton = ({ isCorrect, isInputPresent, minClickBeforeSkip, onCheckAn
     return (
         <>
             <button
-                className={
+                class={
                     isCorrect === null
                         ? 'next-button'
                         : isCorrect === false
@@ -50,8 +49,8 @@ const ActionButton = ({ isCorrect, isInputPresent, minClickBeforeSkip, onCheckAn
                         : t('try_again')}
             </button>
 
-            {clicksCounted >= minClickBeforeSkip && (
-                <button className='skip-button' onClick={onComplete}>{t('skip')}</button>
+            {clicksCounted() >= minClickBeforeSkip && (
+                <button class='skip-button' onClick={onComplete}>{t('skip')}</button>
             )}
         </>
     );

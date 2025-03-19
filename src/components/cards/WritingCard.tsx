@@ -1,5 +1,5 @@
-import { useRef, useMemo, useState, useEffect } from 'react';
-import { useTranslation } from "react-i18next";
+import { createSignal, createEffect, createMemo } from 'solid-js';
+import { t } from '../../i18n';
 
 import { type Card } from './Card.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
@@ -24,20 +24,18 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingCard = ({ card, onCorrect, onIncorrect, onComplete }: WritingCardProps) => {
-    const [langs, setLangs] = useState<setQandALangsReturnType>(setQandALangs(card));
-    const [userInput, setUserInput] = useState<string>('');
-    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-    const { t } = useTranslation();
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+    const [userInput, setUserInput] = createSignal<string>('');
+    const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
 
-    const inputRef = useRef<HTMLTextAreaElement>(null);
+    let inputRef: HTMLTextAreaElement | null = null;
 
-    // Memoizing normalized answer to avoid unnecessary recalculations
-    const normalizedAnswer = useMemo(() => normalizeText(card.answer), [card.answer]);
+    const normalizedAnswer = createMemo(() => normalizeText(card.answer));
 
-    useEffect(() => {
+    createEffect(() => {
         const newLangs = setQandALangs(card);
         setLangs(newLangs);
-    }, [card]);
+    });
 
     const setTheUserInput = (text: string) => {
         setIsCorrect(null);
@@ -45,15 +43,15 @@ const WritingCard = ({ card, onCorrect, onIncorrect, onComplete }: WritingCardPr
     }
 
     const handleLetterButtonClick = (letter: string) => {
-        setTheUserInput(userInput + letter);
-        if (inputRef.current) {
-            inputRef.current.focus();
+        setTheUserInput(userInput() + letter);
+        if (inputRef) {
+            inputRef.focus();
         }
     };
 
     const handleCheckAnswer = () => {
-        const normalizedUserInput = normalizeText(userInput);
-        if (normalizedUserInput === normalizedAnswer) {
+        const normalizedUserInput = normalizeText(userInput());
+        if (normalizedUserInput === normalizedAnswer()) {
             setIsCorrect(true);
             onCorrect();
         } else {
@@ -64,33 +62,32 @@ const WritingCard = ({ card, onCorrect, onIncorrect, onComplete }: WritingCardPr
 
     return (
         <>
-            <section className='card writing-card'>
+            <section class='card writing-card'>
                 {/*<h4>{t('translate_to_lang', { lang: t(langs.a) })}</h4> */}
-                <h3 className="question" lang={langs.q}>{card.question}</h3>
+                <h3 class="question" lang={langs().q}>{card.question}</h3>
 
                 <textarea
-                    className='answer'
-                    placeholder={t('type_in') + ' ' + t(langs.a) + '...'}
-                    ref={inputRef}
-                    lang={langs.a}
-                    value={userInput}
-                    autoFocus={true}
-                    onChange={(e) => setTheUserInput(e.target.value)}
+                    class='answer'
+                    placeholder={t('type_in') + ' ' + t(langs().a) + '...'}
+                    ref={el => inputRef = el}
+                    lang={langs().a}
+                    value={userInput()}
+                    autofocus={true}
+                    onInput={(e) => setTheUserInput(e.target.value)}
                     aria-label={t('enter_answer')}
                 />
 
-                {langs.a === 'ang' && (
+                {langs().a === 'ang' && (
                     <LetterButtons
-                        lang={langs.a}
+                        lang={langs().a}
                         onSelect={handleLetterButtonClick}
                     />
                 )}
-
             </section>
 
             <ActionButton
-                isCorrect={isCorrect}
-                isInputPresent={userInput.length > 0}
+                isCorrect={isCorrect()}
+                isInputPresent={userInput().length > 0}
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={onComplete}
             />

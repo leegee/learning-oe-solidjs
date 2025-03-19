@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { t } from '../i18n';
 
 interface Letter {
     symbol: string;
@@ -30,7 +30,7 @@ interface LetterButtonsProps {
 }
 
 const LetterButtons = ({ lang, onSelect }: LetterButtonsProps) => {
-    const { t } = useTranslation();
+
 
     const letters = Letters[lang];
 
@@ -39,7 +39,7 @@ const LetterButtons = ({ lang, onSelect }: LetterButtonsProps) => {
     };
 
     return (
-        <div className="letter-buttons">
+        <div class="letter-buttons">
             {letters.map((letter, index) => (
                 <button
                     key={index}

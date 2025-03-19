@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { createSignal, createEffect, For } from 'solid-js';
 
 import { type Card } from './Card.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
@@ -23,15 +23,15 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingBlocksCard = ({ card, onCorrect, onIncorrect, onComplete }: WritingBlocksCardProps) => {
-    const [langs, setLangs] = useState<setQandALangsReturnType>(setQandALangs(card));
-    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-    const [selectedWords, setSelectedWords] = useState<string[]>([]);
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+    const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
+    const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
 
-    useEffect(() => {
+    createEffect(() => {
         setLangs(setQandALangs(card));
         setSelectedWords([]);
         setIsCorrect(null);
-    }, [card]);
+    });
 
     const handleWordClick = (word: string) => {
         setIsCorrect(null);
@@ -44,7 +44,7 @@ const WritingBlocksCard = ({ card, onCorrect, onIncorrect, onComplete }: Writing
     };
 
     const handleCheckAnswer = () => {
-        const normalizedUserInput = normalizeText(selectedWords.join(' '));
+        const normalizedUserInput = normalizeText(selectedWords().join(' '));
         const normalizedAnswer = normalizeText(card.answer);
 
         if (normalizedUserInput === normalizedAnswer) {
@@ -58,34 +58,37 @@ const WritingBlocksCard = ({ card, onCorrect, onIncorrect, onComplete }: Writing
 
     return (
         <>
-            <section className='writing-blocks-card'>
-                <h3 className="question" lang={langs.q}>{card.question}</h3>
+            <section class='writing-blocks-card'>
+                <h3 class="question" lang={langs().q}>{card.question}</h3>
 
-                <div className='selected-words'>
-                    {selectedWords.map((word, index) => (
-                        <button key={index} className='selected-word' onClick={() => handleRemoveWord(index)}>
-                            {word}
-                        </button>
-                    ))}
+                <div class='selected-words'>
+                    <For each={selectedWords()}>
+                        {(word, index) => (
+                            <button class='selected-word' onClick={() => handleRemoveWord(index())}>
+                                {word}
+                            </button>
+                        )}
+                    </For>
                 </div>
 
-                <div className='options'>
-                    {card.options.map((word, index) => (
-                        <button
-                            key={index}
-                            className='option-button'
-                            onClick={() => handleWordClick(word)}
-                            disabled={selectedWords.includes(word)}
-                        >
-                            {word}
-                        </button>
-                    ))}
+                <div class='options'>
+                    <For each={card.options}>
+                        {(word) => (
+                            <button
+                                class='option-button'
+                                onClick={() => handleWordClick(word)}
+                                disabled={selectedWords().includes(word)}
+                            >
+                                {word}
+                            </button>
+                        )}
+                    </For>
                 </div>
             </section>
 
             <ActionButton
-                isCorrect={isCorrect}
-                isInputPresent={selectedWords.length > 0}
+                isCorrect={isCorrect()}
+                isInputPresent={selectedWords().length > 0}
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={onComplete}
             />

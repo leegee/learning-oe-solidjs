@@ -1,6 +1,7 @@
 // MultipleChoice.tsx
-import { useState, useEffect } from 'react';
-import { useTranslation } from "react-i18next";
+import { For } from 'solid-js';
+import { createSignal, createEffect } from 'solid-js';
+import { t } from '../../i18n';
 
 import { shuffleArray } from '../../lib/shuffle-array.ts';
 import { type Card } from './Card.ts';
@@ -22,31 +23,31 @@ interface MultipleChoiceCardProps {
 }
 
 const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleChoiceCardProps) => {
-    const [langs, setLangs] = useState<setQandALangsReturnType>(setQandALangs(card));
-    const [selectedOption, setSelectedOption] = useState<string | null>(null);
-    const [hasChecked, setHasChecked] = useState<boolean>(false);
-    const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-    const [shuffledOptions, setShuffledOptions] = useState<string[]>([]);
-    const [isButtonsDisabled, setIsButtonsDisabled] = useState<boolean>(false);
-    const { t } = useTranslation();
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+    const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
+    const [hasChecked, setHasChecked] = createSignal<boolean>(false);
+    const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
+    const [shuffledOptions, setShuffledOptions] = createSignal<string[]>(shuffleArray(card.answers));
+    const [isButtonsDisabled, setIsButtonsDisabled] = createSignal<boolean>(false);
 
-    useEffect(() => {
+    createEffect(() => {
+        // Whenever the card changes, reset everything
         setShuffledOptions(shuffleArray(card.answers));
         setLangs(setQandALangs(card));
         setSelectedOption(null);
         setIsCorrect(null);
         setHasChecked(false);
         setIsButtonsDisabled(false);
-    }, [card]);
+    });
 
     const handleOptionClick = (option: string) => {
-        if (!isButtonsDisabled) {
+        if (!isButtonsDisabled()) {
             setSelectedOption(option);
         }
     };
 
     const handleCheckAnswer = () => {
-        if (hasChecked) {
+        if (hasChecked()) {
             // Move to the next round by resetting states
             setSelectedOption(null);
             setIsCorrect(null);
@@ -56,7 +57,7 @@ const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleCh
             // Check the answer
             setIsButtonsDisabled(true);
 
-            if (selectedOption === card.answer) {
+            if (selectedOption() === card.answer) {
                 setIsCorrect(true);
                 onCorrect();
             } else {
@@ -68,32 +69,40 @@ const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleCh
         }
     };
 
+    const getButtonClass = (hasChecked: boolean, selectedOption: string | null, option: string, isCorrect: boolean | null) => {
+        if (hasChecked) {
+            return selectedOption === option
+                ? isCorrect ? 'correct' : 'incorrect'
+                : '';
+        }
+        return '';
+    };
+
     return (
         <>
-            <section className='card multiple-choice'>
-                <h4 lang={langs.q}>{t('in_lang_how_do_you_say', { lang: t(langs.a) })}</h4>
-                <h3 className="question" lang={langs.q}>{card.question}</h3>
+            <section class='card multiple-choice'>
+                <h4 lang={langs().q}>{t('in_lang_how_do_you_say', { lang: t(langs().a) })}</h4>
+                <h3 class="question" lang={langs().q}>{card.question}</h3>
 
-                {shuffledOptions.map((option, index) => (
-                    <button
-                        lang={langs.a}
-                        key={index}
-                        onClick={() => handleOptionClick(option)}
-                        className={`multiple-choice-button 
-                            ${hasChecked && selectedOption === option ?
-                                (isCorrect && selectedOption === option ? 'correct' : 'incorrect')
-                                : ''}`}
-                        disabled={isButtonsDisabled}
-                    >
-                        {option}
-                    </button>
-                ))}
+                <For each={shuffledOptions()}>
+                    {(option) => (
+                        <button
+                            lang={langs().a}
+                            onClick={() => handleOptionClick(option)}
+                            class={`multiple-choice-button ${getButtonClass(hasChecked(), selectedOption(), option, isCorrect())}`}
+                            disabled={isButtonsDisabled()}
+                        >
+                            {option}
+                        </button>
+                    )}
+                </For>
+
             </section>
 
-            {selectedOption && (
+            {selectedOption() && (
                 <ActionButton
-                    isCorrect={isCorrect}
-                    isInputPresent={selectedOption !== null}
+                    isCorrect={isCorrect()}
+                    isInputPresent={selectedOption() !== null}
                     onCheckAnswer={handleCheckAnswer}
                     onComplete={onComplete}
                 />

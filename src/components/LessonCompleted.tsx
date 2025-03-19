@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { t } from '../i18n';
 import { formatDuration } from "../lib/format-duration";
 
 import './LessonCompleted.css';
@@ -11,11 +11,9 @@ interface LessonCompletedComponent {
 }
 
 const LessonCompletedComponent = ({ durationInSeconds, questionCount, mistakeCount, onContinue }: LessonCompletedComponent) => {
-    const { t } = useTranslation();
-
     return (
         <>
-            <section className='card lesson-completed'>
+            <section class='card lesson-completed'>
                 <h2>{t('lesson_completed')}</h2>
                 <p>
                     {
@@ -30,8 +28,8 @@ const LessonCompletedComponent = ({ durationInSeconds, questionCount, mistakeCou
                     }
                 </p>
                 <footer>
-                    {/* <button className='next-button' onClick={onContinue}>{t('next_lesson')}</button> */}
-                    <button className='next-button' onClick={onContinue}>{t('continue')}</button>
+                    {/* <button class='next-button' onClick={onContinue}>{t('next_lesson')}</button> */}
+                    <button class='next-button' onClick={onContinue}>{t('continue')}</button>
                 </footer>
             </section >
         </>

@@ -1,4 +1,4 @@
-import { useTranslation } from "react-i18next";
+import { t } from '../i18n';
 import './Stats.css';
 
 interface StatsProps {
@@ -8,39 +8,37 @@ interface StatsProps {
 }
 
 const Stats = ({ correctAnswers, incorrectAnswers, questionsAnswered }: StatsProps) => {
-    const { t } = useTranslation();
-
     if (!incorrectAnswers && !questionsAnswered) {
         return '';
     }
 
     return (
-        <span className="stats">
+        <span class="stats">
             <h2>{t('progress')}</h2>
 
-            <span className="correct-answers" title={t('corect_answers_alt')}>
-                <span className='correct-answers-alt'>
+            <span class="correct-answers" title={t('corect_answers_alt')}>
+                <span class='correct-answers-alt'>
                     {t('correct_answer_count_alt')}
                 </span>
-                <span className='correct-answers-value'>
+                <span class='correct-answers-value'>
                     {correctAnswers}
                 </span>
             </span>
 
-            <span className="incorrect-answers" title={t('incorrect_answer_count_alt')}>
-                <span className='incorrect-answers-alt'>
+            <span class="incorrect-answers" title={t('incorrect_answer_count_alt')}>
+                <span class='incorrect-answers-alt'>
                     {t('incorrect_answer_count_alt')}
                 </span>
-                <span className='incorrect-answers-value'>
+                <span class='incorrect-answers-value'>
                     {incorrectAnswers}
                 </span>
             </span>
 
-            <span className="questions-answered" title={t('questions_answered_count_alt')}>
-                <span className='questions-answered-alt'>
+            <span class="questions-answered" title={t('questions_answered_count_alt')}>
+                <span class='questions-answered-alt'>
                     {t('questions_answered_count_alt')}
                 </span>
-                <span className='questions-answered-value'>
+                <span class='questions-answered-value'>
                     {questionsAnswered}
                 </span>
             </span>

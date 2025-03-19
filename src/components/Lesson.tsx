@@ -1,6 +1,5 @@
-// src/components/Lesson.tsx
-import { useEffect, useState } from 'react';
-import { useTranslation } from "react-i18next";
+import { createSignal, onCleanup } from 'solid-js';
+import { t } from '../i18n';
 
 import MultipleChoice from './cards/MultipleChoice';
 import VocabMatch from './cards/VocabMatch';
@@ -18,26 +17,34 @@ interface LessonProps {
     onCancel: () => void;
     onQuestionAnswered: () => void;
     onLessonComplete: () => void;
-};
+}
 
-const LessonComponent = ({ lesson, onQuestionAnswered, onCorrectAnswer, onIncorrectAnswer, onCancel, onLessonComplete }: LessonProps) => {
-    const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
-    const { t } = useTranslation();
+const LessonComponent = ({
+    lesson,
+    onQuestionAnswered,
+    onCorrectAnswer,
+    onIncorrectAnswer,
+    onCancel,
+    onLessonComplete,
+}: LessonProps) => {
+    const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
 
-    useEffect(() => {
-        const handleKeys = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') {
-                onCancel();
-            }
-        };
+    // Handle keyboard events for Escape key
+    const handleKeys = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+            onCancel();
+        }
+    };
 
-        window.addEventListener('keyup', handleKeys);
-        return () => window.removeEventListener('keyup', handleKeys);
-    })
+    window.addEventListener('keyup', handleKeys);
+
+    onCleanup(() => {
+        window.removeEventListener('keyup', handleKeys);
+    });
 
     const goToNextCard = () => {
         onQuestionAnswered();
-        if (currentCardIndex < lesson.cards.length - 1) {
+        if (currentCardIndex() < lesson.cards.length - 1) {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         } else {
             onLessonComplete();
@@ -47,37 +54,36 @@ const LessonComponent = ({ lesson, onQuestionAnswered, onCorrectAnswer, onIncorr
     const onIncorrect = () => {
         console.log('On Incorrect: ');
         // TODO onIncorrect might receive something to store here
-        onIncorrectAnswer(String(currentCardIndex));
-    }
+        onIncorrectAnswer(String(currentCardIndex()));
+    };
 
-    const currentCard = lesson.cards[currentCardIndex];
-    const progress = (currentCardIndex + 1) / lesson.cards.length;
+    const currentCard = lesson.cards[currentCardIndex()];
+    const progress = (currentCardIndex() + 1) / lesson.cards.length;
 
-    useEffect(() => {
-        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-            const confirmationMessage = "Are you sure you want to leave this app?";
-            event.preventDefault();
-            return confirmationMessage;
-        };
+    // Handle beforeunload event
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        const confirmationMessage = 'Are you sure you want to leave this app?';
+        event.preventDefault();
+        return confirmationMessage;
+    };
 
-        window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
-        return () => {
-            window.removeEventListener('beforeunload', handleBeforeUnload);
-        };
-    }, []);
+    onCleanup(() => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+    });
 
     return (
-        <article className='lesson'>
+        <article class="lesson">
             <h2>
                 {t('lesson')}: <em>{lesson.title}</em>
-                <button className='close-button' onClick={onCancel} />
+                <button class="close-button" onClick={onCancel} />
             </h2>
             <progress
                 value={progress}
                 max={1}
                 aria-label={t('lesson_progress')}
-                title={`${currentCardIndex + 1} / ${lesson.cards.length}`}
+                title={`${currentCardIndex() + 1} / ${lesson.cards.length}`}
             ></progress>
 
             {currentCard.class === 'dynamic-vocab' && (

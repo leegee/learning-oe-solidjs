@@ -1,26 +1,23 @@
-import { ReactNode } from "react";
-
+import { JSX } from 'solid-js';
 import packageJson from '../../package.json';
-// import InstallPWA from "./InstallPWA";
 
 import './Home.css';
 
 interface HomeScreenProps {
-    children: ReactNode;
+    children: JSX.Element;
 }
 
 const HomeScreen = ({ children }: HomeScreenProps) => {
     return (
-        <article id='home'>
-
+        <article id="home">
             {children}
 
-            <footer className="version">
+            <footer class="version">
                 {/* <InstallPWA /> */}
                 Version {packageJson.version}
             </footer>
-        </article >
+        </article>
     );
-}
+};
 
 export default HomeScreen;

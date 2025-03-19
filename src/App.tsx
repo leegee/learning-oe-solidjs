@@ -1,14 +1,5 @@
-/*
-  For reasons of future compatability, better or worse, this, 
-  the  prototype's main component,  manages all navigation without 
-  react-router or react-router-native or native-stack.
-
-  For the same reason, access to state data is also managed here.
-  
-*/
-
-import { useState, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { createSignal, createEffect } from "solid-js";
+import { t } from './i18n';
 
 import config from "./config";
 import LessonList from "./components/LessonList";
@@ -26,60 +17,58 @@ import "./App.css";
 
 const App = () => {
   const initialLessonIndex = state.loadCurrentLesson();
-  const { t } = useTranslation();
 
-  const [correctAnswers, setCorrectAnswers] = useState<number>(state.loadCorrectAnswers);
-  const [currentLessonIndex, setCurrentLessonIndex] = useState<number>(initialLessonIndex);
-  const [isCourseFinished, setIsCourseCompleted] = useState<boolean>(initialLessonIndex >= lessons.length);
-  const [isLessonActive, setIsLessonActive] = useState(false);
-  const [islessonCompleted, setIsLessonCompleted] = useState<boolean>(false);
-  const [isLessonIntro, isShowLessonIntro] = useState<boolean>(true);
-  const [isShowHome, setIsShowHome] = useState(true);
-  const [lessonDurationSeconds, setLessonDurationSeconds] = useState<number | null>(null);
-  const [lessonStartTime, setLessonStartTime] = useState<number | null>(null);
-  const [totalIncorrectAnswers, setTotalIncorrectAnswers] = useState<number>(state.countTotalIncorrectAnswers());
+  const [correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
+  const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
+  const [isCourseFinished, setIsCourseCompleted] = createSignal(initialLessonIndex >= lessons.length);
+  const [isLessonActive, setIsLessonActive] = createSignal(false);
+  const [isLessonCompleted, setIsLessonCompleted] = createSignal(false);
+  const [isLessonIntro, setIsShowLessonIntro] = createSignal(true);
+  const [isShowHome, setIsShowHome] = createSignal(true);
+  const [lessonDurationSeconds, setLessonDurationSeconds] = createSignal<number | null>(null);
+  const [lessonStartTime, setLessonStartTime] = createSignal<number | null>(null);
+  const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
 
-  // const totalQuestions = lessons.reduce((sum, lesson) => sum + lesson.cards.length, 0);
   const totalQuestionsAnswered = state.loadQuestionsAnswered();
-  const currentLesson = lessons[currentLessonIndex];
+  const currentLesson = lessons[currentLessonIndex()];
 
   // When the current lesson index changes, a new lesson is introduced
-  useEffect(() => {
+  createEffect(() => {
     setTotalIncorrectAnswers(state.countTotalIncorrectAnswers());
-    setIsCourseCompleted(currentLessonIndex >= lessons.length);
-    isShowLessonIntro(true);
+    setIsCourseCompleted(currentLessonIndex() >= lessons.length);
+    setIsShowLessonIntro(true);
     setIsLessonCompleted(false);
-  }, [currentLessonIndex]);
+  });
 
-  useEffect(() => {
-    setIsLessonActive(!isLessonIntro && !islessonCompleted && !isCourseFinished);
-  }, [currentLessonIndex, isLessonIntro, islessonCompleted, isCourseFinished]);
+  createEffect(() => {
+    setIsLessonActive(!isLessonIntro() && !isLessonCompleted() && !isCourseFinished());
+  });
 
   const onQuestionAnswered = () => {
     state.addQuestionCompleted();
   }
 
   const onCorrectAnswer = (numberOfCorrectAnswers = 1) => {
-    const totalCorect = state.addCorrectAnswers(numberOfCorrectAnswers);
-    setCorrectAnswers(totalCorect);
+    const totalCorrect = state.addCorrectAnswers(numberOfCorrectAnswers);
+    setCorrectAnswers(totalCorrect);
   }
 
   const onIncorrectAnswer = (incorrectAnswer: string) => {
-    const existingAnswers = state.loadIncorrectAnswers(currentLessonIndex) ?? [];
+    const existingAnswers = state.loadIncorrectAnswers(currentLessonIndex()) ?? [];
     const updatedAnswers = [...existingAnswers, incorrectAnswer];
-    state.saveIncorrectAnswers(currentLessonIndex, updatedAnswers);
-    setTotalIncorrectAnswers((prev) => prev + 1);
+    state.saveIncorrectAnswers(currentLessonIndex(), updatedAnswers);
+    setTotalIncorrectAnswers(prev => prev + 1);
   };
 
   const onLessonStart = () => {
-    state.resetLesson(currentLessonIndex)
+    state.resetLesson(currentLessonIndex());
     setLessonStartTime(Date.now());
-    isShowLessonIntro(false);
+    setIsShowLessonIntro(false);
   }
 
   const onContinue = () => {
-    if (currentLessonIndex < lessons.length - 1) {
-      const nextLessonIndex = currentLessonIndex + 1;
+    if (currentLessonIndex() < lessons.length - 1) {
+      const nextLessonIndex = currentLessonIndex() + 1;
       setCurrentLessonIndex(nextLessonIndex);
       state.saveCurrentLesson(nextLessonIndex);
       setIsShowHome(true);
@@ -102,29 +91,29 @@ const App = () => {
 
   const onLessonComplete = () => {
     setIsLessonCompleted(true);
-    if (lessonStartTime) {
-      setLessonDurationSeconds(Math.floor((Date.now() - lessonStartTime) / 1000));
+    if (lessonStartTime() !== null) {
+      setLessonDurationSeconds(Math.floor((Date.now() - lessonStartTime()!) / 1000));
       setLessonStartTime(null);
     }
   }
 
   const renderHeader = () => {
-    if (isLessonActive) {
+    if (isLessonActive()) {
       return '';
     }
     return (
       <header>
-        <div className="header-progress">
+        <div class="header-progress">
           <progress
-            className="course-progress"
-            value={currentLessonIndex}
+            class="course-progress"
+            value={currentLessonIndex()}
             max={lessons.length}
             aria-label={t('course_progress')}
-            title={`${t('all_lessons')} ${currentLessonIndex + 1} / ${lessons.length}`}
+            title={`${t('all_lessons')} ${currentLessonIndex() + 1} / ${lessons.length}`}
           />
         </div>
 
-        <div className='header-text'>
+        <div class='header-text'>
           <h1 lang={config.targetLanguage}>{config.target.apptitle}</h1>
           <h2 lang={config.defaultLanguage}>{config.default.apptitle}</h2>
         </div>
@@ -133,16 +122,16 @@ const App = () => {
   }
 
   const renderConditional = () => {
-    if (isShowHome) {
+    if (isShowHome()) {
       return (
         <HomeScreen>
           <Stats
-            incorrectAnswers={totalIncorrectAnswers}
+            incorrectAnswers={totalIncorrectAnswers()}
             questionsAnswered={totalQuestionsAnswered}
-            correctAnswers={correctAnswers}
+            correctAnswers={correctAnswers()}
           />
           <LessonList
-            currentLessonIndex={currentLessonIndex}
+            currentLessonIndex={currentLessonIndex()}
             lessons={lessonTitles2Indicies()}
             onLessonSelected={onLessonSelected}
           />
@@ -151,39 +140,40 @@ const App = () => {
       )
     }
 
-    if (isLessonIntro) {
+    if (isLessonIntro()) {
       return (
         <LessonIntro
           title={currentLesson.title}
           description={currentLesson.description}
-          index={currentLessonIndex}
-          onContinue={() => onLessonStart()}
+          index={currentLessonIndex()}
+          onContinue={onLessonStart}
         />
       )
     }
 
-    else if (islessonCompleted) {
+    if (isLessonCompleted()) {
       return (
         <LessonCompleted
           onContinue={onContinue}
           questionCount={currentLesson.cards.length}
-          durationInSeconds={lessonDurationSeconds !== null ? lessonDurationSeconds : -1}
-          mistakeCount={state.loadIncorrectAnswers(currentLessonIndex).length}
+          durationInSeconds={lessonDurationSeconds() !== null ? lessonDurationSeconds()! : -1}
+          mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
         />
       )
     }
 
-    else if (isCourseFinished) {
+    if (isCourseFinished()) {
       return (
         <CompletedAllLessons
           totalLessons={lessons.length}
         >
-          <Stats incorrectAnswers={totalIncorrectAnswers}
+          <Stats
+            incorrectAnswers={totalIncorrectAnswers()}
             questionsAnswered={totalQuestionsAnswered}
-            correctAnswers={correctAnswers}
+            correctAnswers={correctAnswers()}
           />
           <LessonList
-            currentLessonIndex={currentLessonIndex}
+            currentLessonIndex={currentLessonIndex()}
             lessons={lessonTitles2Indicies()}
             onLessonSelected={onLessonSelected}
           />
@@ -193,7 +183,6 @@ const App = () => {
 
     return (
       <LessonComponent
-        key={currentLessonIndex}
         lesson={currentLesson}
         onCancel={onLessonCancelled}
         onQuestionAnswered={onQuestionAnswered}
@@ -205,12 +194,12 @@ const App = () => {
   };
 
   return (
-    <main id='main'
-      className={[
-        isLessonActive ? "lesson-active" : "",
-        isShowHome ? "home-active" : "",
+    <main
+      id='main'
+      class={[
+        isLessonActive() ? "lesson-active" : "",
+        isShowHome() ? "home-active" : "",
       ].filter(Boolean).join(' ')}
-
     >
       {renderHeader()}
       {renderConditional()}

@@ -1,3 +1,5 @@
+import { createSignal, createEffect } from 'solid-js';
+
 // Define BeforeInstallPromptEvent interface
 interface BeforeInstallPromptEvent extends Event {
     readonly platforms: string[];
@@ -12,16 +14,14 @@ declare global {
     }
 }
 
-import { useEffect, useRef, useState } from 'react';
-
 const InstallPWA = () => {
-    const [isInstallPromptAvailable, setInstallPromptAvailable] = useState(false);
-    const deferredPrompt = useRef<BeforeInstallPromptEvent | null>(null); // Use ref instead of let
+    const [isInstallPromptAvailable, setInstallPromptAvailable] = createSignal(false);
+    const [deferredPrompt, setDeferredPrompt] = createSignal<BeforeInstallPromptEvent | null>(null);
 
-    useEffect(() => {
+    createEffect(() => {
         const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
             event.preventDefault();
-            deferredPrompt.current = event; // Store event in useRef
+            setDeferredPrompt(event);
             setInstallPromptAvailable(true);
         };
 
@@ -30,12 +30,13 @@ const InstallPWA = () => {
         return () => {
             window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
         };
-    }, []);
+    });
 
     const handleInstallClick = async () => {
-        if (deferredPrompt.current) {
-            await deferredPrompt.current.prompt();
-            const choice = await deferredPrompt.current.userChoice;
+        const promptEvent = deferredPrompt();
+        if (promptEvent) {
+            await promptEvent.prompt();
+            const choice = await promptEvent.userChoice;
             console.log("User choice:", choice.outcome);
 
             if (choice.outcome === 'accepted') {
@@ -44,13 +45,13 @@ const InstallPWA = () => {
                 console.log('User dismissed the install prompt');
             }
 
-            deferredPrompt.current = null;
+            setDeferredPrompt(null);
             setInstallPromptAvailable(false);
         }
     };
 
     return (
-        isInstallPromptAvailable && (
+        isInstallPromptAvailable() && (
             <button id="install-btn" onClick={handleInstallClick}>
                 Install
             </button>

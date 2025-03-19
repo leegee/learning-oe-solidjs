@@ -1,22 +1,21 @@
-import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { JSX } from 'solid-js';
+import { t } from '../i18n';
 import './CompletedAllLessons.css';
 
 interface CompletionSummaryProps {
     totalLessons: number;
-    children: ReactNode;
+    children: JSX.Element
 }
 
 const CompletedAllLessons = ({
     totalLessons,
     children,
 }: CompletionSummaryProps) => {
-    const { t } = useTranslation();
 
     // todo rephrase
     return (
         <>
-            <article className="completed-all-lessons">
+            <article class="completed-all-lessons">
                 <h2>{t('all_lessons_done')}</h2>
                 <p>{t('total_lessons_completed')}: <strong>{totalLessons}</strong></p>
             </article>
