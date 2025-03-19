@@ -57,7 +57,7 @@ const LessonComponent = ({
         onIncorrectAnswer(String(currentCardIndex()));
     };
 
-    const currentCard = lesson.cards[currentCardIndex()];
+    const currentCard = () => lesson.cards[currentCardIndex()];
     const progress = (currentCardIndex() + 1) / lesson.cards.length;
 
     // Handle beforeunload event
@@ -87,9 +87,9 @@ const LessonComponent = ({
             ></progress>
 
             <Switch fallback={<p>Unknown lesson card...</p>}>
-                <Match when={currentCard.class === 'dynamic-vocab'}>
+                <Match when={currentCard().class === 'dynamic-vocab'}>
                     <DynamicVocabComponent
-                        card={currentCard as IDynamicVocabCard}
+                        card={currentCard() as IDynamicVocabCard}
                         lesson={lesson}
                         onComplete={goToNextCard}
                         onCorrect={onCorrectAnswer}
@@ -97,51 +97,52 @@ const LessonComponent = ({
                     />
                 </Match>
 
-                <Match when={currentCard.class === 'writing'}>
+                <Match when={currentCard().class === 'writing'}>
                     <WritingCardComponent
-                        card={currentCard as IWritingCard}
+                        card={currentCard() as IWritingCard}
                         onCorrect={onCorrectAnswer}
                         onComplete={goToNextCard}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
 
-                <Match when={currentCard.class === 'writing-blocks'}>
+                <Match when={currentCard().class === 'writing-blocks'}>
                     <WritingBlocksCardComponent
-                        card={currentCard as IWritingBlocksCard}
+                        card={currentCard() as IWritingBlocksCard}
                         onCorrect={onCorrectAnswer}
                         onComplete={goToNextCard}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
 
-                <Match when={currentCard.class === 'multiple-choice'}>
+                <Match when={currentCard().class === 'multiple-choice'}>
                     <MultipleChoiceComponent
-                        card={currentCard as IMultipleChoiceCard}
+                        card={currentCard() as IMultipleChoiceCard}
                         onCorrect={onCorrectAnswer}
                         onComplete={goToNextCard}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
 
-                <Match when={currentCard.class === 'vocab'}>
+                <Match when={currentCard().class === 'vocab'}>
                     <VocabMatchCardComponent
-                        card={currentCard as IVocabMatchCard}
+                        card={currentCard() as IVocabMatchCard}
                         onCorrect={onCorrectAnswer}
                         onIncorrect={onIncorrect}
                         onComplete={goToNextCard}
                     />
                 </Match>
 
-                <Match when={currentCard.class === 'blanks'}>
+                <Match when={currentCard().class === 'blanks'}>
                     <BlanksCardComponent
-                        card={currentCard as IBlanksCard}
+                        card={currentCard() as IBlanksCard}
                         onCorrect={onCorrectAnswer}
                         onIncorrect={onIncorrect}
                         onComplete={goToNextCard}
                     />
                 </Match>
             </Switch>
+
         </article>
     );
 };
