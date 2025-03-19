@@ -75,12 +75,12 @@ section.card {
 }
 
 .incorrect {
-    background-color: red;
+    background-color: darkred;
 }
 
 .shake {
     color: white;
-    background-color: red;
+    background-color: darkred;
 }
 
 button {
