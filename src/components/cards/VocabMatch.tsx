@@ -7,8 +7,18 @@ import './VocabMatch.css';
 
 export type VocabCard = Card & {
     class: 'vocab';
-    vocab: { [key: string]: string }; // Changed from array to object
+    vocab: { [key: string]: string };
 };
+
+interface TableRow {
+    leftWord: string;
+    rightWord: string;
+    shuffledRightWord: string;
+    isMatched: boolean;
+    isSelectedLeft: boolean;
+    isSelectedRight: boolean;
+    isDisabled: boolean;
+}
 
 interface VocabMatchProps {
     card: VocabCard;
@@ -19,69 +29,79 @@ interface VocabMatchProps {
 
 const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
-    const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]);
-    const [selectedLeftWord, setSelectedLeftWord] = createSignal<string | null>(null);
-    const [selectedRightWord, setSelectedRightWord] = createSignal<string | null>(null);
-    const [correctMatches, setCorrectMatches] = createSignal<{ [key: string]: string }>({});
-    const [shakeRightWord, setShakeRightWord] = createSignal<string | null>(null);
-    const [isComplete, setIsComplete] = createSignal(false);
+    const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]); // Initialize as empty array
+    const [tableData, setTableData] = createSignal<TableRow[]>([]); // Initialize table data
+    const [isComplete, setIsComplete] = createSignal(false); // Track if matching is complete
 
+    // Shuffle right column when card.vocab changes
     createEffect(() => {
-        const rightColumn = Object.values(card.vocab);
-        setShuffledRightColumn(shuffleArray(rightColumn));
         setLangs(setQandALangs(card));
+        const rightColumn = Object.values(card.vocab);
+        setShuffledRightColumn(shuffleArray(rightColumn)); // Shuffle once vocab is available
+
+        // Update tableData when vocab changes
+        setTableData(Object.keys(card.vocab).map((leftWord, index) => {
+            const rightWord = card.vocab[leftWord];
+            const shuffledRightWord = shuffledRightColumn()[index];
+            return {
+                leftWord,
+                rightWord,
+                shuffledRightWord,
+                isMatched: false,
+                isSelectedLeft: false,
+                isSelectedRight: false,
+                isDisabled: false,
+            };
+        }));
     });
 
-    const processMatch = (leftWord: string, rightWord: string) => {
-        if (card.vocab[leftWord] === rightWord) {
-            setCorrectMatches((prev) => ({ ...prev, [leftWord]: rightWord }));
-            onCorrect();
-        } else {
-            setShakeRightWord(rightWord);
-            setTimeout(() => setShakeRightWord(null), 1000);
-            onIncorrect();
-        }
-
-        // Reset selections after processing
-        setSelectedLeftWord(null);
-        setSelectedRightWord(null);
+    // Handle left word click
+    const handleLeftClick = (leftWord: string) => {
+        setTableData(prevData => prevData.map(row =>
+            row.leftWord === leftWord ? { ...row, isSelectedLeft: !row.isSelectedLeft } : row
+        ));
     };
 
-    const handleQuestionClick = (leftWord: string) => {
-        if (selectedLeftWord() === leftWord) {
-            setSelectedLeftWord(null);
-        } else {
-            setSelectedLeftWord(leftWord);
-        }
-
-        if (selectedRightWord()) {
-            processMatch(leftWord, selectedRightWord()!);
-        }
+    // Handle right word click
+    const handleRightClick = (shuffledRightWord: string) => {
+        setTableData(prevData => prevData.map(row =>
+            row.shuffledRightWord === shuffledRightWord ? { ...row, isSelectedRight: !row.isSelectedRight } : row
+        ));
     };
 
-    const handleAnswerClick = (rightWord: string) => {
-        if (selectedRightWord() === rightWord) {
-            setSelectedRightWord(null);
-        } else {
-            setSelectedRightWord(rightWord);
-        }
-
-        if (selectedLeftWord()) {
-            processMatch(selectedLeftWord()!, rightWord);
-        }
-    };
-
+    // Handle matching logic
     createEffect(() => {
-        if (Object.keys(correctMatches()).length === Object.keys(card.vocab).length) {
-            setIsComplete(true);
+        const selectedLeftWord = tableData().find(row => row.isSelectedLeft)?.leftWord;
+        const selectedRightWord = tableData().find(row => row.isSelectedRight)?.shuffledRightWord;
+
+        if (selectedLeftWord && selectedRightWord) {
+            const correctMatch = card.vocab[selectedLeftWord] === selectedRightWord;
+            if (correctMatch) {
+                setTableData(prevData => prevData.map(row =>
+                    row.leftWord === selectedLeftWord && row.shuffledRightWord === selectedRightWord
+                        ? { ...row, isMatched: true, isSelectedLeft: false, isSelectedRight: false, isDisabled: true }
+                        : row
+                ));
+                onCorrect();
+            } else {
+                setTableData(prevData => prevData.map(row =>
+                    row.leftWord === selectedLeftWord || row.shuffledRightWord === selectedRightWord
+                        ? { ...row, isSelectedLeft: false, isSelectedRight: false }
+                        : row
+                ));
+                onIncorrect();
+            }
         }
     });
 
-    const handleNextClick = () => {
-        if (isComplete()) {
-            onComplete();
+    // Check for completion
+    createEffect(() => {
+        const isCompleted = tableData().every(row => row.isMatched);
+        if (isCompleted && !isComplete()) {
+            setIsComplete(true);
+            onComplete(); // Only call onComplete once
         }
-    };
+    });
 
     return (
         <>
@@ -89,31 +109,28 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
                 <h3 lang={langs().q}>{card.question || t('match_the_words')}</h3>
                 <table>
                     <tbody>
-                        <For each={Object.entries(card.vocab)}>
-                            {([leftWord, correctRightWord], index) => {
-                                const shuffledRightWord = shuffledRightColumn()[index()];
-
-                                const isMatched = correctMatches()[leftWord] === correctRightWord;
-                                const isRightMatched = Object.values(correctMatches()).includes(shuffledRightWord);
-
+                        <For each={tableData()}>
+                            {(row) => {
                                 return (
                                     <tr>
                                         <td>
                                             <button
                                                 lang={langs().q}
-                                                class={`vocab-match left-word ${isMatched ? 'matched' : ''} ${selectedLeftWord() === leftWord ? 'selected' : ''}`}
-                                                onClick={() => handleQuestionClick(leftWord)}
+                                                class={`vocab-match left-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedLeft ? 'selected' : ''}`}
+                                                onClick={() => handleLeftClick(row.leftWord)}
+                                                disabled={row.isMatched}
                                             >
-                                                {leftWord}
+                                                {row.leftWord}
                                             </button>
                                         </td>
                                         <td>
                                             <button
                                                 lang={langs().a}
-                                                class={`vocab-match right-word ${isRightMatched ? 'matched' : ''} ${selectedRightWord() === shuffledRightWord ? 'selected' : ''} ${shakeRightWord() === shuffledRightWord ? 'shake' : ''}`}
-                                                onClick={() => handleAnswerClick(shuffledRightWord)}
+                                                class={`vocab-match right-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedRight ? 'selected' : ''}`}
+                                                onClick={() => handleRightClick(row.shuffledRightWord)}
+                                                disabled={row.isMatched}
                                             >
-                                                {shuffledRightWord}
+                                                {row.shuffledRightWord}
                                             </button>
                                         </td>
                                     </tr>
@@ -123,12 +140,6 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
                     </tbody>
                 </table>
             </section>
-
-            {isComplete() && (
-                <button class="next-button" onClick={handleNextClick}>
-                    {t('next')}
-                </button>
-            )}
         </>
     );
 };
