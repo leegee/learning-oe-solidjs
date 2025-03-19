@@ -10,22 +10,26 @@ interface ButtonProps {
     onComplete: () => void;
 }
 
-const ActionButton = ({ isCorrect, isInputPresent, minClickBeforeSkip, onCheckAnswer, onComplete }: ButtonProps) => {
+const ActionButton = (props: ButtonProps) => {
     const [clicksCounted, setClicksCounted] = createSignal(0);
 
-    minClickBeforeSkip = minClickBeforeSkip || 2;
+    console.log("Rendering ActionButton, isInputPresent:", props.isInputPresent);
 
+    // Reset the clicksCounted signal when isCorrect changes
     createEffect(() => {
         setClicksCounted(0);
     });
 
     const handleClick = () => {
+        console.log('actionbutton handleclick enter', props.isCorrect);
         setClicksCounted((prev) => prev + 1);
 
-        if (isCorrect === true) {
-            onComplete();
+        if (props.isCorrect === true) {
+            console.log('actionbutton handleclick isCorrect, onComplete');
+            props.onComplete();
         } else {
-            onCheckAnswer();
+            console.log('actionbutton handleclick oncheckanswer');
+            props.onCheckAnswer();
         }
     };
 
@@ -33,24 +37,24 @@ const ActionButton = ({ isCorrect, isInputPresent, minClickBeforeSkip, onCheckAn
         <>
             <button
                 class={
-                    isCorrect === null
+                    props.isCorrect === null
                         ? 'next-button'
-                        : isCorrect === false
+                        : props.isCorrect === false
                             ? 'try-again-button'
                             : 'next-button'
                 }
                 onClick={handleClick}
-                disabled={!isInputPresent}
+                disabled={!props.isInputPresent} // ✅ Now correctly reactive
             >
-                {isCorrect === null
+                {props.isCorrect === null
                     ? t('next')
-                    : isCorrect === true
+                    : props.isCorrect === true
                         ? t('correct_next')
                         : t('try_again')}
             </button>
 
-            {clicksCounted() >= minClickBeforeSkip && (
-                <button class='skip-button' onClick={onComplete}>{t('skip')}</button>
+            {clicksCounted() >= (props.minClickBeforeSkip ?? 2) && (
+                <button class='skip-button' onClick={props.onComplete}>{t('skip')}</button>
             )}
         </>
     );
