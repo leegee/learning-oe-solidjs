@@ -1,17 +1,17 @@
 import { createSignal, createEffect, For, Show } from 'solid-js';
 import { t } from '../../i18n';
 import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type Card } from './Card.ts';
+import { type IBaseCard } from './BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
 import appConfig from '../../config.ts';
 import './VocabMatch.css';
 
-export type VocabCard = Card & {
+export interface IVocabCard extends IBaseCard {
     class: 'vocab';
     vocab: { [key: string]: string };
 };
 
-interface TableRow {
+interface ITableRow {
     leftWord: string;
     rightWord: string;
     shuffledRightWord: string;
@@ -23,17 +23,17 @@ interface TableRow {
     shakeRight: boolean;
 }
 
-interface VocabMatchProps {
-    card: VocabCard;
+interface IVocabMatchCardProps {
+    card: IVocabCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;
 }
 
-const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProps) => {
+const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IVocabMatchCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
     const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]);
-    const [tableData, setTableData] = createSignal<TableRow[]>([]);
+    const [tableData, setTableData] = createSignal<ITableRow[]>([]);
     const [isComplete, setIsComplete] = createSignal(false);
 
     const [selectedLeft, setSelectedLeft] = createSignal<string | null>(null);
@@ -181,4 +181,4 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
     );
 };
 
-export default VocabMatch;
+export default VocabMatchCardComponent;

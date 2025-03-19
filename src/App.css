@@ -4,19 +4,22 @@ main {
     max-width: 40rem;
     margin: 0 auto;
     padding-top: 0;
+    font-family: 'Work Sans';
+    height: 100%;
+}
+
+main,
+main * {
+    box-sizing: border-box;
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
+    border-radius: var(--oe-border-radius);
 }
 
 @media (min-width: 1024px) {
     main {
         padding-top: 1em;
     }
-}
-
-main .all-lessons-completed {
-    font-size: 200%;
-    font-style: italic;
-    text-align: center;
-    margin: 2em;
 }
 
 main header {

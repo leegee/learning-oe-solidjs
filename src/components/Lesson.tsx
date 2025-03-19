@@ -1,12 +1,12 @@
 import { createSignal, onCleanup } from 'solid-js';
 import { t } from '../i18n';
 
-import MultipleChoice from './cards/MultipleChoice';
-import VocabMatch from './cards/VocabMatch';
-import BlanksCard from './cards/BlanksCard';
-import WritingCard from './cards/WritingCard';
-import WritingBlocksCard from './cards/WritingBlocksCard';
-import DynamicVocab from './cards/DynamicVocabCard';
+import MultipleChoiceComponent from './cards/MultipleChoice';
+import VocabMatchCardComponent from './cards/VocabMatch';
+import BlanksCardComponent from './cards/BlanksCard';
+import WritingCardComponent from './cards/WritingCard';
+import WritingBlocksCardComponent from './cards/WritingBlocksCard';
+import DynamicVocabComponent from './cards/DynamicVocabCard';
 import { type Lesson } from '../Lessons';
 import './Lesson.css';
 
@@ -87,7 +87,7 @@ const LessonComponent = ({
             ></progress>
 
             {currentCard.class === 'dynamic-vocab' && (
-                <DynamicVocab
+                <DynamicVocabComponent
                     card={currentCard}
                     lesson={lesson}
                     onComplete={goToNextCard}
@@ -97,7 +97,7 @@ const LessonComponent = ({
             )}
 
             {currentCard.class === 'writing' && (
-                <WritingCard
+                <WritingCardComponent
                     card={currentCard}
                     onCorrect={onCorrectAnswer}
                     onComplete={goToNextCard}
@@ -106,7 +106,7 @@ const LessonComponent = ({
             )}
 
             {currentCard.class === 'writing-blocks' && (
-                <WritingBlocksCard
+                <WritingBlocksCardComponent
                     card={currentCard}
                     onCorrect={onCorrectAnswer}
                     onComplete={goToNextCard}
@@ -115,7 +115,7 @@ const LessonComponent = ({
             )}
 
             {currentCard.class === 'multiple-choice' && (
-                <MultipleChoice
+                <MultipleChoiceComponent
                     card={currentCard}
                     onCorrect={onCorrectAnswer}
                     onComplete={goToNextCard}
@@ -124,7 +124,7 @@ const LessonComponent = ({
             )}
 
             {currentCard.class === 'vocab' && (
-                <VocabMatch
+                <VocabMatchCardComponent
                     card={currentCard}
                     onCorrect={onCorrectAnswer}
                     onIncorrect={onIncorrect}
@@ -133,7 +133,7 @@ const LessonComponent = ({
             )}
 
             {currentCard.class === 'blanks' && (
-                <BlanksCard
+                <BlanksCardComponent
                     card={currentCard}
                     onCorrect={onCorrectAnswer}
                     onIncorrect={onIncorrect}

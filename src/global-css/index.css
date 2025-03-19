@@ -15,26 +15,18 @@
     --fade-duration: 0.5s;
     --fade-timing: ease-in-out;
     --fade-delay: 0s;
+}
 
+:root,
+html,
+body,
+#root {
     color: var(--oe-clr-fg);
     background-color: var(--oe-clr-bg);
+    height: 100%;
     padding: 0;
     margin: 0;
 }
-
-main * {
-    box-sizing: border-box;
-    color: var(--oe-clr-fg);
-    background-color: var(--oe-clr-bg);
-    border-radius: var(--oe-border-radius);
-}
-
-main {
-    font-family: 'Work Sans';
-    color: var(--oe-clr-fg);
-    background-color: var(--oe-clr-bg);
-}
-
 
 [lang="ang"] {
     font-family: 'Junicode', serif;

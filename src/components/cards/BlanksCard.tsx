@@ -3,24 +3,24 @@ import { createSignal, createEffect, For } from 'solid-js';
 import { t } from '../../i18n';
 
 import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type Card } from './Card.ts';
+import { type IBaseCard } from './BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
 import './BlanksCard.css';
 
-export type BlanksCard = Card & {
+export interface IBlanksCard extends IBaseCard {
     class: 'blanks';
     question: string;
     words: { word: string; correct: boolean }[]; // Array of words with a correct boolean flag
 };
 
-interface BlanksCardProps {
-    card: BlanksCard;
+interface IBlanksCardProps {
+    card: IBlanksCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;
 }
 
-const BlanksCard = ({ card, onCorrect, onIncorrect, onComplete }: BlanksCardProps) => {
+const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlanksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
@@ -121,4 +121,4 @@ const BlanksCard = ({ card, onCorrect, onIncorrect, onComplete }: BlanksCardProp
     );
 };
 
-export default BlanksCard;
+export default BlanksCardComponent;

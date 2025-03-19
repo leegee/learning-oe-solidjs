@@ -4,25 +4,25 @@ import { createSignal, createEffect } from 'solid-js';
 import { t } from '../../i18n';
 
 import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type Card } from './Card.ts';
+import { type IBaseCard } from './BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../ActionButton.tsx';
 import './MultipleChoice.css';
 
-export type MultipleChoiceCard = Card & {
+export interface IMultipleChoiceCard extends IBaseCard {
     class: 'multiple-choice';
     answers: string[];
     answer: string;
 };
 
-interface MultipleChoiceCardProps {
-    card: MultipleChoiceCard;
+interface IMultipleChoiceCardProps {
+    card: IMultipleChoiceCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;
 }
 
-const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleChoiceCardProps) => {
+const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: IMultipleChoiceCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
     const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
     const [hasChecked, setHasChecked] = createSignal<boolean>(false);
@@ -111,4 +111,4 @@ const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleCh
     );
 };
 
-export default MultipleChoice;
+export default MultipleChoiceComponent;

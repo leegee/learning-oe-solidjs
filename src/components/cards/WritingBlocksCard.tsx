@@ -1,18 +1,18 @@
 import { createSignal, createEffect, For } from 'solid-js';
 
-import { type Card } from './Card.ts';
+import { type IBaseCard } from './BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../ActionButton.tsx';
 import './WritingBlocksCard.css';
 
-export type WritingBlocksCard = Card & {
+export interface IWritingBlocksCard extends IBaseCard {
     class: 'writing-blocks';
     answer: string;
     options: string[];
 };
 
-interface WritingBlocksCardProps {
-    card: WritingBlocksCard;
+interface IWritingBlocksCardProps {
+    card: IWritingBlocksCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;
@@ -22,7 +22,7 @@ const normalizeText = (text: string): string => {
     return text.trim().toLowerCase().replace(/\W+/g, '').replace(/\s+/g, ' ');
 };
 
-const WritingBlocksCard = ({ card, onCorrect, onIncorrect, onComplete }: WritingBlocksCardProps) => {
+const WritingBlocksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWritingBlocksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
@@ -96,4 +96,4 @@ const WritingBlocksCard = ({ card, onCorrect, onIncorrect, onComplete }: Writing
     );
 };
 
-export default WritingBlocksCard;
+export default WritingBlocksCardComponent;

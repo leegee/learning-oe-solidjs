@@ -1,11 +1,11 @@
 import Ajv from 'ajv';
 
-import { type MultipleChoiceCard } from './components/cards/MultipleChoice';
-import { type VocabCard } from './components/cards/VocabMatch';
-import { type BlanksCard } from './components/cards/BlanksCard';
-import { type WritingCard } from './components/cards/WritingCard';
-import { type WritingBlocksCard } from './components/cards/WritingBlocksCard';
-import { type DynamicVocabCard } from './components/cards/DynamicVocabCard';
+import { type IMultipleChoiceCard } from './components/cards/MultipleChoice';
+import { type IVocabCard } from './components/cards/VocabMatch';
+import { type IBlanksCard } from './components/cards/BlanksCard';
+import { type IWritingCard } from './components/cards/WritingCard';
+import { type IWritingBlocksCard } from './components/cards/WritingBlocksCard';
+import { type IDynamicVocabCard } from './components/cards/DynamicVocabCard';
 
 import lessonsSchema from '../lessons.schema.json';
 import lessonsData from '../lessons.json';
@@ -21,7 +21,7 @@ if (!valid) {
 export type Lesson = {
     title: string;
     description?: string;
-    cards: (WritingCard | WritingBlocksCard | VocabCard | BlanksCard | MultipleChoiceCard | DynamicVocabCard)[];
+    cards: (IWritingCard | IWritingBlocksCard | IVocabCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
 };
 
 export type LessonSummary = {

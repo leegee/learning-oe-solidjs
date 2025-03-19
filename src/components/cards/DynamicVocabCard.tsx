@@ -1,23 +1,22 @@
 import { createMemo } from 'solid-js';
 
-import { Card } from './Card';
+import { type IBaseCard } from './BaseCard.type';
 import { Lesson } from '../../Lessons';
-import VocabMatch, { type VocabCard } from './VocabMatch';
+import VocabMatchCardComponent, { type IVocabCard } from './VocabMatch';
 
-export type DynamicVocabCard = Card & {
+export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
-    qlang: string;
 };
 
-interface DynamicVocabCardProps {
-    card: DynamicVocabCard;
+interface IDynamicVocabCardProps {
+    card: IDynamicVocabCard;
     lesson: Lesson;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;
 }
 
-const DynamicVocab = ({ card, lesson, onCorrect, onIncorrect, onComplete }: DynamicVocabCardProps) => {
+const DynamicVocabComponent = ({ card, lesson, onCorrect, onIncorrect, onComplete }: IDynamicVocabCardProps) => {
     console.log(lesson.cards);
 
     const vocab = createMemo(() => {
@@ -45,14 +44,14 @@ const DynamicVocab = ({ card, lesson, onCorrect, onIncorrect, onComplete }: Dyna
     });
 
     // Create the new card
-    const newCard: VocabCard = {
+    const newCard: IVocabCard = {
         class: 'vocab',
         qlang: card.qlang,
         vocab: vocab() // Dereference the memoized value here
     };
 
     return (
-        <VocabMatch
+        <VocabMatchCardComponent
             card={newCard} // Directly pass the newCard object
             onCorrect={onCorrect}
             onIncorrect={onIncorrect}
@@ -61,4 +60,4 @@ const DynamicVocab = ({ card, lesson, onCorrect, onIncorrect, onComplete }: Dyna
     );
 };
 
-export default DynamicVocab;
+export default DynamicVocabComponent;
