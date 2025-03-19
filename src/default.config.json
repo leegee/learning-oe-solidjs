@@ -2,6 +2,7 @@
     "defaultLanguage": "en",
     "targetLanguage": "ang",
     "uiLanguage": "en",
+    "animationShakeMs": 333,
     "default": {
         "apptitle": "Default App Target"
     },

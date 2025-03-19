@@ -8,6 +8,7 @@
     "target": {
         "apptitle": "Eald Englisc Lārspel"
     },
+    "animationShakeMs": 300,
     "i18n": {
         "detectUserLanguage": false,
         "defaultLanguage": "en",

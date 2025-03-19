@@ -3,6 +3,7 @@ import { t } from '../../i18n';
 import { shuffleArray } from '../../lib/shuffle-array.ts';
 import { type Card } from './Card.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
+import appConfig from '../../config.ts';
 import './VocabMatch.css';
 
 export type VocabCard = Card & {
@@ -18,6 +19,8 @@ interface TableRow {
     isSelectedLeft: boolean;
     isSelectedRight: boolean;
     isDisabled: boolean;
+    shakeLeft: boolean;  // Track shake state for left word
+    shakeRight: boolean; // Track shake state for right word
 }
 
 interface VocabMatchProps {
@@ -51,25 +54,33 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
                 isSelectedLeft: false,
                 isSelectedRight: false,
                 isDisabled: false,
+                shakeLeft: false,
+                shakeRight: false,
             };
         }));
     });
 
-    // Handle left word click
-    const handleLeftClick = (leftWord: string) => {
-        setTableData(prevData => prevData.map(row =>
-            row.leftWord === leftWord ? { ...row, isSelectedLeft: !row.isSelectedLeft } : row
-        ));
+    const handleLeftWordClicked = (leftWord: string) => {
+        setTableData(prevData => prevData.map(row => {
+            if (row.leftWord === leftWord && !row.isMatched) {
+                // Toggle selection if not matched
+                return { ...row, isSelectedLeft: !row.isSelectedLeft };
+            }
+            return row;
+        }));
     };
 
-    // Handle right word click
-    const handleRightClick = (shuffledRightWord: string) => {
-        setTableData(prevData => prevData.map(row =>
-            row.shuffledRightWord === shuffledRightWord ? { ...row, isSelectedRight: !row.isSelectedRight } : row
-        ));
+    const handleRightWordClicked = (shuffledRightWord: string) => {
+        setTableData(prevData => prevData.map(row => {
+            if (row.shuffledRightWord === shuffledRightWord && !row.isMatched) {
+                // Toggle selection if not matched
+                return { ...row, isSelectedRight: !row.isSelectedRight };
+            }
+            return row;
+        }));
     };
 
-    // Handle matching logic
+    // Word-matching logic
     createEffect(() => {
         const selectedLeftWord = tableData().find(row => row.isSelectedLeft)?.leftWord;
         const selectedRightWord = tableData().find(row => row.isSelectedRight)?.shuffledRightWord;
@@ -79,17 +90,26 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
             if (correctMatch) {
                 setTableData(prevData => prevData.map(row =>
                     row.leftWord === selectedLeftWord && row.shuffledRightWord === selectedRightWord
-                        ? { ...row, isMatched: true, isSelectedLeft: false, isSelectedRight: false, isDisabled: true }
+                        ? { ...row, isMatched: true, isSelectedLeft: false, isSelectedRight: false, isDisabled: true, shakeLeft: false, shakeRight: false }
                         : row
                 ));
                 onCorrect();
             } else {
+                // Apply shake class when mismatch occurs
                 setTableData(prevData => prevData.map(row =>
                     row.leftWord === selectedLeftWord || row.shuffledRightWord === selectedRightWord
-                        ? { ...row, isSelectedLeft: false, isSelectedRight: false }
+                        ? { ...row, isSelectedLeft: false, isSelectedRight: false, shakeLeft: row.leftWord === selectedLeftWord, shakeRight: row.shuffledRightWord === selectedRightWord }
                         : row
                 ));
                 onIncorrect();
+
+                setTimeout(() => {
+                    setTableData(prevData => prevData.map(row =>
+                        row.shakeLeft || row.shakeRight
+                            ? { ...row, shakeLeft: false, shakeRight: false }
+                            : row
+                    ));
+                }, appConfig.animationShakeMs);
             }
         }
     });
@@ -98,8 +118,8 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
     createEffect(() => {
         const isCompleted = tableData().every(row => row.isMatched);
         if (isCompleted && !isComplete()) {
-            setIsComplete(true);
-            onComplete(); // Only call onComplete once
+            setIsComplete(true); // Only call onComplete once
+            onComplete();
         }
     });
 
@@ -116,8 +136,8 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
                                         <td>
                                             <button
                                                 lang={langs().q}
-                                                class={`vocab-match left-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedLeft ? 'selected' : ''}`}
-                                                onClick={() => handleLeftClick(row.leftWord)}
+                                                class={`vocab-match left-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedLeft ? 'selected' : ''} ${row.shakeLeft ? 'shake' : ''}`}
+                                                onClick={() => handleLeftWordClicked(row.leftWord)}
                                                 disabled={row.isMatched}
                                             >
                                                 {row.leftWord}
@@ -126,8 +146,8 @@ const VocabMatch = ({ card, onCorrect, onIncorrect, onComplete }: VocabMatchProp
                                         <td>
                                             <button
                                                 lang={langs().a}
-                                                class={`vocab-match right-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedRight ? 'selected' : ''}`}
-                                                onClick={() => handleRightClick(row.shuffledRightWord)}
+                                                class={`vocab-match right-word ${row.isMatched ? 'matched' : ''} ${row.isSelectedRight ? 'selected' : ''} ${row.shakeRight ? 'shake' : ''}`}
+                                                onClick={() => handleRightWordClicked(row.shuffledRightWord)}
                                                 disabled={row.isMatched}
                                             >
                                                 {row.shuffledRightWord}

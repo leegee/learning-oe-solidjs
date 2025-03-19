@@ -29,7 +29,8 @@ interface Config {
     target: ConfigTarget;
     default: ConfigDefault;
     i18n: I18n;
-    [key: string]: string | boolean | I18n | ConfigTarget | ConfigDefault | undefined;
+    animationShakeMs: number;
+    // [key: string]: string | number | boolean | I18n | ConfigTarget | ConfigDefault | undefined;
 }
 
 const deepMerge = <T>(target: T, source: T): T => {
