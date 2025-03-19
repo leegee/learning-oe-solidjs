@@ -1,46 +1,34 @@
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { createSignal, createEffect } from "solid-js";
+import { createStore } from "solid-js/store";
 import appConfig from "../app.config.json";
 
-type TranslationData = Record<string, string>;
+const { defaultLanguage, targetLanguage, uiLanguage, i18n: i18nConfig } = appConfig;
 
-const loadLocales = () => {
-    const resources: Record<string, { translation: TranslationData }> = {};
+const resources = Object.fromEntries(
+    Object.entries(i18nConfig.availableLanguages).map(([lang, translations]) => [
+        lang,
+        { translation: translations },
+    ])
+);
 
-    const defaultLang = appConfig.defaultLanguage as keyof typeof appConfig.i18n.availableLanguages;
-    const targetLang = appConfig.targetLanguage as keyof typeof appConfig.i18n.availableLanguages;
-    const uiLang = appConfig.uiLanguage as keyof typeof appConfig.i18n.availableLanguages;
+i18n.init({
+    resources,
+    lng: uiLanguage || targetLanguage || defaultLanguage,
+    fallbackLng: defaultLanguage,
+    interpolation: { escapeValue: false },
+});
 
-    if (defaultLang && defaultLang in appConfig.i18n.availableLanguages) {
-        resources[defaultLang] = { translation: appConfig.i18n.availableLanguages[defaultLang] };
-    } else {
-        console.warn(`No data found for default language: ${defaultLang}`);
-    }
+export const useTranslation = () => {
+    const [t, setT] = createSignal(i18n.t);
+    const [store, setStore] = createStore({ t: i18n.t });
 
-    if (targetLang && targetLang in appConfig.i18n.availableLanguages) {
-        resources[targetLang] = { translation: appConfig.i18n.availableLanguages[targetLang] };
-    } else {
-        console.warn(`No data found for target language: ${targetLang}`);
-    }
-
-    if (uiLang && uiLang in appConfig.i18n.availableLanguages) {
-        resources[uiLang] = { translation: appConfig.i18n.availableLanguages[uiLang] };
-    } else {
-        console.warn(`No data found for ui language: ${uiLang}`);
-    }
-
-    return { resources, defaultLang, targetLang, uiLang };
-};
-
-const { resources, defaultLang, targetLang, uiLang } = loadLocales();
-
-i18n
-    .use(initReactI18next)
-    .init({
-        resources,
-        lng: uiLang || targetLang || defaultLang,
-        fallbackLng: uiLang || defaultLang,
-        interpolation: { escapeValue: false },
+    createEffect(() => {
+        i18n.on("languageChanged", () => {
+            setT(() => i18n.t);
+            setStore("t", i18n.t);
+        });
     });
 
-export default i18n;
+    return [store.t, i18n.changeLanguage];
+};

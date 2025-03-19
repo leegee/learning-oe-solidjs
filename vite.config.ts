@@ -1,5 +1,5 @@
 import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
+import solidPlugin from 'vite-plugin-solid';
 import { VitePWA } from 'vite-plugin-pwa';
 import packageJson from './package.json';
 
@@ -12,7 +12,7 @@ console.info(['='.repeat(30), 'Base: ' + base, "=".repeat(30)].join("\n"))
 export default defineConfig({
   base,
   plugins: [
-    react(),
+    solidPlugin(),
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
