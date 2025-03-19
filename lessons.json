@@ -4,16 +4,6 @@
         "description": "Learn basic Old English words and phrases.",
         "cards": [
             {
-                "class": "vocab",
-                "qlang": "default",
-                "vocab": {
-                    "þeow": "servant",
-                    "cyning": "king",
-                    "wif": "wife",
-                    "mann": "man"
-                }
-            },
-            {
                 "class": "multiple-choice",
                 "qlang": "default",
                 "question": "king",
@@ -24,6 +14,16 @@
                     "wif"
                 ],
                 "answer": "cyning"
+            },
+            {
+                "class": "vocab",
+                "qlang": "default",
+                "vocab": {
+                    "þeow": "servant",
+                    "cyning": "king",
+                    "wif": "wife",
+                    "mann": "man"
+                }
             },
             {
                 "class": "writing",

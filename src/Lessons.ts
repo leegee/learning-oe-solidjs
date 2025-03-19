@@ -1,7 +1,7 @@
 import Ajv from 'ajv';
 
 import { type IMultipleChoiceCard } from './components/cards/MultipleChoice';
-import { type IVocabCard } from './components/cards/VocabMatch';
+import { type IVocabMatchCard } from './components/cards/VocabMatch';
 import { type IBlanksCard } from './components/cards/BlanksCard';
 import { type IWritingCard } from './components/cards/WritingCard';
 import { type IWritingBlocksCard } from './components/cards/WritingBlocksCard';
@@ -21,7 +21,7 @@ if (!valid) {
 export type Lesson = {
     title: string;
     description?: string;
-    cards: (IWritingCard | IWritingBlocksCard | IVocabCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
+    cards: (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
 };
 
 export type LessonSummary = {

@@ -2,7 +2,7 @@ import { createMemo } from 'solid-js';
 
 import { type IBaseCard } from './BaseCard.type';
 import { Lesson } from '../../Lessons';
-import VocabMatchCardComponent, { type IVocabCard } from './VocabMatch';
+import VocabMatchCardComponent, { type IVocabMatchCard } from './VocabMatch';
 
 export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
@@ -44,7 +44,7 @@ const DynamicVocabComponent = ({ card, lesson, onCorrect, onIncorrect, onComplet
     });
 
     // Create the new card
-    const newCard: IVocabCard = {
+    const newCard: IVocabMatchCard = {
         class: 'vocab',
         qlang: card.qlang,
         vocab: vocab() // Dereference the memoized value here

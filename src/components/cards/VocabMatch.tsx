@@ -6,7 +6,7 @@ import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-la
 import appConfig from '../../config.ts';
 import './VocabMatch.css';
 
-export interface IVocabCard extends IBaseCard {
+export interface IVocabMatchCard extends IBaseCard {
     class: 'vocab';
     vocab: { [key: string]: string };
 };
@@ -24,7 +24,7 @@ interface ITableRow {
 }
 
 interface IVocabMatchCardProps {
-    card: IVocabCard;
+    card: IVocabMatchCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;

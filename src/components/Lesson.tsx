@@ -1,16 +1,16 @@
-import { createSignal, onCleanup } from 'solid-js';
+import { createSignal, onCleanup, Switch, Match } from 'solid-js';
 import { t } from '../i18n';
 
-import MultipleChoiceComponent from './cards/MultipleChoice';
-import VocabMatchCardComponent from './cards/VocabMatch';
-import BlanksCardComponent from './cards/BlanksCard';
-import WritingCardComponent from './cards/WritingCard';
-import WritingBlocksCardComponent from './cards/WritingBlocksCard';
-import DynamicVocabComponent from './cards/DynamicVocabCard';
+import MultipleChoiceComponent, { IMultipleChoiceCard } from './cards/MultipleChoice';
+import VocabMatchCardComponent, { IVocabMatchCard } from './cards/VocabMatch';
+import BlanksCardComponent, { IBlanksCard } from './cards/BlanksCard';
+import WritingCardComponent, { IWritingCard } from './cards/WritingCard';
+import WritingBlocksCardComponent, { IWritingBlocksCard } from './cards/WritingBlocksCard';
+import DynamicVocabComponent, { IDynamicVocabCard } from './cards/DynamicVocabCard';
 import { type Lesson } from '../Lessons';
 import './Lesson.css';
 
-interface LessonProps {
+interface ILessonProps {
     lesson: Lesson;
     onCorrectAnswer: (numberOfCorrectAnswers?: number) => void;
     onIncorrectAnswer: (incorrectAnswer: string) => void;
@@ -26,7 +26,7 @@ const LessonComponent = ({
     onIncorrectAnswer,
     onCancel,
     onLessonComplete,
-}: LessonProps) => {
+}: ILessonProps) => {
     const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
 
     // Handle keyboard events for Escape key
@@ -86,60 +86,62 @@ const LessonComponent = ({
                 title={`${currentCardIndex() + 1} / ${lesson.cards.length}`}
             ></progress>
 
-            {currentCard.class === 'dynamic-vocab' && (
-                <DynamicVocabComponent
-                    card={currentCard}
-                    lesson={lesson}
-                    onComplete={goToNextCard}
-                    onCorrect={onCorrectAnswer}
-                    onIncorrect={onIncorrect}
-                />
-            )}
+            <Switch fallback={<p>Unknown lesson card...</p>}>
+                <Match when={currentCard.class === 'dynamic-vocab'}>
+                    <DynamicVocabComponent
+                        card={currentCard as IDynamicVocabCard}
+                        lesson={lesson}
+                        onComplete={goToNextCard}
+                        onCorrect={onCorrectAnswer}
+                        onIncorrect={onIncorrect}
+                    />
+                </Match>
 
-            {currentCard.class === 'writing' && (
-                <WritingCardComponent
-                    card={currentCard}
-                    onCorrect={onCorrectAnswer}
-                    onComplete={goToNextCard}
-                    onIncorrect={onIncorrect}
-                />
-            )}
+                <Match when={currentCard.class === 'writing'}>
+                    <WritingCardComponent
+                        card={currentCard as IWritingCard}
+                        onCorrect={onCorrectAnswer}
+                        onComplete={goToNextCard}
+                        onIncorrect={onIncorrect}
+                    />
+                </Match>
 
-            {currentCard.class === 'writing-blocks' && (
-                <WritingBlocksCardComponent
-                    card={currentCard}
-                    onCorrect={onCorrectAnswer}
-                    onComplete={goToNextCard}
-                    onIncorrect={onIncorrect}
-                />
-            )}
+                <Match when={currentCard.class === 'writing-blocks'}>
+                    <WritingBlocksCardComponent
+                        card={currentCard as IWritingBlocksCard}
+                        onCorrect={onCorrectAnswer}
+                        onComplete={goToNextCard}
+                        onIncorrect={onIncorrect}
+                    />
+                </Match>
 
-            {currentCard.class === 'multiple-choice' && (
-                <MultipleChoiceComponent
-                    card={currentCard}
-                    onCorrect={onCorrectAnswer}
-                    onComplete={goToNextCard}
-                    onIncorrect={onIncorrect}
-                />
-            )}
+                <Match when={currentCard.class === 'multiple-choice'}>
+                    <MultipleChoiceComponent
+                        card={currentCard as IMultipleChoiceCard}
+                        onCorrect={onCorrectAnswer}
+                        onComplete={goToNextCard}
+                        onIncorrect={onIncorrect}
+                    />
+                </Match>
 
-            {currentCard.class === 'vocab' && (
-                <VocabMatchCardComponent
-                    card={currentCard}
-                    onCorrect={onCorrectAnswer}
-                    onIncorrect={onIncorrect}
-                    onComplete={goToNextCard}
-                />
-            )}
+                <Match when={currentCard.class === 'vocab'}>
+                    <VocabMatchCardComponent
+                        card={currentCard as IVocabMatchCard}
+                        onCorrect={onCorrectAnswer}
+                        onIncorrect={onIncorrect}
+                        onComplete={goToNextCard}
+                    />
+                </Match>
 
-            {currentCard.class === 'blanks' && (
-                <BlanksCardComponent
-                    card={currentCard}
-                    onCorrect={onCorrectAnswer}
-                    onIncorrect={onIncorrect}
-                    onComplete={goToNextCard}
-                />
-            )}
+                <Match when={currentCard.class === 'blanks'}>
+                    <BlanksCardComponent
+                        card={currentCard as IBlanksCard}
+                        onCorrect={onCorrectAnswer}
+                        onIncorrect={onIncorrect}
+                        onComplete={goToNextCard}
+                    />
+                </Match>
+            </Switch>
         </article>
     );
 };
