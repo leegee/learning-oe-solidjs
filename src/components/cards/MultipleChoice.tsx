@@ -1,5 +1,5 @@
 // MultipleChoice.tsx
-import { For } from 'solid-js';
+import { For, Show } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 import { t } from '../../i18n';
 
@@ -99,14 +99,14 @@ const MultipleChoice = ({ card, onCorrect, onIncorrect, onComplete }: MultipleCh
 
             </section>
 
-            {selectedOption() && (
+            <Show when={selectedOption()}>
                 <ActionButton
                     isCorrect={isCorrect()}
                     isInputPresent={selectedOption() !== null}
                     onCheckAnswer={handleCheckAnswer}
                     onComplete={onComplete}
                 />
-            )}
+            </Show>
         </>
     );
 };
