@@ -1,5 +1,4 @@
-// MultipleChoice.tsx
-import { For, Show } from 'solid-js';
+import { For } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 import { t } from '../../i18n';
 
@@ -31,7 +30,7 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
     const [isButtonsDisabled, setIsButtonsDisabled] = createSignal<boolean>(false);
 
     createEffect(() => {
-        // Whenever the card changes, reset everything
+        console.log("Card changed, resetting state");
         setShuffledOptions(shuffleArray(card.answers));
         setLangs(setQandALangs(card));
         setSelectedOption(null);
@@ -42,40 +41,35 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
 
     const handleOptionClick = (option: string) => {
         if (!isButtonsDisabled()) {
+            console.log(`Selected option: ${option}`);
             setSelectedOption(option);
         }
     };
 
     const handleCheckAnswer = () => {
+        console.log("Checking answer...");
         if (hasChecked()) {
-            // Move to the next round by resetting states
+            console.log("Already checked, resetting state");
             setSelectedOption(null);
             setIsCorrect(null);
             setHasChecked(false);
             setIsButtonsDisabled(false);
         } else {
-            // Check the answer
+            console.log(`Selected option: ${selectedOption()}, Correct answer: ${card.answer}`);
             setIsButtonsDisabled(true);
 
             if (selectedOption() === card.answer) {
+                console.log("Correct answer!");
                 setIsCorrect(true);
                 onCorrect();
             } else {
+                console.log("Incorrect answer.");
                 setIsCorrect(false);
                 onIncorrect();
             }
 
             setHasChecked(true);
         }
-    };
-
-    const getButtonClass = (hasChecked: boolean, selectedOption: string | null, option: string, isCorrect: boolean | null) => {
-        if (hasChecked) {
-            return selectedOption === option
-                ? isCorrect ? 'correct' : 'incorrect'
-                : '';
-        }
-        return '';
     };
 
     return (
@@ -89,24 +83,24 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
                         <button
                             lang={langs().a}
                             onClick={() => handleOptionClick(option)}
-                            class={`multiple-choice-button ${getButtonClass(hasChecked(), selectedOption(), option, isCorrect())}`}
+                            class={`multiple-choice-button ${selectedOption() === option ? 'selected' : ''} ${hasChecked() && selectedOption() === option
+                                ? (isCorrect() ? 'correct' : 'incorrect')
+                                : ''
+                                }`}
                             disabled={isButtonsDisabled()}
                         >
                             {option}
                         </button>
                     )}
                 </For>
-
             </section>
 
-            <Show when={selectedOption()}>
-                <ActionButton
-                    isCorrect={isCorrect()}
-                    isInputPresent={selectedOption() !== null}
-                    onCheckAnswer={handleCheckAnswer}
-                    onComplete={onComplete}
-                />
-            </Show>
+            <ActionButton
+                isCorrect={isCorrect()}
+                isInputPresent={selectedOption() !== null}
+                onCheckAnswer={handleCheckAnswer}
+                onComplete={onComplete}
+            />
         </>
     );
 };
