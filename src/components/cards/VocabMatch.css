@@ -16,11 +16,6 @@
     border-color: #5959;
 }
 
-.vocab-match .selected {
-    border-color: var(--oe-clr-fg);
-    background-color: #6666;
-}
-
 .vocab-match .next-button {
     margin-top: 10px;
     width: 100%;
