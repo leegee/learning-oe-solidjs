@@ -1,0 +1,230 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "title": {
+                "type": "string"
+            },
+            "description": {
+                "type": "string"
+            },
+            "cards": {
+                "type": "array",
+                "items": {
+                    "oneOf": [
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "vocab"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "vocab": {
+                                    "type": "object",
+                                    "additionalProperties": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang",
+                                "vocab"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "dynamic-vocab"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "multiple-choice"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "answers": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "answer": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang",
+                                "question",
+                                "answers",
+                                "answer"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "writing"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "answer": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang",
+                                "question"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "writing-blocks"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "answer": {
+                                    "type": "string"
+                                },
+                                "options": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang",
+                                "question"
+                            ]
+                        },
+                        {
+                            "type": "object",
+                            "properties": {
+                                "class": {
+                                    "type": "string",
+                                    "enum": [
+                                        "blanks"
+                                    ]
+                                },
+                                "qlang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "alang": {
+                                    "type": "string",
+                                    "enum": [
+                                        "default",
+                                        "target"
+                                    ]
+                                },
+                                "question": {
+                                    "type": "string"
+                                },
+                                "words": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "word": {
+                                                "type": "string"
+                                            },
+                                            "correct": {
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "required": [
+                                            "word",
+                                            "correct"
+                                        ]
+                                    }
+                                }
+                            },
+                            "required": [
+                                "class",
+                                "qlang",
+                                "question",
+                                "words"
+                            ]
+                        }
+                    ]
+                }
+            }
+        },
+        "required": [
+            "title",
+            "cards"
+        ]
+    }
+}

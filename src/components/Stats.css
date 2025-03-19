@@ -1,0 +1,6 @@
+/* Stats.css */
+
+.stats {
+    display: flex;
+    gap: 0.3em;
+}

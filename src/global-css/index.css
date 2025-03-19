@@ -1,0 +1,166 @@
+@import './fonts.css';
+@import './animations.css';
+
+:root {
+    --oe-clr-fg: #ddd;
+    --oe-clr-bg: #001;
+    --oe-clr-card-bg: #000027;
+    --oe-clr-modal-bg: #000027AA;
+    --oe-clr-border: #ddd5;
+    --oe-clr-primary-fg: #eee;
+    --oe-clr-primary-bg: blue;
+
+    --oe-border-radius: 0.3em;
+
+    --fade-duration: 0.5s;
+    --fade-timing: ease-in-out;
+    --fade-delay: 0s;
+
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
+    padding: 0;
+    margin: 0;
+}
+
+main * {
+    box-sizing: border-box;
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
+    border-radius: var(--oe-border-radius);
+}
+
+main {
+    font-family: 'Work Sans';
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
+}
+
+
+[lang="ang"] {
+    font-family: 'Junicode', serif;
+    font-style: italic;
+}
+
+[lang="en"] {
+    font-family: 'Work Sans', sans;
+}
+
+[hidden] {
+    display: none;
+    ;
+}
+
+section.card {
+    margin: 1em 0;
+}
+
+.card {
+    background-color: var(--oe-clr-card-bg);
+    border: 1pt solid #fff6;
+    margin: 1em 0;
+    padding: 1em;
+}
+
+.card * {
+    background-color: var(--oe-clr-card-bg);
+}
+
+.correct,
+.incorrect {
+    color: var(--oe-clr-fg);
+}
+
+.correct {
+    background-color: green;
+}
+
+.incorrect {
+    background-color: red;
+}
+
+.shake {
+    color: white;
+    background-color: red;
+}
+
+button {
+    font-size: 125%;
+    border: 1pt solid grey;
+    padding: 0.3em;
+    cursor: pointer;
+    transition: background-color var(--fade-duration) var(--fade-timing), filter var(--fade-duration) var(--fade-timing);
+
+}
+
+button:not([disabled]):hover {
+    outline: 1px solid var(--oe-clr-fg);
+}
+
+button:disabled:not(.correct):not(.incorrect) {
+    background-color: #333;
+    color: #666;
+}
+
+button.correct[disabled],
+button.incorrect[disabled] {
+    opacity: 0.9;
+    filter: brightness(0.9);
+}
+
+
+button[disabled]:hover {
+    cursor: default;
+}
+
+.skip-button {
+    background-color: maroon;
+    color: white;
+    margin: 1em 0;
+    float: right;
+}
+
+.yes-next-button,
+.next-button {
+    background-color: var(--oe-clr-primary-bg);
+    color: var(--oe-clr-primary-fg);
+    width: 100%;
+}
+
+.yes-next-button {
+    background-color: green;
+}
+
+.try-again-button {
+    width: 100%;
+    background-color: maroon;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+h3 {
+    font-size: 150%;
+    margin: 0.3em 0 0.6em 0;
+}
+
+h3.question::before {
+    content: '“';
+}
+
+h3.question::after {
+    content: '”';
+}
+
+h4 {
+    font-size: 1em;
+    font-weight: 300;
+    font-style: italic;
+    margin: 0;
+    opacity: 60%;
+}
+
+#install-btn {
+    font-size: small;
+    display: inline-block;
+}

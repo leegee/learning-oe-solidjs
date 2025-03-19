@@ -1,0 +1,38 @@
+/* Confirm Dialog Overlay */
+.confirm-dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--oe-clr-modal-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.confirm-dialog * {
+    background-color: var(--oe-clr-card-bg);
+}
+
+.confirm-dialog {
+    border: 1pt solid var(--oe-clr-border);
+    background-color: var(--oe-clr-card-bg);
+    padding: 1em;
+    text-align: center;
+    position: relative;
+    top: -20vh;
+}
+
+.confirm-dialog .cancel-button {
+    background-color: unset;
+    padding: 0 0.6em;
+}
+
+.confirm-dialog footer {
+    margin-top: 2em;
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1em;
+}

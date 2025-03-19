@@ -1,0 +1,24 @@
+.blanks-card h3 {
+    margin: 1em 0;
+}
+
+.blanks-card h4 {
+    margin-bottom: 1em;
+}
+
+.blanks-card .word-options {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1em;
+    margin-top: 2em;
+}
+
+.blanks-card button.word-option {
+    width: auto;
+}
+
+.blanks-card button.word-option.correct {
+    border-color: #888;
+    background-color: #333;
+    color: #888;
+}

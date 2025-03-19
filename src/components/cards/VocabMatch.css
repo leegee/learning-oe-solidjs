@@ -1,0 +1,31 @@
+.vocab-match h3 {
+    margin-top: 0;
+}
+
+.vocab-match table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.vocab-match td {
+    padding: 0.3em;
+}
+
+.vocab-match .matched {
+    color: #5959;
+    border-color: #5959;
+}
+
+.vocab-match .selected {
+    border-color: var(--oe-clr-fg);
+    background-color: #6666;
+}
+
+.vocab-match .next-button {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.vocab-match button.vocab-match {
+    width: 100%;
+}

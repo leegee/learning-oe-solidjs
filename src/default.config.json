@@ -1,0 +1,24 @@
+{
+    "defaultLanguage": "en",
+    "targetLanguage": "ang",
+    "uiLanguage": "en",
+    "default": {
+        "apptitle": "Default App Target"
+    },
+    "target": {
+        "apptitle": "Target App Target"
+    },
+    "i18n": {
+        "detectUserLanguage": false,
+        "defaultLanguage": "en",
+        "fallbackLanguage": "en",
+        "availableLanguages": {
+            "en": {
+                "lesson": "Lesson"
+            },
+            "ang": {
+                "lessons": "lāran"
+            }
+        }
+    }
+}

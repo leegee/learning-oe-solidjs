@@ -1,0 +1,30 @@
+/* WritingCard.css */
+
+.writing-card .answer {
+    width: 100%;
+    height: 5em;
+    font-size: 150%;
+    padding: 0.3em;
+}
+
+.writing-card .letter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.2em;
+    margin-top: 0.6em;
+}
+
+.writing-card .letter-buttons button {
+    font-size: 1em;
+}
+
+.writing-card textarea {
+    border: 1pt solid var(--oe-clr-border);
+    width: 100%;
+}
+
+.writing-card textarea::placeholder {
+    font-size: 0.8em;
+    padding-top: 0.2em;
+}

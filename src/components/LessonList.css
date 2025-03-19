@@ -1,0 +1,53 @@
+/* LessonList.css */
+
+.lesson-list ol {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+    list-style-type: none;
+    padding: 0;
+}
+
+.lesson-list li {
+    display: flex;
+    gap: 0.6em;
+    align-items: center;
+}
+
+.lesson-list button {
+    font-size: 100%;
+    padding-right: 0.6em;
+}
+
+.lesson-list button.completed {
+    background-color: #174f17;
+    color: #cae0ca;
+}
+
+.lesson-list button.current {
+    background-color: var(--oe-clr-primary-bg);
+    color: var(--oe-clr-primary-fg);
+}
+
+
+.lesson-list button.todo {
+    color: grey;
+}
+
+.lesson-list button .index {
+    color: inherit;
+    background-color: inherit;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    text-align: right;
+    width: 1.2em;
+    min-width: 1.2em;
+    max-width: 1.2em;
+    font-size: 100%;
+}
+
+.lesson-list button .index::after {
+    content: '.';
+}

@@ -1,0 +1,10 @@
+/* LessonCompleted.css */
+
+.lesson-completed footer {
+    margin-top: 2em;
+}
+
+.lesson-completed .next-button {
+    width: auto;
+    float: right;
+}
