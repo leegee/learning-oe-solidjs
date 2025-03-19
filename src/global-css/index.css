@@ -111,6 +111,12 @@ button[disabled]:hover {
     float: right;
 }
 
+button.selected {
+    border-color: var(--oe-clr-fg);
+    background-color: #6666;
+}
+
+
 .yes-next-button,
 .next-button {
     background-color: var(--oe-clr-primary-bg);
