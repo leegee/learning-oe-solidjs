@@ -12,7 +12,7 @@ import './Lesson.css';
 
 interface ILessonProps {
     lesson: Lesson;
-    onCorrectAnswer: (numberOfCorrectAnswers?: number) => void;
+    onCorrectAnswer: () => void;
     onIncorrectAnswer: (incorrectAnswer: string) => void;
     onCancel: () => void;
     onQuestionAnswered: () => void;

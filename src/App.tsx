@@ -26,8 +26,7 @@ const App = () => {
   const initialLessonIndex = state.loadCurrentLesson();
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
-  const [lessonDurationSeconds, setLessonTime] = createSignal<number>(0);
-  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
+  const [lessonTime, setLessonTime] = createSignal<number>(0);
   const [lessonState, setLessonState] = createSignal(
     initialLessonIndex >= lessons.length ? LessonState.CourseFinished : LessonState.Home
   );
@@ -64,9 +63,8 @@ const App = () => {
 
   const onQuestionAnswered = () => state.addQuestionCompleted();
 
-  const onCorrectAnswer = (numCorrect = 1) => {
-    const totalCorrect = state.addCorrectAnswers(numCorrect);
-    setCorrectAnswers(totalCorrect);
+  const onCorrectAnswer = () => {
+    state.addCorrectAnswer();
   };
 
   const onIncorrectAnswer = (incorrectAnswer: string) => {
@@ -116,7 +114,7 @@ const App = () => {
           <LessonCompleted
             onLessonComplete={lessonComplete}
             questionCount={currentLesson().cards.length}
-            durationInSeconds={lessonDurationSeconds() ?? -1}
+            durationInSeconds={lessonTime() ?? -1}
             mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
           />
         );

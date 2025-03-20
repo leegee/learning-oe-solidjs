@@ -67,11 +67,11 @@ export const loadCorrectAnswers = (): number => {
   return storedData ? Number(storedData) : 0;
 }
 
-export const addCorrectAnswers = (numberOfCorrectAnswersToAdd = 1): number => {
+export const addCorrectAnswer = (): number => {
   const parsedData = loadCorrectAnswers();
-  const newCount = parsedData + numberOfCorrectAnswersToAdd;
+  const newCount = parsedData + 1;
   localStorage.setItem(keys.CORRECT_ANSWERS, String(newCount));
-  console.log('added', numberOfCorrectAnswersToAdd, 'to reach', newCount, 'correct answers')
+  console.log('added an correct answer, total correct now', newCount)
   return newCount;
 };
 
