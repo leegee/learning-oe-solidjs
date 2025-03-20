@@ -31,17 +31,12 @@ const App = () => {
   // const totalQuestionsAnswered = state.loadQuestionsAnswered();
   const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
 
-  createEffect(() => {
-    console.log("currentLessonIndex changed:", currentLessonIndex());
-  });
-
   // When the current lesson index changes, a new lesson is introduced
   createEffect(() => {
     setTotalIncorrectAnswers(state.countTotalIncorrectAnswers());
     setIsCourseCompleted(currentLessonIndex() >= lessons.length);
     setIsShowLessonIntro(true);
     setIsLessonCompleted(false);
-    console.log('App Effect: lessonIndex ', currentLessonIndex());
   });
 
   createEffect(() => {
@@ -65,27 +60,23 @@ const App = () => {
   };
 
   const onLessonStart = () => {
-    console.log('App onLessonStart', currentLessonIndex());
     state.resetLesson(currentLessonIndex());
     setLessonStartTime(Date.now());
     setIsShowLessonIntro(false);
   }
 
   const onNextLesson = () => {
-    console.log('App onContinue');
     if (currentLessonIndex() < lessons.length - 1) {
       const nextLessonIndex = currentLessonIndex() + 1;
       setCurrentLessonIndex(nextLessonIndex);
       state.saveCurrentLesson(nextLessonIndex);
       setIsShowHome(true);
-      console.log('App onContinue increments lessonIndex');
     } else {
       setIsCourseCompleted(true);
     }
   };
 
   const onLessonSelected = (lessonIndex: number) => {
-    console.log('App onLessonSelected lessonIndex', lessonIndex);
     setIsShowHome(false);
     setCurrentLessonIndex(lessonIndex);
   }
