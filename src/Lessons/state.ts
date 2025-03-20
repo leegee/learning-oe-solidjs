@@ -1,3 +1,8 @@
+// TODO this has evolved badly - we used to just count correct/incorrect,
+// then we started to store incorrect answers for later processing, but
+// we are still counting correct answers via a stored scalar - it should 
+// rather parse the stored structure.
+
 const LOG_PREFIX = 'Storage saved ';
 const STORAGE_PREFIX = 'oe_';
 
@@ -17,10 +22,16 @@ export const loadCurrentLessonIndex = (): number => {
   return parseInt(localStorage.getItem(keys.CURRENT_LESSON) || '0', 10);
 };
 
+export const saveIncorrectAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string) => {
+  const savedAnswers = loadIncorrectAnswers(lessonIndex) ?? [];
+  savedAnswers.length = Math.max(savedAnswers.length, cardIndex + 1);
+  savedAnswers[cardIndex] = incorrectAnswer;
+  console.log(LOG_PREFIX + 'shall save updated incorrect answer', cardIndex, 'for lesson', lessonIndex, savedAnswers);
+  saveIncorrectAnswers(lessonIndex, savedAnswers);
+};
 
-// Load incorrect answers for a specific lesson (returns string[] for that lesson)
 export const saveIncorrectAnswers = (lessonIndex: number, incorrectAnswers: string[]): void => {
-  let savedAnswers = JSON.parse(localStorage.getItem(keys.INCORRECT_ANSWERS) || '{"0":{}}');
+  let savedAnswers = JSON.parse(localStorage.getItem(keys.INCORRECT_ANSWERS) || '{"' + lessonIndex + '":{}}');
   if (!savedAnswers) {
     savedAnswers = {};
   }

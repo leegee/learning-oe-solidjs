@@ -13,7 +13,7 @@ import './Lesson.css';
 interface ILessonProps {
     lesson: Lesson;
     onCorrectAnswer: () => void;
-    onIncorrectAnswer: (incorrectAnswer: string) => void;
+    onIncorrectAnswer: (cardIndex: number, incorrectAnswer: string) => void;
     onCancel: () => void;
     onQuestionAnswered: () => void;
     onLessonComplete: () => void;
@@ -56,7 +56,7 @@ const LessonComponent = (props: ILessonProps) => {
 
     const onIncorrect = () => {
         console.log('On Incorrect');
-        props.onIncorrectAnswer(String(currentCardIndex()));
+        props.onIncorrectAnswer(currentCardIndex(), 'bad_answer_goes_here');
     };
 
     return (

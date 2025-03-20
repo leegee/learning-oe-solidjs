@@ -67,9 +67,8 @@ const App = () => {
     state.addCorrectAnswer();
   };
 
-  const onIncorrectAnswer = (incorrectAnswer: string) => {
-    const updatedAnswers = [...(state.loadIncorrectAnswers(currentLessonIndex()) ?? []), incorrectAnswer];
-    state.saveIncorrectAnswers(currentLessonIndex(), updatedAnswers);
+  const onIncorrectAnswer = (cardIndex: number, incorrectAnswer: string) => {
+    state.saveIncorrectAnswer(currentLessonIndex(), cardIndex, incorrectAnswer);
   };
 
   const renderContent = () => {
