@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, Switch, Match, Show } from 'solid-js';
+import { createSignal, onCleanup, Switch, Match } from 'solid-js';
 import { t } from '../i18n';
 
 import MultipleChoiceComponent, { IMultipleChoiceCard } from './cards/MultipleChoice';
@@ -21,7 +21,9 @@ interface ILessonProps {
 
 const LessonComponent = (props: ILessonProps) => {
     const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
-    const [lessonState, setLessonState] = createSignal<'notStarted' | 'inProgress' | 'completed'>('notStarted');
+
+    const currentCard = () => props.lesson.cards[currentCardIndex()];
+    const progress = (currentCardIndex() + 1) / props.lesson.cards.length;
 
     // Handle keyboard events for Escape key
     const handleKeys = (e: KeyboardEvent) => {
@@ -30,46 +32,34 @@ const LessonComponent = (props: ILessonProps) => {
         }
     };
 
+    // Handle beforeunload event
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        const confirmationMessage = t('confirm_leave_app');
+        event.preventDefault();
+        return confirmationMessage;
+    };
+
     window.addEventListener('keyup', handleKeys);
+    window.addEventListener('beforeunload', handleBeforeUnload);
 
     onCleanup(() => {
         window.removeEventListener('keyup', handleKeys);
+        window.removeEventListener('beforeunload', handleBeforeUnload);
     });
-
-    const startLesson = () => {
-        setLessonState('inProgress');
-    };
 
     const goToNextCard = () => {
         props.onQuestionAnswered();
         if (currentCardIndex() < props.lesson.cards.length - 1) {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         } else {
-            setLessonState('completed');
             props.onLessonComplete();
         }
     };
 
     const onIncorrect = () => {
-        console.log('On Incorrect: ');
+        console.log('On Incorrect');
         props.onIncorrectAnswer(String(currentCardIndex()));
     };
-
-    const currentCard = () => props.lesson.cards[currentCardIndex()];
-    const progress = (currentCardIndex() + 1) / props.lesson.cards.length;
-
-    // Handle beforeunload event
-    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-        const confirmationMessage = 'Are you sure you want to leave this app?';
-        event.preventDefault();
-        return confirmationMessage;
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    onCleanup(() => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-    });
 
     return (
         <article class="lesson">
@@ -78,15 +68,12 @@ const LessonComponent = (props: ILessonProps) => {
                 <button class="close-button" onClick={props.onCancel} aria-label={t('lesson_progress')} />
             </h2>
 
-
-            <Show when={lessonState() === 'inProgress'}>
-                <progress
-                    value={progress}
-                    max={1}
-                    aria-label={t('lesson_progress')}
-                    title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
-                />
-            </Show>
+            <progress
+                value={progress}
+                max={1}
+                aria-label={t('lesson_progress')}
+                title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
+            />
 
             <Switch fallback={<p>Unknown lesson card...</p>}>
                 <Match when={currentCard().class === 'dynamic-vocab'}>
