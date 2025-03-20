@@ -33,6 +33,13 @@ body,
     font-style: italic;
 }
 
+[lang="ang"] input,
+[lang="ang"] textarea,
+input[lang="ang"],
+textarea[lang="ang"] {
+    font-style: oblique;
+}
+
 [lang="en"] {
     font-family: 'Work Sans', sans;
 }
