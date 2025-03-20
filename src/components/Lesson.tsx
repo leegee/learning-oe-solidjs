@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, Switch, Match } from 'solid-js';
+import { createSignal, onCleanup, Switch, Match, Show } from 'solid-js';
 import { t } from '../i18n';
 
 import MultipleChoiceComponent, { IMultipleChoiceCard } from './cards/MultipleChoice';
@@ -21,6 +21,7 @@ interface ILessonProps {
 
 const LessonComponent = (props: ILessonProps) => {
     const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
+    const [lessonState, setLessonState] = createSignal<'notStarted' | 'inProgress' | 'completed'>('notStarted');
 
     // Handle keyboard events for Escape key
     const handleKeys = (e: KeyboardEvent) => {
@@ -35,18 +36,22 @@ const LessonComponent = (props: ILessonProps) => {
         window.removeEventListener('keyup', handleKeys);
     });
 
+    const startLesson = () => {
+        setLessonState('inProgress');
+    };
+
     const goToNextCard = () => {
         props.onQuestionAnswered();
         if (currentCardIndex() < props.lesson.cards.length - 1) {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         } else {
+            setLessonState('completed');
             props.onLessonComplete();
         }
     };
 
     const onIncorrect = () => {
         console.log('On Incorrect: ');
-        // TODO onIncorrect might receive something to store here
         props.onIncorrectAnswer(String(currentCardIndex()));
     };
 
@@ -70,14 +75,18 @@ const LessonComponent = (props: ILessonProps) => {
         <article class="lesson">
             <h2>
                 {t('lesson')}: <em>{props.lesson.title}</em>
-                <button class="close-button" onClick={props.onCancel} />
+                <button class="close-button" onClick={props.onCancel} aria-label={t('lesson_progress')} />
             </h2>
-            <progress
-                value={progress}
-                max={1}
-                aria-label={t('lesson_progress')}
-                title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
-            ></progress>
+
+
+            <Show when={lessonState() === 'inProgress'}>
+                <progress
+                    value={progress}
+                    max={1}
+                    aria-label={t('lesson_progress')}
+                    title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
+                />
+            </Show>
 
             <Switch fallback={<p>Unknown lesson card...</p>}>
                 <Match when={currentCard().class === 'dynamic-vocab'}>
@@ -135,7 +144,6 @@ const LessonComponent = (props: ILessonProps) => {
                     />
                 </Match>
             </Switch>
-
         </article>
     );
 };

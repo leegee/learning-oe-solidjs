@@ -151,10 +151,7 @@ const App = () => {
   return (
     <main
       id="main"
-      class={[
-        lessonState() === LessonState.InProgress ? "lesson-active" : "",
-        lessonState() === LessonState.Home ? "home-active" : "",
-      ]
+      class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
         .filter(Boolean)
         .join(" ")}
     >
