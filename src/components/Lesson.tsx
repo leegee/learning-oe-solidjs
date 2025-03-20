@@ -23,16 +23,14 @@ const LessonComponent = (props: ILessonProps) => {
     const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
 
     const currentCard = () => props.lesson.cards[currentCardIndex()];
-    const progress = (currentCardIndex() + 1) / props.lesson.cards.length;
+    const progress = () => (currentCardIndex() + 1) / props.lesson.cards.length;
 
-    // Handle keyboard events for Escape key
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             props.onCancel();
         }
     };
 
-    // Handle beforeunload event
     const handleBeforeUnload = (event: BeforeUnloadEvent) => {
         const confirmationMessage = t('confirm_leave_app');
         event.preventDefault();
@@ -69,7 +67,7 @@ const LessonComponent = (props: ILessonProps) => {
             </h2>
 
             <progress
-                value={progress}
+                value={progress()}
                 max={1}
                 aria-label={t('lesson_progress')}
                 title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
