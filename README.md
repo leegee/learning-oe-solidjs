@@ -17,7 +17,7 @@ Configurable quiz cards for language learning or other quizes
 
 ## Demo: Learn Old English
 
-[https://leegee.github.io/learning-oe/](https://leegee.github.io/learning-oe/)
+[https://leegee.github.io/learning-oe-solidjs/](https://leegee.github.io/learning-oe-solidjs/)
 
 ## Card types
 
