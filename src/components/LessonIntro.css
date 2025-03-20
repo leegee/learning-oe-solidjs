@@ -9,7 +9,13 @@
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly
+    justify-content: space-evenly;
+    padding: 2em;
+}
+
+.lesson-intro .card .next-button {
+    padding-left: 2em;
+    padding-right: 2em;
 }
 
 @media (min-height: 800px) {
