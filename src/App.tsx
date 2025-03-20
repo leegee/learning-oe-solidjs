@@ -1,10 +1,9 @@
 import { createSignal, createEffect, createMemo } from "solid-js";
-import { t } from './i18n';
 
-import config from "./config";
 import LessonList from "./components/LessonList";
 import * as state from "./Lessons/state";
 import { lessons, lessonTitles2Indicies } from "./Lessons";
+import Header from "./components/Header";
 import HomeScreen from "./components/Home";
 import LessonIntro from "./components/LessonIntro";
 import LessonComponent from "./components/Lesson";
@@ -107,27 +106,14 @@ const App = () => {
   }
 
   const renderHeader = () => {
-    if (isLessonActive()) {
-      return '';
-    }
-    return (
-      <header>
-        <div class="header-progress">
-          <progress
-            class="course-progress"
-            value={currentLessonIndex()}
-            max={lessons.length}
-            aria-label={t('course_progress')}
-            title={`${t('all_lessons')} ${currentLessonIndex() + 1} / ${lessons.length}`}
-          />
-        </div>
-
-        <div class='header-text'>
-          <h1 lang={config.targetLanguage}>{config.target.apptitle}</h1>
-          <h2 lang={config.defaultLanguage}>{config.default.apptitle}</h2>
-        </div>
-      </header>
-    );
+    return isLessonActive()
+      ? ''
+      : (
+        <Header
+          isLessonActive={isLessonActive()}
+          currentLessonIndex={currentLessonIndex()}
+          totalLessons={lessons.length}
+        />);
   }
 
   const renderConditional = () => {
