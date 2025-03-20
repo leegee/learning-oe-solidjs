@@ -1,4 +1,4 @@
-import { createSignal, createEffect, createMemo } from "solid-js";
+import { createSignal, createMemo } from "solid-js";
 
 import LessonList from "./components/LessonList";
 import * as state from "./Lessons/state";
@@ -25,20 +25,14 @@ enum LessonState {
 const App = () => {
   const initialLessonIndex = state.loadCurrentLesson();
 
+  const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
+  const [lessonDurationSeconds, setLessonTime] = createSignal<number>(0);
+  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
   const [lessonState, setLessonState] = createSignal(
     initialLessonIndex >= lessons.length ? LessonState.CourseFinished : LessonState.Home
   );
-  const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
-  const [lessonDurationSeconds, setLessonDurationSeconds] = createSignal<number | null>(null);
-  const [lessonStartTime, setLessonStartTime] = createSignal<number | null>(null);
-  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
-  const [_totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
 
   const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
-
-  createEffect(() => {
-    setTotalIncorrectAnswers(state.countTotalIncorrectAnswers());
-  });
 
   const startLesson = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
@@ -48,16 +42,13 @@ const App = () => {
 
   const beginQuestions = () => {
     state.resetLesson(currentLessonIndex());
-    setLessonStartTime(Date.now());
+    setLessonTime(Date.now());
     setLessonState(LessonState.InProgress);
   };
 
   const completeLesson = () => {
     setLessonState(LessonState.Completed);
-    if (lessonStartTime() !== null) {
-      setLessonDurationSeconds(Math.floor((Date.now() - lessonStartTime()!) / 1000));
-      setLessonStartTime(null);
-    }
+    setLessonTime((prev) => Math.floor((Date.now() - prev) / 1000));
   };
 
   const lessonComplete = () => {
@@ -81,7 +72,6 @@ const App = () => {
   const onIncorrectAnswer = (incorrectAnswer: string) => {
     const updatedAnswers = [...(state.loadIncorrectAnswers(currentLessonIndex()) ?? []), incorrectAnswer];
     state.saveIncorrectAnswers(currentLessonIndex(), updatedAnswers);
-    setTotalIncorrectAnswers(prev => prev + 1);
   };
 
   const renderContent = () => {
