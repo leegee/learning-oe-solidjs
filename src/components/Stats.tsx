@@ -1,14 +1,14 @@
+import { createSignal } from 'solid-js';
 import { t } from '../i18n';
+import * as state from "../Lessons/state";
 import './Stats.css';
 
-interface StatsProps {
-    incorrectAnswers: number;
-    correctAnswers: number;
-    questionsAnswered: number;
-}
+const [totalCorrectAnswers] = createSignal<number>(state.loadCorrectAnswers());
+const [totalIncorrectAnswers] = createSignal<number>(state.countTotalIncorrectAnswers());
+const [totalQuestionsAnswered] = createSignal<number>(state.loadQuestionsAnswered());
 
-const Stats = (props: StatsProps) => {
-    if (!props.incorrectAnswers && !props.questionsAnswered) {
+const Stats = () => {
+    if (!totalIncorrectAnswers() && !totalQuestionsAnswered()) {
         return '';
     }
 
@@ -21,7 +21,7 @@ const Stats = (props: StatsProps) => {
                     {t('correct_answer_count_alt')}
                 </span>
                 <span class='correct-answers-value'>
-                    {props.correctAnswers}
+                    {totalCorrectAnswers()}
                 </span>
             </span>
 
@@ -30,7 +30,7 @@ const Stats = (props: StatsProps) => {
                     {t('incorrect_answer_count_alt')}
                 </span>
                 <span class='incorrect-answers-value'>
-                    {props.incorrectAnswers}
+                    {totalIncorrectAnswers()}
                 </span>
             </span>
 
@@ -39,7 +39,7 @@ const Stats = (props: StatsProps) => {
                     {t('questions_answered_count_alt')}
                 </span>
                 <span class='questions-answered-value'>
-                    {props.questionsAnswered}
+                    {totalQuestionsAnswered()}
                 </span>
             </span>
         </span >
