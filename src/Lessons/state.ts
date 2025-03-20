@@ -8,12 +8,12 @@ const keys = {
   QUESTIONS_ANSWERED: STORAGE_PREFIX + 'questions_answered',
 };
 
-export const saveCurrentLesson = (lessonIndex: number): void => {
+export const saveCurrentLessonIndex = (lessonIndex: number): void => {
   localStorage.setItem(keys.CURRENT_LESSON, lessonIndex.toString());
   console.log(LOG_PREFIX + 'saved lesson index', lessonIndex);
 };
 
-export const loadCurrentLesson = (): number => {
+export const loadCurrentLessonIndex = (): number => {
   return parseInt(localStorage.getItem(keys.CURRENT_LESSON) || '0', 10);
 };
 

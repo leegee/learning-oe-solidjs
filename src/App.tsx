@@ -23,7 +23,7 @@ enum LessonState {
 }
 
 const App = () => {
-  const initialLessonIndex = state.loadCurrentLesson();
+  const initialLessonIndex = state.loadCurrentLessonIndex();
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [lessonTime, setLessonTime] = createSignal<number>(0);
@@ -35,7 +35,7 @@ const App = () => {
 
   const startLesson = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
-    state.saveCurrentLesson(lessonIndex);
+    state.saveCurrentLessonIndex(lessonIndex);
     setLessonState(LessonState.Intro);
   };
 
