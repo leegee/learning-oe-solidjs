@@ -1,0 +1,81 @@
+CHANGE LOG
+==========
+
+
+2025-03-20: 0.1.1
+
+* Extracted header into a component.
+* `Stats` now accesses state directly
+
+2025-03-19: 0.1.0
+
+* Ported from React to Solid
+
+2025-03-18: 0.0.1
+
+* Tidied up some types
+* De-linted
+* Added 'skip question' button in preparation for auto-skipping and re-try failed questions
+
+2025-03-17 0.0.0
+
+* Extracted `next-button` into `ActionButton`
+* Updated score tracking
+* Introduced `WritingBlocksCard`
+
+2025-03-16
+
+* Allowed users to make mistakes in multiple choice questions by requiring confirmation of selection
+* Goes `Home` after a lesson rather than to the next lesson.
+
+2025-03-14
+
+* Count questions not cards
+* PWA config
+* Letter buttons extracted into their own component
+* Allow Q & A langauges to vary
+* Fixed bug that caused reshuffling of answers in `VocabMatchCard`
+* Refactored `SplashScreen` to `Home`
+
+2025-03-13 
+
+* Allowed choice of lessons from `Splash` screen.
+* Added a card type to dynamically generate content from other cards.
+* i18n
+* Lessons can be cancelled to return to the `Splash` screen.
+* Added `Splash` screen.
+* Added 'try again' button.
+* Added timing of lessons.
+* Store failed questions.
+* Shake wrong selection in `MultpleChoice`
+
+2025-03-12
+
+* Added variable Junicode font
+* Added PWA asset generation
+* Added a card for the end of a lesson.
+* Remvoed 'back' button.
+* Added gh-pages.
+* Placedholder text
+* Added lesson selection
+* Added buttons for Old English letters.
+
+2025-03-11
+
+* Move 'next-button' outside of question cards.
+* Track lessons.
+* Added `lang` attributes.
+* Allowed Q & A in either language.
+* Track wrong answers with callabacks.
+* JSON Scheme for `lessons.json`.
+* Consolidate configuration, including translatinos.
+* Init i18n
+
+2025-03-10
+
+* Typing lessons data
+* Added a card to 'fill in the blanks.'
+* Added `VocabMatchCard`
+* Added progress indicator
+* Moved to Vite.
+* Initialized project using Create React App. Ugh.
