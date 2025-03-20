@@ -1,12 +1,12 @@
 import { createSignal, onCleanup, Switch, Match } from 'solid-js';
 import { t } from '../i18n';
 
-import MultipleChoiceComponent, { IMultipleChoiceCard } from './cards/MultipleChoice';
-import VocabMatchCardComponent, { IVocabMatchCard } from './cards/VocabMatch';
-import BlanksCardComponent, { IBlanksCard } from './cards/BlanksCard';
-import WritingCardComponent, { IWritingCard } from './cards/WritingCard';
-import WritingBlocksCardComponent, { IWritingBlocksCard } from './cards/WritingBlocksCard';
-import DynamicVocabComponent, { IDynamicVocabCard } from './cards/DynamicVocabCard';
+import MultipleChoiceComponent, { type IMultipleChoiceCard } from './cards/MultipleChoice';
+import VocabMatchCardComponent, { type IVocabMatchCard } from './cards/VocabMatch';
+import BlanksCardComponent, { type IBlanksCard } from './cards/BlanksCard';
+import WritingCardComponent, { type IWritingCard } from './cards/WritingCard';
+import WritingBlocksCardComponent, { type IWritingBlocksCard } from './cards/WritingBlocksCard';
+import DynamicVocabComponent, { type IDynamicVocabCard } from './cards/DynamicVocabCard';
 import { type Lesson } from '../Lessons';
 import './Lesson.css';
 
