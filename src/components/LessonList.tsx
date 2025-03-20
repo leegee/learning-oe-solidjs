@@ -11,6 +11,7 @@ interface LessonListProps {
 
 const LessonList = ({ lessons, currentLessonIndex, onLessonSelected }: LessonListProps) => {
     const onLessonSelectedLocal = (lessonIndex: number) => {
+        console.log('LessonList set lesson index to', lessonIndex);
         onLessonSelected(lessonIndex);
     };
 

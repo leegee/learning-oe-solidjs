@@ -7,20 +7,17 @@ interface CompletionSummaryProps {
     children: JSX.Element
 }
 
-const CompletedAllLessons = ({
-    totalLessons,
-    children,
-}: CompletionSummaryProps) => {
+const CompletedAllLessons = (props: CompletionSummaryProps) => {
 
     // todo rephrase
     return (
         <>
             <article class="completed-all-lessons">
                 <h2>{t('all_lessons_done')}</h2>
-                <p>{t('total_lessons_completed')}: <strong>{totalLessons}</strong></p>
+                <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
             </article>
 
-            {children}
+            {props.children}
         </>
     );
 };

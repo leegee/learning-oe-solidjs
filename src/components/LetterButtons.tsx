@@ -1,3 +1,4 @@
+import { For } from 'solid-js';
 import { t } from '../i18n';
 
 interface Letter {
@@ -32,23 +33,22 @@ interface LetterButtonsProps {
 const LetterButtons = ({ lang, onSelect }: LetterButtonsProps) => {
 
 
-    const letters = Letters[lang];
-
     const handleLetterButtonClick = (letter: string) => {
         onSelect(letter);
     };
 
     return (
         <div class="letter-buttons">
-            {letters.map((letter, index) => (
-                <button
-                    key={index}
-                    onClick={() => handleLetterButtonClick(letter.symbol)}
-                    aria-label={t(`insert_${letter.name}`)}
-                >
-                    {letter.symbol}
-                </button>
-            ))}
+            <For each={Letters[lang]}>
+                {(letter) => (
+                    <button
+                        onClick={() => handleLetterButtonClick(letter.symbol)}
+                        aria-label={t(`insert_${letter.name}`)}
+                    >
+                        {letter.symbol}
+                    </button>
+                )}
+            </For>
         </div>
     );
 };

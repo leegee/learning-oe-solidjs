@@ -7,8 +7,8 @@ interface StatsProps {
     questionsAnswered: number;
 }
 
-const Stats = ({ correctAnswers, incorrectAnswers, questionsAnswered }: StatsProps) => {
-    if (!incorrectAnswers && !questionsAnswered) {
+const Stats = (props: StatsProps) => {
+    if (!props.incorrectAnswers && !props.questionsAnswered) {
         return '';
     }
 
@@ -21,7 +21,7 @@ const Stats = ({ correctAnswers, incorrectAnswers, questionsAnswered }: StatsPro
                     {t('correct_answer_count_alt')}
                 </span>
                 <span class='correct-answers-value'>
-                    {correctAnswers}
+                    {props.correctAnswers}
                 </span>
             </span>
 
@@ -30,7 +30,7 @@ const Stats = ({ correctAnswers, incorrectAnswers, questionsAnswered }: StatsPro
                     {t('incorrect_answer_count_alt')}
                 </span>
                 <span class='incorrect-answers-value'>
-                    {incorrectAnswers}
+                    {props.incorrectAnswers}
                 </span>
             </span>
 
@@ -39,7 +39,7 @@ const Stats = ({ correctAnswers, incorrectAnswers, questionsAnswered }: StatsPro
                     {t('questions_answered_count_alt')}
                 </span>
                 <span class='questions-answered-value'>
-                    {questionsAnswered}
+                    {props.questionsAnswered}
                 </span>
             </span>
         </span >

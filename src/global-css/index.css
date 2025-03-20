@@ -116,15 +116,14 @@ button.selected {
     background-color: #6666;
 }
 
-
-.yes-next-button,
+.correct-next-button,
 .next-button {
     background-color: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
     width: 100%;
 }
 
-.yes-next-button {
+.correct-next-button {
     background-color: green;
 }
 

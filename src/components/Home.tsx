@@ -7,10 +7,10 @@ interface HomeScreenProps {
     children: JSX.Element;
 }
 
-const HomeScreen = ({ children }: HomeScreenProps) => {
+const HomeScreen = (props: HomeScreenProps) => {
     return (
         <article id="home">
-            {children}
+            {props.children}
 
             <footer class="version">
                 {/* <InstallPWA /> */}

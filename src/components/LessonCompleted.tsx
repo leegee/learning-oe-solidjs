@@ -10,7 +10,7 @@ interface LessonCompletedComponent {
     onContinue: () => void;
 }
 
-const LessonCompletedComponent = ({ durationInSeconds, questionCount, mistakeCount, onContinue }: LessonCompletedComponent) => {
+const LessonCompletedComponent = (props: LessonCompletedComponent) => {
     return (
         <>
             <section class='card lesson-completed'>
@@ -20,16 +20,16 @@ const LessonCompletedComponent = ({ durationInSeconds, questionCount, mistakeCou
                         t(
                             'lesson_completed_counts',
                             {
-                                questionCount,
-                                mistakeCount,
-                                duration: formatDuration(t, durationInSeconds)
+                                questionCount: props.questionCount,
+                                mistakeCount: props.mistakeCount,
+                                duration: formatDuration(t, props.durationInSeconds)
                             }
                         )
                     }
                 </p>
                 <footer>
                     {/* <button class='next-button' onClick={onContinue}>{t('next_lesson')}</button> */}
-                    <button class='next-button' onClick={onContinue}>{t('continue')}</button>
+                    <button class='next-button' onClick={props.onContinue}>{t('continue')}</button>
                 </footer>
             </section >
         </>

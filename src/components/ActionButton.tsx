@@ -41,9 +41,9 @@ const ActionButton = (props: ButtonProps) => {
                 class={
                     props.isCorrect === null
                         ? 'next-button'
-                        : props.isCorrect === false
-                            ? 'try-again-button'
-                            : 'next-button'
+                        : props.isCorrect === true
+                            ? 'correct-next-button'
+                            : 'try-again-button'
                 }
                 onClick={handleClick}
                 disabled={!props.isInputPresent}

@@ -10,28 +10,28 @@ interface LessonIntroProps {
     onContinue: () => void;
 }
 
-const LessonIntro = ({ title, description, index, children, onContinue }: LessonIntroProps) => {
+const LessonIntro = (props: LessonIntroProps) => {
 
     return (
         <article class="lesson-intro">
             <section class="card">
                 <header>
                     <h2>
-                        {t('lesson')} {index + 1}
+                        {t('lesson')} {props.index + 1}
                     </h2>
-                    <h3>{title}</h3>
+                    <h3>{props.title}</h3>
                 </header>
 
-                {description && (<p class="description">{description}</p>)}
+                {props.description && (<p class="description">{props.description}</p>)}
 
                 <footer>
-                    <button class='next-button' onClick={onContinue}>{t('begin')}</button>
+                    <button class='next-button' onClick={props.onContinue}>{t('begin')}</button>
                 </footer>
             </section>
 
-            {children && (
+            {props.children && (
                 <>
-                    {children}
+                    {props.children}
                 </>
             )}
         </article >

@@ -1,4 +1,4 @@
-import { createSignal, createEffect } from "solid-js";
+import { createSignal, createEffect, createMemo } from "solid-js";
 import { t } from './i18n';
 
 import config from "./config";
@@ -30,7 +30,11 @@ const App = () => {
   const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
 
   const totalQuestionsAnswered = state.loadQuestionsAnswered();
-  const currentLesson = lessons[currentLessonIndex()];
+  const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
+
+  createEffect(() => {
+    console.log("currentLessonIndex changed:", currentLessonIndex());
+  });
 
   // When the current lesson index changes, a new lesson is introduced
   createEffect(() => {
@@ -38,6 +42,7 @@ const App = () => {
     setIsCourseCompleted(currentLessonIndex() >= lessons.length);
     setIsShowLessonIntro(true);
     setIsLessonCompleted(false);
+    console.log('App Effect: lessonIndex ', currentLessonIndex());
   });
 
   createEffect(() => {
@@ -61,23 +66,27 @@ const App = () => {
   };
 
   const onLessonStart = () => {
+    console.log('App onLessonStart', currentLessonIndex());
     state.resetLesson(currentLessonIndex());
     setLessonStartTime(Date.now());
     setIsShowLessonIntro(false);
   }
 
   const onContinue = () => {
+    console.log('App onContinue');
     if (currentLessonIndex() < lessons.length - 1) {
       const nextLessonIndex = currentLessonIndex() + 1;
       setCurrentLessonIndex(nextLessonIndex);
       state.saveCurrentLesson(nextLessonIndex);
       setIsShowHome(true);
+      console.log('App onContinue increments lessonIndex');
     } else {
       setIsCourseCompleted(true);
     }
   };
 
   const onLessonSelected = (lessonIndex: number) => {
+    console.log('App onLessonSelected lessonIndex', lessonIndex);
     setIsShowHome(false);
     setCurrentLessonIndex(lessonIndex);
   }
@@ -143,8 +152,8 @@ const App = () => {
     if (isLessonIntro()) {
       return (
         <LessonIntro
-          title={currentLesson.title}
-          description={currentLesson.description}
+          title={currentLesson().title}
+          description={currentLesson().description}
           index={currentLessonIndex()}
           onContinue={onLessonStart}
         />
@@ -155,7 +164,7 @@ const App = () => {
       return (
         <LessonCompleted
           onContinue={onContinue}
-          questionCount={currentLesson.cards.length}
+          questionCount={currentLesson().cards.length}
           durationInSeconds={lessonDurationSeconds() !== null ? lessonDurationSeconds()! : -1}
           mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
         />
@@ -183,7 +192,7 @@ const App = () => {
 
     return (
       <LessonComponent
-        lesson={currentLesson}
+        lesson={currentLesson()}
         onCancel={onLessonCancelled}
         onQuestionAnswered={onQuestionAnswered}
         onCorrectAnswer={onCorrectAnswer}
