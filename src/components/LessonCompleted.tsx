@@ -7,7 +7,7 @@ interface LessonCompletedComponent {
     questionCount: number;
     mistakeCount: number;
     durationInSeconds: number;
-    onContinue: () => void;
+    onNextLesson: () => void;
 }
 
 const LessonCompletedComponent = (props: LessonCompletedComponent) => {
@@ -29,7 +29,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponent) => {
                 </p>
                 <footer>
                     {/* <button class='next-button' onClick={onContinue}>{t('next_lesson')}</button> */}
-                    <button class='next-button' onClick={props.onContinue}>{t('continue')}</button>
+                    <button class='next-button' onClick={props.onNextLesson}>{t('continue')}</button>
                 </footer>
             </section >
         </>

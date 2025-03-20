@@ -10,7 +10,9 @@ interface HeaderProps {
 }
 
 const Header = (props: HeaderProps) => {
-    if (props.isLessonActive) return null;
+    if (props.isLessonActive) {
+        return null
+    };
 
     return (
         <header>

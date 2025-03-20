@@ -17,7 +17,7 @@ import "./App.css";
 const App = () => {
   const initialLessonIndex = state.loadCurrentLesson();
 
-  const [correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
+  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [isCourseFinished, setIsCourseCompleted] = createSignal(initialLessonIndex >= lessons.length);
   const [isLessonActive, setIsLessonActive] = createSignal(false);
@@ -26,9 +26,9 @@ const App = () => {
   const [isShowHome, setIsShowHome] = createSignal(true);
   const [lessonDurationSeconds, setLessonDurationSeconds] = createSignal<number | null>(null);
   const [lessonStartTime, setLessonStartTime] = createSignal<number | null>(null);
-  const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
+  const [_totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
 
-  const totalQuestionsAnswered = state.loadQuestionsAnswered();
+  // const totalQuestionsAnswered = state.loadQuestionsAnswered();
   const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
 
   createEffect(() => {
@@ -71,7 +71,7 @@ const App = () => {
     setIsShowLessonIntro(false);
   }
 
-  const onContinue = () => {
+  const onNextLesson = () => {
     console.log('App onContinue');
     if (currentLessonIndex() < lessons.length - 1) {
       const nextLessonIndex = currentLessonIndex() + 1;
@@ -120,11 +120,7 @@ const App = () => {
     if (isShowHome()) {
       return (
         <HomeScreen>
-          <Stats
-            incorrectAnswers={totalIncorrectAnswers()}
-            questionsAnswered={totalQuestionsAnswered}
-            correctAnswers={correctAnswers()}
-          />
+          <Stats />
           <LessonList
             currentLessonIndex={currentLessonIndex()}
             lessons={lessonTitles2Indicies()}
@@ -141,7 +137,7 @@ const App = () => {
           title={currentLesson().title}
           description={currentLesson().description}
           index={currentLessonIndex()}
-          onContinue={onLessonStart}
+          onLessonStart={onLessonStart}
         />
       )
     }
@@ -149,7 +145,7 @@ const App = () => {
     if (isLessonCompleted()) {
       return (
         <LessonCompleted
-          onContinue={onContinue}
+          onNextLesson={onNextLesson}
           questionCount={currentLesson().cards.length}
           durationInSeconds={lessonDurationSeconds() !== null ? lessonDurationSeconds()! : -1}
           mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
@@ -159,14 +155,8 @@ const App = () => {
 
     if (isCourseFinished()) {
       return (
-        <CompletedAllLessons
-          totalLessons={lessons.length}
-        >
-          <Stats
-            incorrectAnswers={totalIncorrectAnswers()}
-            questionsAnswered={totalQuestionsAnswered}
-            correctAnswers={correctAnswers()}
-          />
+        <CompletedAllLessons totalLessons={lessons.length} >
+          <Stats />
           <LessonList
             currentLessonIndex={currentLessonIndex()}
             lessons={lessonTitles2Indicies()}

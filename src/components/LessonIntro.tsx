@@ -7,7 +7,7 @@ interface LessonIntroProps {
     description?: string;
     index: number;
     children?: JSX.Element;
-    onContinue: () => void;
+    onLessonStart: () => void;
 }
 
 const LessonIntro = (props: LessonIntroProps) => {
@@ -25,7 +25,7 @@ const LessonIntro = (props: LessonIntroProps) => {
                 {props.description && (<p class="description">{props.description}</p>)}
 
                 <footer>
-                    <button class='next-button' onClick={props.onContinue}>{t('begin')}</button>
+                    <button class='next-button' onClick={props.onLessonStart}>{t('begin')}</button>
                 </footer>
             </section>
 
