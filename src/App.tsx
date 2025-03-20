@@ -14,171 +14,157 @@ import AboutComponent from "./components/About";
 
 import "./App.css";
 
+enum LessonState {
+  Home,           // Viewing the home screen
+  Intro,          // Lesson intro screen before questions start
+  InProgress,     // Actively answering lesson questions
+  Completed,      // Lesson completed summary screen
+  CourseFinished, // All lessons are completed
+}
+
 const App = () => {
   const initialLessonIndex = state.loadCurrentLesson();
 
-  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
+  const [lessonState, setLessonState] = createSignal(
+    initialLessonIndex >= lessons.length ? LessonState.CourseFinished : LessonState.Home
+  );
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
-  const [isCourseFinished, setIsCourseCompleted] = createSignal(initialLessonIndex >= lessons.length);
-  const [isLessonActive, setIsLessonActive] = createSignal(false);
-  const [isLessonCompleted, setIsLessonCompleted] = createSignal(false);
-  const [isLessonIntro, setIsShowLessonIntro] = createSignal(true);
-  const [isShowHome, setIsShowHome] = createSignal(true);
   const [lessonDurationSeconds, setLessonDurationSeconds] = createSignal<number | null>(null);
   const [lessonStartTime, setLessonStartTime] = createSignal<number | null>(null);
+  const [_correctAnswers, setCorrectAnswers] = createSignal(state.loadCorrectAnswers());
   const [_totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal(state.countTotalIncorrectAnswers());
 
-  // const totalQuestionsAnswered = state.loadQuestionsAnswered();
   const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
 
-  // When the current lesson index changes, a new lesson is introduced
   createEffect(() => {
     setTotalIncorrectAnswers(state.countTotalIncorrectAnswers());
-    setIsCourseCompleted(currentLessonIndex() >= lessons.length);
-    setIsShowLessonIntro(true);
-    setIsLessonCompleted(false);
   });
 
-  createEffect(() => {
-    setIsLessonActive(!isLessonIntro() && !isLessonCompleted() && !isCourseFinished());
-  });
-
-  const onQuestionAnswered = () => {
-    state.addQuestionCompleted();
-  }
-
-  const onCorrectAnswer = (numberOfCorrectAnswers = 1) => {
-    const totalCorrect = state.addCorrectAnswers(numberOfCorrectAnswers);
-    setCorrectAnswers(totalCorrect);
-  }
-
-  const onIncorrectAnswer = (incorrectAnswer: string) => {
-    const existingAnswers = state.loadIncorrectAnswers(currentLessonIndex()) ?? [];
-    const updatedAnswers = [...existingAnswers, incorrectAnswer];
-    state.saveIncorrectAnswers(currentLessonIndex(), updatedAnswers);
-    setTotalIncorrectAnswers(prev => prev + 1);
+  const startLesson = (lessonIndex: number) => {
+    setCurrentLessonIndex(lessonIndex);
+    state.saveCurrentLesson(lessonIndex);
+    setLessonState(LessonState.Intro);
   };
 
-  const onLessonStart = () => {
+  const beginQuestions = () => {
     state.resetLesson(currentLessonIndex());
     setLessonStartTime(Date.now());
-    setIsShowLessonIntro(false);
-  }
-
-  const onNextLesson = () => {
-    if (currentLessonIndex() < lessons.length - 1) {
-      const nextLessonIndex = currentLessonIndex() + 1;
-      setCurrentLessonIndex(nextLessonIndex);
-      state.saveCurrentLesson(nextLessonIndex);
-      setIsShowHome(true);
-    } else {
-      setIsCourseCompleted(true);
-    }
+    setLessonState(LessonState.InProgress);
   };
 
-  const onLessonSelected = (lessonIndex: number) => {
-    setIsShowHome(false);
-    setCurrentLessonIndex(lessonIndex);
-  }
-
-  const onLessonCancelled = () => {
-    setIsLessonActive(false);
-    setLessonStartTime(null);
-    setIsLessonCompleted(false);
-    setIsShowHome(true);
-  }
-
-  const onLessonComplete = () => {
-    setIsLessonCompleted(true);
+  const completeLesson = () => {
+    setLessonState(LessonState.Completed);
     if (lessonStartTime() !== null) {
       setLessonDurationSeconds(Math.floor((Date.now() - lessonStartTime()!) / 1000));
       setLessonStartTime(null);
     }
-  }
+  };
 
-  const renderHeader = () => {
-    return isLessonActive()
-      ? ''
-      : (
-        <Header
-          isLessonActive={isLessonActive()}
-          currentLessonIndex={currentLessonIndex()}
-          totalLessons={lessons.length}
-        />);
-  }
+  const lessonComplete = () => {
+    if (currentLessonIndex() < lessons.length - 1) {
+      startLesson(currentLessonIndex() + 1);
+      goHome();
+    } else {
+      setLessonState(LessonState.CourseFinished);
+    }
+  };
 
-  const renderConditional = () => {
-    if (isShowHome()) {
-      return (
-        <HomeScreen>
-          <Stats />
-          <LessonList
-            currentLessonIndex={currentLessonIndex()}
-            lessons={lessonTitles2Indicies()}
-            onLessonSelected={onLessonSelected}
+  const goHome = () => setLessonState(LessonState.Home);
+
+  const onQuestionAnswered = () => state.addQuestionCompleted();
+
+  const onCorrectAnswer = (numCorrect = 1) => {
+    const totalCorrect = state.addCorrectAnswers(numCorrect);
+    setCorrectAnswers(totalCorrect);
+  };
+
+  const onIncorrectAnswer = (incorrectAnswer: string) => {
+    const updatedAnswers = [...(state.loadIncorrectAnswers(currentLessonIndex()) ?? []), incorrectAnswer];
+    state.saveIncorrectAnswers(currentLessonIndex(), updatedAnswers);
+    setTotalIncorrectAnswers(prev => prev + 1);
+  };
+
+  const renderContent = () => {
+    switch (lessonState()) {
+      case LessonState.Home:
+        return (
+          <HomeScreen>
+            <Stats />
+            <LessonList
+              currentLessonIndex={currentLessonIndex()}
+              lessons={lessonTitles2Indicies()}
+              onLessonSelected={startLesson}
+            />
+            <AboutComponent />
+          </HomeScreen>
+        );
+
+      case LessonState.Intro:
+        return (
+          <LessonIntro
+            title={currentLesson().title}
+            description={currentLesson().description}
+            index={currentLessonIndex()}
+            onLessonStart={beginQuestions}
           />
-          <AboutComponent />
-        </HomeScreen>
-      )
-    }
+        );
 
-    if (isLessonIntro()) {
-      return (
-        <LessonIntro
-          title={currentLesson().title}
-          description={currentLesson().description}
-          index={currentLessonIndex()}
-          onLessonStart={onLessonStart}
-        />
-      )
-    }
-
-    if (isLessonCompleted()) {
-      return (
-        <LessonCompleted
-          onNextLesson={onNextLesson}
-          questionCount={currentLesson().cards.length}
-          durationInSeconds={lessonDurationSeconds() !== null ? lessonDurationSeconds()! : -1}
-          mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
-        />
-      )
-    }
-
-    if (isCourseFinished()) {
-      return (
-        <CompletedAllLessons totalLessons={lessons.length} >
-          <Stats />
-          <LessonList
-            currentLessonIndex={currentLessonIndex()}
-            lessons={lessonTitles2Indicies()}
-            onLessonSelected={onLessonSelected}
+      case LessonState.InProgress:
+        return (
+          <LessonComponent
+            lesson={currentLesson()}
+            onCancel={goHome}
+            onQuestionAnswered={onQuestionAnswered}
+            onCorrectAnswer={onCorrectAnswer}
+            onIncorrectAnswer={onIncorrectAnswer}
+            onLessonComplete={completeLesson}
           />
-        </CompletedAllLessons>
-      )
-    };
+        );
 
-    return (
-      <LessonComponent
-        lesson={currentLesson()}
-        onCancel={onLessonCancelled}
-        onQuestionAnswered={onQuestionAnswered}
-        onCorrectAnswer={onCorrectAnswer}
-        onIncorrectAnswer={onIncorrectAnswer}
-        onLessonComplete={onLessonComplete}
-      />
-    );
+      case LessonState.Completed:
+        return (
+          <LessonCompleted
+            onLessonComplete={lessonComplete}
+            questionCount={currentLesson().cards.length}
+            durationInSeconds={lessonDurationSeconds() ?? -1}
+            mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
+          />
+        );
+
+      case LessonState.CourseFinished:
+        return (
+          <CompletedAllLessons totalLessons={lessons.length}>
+            <Stats />
+            <LessonList
+              currentLessonIndex={currentLessonIndex()}
+              lessons={lessonTitles2Indicies()}
+              onLessonSelected={startLesson}
+            />
+          </CompletedAllLessons>
+        );
+
+      default:
+        return <div>Error: Unknown lesson state</div>;
+    }
   };
 
   return (
     <main
-      id='main'
+      id="main"
       class={[
-        isLessonActive() ? "lesson-active" : "",
-        isShowHome() ? "home-active" : "",
-      ].filter(Boolean).join(' ')}
+        lessonState() === LessonState.InProgress ? "lesson-active" : "",
+        lessonState() === LessonState.Home ? "home-active" : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
     >
-      {renderHeader()}
-      {renderConditional()}
+      <Header
+        isLessonActive={lessonState() === LessonState.InProgress}
+        currentLessonIndex={currentLessonIndex()}
+        totalLessons={lessons.length}
+      />
+
+      {renderContent()}
     </main>
   );
 };
