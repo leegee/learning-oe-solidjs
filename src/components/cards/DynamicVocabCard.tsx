@@ -47,12 +47,12 @@ const DynamicVocabComponent = ({ card, lesson, onCorrect, onIncorrect, onComplet
     const newCard: IVocabMatchCard = {
         class: 'vocab',
         qlang: card.qlang,
-        vocab: vocab() // Dereference the memoized value here
+        vocab: vocab()
     };
 
     return (
         <VocabMatchCardComponent
-            card={newCard} // Directly pass the newCard object
+            card={newCard}
             onCorrect={onCorrect}
             onIncorrect={onIncorrect}
             onComplete={onComplete}
