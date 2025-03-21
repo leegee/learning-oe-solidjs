@@ -61,8 +61,6 @@ const App = () => {
 
   const goHome = () => setLessonState(LessonState.Home);
 
-  const onQuestionAnswered = () => console.log('Question answerd');
-
   const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
     state.saveAnswer(currentLessonIndex(), cardIndex, incorrectAnswer || '');
   };
@@ -97,7 +95,6 @@ const App = () => {
           <LessonComponent
             lesson={currentLesson()}
             onCancel={goHome}
-            onQuestionAnswered={onQuestionAnswered}
             onAnswer={onAnswer}
             onLessonComplete={completeLesson}
           />

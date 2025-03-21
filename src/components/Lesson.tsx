@@ -14,7 +14,6 @@ interface ILessonProps {
     lesson: Lesson;
     onAnswer: (cardIndex: number, incorrectAnswer?: string) => void;
     onCancel: () => void;
-    onQuestionAnswered: () => void;
     onLessonComplete: () => void;
 }
 
@@ -45,7 +44,6 @@ const LessonComponent = (props: ILessonProps) => {
     });
 
     const goToNextCard = () => {
-        props.onQuestionAnswered();
         if (currentCardIndex() < props.lesson.cards.length - 1) {
             setCurrentCardIndex((prevIndex) => prevIndex + 1);
         } else {
