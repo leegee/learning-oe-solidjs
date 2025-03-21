@@ -1,16 +1,19 @@
 import { t } from '../i18n';
 import { formatDuration } from "../lib/format-duration";
+import { currentLessonIndex, countLessonAnswersIncorrect, getLessonQuestionCount } from '../Lessons/state';
 
 import './LessonCompleted.css';
 
 interface LessonCompletedComponent {
-    questionCount: number;
-    mistakeCount: number;
     durationInSeconds: number;
     onLessonComplete: () => void;
 }
 
 const LessonCompletedComponent = (props: LessonCompletedComponent) => {
+    const idx = currentLessonIndex();
+    const incorrectAnswerCount = countLessonAnswersIncorrect(idx);
+    const questionCount = getLessonQuestionCount(idx);
+
     return (
         <>
             <section class='card lesson-completed'>
@@ -20,18 +23,18 @@ const LessonCompletedComponent = (props: LessonCompletedComponent) => {
                         t(
                             'lesson_completed_counts',
                             {
-                                questionCount: props.questionCount,
-                                mistakeCount: props.mistakeCount,
+                                questionCount: questionCount,
+                                incorrectAnswerCount: incorrectAnswerCount,
                                 duration: formatDuration(t, props.durationInSeconds)
                             }
                         )
                     }
                 </p>
                 <footer>
-                    {/* <button class='next-button' onClick={onContinue}>{t('next_lesson')}</button> */}
+                    {/* Keep the same button as before */}
                     <button class='next-button' onClick={props.onLessonComplete}>{t('continue')}</button>
                 </footer>
-            </section >
+            </section>
         </>
     );
 }

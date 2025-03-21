@@ -1,28 +1,30 @@
-/* components/Heaeer.tsx */
-
 import config from "../config";
 import { t } from "../i18n";
+import { currentLessonIndex, getTotalLessons } from "../Lessons/state";
 
 interface HeaderProps {
     isLessonActive: boolean;
-    currentLessonIndex: number;
-    totalLessons: number;
 }
 
 const Header = (props: HeaderProps) => {
     if (props.isLessonActive) {
-        return null
-    };
+        return null;
+    }
+
+    const lessonIndex = currentLessonIndex();
+    const totalLessons = getTotalLessons();
+
+    console.log('...', lessonIndex, totalLessons)
 
     return (
         <header>
             <div class="header-progress">
                 <progress
                     class="course-progress"
-                    value={props.currentLessonIndex}
-                    max={props.totalLessons}
+                    value={lessonIndex}
+                    max={totalLessons}
                     aria-label={t("course_progress")}
-                    title={`${t("all_lessons")} ${props.currentLessonIndex + 1} / ${props.totalLessons}`}
+                    title={`${t("all_lessons")} ${lessonIndex + 1} / ${totalLessons}`}
                 />
             </div>
 

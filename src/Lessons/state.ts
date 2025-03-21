@@ -1,89 +1,96 @@
-// TODO this has evolved badly - we used to just count correct/incorrect,
-// then we started to store incorrect answers for later processing, but
-// we are still counting correct answers via a stored scalar - it should 
-// rather parse the stored structure.
-
-const LOG_PREFIX = 'Storage saved ';
+const LOG_PREFIX = 'Storage ';
 const STORAGE_PREFIX = 'oe_';
 
 const keys = {
-  CURRENT_LESSON: STORAGE_PREFIX + 'current_lesson',
-  INCORRECT_ANSWERS: STORAGE_PREFIX + 'incorrect_answers',
-  CORRECT_ANSWERS: STORAGE_PREFIX + 'correct_answers',
-  QUESTIONS_ANSWERED: STORAGE_PREFIX + 'questions_answered',
+  CURRENT_LESSON_INDEX: STORAGE_PREFIX + 'current_lesson_index',
+  ANSWERS: STORAGE_PREFIX + 'answers',
 };
 
-export const saveCurrentLessonIndex = (lessonIndex: number): void => {
-  localStorage.setItem(keys.CURRENT_LESSON, lessonIndex.toString());
-  console.log(LOG_PREFIX + 'saved lesson index', lessonIndex);
+interface Answers {
+  [lessonIndex: number]: string[];
+}
+
+const storageHandler = {
+  get(target: Record<string, any>, prop: string) {
+    // Ensure the property exists in the target or localStorage
+    if (!(prop in target)) {
+      const storedValue = localStorage.getItem(prop);
+      // Return an empty object/array if no stored value is found
+      target[prop] = storedValue ? JSON.parse(storedValue) : (prop === keys.ANSWERS ? {} : 0);
+    }
+    return target[prop];
+  },
+  set(target: Record<string, any>, prop: string, value: any) {
+    target[prop] = value;
+    localStorage.setItem(prop, JSON.stringify(value));
+    console.log(LOG_PREFIX + `updated ${prop}`, value);
+    return true;
+  },
 };
 
-export const loadCurrentLessonIndex = (): number => {
-  return parseInt(localStorage.getItem(keys.CURRENT_LESSON) || '0', 10);
+const state = new Proxy({}, storageHandler);
+
+const getLessonAnswers = (lessonIndex: number): string[] => {
+  const answers: Answers = state[keys.ANSWERS] ?? {};
+  return answers[lessonIndex] || [];
 };
 
-export const saveIncorrectAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string) => {
-  const savedAnswers = loadIncorrectAnswers(lessonIndex) ?? [];
-  savedAnswers.length = Math.max(savedAnswers.length, cardIndex + 1);
-  savedAnswers[cardIndex] = incorrectAnswer;
-  console.log(LOG_PREFIX + 'shall save updated incorrect answer', cardIndex, 'for lesson', lessonIndex, savedAnswers);
-  saveIncorrectAnswers(lessonIndex, savedAnswers);
+export const getTotalLessons = (): number => {
+  const answers: Answers = state[keys.ANSWERS] ?? {};
+  return Object.keys(answers).length; // Total lessons = number of keys in the answers object
 };
 
-export const saveIncorrectAnswers = (lessonIndex: number, incorrectAnswers: string[]): void => {
-  let savedAnswers = JSON.parse(localStorage.getItem(keys.INCORRECT_ANSWERS) || '{"' + lessonIndex + '":{}}');
-  if (!savedAnswers) {
-    savedAnswers = {};
+export const currentLessonIndex = (lessonIndex?: number): number => {
+  if (typeof lessonIndex === 'number' && !isNaN(lessonIndex)) {
+    state[keys.CURRENT_LESSON_INDEX] = lessonIndex;
   }
-  savedAnswers[lessonIndex] = incorrectAnswers;
+  return state[keys.CURRENT_LESSON_INDEX] ?? 0;
+};
 
-  localStorage.setItem(keys.INCORRECT_ANSWERS, JSON.stringify(savedAnswers));
-  console.log(LOG_PREFIX + 'saved incorrect answers for lesson', lessonIndex, savedAnswers);
-  return savedAnswers;
+export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer?: string) => {
+  const savedAnswers: Answers = state[keys.ANSWERS] ?? {};
+  savedAnswers[lessonIndex] = savedAnswers[lessonIndex] || [];
+  savedAnswers[lessonIndex][cardIndex] = incorrectAnswer || '';
+  state[keys.ANSWERS] = savedAnswers;
 };
 
 export const resetLesson = (lessonIndex: number): void => {
-  saveIncorrectAnswers(lessonIndex, []);
-  console.log(LOG_PREFIX + 'reset lesson', lessonIndex);
+  const savedAnswers: Answers = state[keys.ANSWERS] ?? {};
+  savedAnswers[lessonIndex] = [];
+  state[keys.ANSWERS] = savedAnswers;
 };
 
-export const loadIncorrectAnswers = (lessonIndex: number): string[] => {
-  const storedData = localStorage.getItem(keys.INCORRECT_ANSWERS);
-  const parsedData = storedData ? JSON.parse(storedData) : {};
-  const incorrectAnswers = parsedData[lessonIndex] || [];
-  return incorrectAnswers;
+export const getTotalQuestionsAnswered = (): number => {
+  const answers: Answers = state[keys.ANSWERS] ?? {};
+  return Object.values(answers).reduce((total, lessonAnswers) => total + lessonAnswers.length, 0);
 };
 
-export const countTotalIncorrectAnswers = (): number => {
-  const storedData = localStorage.getItem(keys.INCORRECT_ANSWERS);
-  const parsedData: Record<number, string[]> = storedData ? JSON.parse(storedData) : {};
-  const rv = Object.values(parsedData).reduce((total, answers) => total + answers.length, 0);
-  console.log(LOG_PREFIX + 'found total incorrect answers', rv);
-  return rv;
+export const getTotalCorrectAnswers = (): number => {
+  const answers: Answers = state[keys.ANSWERS] ?? {};
+  return Object.values(answers).reduce(
+    (total, lessonAnswers) => total + lessonAnswers.filter((answer: string) => answer === "").length,
+    0
+  );
 };
 
-export const loadQuestionsAnswered = (): number => {
-  const storedData = localStorage.getItem(keys.QUESTIONS_ANSWERED);
-  return storedData ? Number(storedData) : 0;
-}
-
-export const addQuestionCompleted = (): number => {
-  const newCount = loadQuestionsAnswered() + 1;
-  localStorage.setItem(keys.QUESTIONS_ANSWERED, String(newCount));
-  console.log(LOG_PREFIX + 'added a question answer, total answered now', newCount);
-  return newCount;
+export const getTotalIncorrectAnswers = (): number => {
+  const answers: Answers = state[keys.ANSWERS] ?? {};
+  return Object.values(answers).reduce((total, lessonAnswers) => {
+    return total + lessonAnswers.filter((answer: string) => answer !== '').length;
+  }, 0);
 };
 
-export const loadCorrectAnswers = (): number => {
-  const storedData = localStorage.getItem(keys.CORRECT_ANSWERS);
-  return storedData ? Number(storedData) : 0;
-}
-
-export const addCorrectAnswer = (): number => {
-  const parsedData = loadCorrectAnswers();
-  const newCount = parsedData + 1;
-  localStorage.setItem(keys.CORRECT_ANSWERS, String(newCount));
-  console.log(LOG_PREFIX + 'added an correct answer, total correct now', newCount)
-  return newCount;
+export const getLessonQuestionCount = (lessonIndex: number): number => {
+  const lessonAnswers = getLessonAnswers(lessonIndex);
+  return lessonAnswers.length;
 };
 
+export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
+  const lessonAnswers = getLessonAnswers(lessonIndex);
+  return lessonAnswers.filter(answer => answer !== "").length;
+};
+
+export const countLessonAnswersCorrect = (lessonIndex: number): number => {
+  const lessonAnswers = getLessonAnswers(lessonIndex);
+  return lessonAnswers.filter(answer => answer === "").length;
+};

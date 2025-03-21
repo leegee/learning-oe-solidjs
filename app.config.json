@@ -51,7 +51,7 @@
                 "total_lessons_completed": "Lessons completed",
                 "total_questions_answered": "Questions answered",
                 "total_incorrect_answers": "Mistakes",
-                "lesson_completed_counts": "You answered {{questionCount}} questions and made {{mistakeCount}} mistakes - in {{duration}}",
+                "lesson_completed_counts": "You answered {{questionCount}} questions, and made {{incorrectAnswerCount}} mistakes - in {{duration}}",
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             },
             "ang": {

@@ -23,7 +23,7 @@ enum LessonState {
 }
 
 const App = () => {
-  const initialLessonIndex = state.loadCurrentLessonIndex();
+  const initialLessonIndex = state.currentLessonIndex();
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [lessonTime, setLessonTime] = createSignal<number>(0);
@@ -35,7 +35,7 @@ const App = () => {
 
   const startLesson = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
-    state.saveCurrentLessonIndex(lessonIndex);
+    state.currentLessonIndex(lessonIndex);
     setLessonState(LessonState.Intro);
   };
 
@@ -61,14 +61,10 @@ const App = () => {
 
   const goHome = () => setLessonState(LessonState.Home);
 
-  const onQuestionAnswered = () => state.addQuestionCompleted();
+  const onQuestionAnswered = () => console.log('Question answerd');
 
-  const onCorrectAnswer = () => {
-    state.addCorrectAnswer();
-  };
-
-  const onIncorrectAnswer = (cardIndex: number, incorrectAnswer: string) => {
-    state.saveIncorrectAnswer(currentLessonIndex(), cardIndex, incorrectAnswer);
+  const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
+    state.saveAnswer(currentLessonIndex(), cardIndex, incorrectAnswer || '');
   };
 
   const renderContent = () => {
@@ -102,8 +98,7 @@ const App = () => {
             lesson={currentLesson()}
             onCancel={goHome}
             onQuestionAnswered={onQuestionAnswered}
-            onCorrectAnswer={onCorrectAnswer}
-            onIncorrectAnswer={onIncorrectAnswer}
+            onAnswer={onAnswer}
             onLessonComplete={completeLesson}
           />
         );
@@ -112,9 +107,7 @@ const App = () => {
         return (
           <LessonCompleted
             onLessonComplete={lessonComplete}
-            questionCount={currentLesson().cards.length}
             durationInSeconds={lessonTime() ?? -1}
-            mistakeCount={state.loadIncorrectAnswers(currentLessonIndex()).length}
           />
         );
 
@@ -142,11 +135,7 @@ const App = () => {
         .filter(Boolean)
         .join(" ")}
     >
-      <Header
-        isLessonActive={lessonState() === LessonState.InProgress}
-        currentLessonIndex={currentLessonIndex()}
-        totalLessons={lessons.length}
-      />
+      <Header isLessonActive={lessonState() === LessonState.InProgress} />
 
       {renderContent()}
     </main>

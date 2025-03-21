@@ -3,9 +3,9 @@ import { t } from '../i18n';
 import * as state from "../Lessons/state";
 import './Stats.css';
 
-const [totalCorrectAnswers] = createSignal<number>(state.loadCorrectAnswers());
-const [totalIncorrectAnswers] = createSignal<number>(state.countTotalIncorrectAnswers());
-const [totalQuestionsAnswered] = createSignal<number>(state.loadQuestionsAnswered());
+const [totalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());
+const [totalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnswers());
+const [totalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());
 
 const Stats = () => {
     if (!totalIncorrectAnswers() && !totalQuestionsAnswered()) {

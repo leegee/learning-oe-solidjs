@@ -12,8 +12,7 @@ import './Lesson.css';
 
 interface ILessonProps {
     lesson: Lesson;
-    onCorrectAnswer: () => void;
-    onIncorrectAnswer: (cardIndex: number, incorrectAnswer: string) => void;
+    onAnswer: (cardIndex: number, incorrectAnswer?: string) => void;
     onCancel: () => void;
     onQuestionAnswered: () => void;
     onLessonComplete: () => void;
@@ -56,7 +55,12 @@ const LessonComponent = (props: ILessonProps) => {
 
     const onIncorrect = () => {
         console.log('On Incorrect');
-        props.onIncorrectAnswer(currentCardIndex(), 'bad_answer_goes_here');
+        props.onAnswer(currentCardIndex(), 'bad_answer_goes_here');
+    };
+
+    const onCorrect = () => {
+        console.log('On correct');
+        props.onAnswer(currentCardIndex());
     };
 
     return (
@@ -79,7 +83,7 @@ const LessonComponent = (props: ILessonProps) => {
                         card={currentCard() as IDynamicVocabCard}
                         lesson={props.lesson}
                         onComplete={goToNextCard}
-                        onCorrect={props.onCorrectAnswer}
+                        onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
@@ -87,8 +91,8 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'writing'}>
                     <WritingCardComponent
                         card={currentCard() as IWritingCard}
-                        onCorrect={props.onCorrectAnswer}
                         onComplete={goToNextCard}
+                        onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
@@ -96,8 +100,8 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'writing-blocks'}>
                     <WritingBlocksCardComponent
                         card={currentCard() as IWritingBlocksCard}
-                        onCorrect={props.onCorrectAnswer}
                         onComplete={goToNextCard}
+                        onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
@@ -105,8 +109,8 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'multiple-choice'}>
                     <MultipleChoiceComponent
                         card={currentCard() as IMultipleChoiceCard}
-                        onCorrect={props.onCorrectAnswer}
                         onComplete={goToNextCard}
+                        onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
                 </Match>
@@ -114,8 +118,8 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'vocab'}>
                     <VocabMatchCardComponent
                         card={currentCard() as IVocabMatchCard}
-                        onCorrect={props.onCorrectAnswer}
                         onIncorrect={onIncorrect}
+                        onCorrect={onCorrect}
                         onComplete={goToNextCard}
                     />
                 </Match>
@@ -123,8 +127,8 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'blanks'}>
                     <BlanksCardComponent
                         card={currentCard() as IBlanksCard}
-                        onCorrect={props.onCorrectAnswer}
                         onIncorrect={onIncorrect}
+                        onCorrect={onCorrect}
                         onComplete={goToNextCard}
                     />
                 </Match>
