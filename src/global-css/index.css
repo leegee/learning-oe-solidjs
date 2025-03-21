@@ -124,18 +124,20 @@ button.selected {
 }
 
 .correct-next-button,
+.incorrect-next-button,
+.try-again-button,
 .next-button {
+    width: 100%;
     background-color: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
-    width: 100%;
 }
 
 .correct-next-button {
     background-color: green;
 }
 
+.incorrect-next-button,
 .try-again-button {
-    width: 100%;
     background-color: maroon;
 }
 
