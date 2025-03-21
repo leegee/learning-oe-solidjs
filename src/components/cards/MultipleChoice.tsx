@@ -30,10 +30,6 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     const [isButtonsDisabled, setIsButtonsDisabled] = createSignal<boolean>(false);
 
     createEffect(() => {
-        console.log('Card changed:', JSON.stringify(props.card, null, 4));
-    });
-
-    createEffect(() => {
         setShuffledOptions(shuffleArray(props.card.answers));
         setLangs(setQandALangs(props.card));
         setSelectedOption(null);
