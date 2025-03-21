@@ -47,23 +47,18 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
     };
 
     const handleCheckAnswer = () => {
-        console.log("Checking answer...");
         if (hasChecked()) {
-            console.log("Already checked, resetting state");
             setSelectedOption(null);
             setIsCorrect(null);
             setHasChecked(false);
             setIsButtonsDisabled(false);
         } else {
-            console.log(`Selected option: ${selectedOption()}, Correct answer: ${card.answer}`);
             setIsButtonsDisabled(true);
 
             if (selectedOption() === card.answer) {
-                console.log("Correct answer!");
                 setIsCorrect(true);
                 onCorrect();
             } else {
-                console.log("Incorrect answer.");
                 setIsCorrect(false);
                 onIncorrect();
             }
