@@ -1,35 +1,66 @@
 [
     {
-        "title": "Introduction to Old English",
-        "description": "Learn basic Old English words and phrases.",
+        "title": "Lesson 1 in Old English",
+        "description": "A set of exercises for learning vocabulary and practicing different skills in Old English.",
         "cards": [
-            {
-                "class": "multiple-choice",
-                "qlang": "default",
-                "question": "king",
-                "answers": [
-                    "cyning",
-                    "þeow",
-                    "mann",
-                    "wif"
-                ],
-                "answer": "cyning"
-            },
             {
                 "class": "vocab",
                 "qlang": "default",
                 "vocab": {
-                    "þeow": "servant",
-                    "cyning": "king",
-                    "wif": "wife",
-                    "mann": "man"
+                    "god": "god",
+                    "man": "mann",
+                    "house": "hūs"
                 }
+            },
+            {
+                "class": "dynamic-vocab",
+                "qlang": "target"
+            },
+            {
+                "class": "multiple-choice",
+                "qlang": "default",
+                "question": "Wēor is the capital of Ænglaland?",
+                "answers": [
+                    "Lunden",
+                    "Wīc",
+                    "Cantwaraburh",
+                    "Eoforwic"
+                ],
+                "answer": "Lunden"
             },
             {
                 "class": "writing",
                 "qlang": "default",
-                "question": "wife",
-                "answer": "wif"
+                "question": "Hū doth one say 'Hēah' in Old English?",
+                "answer": "Hēah"
+            },
+            {
+                "class": "writing-blocks",
+                "qlang": "target",
+                "question": "Fill in the blank: 'Ic liveth in a ____.'",
+                "answer": "hūs",
+                "options": [
+                    "hūs",
+                    "bōc",
+                    "ceap",
+                    "wīf"
+                ]
+            },
+            {
+                "class": "blanks",
+                "qlang": "default",
+                "alang": "target",
+                "question": "Complete the sentence: 'Ic eom a ____.'",
+                "words": [
+                    {
+                        "word": "cniht",
+                        "correct": true
+                    },
+                    {
+                        "word": "wyrm",
+                        "correct": false
+                    }
+                ]
             }
         ]
     },

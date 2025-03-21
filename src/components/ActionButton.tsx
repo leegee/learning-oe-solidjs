@@ -1,3 +1,4 @@
+import { createSignal, createEffect } from 'solid-js';
 import { t } from '../i18n';
 import './ActionButton.css';
 
@@ -9,13 +10,25 @@ interface ButtonProps {
 }
 
 const ActionButton = (props: ButtonProps) => {
+    // Track if the answer has been checked or not
+    const [hasChecked, setHasChecked] = createSignal(false);
+
+    createEffect(() => {
+        if (props.isCorrect === null) {
+            setHasChecked(false);
+        }
+    });
+
     const handleClick = () => {
-        if (props.isCorrect === true) {
-            console.log('actionbutton handleclick isCorrect, onComplete');
-            props.onComplete();
-        } else {
+        if (!hasChecked()) {
+            // First click: Check the answer
             console.log('actionbutton handleclick oncheckanswer');
             props.onCheckAnswer();
+            setHasChecked(true);  // Mark the answer as checked
+        } else {
+            console.log('actionbutton handleclick onComplete');
+            props.onComplete();
+            setHasChecked(false);
         }
     };
 
@@ -26,7 +39,7 @@ const ActionButton = (props: ButtonProps) => {
                     ? 'next-button'
                     : props.isCorrect === true
                         ? 'correct-next-button'
-                        : 'try-again-button'
+                        : 'incorrect-next-button'
             }
             onClick={handleClick}
             disabled={!props.isInputPresent}
@@ -35,7 +48,7 @@ const ActionButton = (props: ButtonProps) => {
                 ? t('check')
                 : props.isCorrect === true
                     ? t('correct_next')
-                    : t('try_again')}
+                    : t('incorrect_next')}
         </button>
     );
 };

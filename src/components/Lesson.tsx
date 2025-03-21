@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, Switch, Match } from 'solid-js';
+import { createSignal, onCleanup, Switch, Match, createMemo, createEffect } from 'solid-js';
 import { t } from '../i18n';
 
 import MultipleChoiceComponent, { type IMultipleChoiceCard } from './cards/MultipleChoice';
@@ -18,10 +18,13 @@ interface ILessonProps {
 }
 
 const LessonComponent = (props: ILessonProps) => {
-    const [currentCardIndex, setCurrentCardIndex] = createSignal<number>(0);
+    const [lessonQueue, setLessonQueue] = createSignal(props.lesson.cards);
+    const currentCard = createMemo(() => lessonQueue()[0] ?? null);
+    let correctlyAnswered: null | boolean = null;
 
-    const currentCard = () => props.lesson.cards[currentCardIndex()];
-    const progress = () => (currentCardIndex() + 1) / props.lesson.cards.length;
+    createEffect(() => {
+        console.log('Rendering card:', currentCard());
+    });
 
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
@@ -43,23 +46,50 @@ const LessonComponent = (props: ILessonProps) => {
         window.removeEventListener('beforeunload', handleBeforeUnload);
     });
 
+
     const goToNextCard = () => {
-        if (currentCardIndex() < props.lesson.cards.length - 1) {
-            setCurrentCardIndex((prevIndex) => prevIndex + 1);
+        console.log('Go to next card, enter with lessonQueue =', lessonQueue());
+
+        if (correctlyAnswered) {
+            // Update the queue state and use new signal reference
+            setLessonQueue((prevQueue) => {
+                const updatedQueue = prevQueue.slice(1);  // Remove the first card
+                console.log('Updated lessonQueue after correct answer =', updatedQueue);
+                return updatedQueue;
+            });
+
+            // If no cards are left, complete the lesson
+            if (lessonQueue().length === 0) {
+                props.onLessonComplete();
+                return;
+            }
         } else {
-            props.onLessonComplete();
+            // Move incorrectly answered card to the end of the queue
+            setLessonQueue((prevQueue) => {
+                const currentCard = prevQueue[0];
+                const updatedQueue = [...prevQueue.slice(1), currentCard];
+                console.log('Updated lessonQueue after incorrect answer =', updatedQueue);
+                return updatedQueue;
+            });
         }
     };
 
     const onIncorrect = () => {
-        console.log('On Incorrect');
-        props.onAnswer(currentCardIndex(), 'bad_answer_goes_here');
+        correctlyAnswered = false;
+        const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
+        props.onAnswer(currentCardIndex, 'bad_answer_goes_here');
     };
 
     const onCorrect = () => {
-        console.log('On correct');
-        props.onAnswer(currentCardIndex());
+        correctlyAnswered = true;
+        const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
+        props.onAnswer(currentCardIndex);
     };
+
+    createEffect(() => {
+        console.log('lessonQueue', lessonQueue())
+        console.log('curentCard', currentCard());
+    });
 
     return (
         <article class="lesson">
@@ -69,13 +99,17 @@ const LessonComponent = (props: ILessonProps) => {
             </h2>
 
             <progress
-                value={progress()}
-                max={1}
+                value={lessonQueue().length === 0 ? 1 : (props.lesson.cards.length - lessonQueue().length + 1)}
+                max={props.lesson.cards.length}
                 aria-label={t('lesson_progress')}
-                title={`${currentCardIndex() + 1} / ${props.lesson.cards.length}`}
+                title={`${props.lesson.cards.length - lessonQueue().length + 1} / ${props.lesson.cards.length}`}
             />
 
             <Switch fallback={<p>Unknown lesson card...</p>}>
+                <Match when={!currentCard()}>
+                    <p>{t('lesson_complete')}</p>
+                </Match>
+
                 <Match when={currentCard().class === 'dynamic-vocab'}>
                     <DynamicVocabComponent
                         card={currentCard() as IDynamicVocabCard}
@@ -131,7 +165,7 @@ const LessonComponent = (props: ILessonProps) => {
                     />
                 </Match>
             </Switch>
-        </article>
+        </article >
     );
 };
 

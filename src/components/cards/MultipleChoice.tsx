@@ -27,19 +27,19 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     const [hasChecked, setHasChecked] = createSignal<boolean>(false);
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [shuffledOptions, setShuffledOptions] = createSignal<string[]>(shuffleArray(props.card.answers));
-    const [isButtonsDisabled, setIsButtonsDisabled] = createSignal<boolean>(false);
+    const [areButtonsDisabled, setAreButtonsDisabled] = createSignal<boolean>(false);
 
     createEffect(() => {
         setShuffledOptions(shuffleArray(props.card.answers));
         setLangs(setQandALangs(props.card));
+        setHasChecked(false);
         setSelectedOption(null);
         setIsCorrect(null);
-        setHasChecked(false);
-        setIsButtonsDisabled(false);
+        setAreButtonsDisabled(false);
     });
 
     const handleOptionClick = (option: string) => {
-        if (!isButtonsDisabled()) {
+        if (!areButtonsDisabled()) {
             setSelectedOption(option);
         }
     };
@@ -49,9 +49,9 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
             setSelectedOption(null);
             setIsCorrect(null);
             setHasChecked(false);
-            setIsButtonsDisabled(false);
+            setAreButtonsDisabled(false);
         } else {
-            setIsButtonsDisabled(true);
+            setAreButtonsDisabled(true);
 
             if (selectedOption() === props.card.answer) {
                 setIsCorrect(true);
@@ -80,7 +80,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                                 ? (isCorrect() ? 'correct' : 'incorrect')
                                 : ''
                                 }`}
-                            disabled={isButtonsDisabled()}
+                            disabled={areButtonsDisabled()}
                         >
                             {option}
                         </button>

@@ -60,6 +60,12 @@ const WritingCardComponent = (props: IWritingCardProps) => {
         }
     };
 
+    const next = () => {
+        setIsCorrect(null)
+        setTheUserInput('');
+        props.onComplete();
+    };
+
     return (
         <>
             <section class='card writing-card'>
@@ -89,7 +95,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                 isCorrect={isCorrect()}
                 isInputPresent={userInput().length > 0}
                 onCheckAnswer={handleCheckAnswer}
-                onComplete={props.onComplete}
+                onComplete={next}
             />
         </>
     );
