@@ -21,18 +21,21 @@ interface IMultipleChoiceCardProps {
     onComplete: () => void;
 }
 
-const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: IMultipleChoiceCardProps) => {
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
     const [hasChecked, setHasChecked] = createSignal<boolean>(false);
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
-    const [shuffledOptions, setShuffledOptions] = createSignal<string[]>(shuffleArray(card.answers));
+    const [shuffledOptions, setShuffledOptions] = createSignal<string[]>(shuffleArray(props.card.answers));
     const [isButtonsDisabled, setIsButtonsDisabled] = createSignal<boolean>(false);
 
     createEffect(() => {
-        console.log("Card changed, resetting state");
-        setShuffledOptions(shuffleArray(card.answers));
-        setLangs(setQandALangs(card));
+        console.log('Card changed:', JSON.stringify(props.card, null, 4));
+    });
+
+    createEffect(() => {
+        setShuffledOptions(shuffleArray(props.card.answers));
+        setLangs(setQandALangs(props.card));
         setSelectedOption(null);
         setIsCorrect(null);
         setHasChecked(false);
@@ -41,7 +44,6 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
 
     const handleOptionClick = (option: string) => {
         if (!isButtonsDisabled()) {
-            console.log(`Selected option: ${option}`);
             setSelectedOption(option);
         }
     };
@@ -55,12 +57,12 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
         } else {
             setIsButtonsDisabled(true);
 
-            if (selectedOption() === card.answer) {
+            if (selectedOption() === props.card.answer) {
                 setIsCorrect(true);
-                onCorrect();
+                props.onCorrect();
             } else {
                 setIsCorrect(false);
-                onIncorrect();
+                props.onIncorrect();
             }
 
             setHasChecked(true);
@@ -71,7 +73,7 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
         <>
             <section class='card multiple-choice'>
                 <h4 lang={langs().q}>{t('in_lang_how_do_you_say', { lang: t(langs().a) })}</h4>
-                <h3 class="question" lang={langs().q}>{card.question}</h3>
+                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <For each={shuffledOptions()}>
                     {(option) => (
@@ -94,7 +96,7 @@ const MultipleChoiceComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
                 isCorrect={isCorrect()}
                 isInputPresent={selectedOption() !== null}
                 onCheckAnswer={handleCheckAnswer}
-                onComplete={onComplete}
+                onComplete={props.onComplete}
             />
         </>
     );
