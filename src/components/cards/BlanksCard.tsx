@@ -20,17 +20,17 @@ interface IBlanksCardProps {
     onComplete: () => void;
 }
 
-const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlanksCardProps) => {
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+const BlanksCardComponent = (props: IBlanksCardProps) => {
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
     const [isComplete, setIsComplete] = createSignal(false);
-    const [currentSentence, setCurrentSentence] = createSignal<string>(card.question);
+    const [currentSentence, setCurrentSentence] = createSignal<string>(props.card.question);
     const [shake, setShake] = createSignal<string | null>(null);
 
     createEffect(() => {
-        setShuffledWords(shuffleArray(card.words.map(word => word.word)));
-        setLangs(setQandALangs(card));
+        setShuffledWords(shuffleArray(props.card.words.map(word => word.word)));
+        setLangs(setQandALangs(props.card));
     });
 
     const handleWordClick = (word: string) => {
@@ -40,13 +40,13 @@ const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlan
             return;
         }
 
-        const isCorrect = card.words.find((item) => item.word === word && item.correct);
+        const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
 
         if (isCorrect) {
-            const expectedWord = card.words.filter(word => word.correct)[selectedWords().length].word;
+            const expectedWord = props.card.words.filter(word => word.correct)[selectedWords().length].word;
 
             if (word === expectedWord) {
-                onCorrect();
+                props.onCorrect();
                 setSelectedWords([...selectedWords(), word]);
                 let updatedSentence = currentSentence();
                 updatedSentence = updatedSentence.replace(/__+/, word);
@@ -55,19 +55,19 @@ const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlan
                 // Word is correct but out of order
                 setShake(word);
                 setTimeout(() => setShake(null), 1000);
-                onIncorrect();
+                props.onIncorrect();
             }
         } else {
             // Word is incorrect
             setShake(word);
             setTimeout(() => setShake(null), 1000);
-            onIncorrect();
+            props.onIncorrect();
         }
     };
 
     // Check if all correct words are selected in the correct order
     createEffect(() => {
-        const correctOrder = card.words.filter(word => word.correct).map(item => item.word);
+        const correctOrder = props.card.words.filter(word => word.correct).map(item => item.word);
         if (selectedWords().length === correctOrder.length && selectedWords().every((word, index) => word === correctOrder[index])) {
             setIsComplete(true);
         }
@@ -75,7 +75,7 @@ const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlan
 
     const handleNextClick = () => {
         if (isComplete()) {
-            onComplete();
+            props.onComplete();
         }
     };
 
@@ -90,7 +90,7 @@ const BlanksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IBlan
                     <For each={shuffledWords()}>
                         {(word) => {
                             const isSelected = selectedWords().includes(word);
-                            const isCorrect = card.words.find((item) => item.word === word && item.correct);
+                            const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
 
                             return (
                                 <button

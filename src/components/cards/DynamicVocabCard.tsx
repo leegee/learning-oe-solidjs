@@ -16,20 +16,18 @@ interface IDynamicVocabCardProps {
     onComplete: () => void;
 }
 
-const DynamicVocabComponent = ({ card, lesson, onCorrect, onIncorrect, onComplete }: IDynamicVocabCardProps) => {
-    console.log(lesson.cards);
-
+const DynamicVocabComponent = (props: IDynamicVocabCardProps) => {
     const vocab = createMemo(() => {
         const newVocab: { [key: string]: string } = {};
 
-        for (const thisCard of lesson.cards.filter(card => ['vocab', 'blanks'].includes(card.class))) {
-            if (thisCard.class === 'blanks' && thisCard.qlang === card.qlang) {
+        for (const thisCard of props.lesson.cards.filter(card => ['vocab', 'blanks'].includes(card.class))) {
+            if (thisCard.class === 'blanks' && thisCard.qlang === props.card.qlang) {
                 const blankWords = thisCard.words.filter(wordObj => wordObj.correct);
                 blankWords.forEach(blank => {
                     newVocab[blank.word] = blank.word;
                 });
             } else if (thisCard.class === 'vocab') {
-                if (thisCard.qlang === card.qlang) {
+                if (thisCard.qlang === props.card.qlang) {
                     Object.assign(newVocab, thisCard.vocab);
                 } else {
                     const swappedVocab = Object.fromEntries(
@@ -46,16 +44,16 @@ const DynamicVocabComponent = ({ card, lesson, onCorrect, onIncorrect, onComplet
     // Create the new card
     const newCard: IVocabMatchCard = {
         class: 'vocab',
-        qlang: card.qlang,
+        qlang: props.card.qlang,
         vocab: vocab()
     };
 
     return (
         <VocabMatchCardComponent
             card={newCard}
-            onCorrect={onCorrect}
-            onIncorrect={onIncorrect}
-            onComplete={onComplete}
+            onCorrect={props.onCorrect}
+            onIncorrect={props.onIncorrect}
+            onComplete={props.onComplete}
         />
     );
 };

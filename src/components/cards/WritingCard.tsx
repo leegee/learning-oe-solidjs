@@ -23,17 +23,17 @@ const normalizeText = (text: string): string => {
     return text.trim().toLowerCase().replace(/\W+/g, '').replace(/\s+/g, ' ');
 };
 
-const WritingCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWritingCardProps) => {
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+const WritingCardComponent = (props: IWritingCardProps) => {
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [userInput, setUserInput] = createSignal<string>('');
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
 
     let inputRef: HTMLTextAreaElement | null = null;
 
-    const normalizedAnswer = createMemo(() => normalizeText(card.answer));
+    const normalizedAnswer = createMemo(() => normalizeText(props.card.answer));
 
     createEffect(() => {
-        const newLangs = setQandALangs(card);
+        const newLangs = setQandALangs(props.card);
         setLangs(newLangs);
     });
 
@@ -53,10 +53,10 @@ const WritingCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWri
         const normalizedUserInput = normalizeText(userInput());
         if (normalizedUserInput === normalizedAnswer()) {
             setIsCorrect(true);
-            onCorrect();
+            props.onCorrect();
         } else {
             setIsCorrect(false);
-            onIncorrect();
+            props.onIncorrect();
         }
     };
 
@@ -64,7 +64,7 @@ const WritingCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWri
         <>
             <section class='card writing-card'>
                 {/*<h4>{t('translate_to_lang', { lang: t(langs.a) })}</h4> */}
-                <h3 class="question" lang={langs().q}>{card.question}</h3>
+                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <textarea
                     class='answer'
@@ -89,7 +89,7 @@ const WritingCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWri
                 isCorrect={isCorrect()}
                 isInputPresent={userInput().length > 0}
                 onCheckAnswer={handleCheckAnswer}
-                onComplete={onComplete}
+                onComplete={props.onComplete}
             />
         </>
     );

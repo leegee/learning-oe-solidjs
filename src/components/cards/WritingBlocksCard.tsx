@@ -22,13 +22,13 @@ const normalizeText = (text: string): string => {
     return text.trim().toLowerCase().replace(/\W+/g, '').replace(/\s+/g, ' ');
 };
 
-const WritingBlocksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: IWritingBlocksCardProps) => {
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(card));
+const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
+    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
 
     createEffect(() => {
-        setLangs(setQandALangs(card));
+        setLangs(setQandALangs(props.card));
         setSelectedWords([]);
         setIsCorrect(null);
     });
@@ -45,21 +45,21 @@ const WritingBlocksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }
 
     const handleCheckAnswer = () => {
         const normalizedUserInput = normalizeText(selectedWords().join(' '));
-        const normalizedAnswer = normalizeText(card.answer);
+        const normalizedAnswer = normalizeText(props.card.answer);
 
         if (normalizedUserInput === normalizedAnswer) {
             setIsCorrect(true);
-            onCorrect();
+            props.onCorrect();
         } else {
             setIsCorrect(false);
-            onIncorrect();
+            props.onIncorrect();
         }
     };
 
     return (
         <>
             <section class='writing-blocks-card'>
-                <h3 class="question" lang={langs().q}>{card.question}</h3>
+                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <div class='selected-words'>
                     <For each={selectedWords()}>
@@ -72,7 +72,7 @@ const WritingBlocksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }
                 </div>
 
                 <div class='options'>
-                    <For each={card.options}>
+                    <For each={props.card.options}>
                         {(word) => (
                             <button
                                 class='option-button'
@@ -90,7 +90,7 @@ const WritingBlocksCardComponent = ({ card, onCorrect, onIncorrect, onComplete }
                 isCorrect={isCorrect()}
                 isInputPresent={selectedWords().length > 0}
                 onCheckAnswer={handleCheckAnswer}
-                onComplete={onComplete}
+                onComplete={props.onComplete}
             />
         </>
     );
