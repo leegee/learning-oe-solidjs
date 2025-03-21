@@ -39,7 +39,6 @@ const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
     const [selectedLeft, setSelectedLeft] = createSignal<string | null>(null);
     const [selectedRight, setSelectedRight] = createSignal<string | null>(null);
 
-    // Initialize game state
     createEffect(() => {
         setLangs(setQandALangs(card));
         const rightColumn = Object.values(card.vocab);
@@ -61,7 +60,6 @@ const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
         }));
     });
 
-    // Handle selection
     const handleLeftWordClicked = (leftWord: string) => {
         setSelectedLeft(prev => (prev === leftWord ? null : leftWord));
     };
@@ -85,7 +83,6 @@ const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
                     const isCorrectLeft = row.leftWord === leftWord && row.rightWord === rightWord;
                     const isCorrectRight = row.shuffledRightWord === rightWord;
 
-                    // Combine changes in one return statement
                     if (isCorrectLeft || isCorrectRight) {
                         return {
                             ...row,
@@ -113,7 +110,6 @@ const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
 
             onIncorrect();
 
-            // Reset selections and remove shake effect after delay
             setTimeout(() => {
                 setTableData(prevData =>
                     prevData.map(row =>
@@ -131,7 +127,7 @@ const VocabMatchCardComponent = ({ card, onCorrect, onIncorrect, onComplete }: I
     createEffect(() => {
         if (tableData().every(row => row.isLeftMatched && row.isRightMatched) && !isComplete()) {
             setIsComplete(true);
-            onComplete();
+            // onComplete();
         }
     });
 
