@@ -25,7 +25,7 @@ interface ITableRow {
 
 interface IVocabMatchCardProps {
     card: IVocabMatchCard;
-    onCorrect: (numberOfCorrectAnswers?: number) => void;
+    onCorrect: () => void;
     onIncorrect: () => void;
     onComplete: () => void;
 }
@@ -68,6 +68,11 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
         setSelectedRight(prev => (prev === shuffledRightWord ? null : shuffledRightWord));
     };
 
+    const handleComplete = () => {
+        props.onComplete();
+        props.onCorrect(); // Always pass this lesson, as we can only get here after all choices are correct
+    };
+
     // Word-matching logic
     createEffect(() => {
         if (!selectedLeft() || !selectedRight()) return;
@@ -97,7 +102,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
             );
             setSelectedLeft(null);
             setSelectedRight(null);
-            props.onCorrect();
+            // props.onCorrect();
         } else {
             // Apply shake effect
             setTableData(prevData =>
@@ -108,7 +113,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                 )
             );
 
-            props.onIncorrect();
+            // props.onIncorrect();
 
             setTimeout(() => {
                 setTableData(prevData =>
@@ -127,7 +132,6 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     createEffect(() => {
         if (tableData().every(row => row.isLeftMatched && row.isRightMatched) && !isComplete()) {
             setIsComplete(true);
-            // onComplete();
         }
     });
 
@@ -168,7 +172,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
             </section>
 
             <Show when={isComplete()} fallback=''>
-                <button class="next-button" onClick={props.onComplete}>
+                <button class="next-button" onClick={handleComplete}>
                     {t('next')}
                 </button>
 
