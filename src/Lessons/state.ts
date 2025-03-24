@@ -34,6 +34,11 @@ const getLessonAnswers = (lessonIndex: number): string[][] => {
   return answers[lessonIndex] ?? [];
 };
 
+export const resetAll = () => {
+  localStorage.removeItem(keys.CURRENT_LESSON_INDEX);
+  localStorage.removeItem(keys.ANSWERS);
+}
+
 export const getTotalLessons = (): number => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
   return Object.keys(answers).length;

@@ -1,6 +1,6 @@
 import { JSX } from 'solid-js';
 import packageJson from '../../package.json';
-
+import ResetAllButtonComponent from "./ResetAllButton";
 import './Home.css';
 
 interface HomeScreenProps {
@@ -13,6 +13,7 @@ const HomeScreen = (props: HomeScreenProps) => {
             {props.children}
 
             <footer class="version">
+                <ResetAllButtonComponent />
                 {/* <InstallPWA /> */}
                 Version {packageJson.version}
             </footer>

@@ -68,10 +68,21 @@
     display: inline-block;
 }
 
-#home .version {
-    margin-top: 2em;
-    text-align: right;
-    font-weight: 200;
+#home footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     opacity: 80%;
     font-size: smaller;
+    margin-top: 2em;
+}
+
+#home footer button {
+    font-size: 80%;
+    padding: 0.6em 1em;
+    border-radius: 4pt;
+}
+
+#home .version {
+    font-weight: 200;
 }
