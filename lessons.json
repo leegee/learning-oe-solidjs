@@ -1,7 +1,7 @@
 [
     {
-        "title": "Lesson 1 in Old English",
-        "description": "A set of exercises for learning vocabulary and practicing different skills in Old English.",
+        "title": "Lesson 1 in Old English - Basic Vocabulary",
+        "description": "An introductory lesson to learn basic Old English vocabulary and simple sentence structures.",
         "cards": [
             {
                 "class": "vocab",
@@ -9,58 +9,57 @@
                 "vocab": {
                     "god": "god",
                     "man": "mann",
-                    "house": "hūs"
+                    "house": "hūs",
+                    "woman": "wīf",
+                    "I": "Ic",
+                    "am": "ēom"
                 }
             },
             {
                 "class": "multiple-choice",
                 "qlang": "default",
-                "question": "Where is the capital of Ænglaland?",
+                "question": "What is the Old English word for 'man'?",
                 "answers": [
-                    "Lunden",
-                    "Wīc",
-                    "Cantwaraburh",
-                    "Eoforwic"
+                    "mann",
+                    "wīf",
+                    "god",
+                    "hūs"
                 ],
-                "answer": "Lunden"
+                "answer": "mann"
             },
             {
                 "class": "writing",
                 "qlang": "default",
-                "question": "Howdoes one say 'Hēah' in Old English?",
-                "answer": "Hēah"
+                "question": "house",
+                "answer": "hūs"
             },
             {
                 "class": "writing-blocks",
                 "qlang": "target",
-                "question": "Ic liveth in a ____.",
-                "answer": "hūs",
+                "question": "Ic ēom a ____.",
+                "answer": "mann",
                 "options": [
-                    "hūs",
-                    "bōc",
-                    "ceap",
-                    "wīf"
+                    "mann",
+                    "wīf",
+                    "god",
+                    "hūs"
                 ]
             },
             {
                 "class": "blanks",
                 "qlang": "default",
                 "alang": "target",
-                "question": "Ic eom a ____.",
+                "question": "Ic ēom a ____.",
                 "words": [
                     {
-                        "word": "cniht",
+                        "word": "mann",
                         "correct": true
                     },
                     {
-                        "word": "wyrm",
+                        "word": "wīf",
                         "correct": false
                     }
                 ]
-            },
-            {
-                "class": "dynamic-vocab",
-                "qlang": "target"
             }
         ]
     },
@@ -106,7 +105,7 @@
                 "class": "vocab",
                 "qlang": "default",
                 "vocab": {
-                    "eorðcyning": "earth-king (father)",
+                    "fæder": "father",
                     "modor": "mother",
                     "dohtor": "daughter",
                     "sunu": "son"
@@ -120,7 +119,7 @@
                     "dohtor",
                     "sunu",
                     "modor",
-                    "eorðcyning"
+                    "fæder"
                 ],
                 "answer": "dohtor"
             },
@@ -128,7 +127,7 @@
                 "class": "writing",
                 "qlang": "default",
                 "question": "father",
-                "answer": "eorðcyning"
+                "answer": "fæder"
             }
         ]
     },
@@ -244,12 +243,13 @@
         "cards": [
             {
                 "class": "vocab",
-                "qlang": "default",
+                "qlang": "target",
                 "vocab": {
                     "blæc": "black",
                     "hwita": "white",
                     "grēn": "green",
-                    "rēad": "red"
+                    "rēad": "red",
+                    "blēo": "blue"
                 }
             },
             {
@@ -278,12 +278,12 @@
         "cards": [
             {
                 "class": "vocab",
-                "qlang": "default",
+                "qlang": "target",
                 "vocab": {
                     "brōþor": "brother",
                     "sweoster": "sister",
                     "cild": "child",
-                    "eorðcyning": "father"
+                    "fæder": "father"
                 }
             },
             {
@@ -294,7 +294,7 @@
                     "sweoster",
                     "brōþor",
                     "cild",
-                    "eorðcyning"
+                    "fæder"
                 ],
                 "answer": "sweoster"
             },
@@ -312,9 +312,9 @@
         "cards": [
             {
                 "class": "vocab",
-                "qlang": "default",
+                "qlang": "target",
                 "vocab": {
-                    "cyning": "king",
+                    "coney": "rabbit",
                     "hound": "dog",
                     "catt": "cat",
                     "hors": "horse"
