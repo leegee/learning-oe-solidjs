@@ -9,15 +9,15 @@ interface ConfirmDialogProps {
     onCancel: () => void;
 }
 
-const ConfirmDialog = ({ isOpen, message, onConfirm, onCancel }: ConfirmDialogProps) => {
+const ConfirmDialog = (props: ConfirmDialogProps) => {
     // Handle key events when dialog is open
     createEffect(() => {
-        if (isOpen) {
+        if (props.isOpen) {
             const handleKeys = (e: KeyboardEvent) => {
                 if (e.key === ' ' || e.key === 'Enter') {
-                    onConfirm();
+                    props.onConfirm();
                 } else if (e.key === 'Escape') {
-                    onCancel();
+                    props.onCancel();
                 }
             };
 
@@ -26,17 +26,17 @@ const ConfirmDialog = ({ isOpen, message, onConfirm, onCancel }: ConfirmDialogPr
         }
     });
 
-    if (!isOpen) {
+    if (!props.isOpen) {
         return null;
     }
 
     return (
         <div class="confirm-dialog-overlay">
             <div class="confirm-dialog">
-                <p>{message}</p>
+                <p>{props.message}</p>
                 <footer>
-                    <button class="cancel-button" onClick={onCancel}>{t('no')}</button>
-                    <button class="next-button" onClick={onConfirm}>{t('yes')}</button>
+                    <button class="cancel-button" onClick={props.onCancel}>{t('no')}</button>
+                    <button class="next-button" onClick={props.onConfirm}>{t('yes')}</button>
                 </footer>
             </div>
         </div>
