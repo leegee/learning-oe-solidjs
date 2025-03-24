@@ -54,6 +54,7 @@
                 "total_questions_answered": "Questions answered",
                 "total_incorrect_answers": "Mistakes",
                 "lesson_completed_counts": "You answered {{questionCount}} questions, and made {{incorrectAnswerCount}} mistakes - in {{duration}}",
+                "lose_progress": "Are you sure you want to lose {{totalAnswered}}?",
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             },
             "ang": {
@@ -96,6 +97,7 @@
                 "total_questions_answered": "Andswaru geendod",
                 "total_incorrect_answers": "Forscyran",
                 "lesson_completed_counts": "You answered {{questionCount}} questions and made {{mistakeCount}} mistakes - in {{duration}}",
+                "lose_progress": "Are you sure you want to lose {{totalAnswered}}?",
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             }
         }

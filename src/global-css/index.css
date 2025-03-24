@@ -4,6 +4,7 @@
 :root {
     --oe-clr-fg: #ddd;
     --oe-clr-bg: #001;
+    --oe-clr-card-fg: #eee;
     --oe-clr-card-bg: #000027;
     --oe-clr-modal-bg: #000027AA;
     --oe-clr-border: #ddd5;

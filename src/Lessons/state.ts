@@ -1,4 +1,6 @@
-const LOG_PREFIX = 'Storage ';
+import { createSignal, createEffect } from "solid-js";
+
+// const LOG_PREFIX = 'Storage ';
 const STORAGE_PREFIX = 'oe_';
 
 const keys = {
@@ -6,74 +8,84 @@ const keys = {
   ANSWERS: STORAGE_PREFIX + 'answers',
 };
 
-// Answers structure: Each lesson has an array of cards, each card has an array of answers
 interface Answers {
-  [lessonIndex: number]: string[][];
+  [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
 }
 
-const storageHandler: ProxyHandler<Record<string, any>> = {
-  get(target: Record<string, any>, prop: string) {
-    if (!(prop in target)) {
-      const storedValue = localStorage.getItem(prop);
-      target[prop] = storedValue ? JSON.parse(storedValue) : (prop === keys.ANSWERS ? {} : 0);
-    }
-    return target[prop];
-  },
-  set(target: Record<string, any>, prop: string, value: any) {
-    target[prop] = value;
-    localStorage.setItem(prop, JSON.stringify(value));
-    console.log(LOG_PREFIX + `updated ${prop}`, value);
-    return true;
-  },
+// Reactive state hooks for lesson data
+export const [currentLessonIndex, setCurrentLessonIndex] = createSignal(
+  JSON.parse(localStorage.getItem(keys.CURRENT_LESSON_INDEX) || "0")
+);
+
+// Calculate the total questions answered
+const calculateTotalQuestionsAnswered = (answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}')) => {
+  return Object.values(answers).reduce(
+    (total: number, lessonAnswers: string[][]) => total + (lessonAnswers ? lessonAnswers.length : 0),
+    0
+  );
 };
 
-const state = new Proxy<Record<string, any>>({}, storageHandler);
+export const [_totalQuestionsAnswered, setTotalQuestionsAnswered] = createSignal(
+  calculateTotalQuestionsAnswered()
+);
 
-const getLessonAnswers = (lessonIndex: number): string[][] => {
-  const answers: Answers = state[keys.ANSWERS] ?? {};
+export const totalQuestionsAnswered = _totalQuestionsAnswered;
+
+// Recalculate the total questions answered whenever the answers are updated
+createEffect(() => {
+  const answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
+  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(answers));
+});
+
+
+// Functions to handle answers and lesson updates
+export const getLessonAnswers = (lessonIndex: number): string[][] => {
+  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return answers[lessonIndex] ?? [];
 };
 
+export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string = ""): void => {
+  const savedAnswers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
+  if (!savedAnswers[lessonIndex]) savedAnswers[lessonIndex] = [];
+  if (!savedAnswers[lessonIndex][cardIndex]) savedAnswers[lessonIndex][cardIndex] = [];
+  savedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
+
+  // Save updated answers to localStorage
+  localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
+
+  // Trigger reactivity for total questions answered
+  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(savedAnswers));
+};
+
+// Reset all state and clear from localStorage
 export const resetAll = () => {
   localStorage.removeItem(keys.CURRENT_LESSON_INDEX);
   localStorage.removeItem(keys.ANSWERS);
-}
+  setCurrentLessonIndex(0);
+  setTotalQuestionsAnswered(0);
+};
 
+// Reset answers for a specific lesson
+export const resetLesson = (lessonIndex: number): void => {
+  const savedAnswers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
+  savedAnswers[lessonIndex] = [];
+
+  // Save updated answers to localStorage
+  localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
+
+  // Recalculate total questions answered
+  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(savedAnswers));
+};
+
+// Get total lessons based on answers stored in localStorage
 export const getTotalLessons = (): number => {
-  const answers: Answers = state[keys.ANSWERS] ?? {};
+  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.keys(answers).length;
 };
 
-export const currentLessonIndex = (lessonIndex?: number): number => {
-  if (typeof lessonIndex === 'number' && !isNaN(lessonIndex)) {
-    state[keys.CURRENT_LESSON_INDEX] = lessonIndex;
-  }
-  return state[keys.CURRENT_LESSON_INDEX] ?? 0;
-};
-
-export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string = ""): void => {
-  const savedAnswers: Answers = state[keys.ANSWERS] ?? {};
-
-  if (!Array.isArray(savedAnswers[lessonIndex])) {
-    savedAnswers[lessonIndex] = [];
-  }
-
-  if (!Array.isArray(savedAnswers[lessonIndex][cardIndex])) {
-    savedAnswers[lessonIndex][cardIndex] = [];
-  }
-
-  savedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
-  state[keys.ANSWERS] = savedAnswers;
-};
-
-export const resetLesson = (lessonIndex: number): void => {
-  const savedAnswers: Answers = state[keys.ANSWERS] ?? {};
-  savedAnswers[lessonIndex] = [];
-  state[keys.ANSWERS] = savedAnswers;
-};
-
+// Get the total number of questions answered across all lessons
 export const getTotalQuestionsAnswered = (): number => {
-  const answers: Answers = state[keys.ANSWERS] ?? {};
+  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.values(answers).reduce(
     (total: number, lessonAnswers: string[][]) =>
       total + (Array.isArray(lessonAnswers) ? lessonAnswers.length : 0),
@@ -81,8 +93,9 @@ export const getTotalQuestionsAnswered = (): number => {
   );
 };
 
+// Get the total number of correct answers
 export const getTotalCorrectAnswers = (): number => {
-  const answers: Answers = state[keys.ANSWERS] ?? {};
+  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.values(answers).reduce(
     (total: number, lessonAnswers: string[][]) =>
       total + (Array.isArray(lessonAnswers) ? lessonAnswers.reduce((sum: number, cardAnswers: string[]) => sum + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer === "").length : 0), 0) : 0),
@@ -90,8 +103,9 @@ export const getTotalCorrectAnswers = (): number => {
   );
 };
 
+// Get the total number of incorrect answers
 export const getTotalIncorrectAnswers = (): number => {
-  const answers: Answers = state[keys.ANSWERS] ?? {};
+  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.values(answers).reduce(
     (total: number, lessonAnswers: string[][]) =>
       total + (Array.isArray(lessonAnswers) ? lessonAnswers.reduce((sum: number, cardAnswers: string[]) => sum + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer !== "").length : 0), 0) : 0),
@@ -99,11 +113,13 @@ export const getTotalIncorrectAnswers = (): number => {
   );
 };
 
+// Get the total number of questions in a particular lesson
 export const getLessonQuestionCount = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.length;
 };
 
+// Count the number of incorrect answers for a particular lesson
 export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(
@@ -112,6 +128,7 @@ export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
   );
 };
 
+// Count the number of correct answers for a particular lesson
 export const countLessonAnswersCorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(

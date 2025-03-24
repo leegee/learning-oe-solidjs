@@ -3,6 +3,7 @@ import { createSignal, createMemo } from "solid-js";
 import LessonList from "./components/LessonList";
 import * as state from "./Lessons/state";
 import { lessons, lessonTitles2Indicies } from "./Lessons";
+import { ConfirmProvider } from "./contexts/Confirm";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
 import LessonIntro from "./components/LessonIntro";
@@ -35,7 +36,7 @@ const App = () => {
 
   const startLesson = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
-    state.currentLessonIndex(lessonIndex);
+    state.setCurrentLessonIndex(lessonIndex);
     setLessonState(LessonState.Intro);
   };
 
@@ -127,16 +128,18 @@ const App = () => {
   };
 
   return (
-    <main
-      id="main"
-      class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
-        .filter(Boolean)
-        .join(" ")}
-    >
-      <Header isLessonActive={lessonState() === LessonState.InProgress} />
+    <ConfirmProvider>
+      <main
+        id="main"
+        class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <Header isLessonActive={lessonState() === LessonState.InProgress} />
 
-      {renderContent()}
-    </main>
+        {renderContent()}
+      </main>
+    </ConfirmProvider>
   );
 };
 
