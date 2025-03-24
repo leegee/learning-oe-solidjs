@@ -13,13 +13,9 @@
                 }
             },
             {
-                "class": "dynamic-vocab",
-                "qlang": "target"
-            },
-            {
                 "class": "multiple-choice",
                 "qlang": "default",
-                "question": "Wēor is the capital of Ænglaland?",
+                "question": "Where is the capital of Ænglaland?",
                 "answers": [
                     "Lunden",
                     "Wīc",
@@ -31,13 +27,13 @@
             {
                 "class": "writing",
                 "qlang": "default",
-                "question": "Hū doth one say 'Hēah' in Old English?",
+                "question": "Howdoes one say 'Hēah' in Old English?",
                 "answer": "Hēah"
             },
             {
                 "class": "writing-blocks",
                 "qlang": "target",
-                "question": "Fill in the blank: 'Ic liveth in a ____.'",
+                "question": "Ic liveth in a ____.",
                 "answer": "hūs",
                 "options": [
                     "hūs",
@@ -50,7 +46,7 @@
                 "class": "blanks",
                 "qlang": "default",
                 "alang": "target",
-                "question": "Complete the sentence: 'Ic eom a ____.'",
+                "question": "Ic eom a ____.",
                 "words": [
                     {
                         "word": "cniht",
@@ -61,6 +57,10 @@
                         "correct": false
                     }
                 ]
+            },
+            {
+                "class": "dynamic-vocab",
+                "qlang": "target"
             }
         ]
     },

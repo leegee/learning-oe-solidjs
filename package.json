@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@solid-primitives/i18n": "^2.2.0",
+    "@types/node": "^22.13.12",
     "ajv": "^8.17.1",
     "i18next": "^24.2.2",
     "solid-js": "^1.9.5"
@@ -30,6 +31,6 @@
     "vite": "^6.2.0",
     "vite-plugin-pwa": "^0.21.1",
     "vite-plugin-solid": "^2.11.6",
-    "vitest": "^3.0.8"
+    "vitest": "^3.0.9"
   }
 }

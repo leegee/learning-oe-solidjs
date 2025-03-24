@@ -6,16 +6,15 @@ const keys = {
   ANSWERS: STORAGE_PREFIX + 'answers',
 };
 
+// Answers structure: Each lesson has an array of cards, each card has an array of answers
 interface Answers {
-  [lessonIndex: number]: string[];
+  [lessonIndex: number]: string[][];
 }
 
-const storageHandler = {
+const storageHandler: ProxyHandler<Record<string, any>> = {
   get(target: Record<string, any>, prop: string) {
-    // Ensure the property exists in the target or localStorage
     if (!(prop in target)) {
       const storedValue = localStorage.getItem(prop);
-      // Return an empty object/array if no stored value is found
       target[prop] = storedValue ? JSON.parse(storedValue) : (prop === keys.ANSWERS ? {} : 0);
     }
     return target[prop];
@@ -28,16 +27,16 @@ const storageHandler = {
   },
 };
 
-const state = new Proxy({}, storageHandler);
+const state = new Proxy<Record<string, any>>({}, storageHandler);
 
-const getLessonAnswers = (lessonIndex: number): string[] => {
+const getLessonAnswers = (lessonIndex: number): string[][] => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
-  return answers[lessonIndex] || [];
+  return answers[lessonIndex] ?? [];
 };
 
 export const getTotalLessons = (): number => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
-  return Object.keys(answers).length; // Total lessons = number of keys in the answers object
+  return Object.keys(answers).length;
 };
 
 export const currentLessonIndex = (lessonIndex?: number): number => {
@@ -47,10 +46,18 @@ export const currentLessonIndex = (lessonIndex?: number): number => {
   return state[keys.CURRENT_LESSON_INDEX] ?? 0;
 };
 
-export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer?: string) => {
+export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string = ""): void => {
   const savedAnswers: Answers = state[keys.ANSWERS] ?? {};
-  savedAnswers[lessonIndex] = savedAnswers[lessonIndex] || [];
-  savedAnswers[lessonIndex][cardIndex] = incorrectAnswer || '';
+
+  if (!Array.isArray(savedAnswers[lessonIndex])) {
+    savedAnswers[lessonIndex] = [];
+  }
+
+  if (!Array.isArray(savedAnswers[lessonIndex][cardIndex])) {
+    savedAnswers[lessonIndex][cardIndex] = [];
+  }
+
+  savedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
   state[keys.ANSWERS] = savedAnswers;
 };
 
@@ -62,22 +69,29 @@ export const resetLesson = (lessonIndex: number): void => {
 
 export const getTotalQuestionsAnswered = (): number => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
-  return Object.values(answers).reduce((total, lessonAnswers) => total + lessonAnswers.length, 0);
+  return Object.values(answers).reduce(
+    (total: number, lessonAnswers: string[][]) =>
+      total + (Array.isArray(lessonAnswers) ? lessonAnswers.length : 0),
+    0
+  );
 };
 
 export const getTotalCorrectAnswers = (): number => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
   return Object.values(answers).reduce(
-    (total, lessonAnswers) => total + lessonAnswers.filter((answer: string) => answer === "").length,
+    (total: number, lessonAnswers: string[][]) =>
+      total + (Array.isArray(lessonAnswers) ? lessonAnswers.reduce((sum: number, cardAnswers: string[]) => sum + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer === "").length : 0), 0) : 0),
     0
   );
 };
 
 export const getTotalIncorrectAnswers = (): number => {
   const answers: Answers = state[keys.ANSWERS] ?? {};
-  return Object.values(answers).reduce((total, lessonAnswers) => {
-    return total + lessonAnswers.filter((answer: string) => answer !== '').length;
-  }, 0);
+  return Object.values(answers).reduce(
+    (total: number, lessonAnswers: string[][]) =>
+      total + (Array.isArray(lessonAnswers) ? lessonAnswers.reduce((sum: number, cardAnswers: string[]) => sum + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer !== "").length : 0), 0) : 0),
+    0
+  );
 };
 
 export const getLessonQuestionCount = (lessonIndex: number): number => {
@@ -87,10 +101,16 @@ export const getLessonQuestionCount = (lessonIndex: number): number => {
 
 export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
-  return lessonAnswers.filter(answer => answer !== "").length;
+  return lessonAnswers.reduce(
+    (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer !== "").length : 0),
+    0
+  );
 };
 
 export const countLessonAnswersCorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
-  return lessonAnswers.filter(answer => answer === "").length;
+  return lessonAnswers.reduce(
+    (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer === "").length : 0),
+    0
+  );
 };
