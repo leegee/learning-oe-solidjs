@@ -69,8 +69,9 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     };
 
     const handleComplete = () => {
-        props.onComplete();
+        console.log('Enter VocabMatch.handleComplete')
         props.onCorrect(); // Always pass this lesson, as we can only get here after all choices are correct
+        props.onComplete();
     };
 
     // Word-matching logic
