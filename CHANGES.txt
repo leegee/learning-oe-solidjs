@@ -1,6 +1,9 @@
 CHANGE LOG
 ==========
 
+2025-03-25: 0.1.2
+
+* Change `For` to `map` as it wasn't detecting reactivity that effected styles
 
 2025-03-20: 0.1.1
 
