@@ -14,8 +14,6 @@ const Header = (props: HeaderProps) => {
     const lessonIndex = currentLessonIndex();
     const totalLessons = getTotalLessons();
 
-    console.log('...', lessonIndex, totalLessons)
-
     return (
         <header>
             <div class="header-progress">

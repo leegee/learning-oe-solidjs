@@ -48,7 +48,7 @@ const LessonComponent = (props: ILessonProps) => {
 
 
     const goToNextCard = () => {
-        console.log('Go to next card, enter with lessonQueue =', lessonQueue());
+        console.log('Enter goToNextCard correctlyAnswered=', correctlyAnswered, 'queue =', lessonQueue());
 
         if (correctlyAnswered) {
             // Update the queue state and use new signal reference
@@ -64,7 +64,7 @@ const LessonComponent = (props: ILessonProps) => {
                 return;
             }
         } else {
-            // Move incorrectly answered card to the end of the queue
+            // Move incorrectly answered card to the other end of the queue
             setLessonQueue((prevQueue) => {
                 const currentCard = prevQueue[0];
                 const updatedQueue = [...prevQueue.slice(1), currentCard];
@@ -75,12 +75,14 @@ const LessonComponent = (props: ILessonProps) => {
     };
 
     const onIncorrect = () => {
+        console.log('Enter onIncorrect');
         correctlyAnswered = false;
         const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
         props.onAnswer(currentCardIndex, 'bad_answer_goes_here');
     };
 
     const onCorrect = () => {
+        console.log('Enter onCorrect');
         correctlyAnswered = true;
         const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
         props.onAnswer(currentCardIndex);
