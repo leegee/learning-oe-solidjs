@@ -87,29 +87,27 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                 <h3 class="question" lang={langs().q}>{currentSentence()}</h3>
 
                 <div class="word-options">
-                    <For each={shuffledWords()}>
-                        {(word) => {
-                            const isSelected = selectedWords().includes(word);
-                            const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
+                    {shuffledWords().map((word) => {
+                        const isSelected = selectedWords().includes(word);
+                        console.log(word, isSelected);
+                        const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
 
-                            return (
-                                <button
-                                    lang={langs().a}
-                                    onClick={() => handleWordClick(word)}
-                                    disabled={isSelected}
-                                    class={
-                                        `word-option 
-                                    ${isSelected ? isCorrect ? 'correct' : 'incorrect' : ''}
-                                    ${shake() === word ? 'shake' : ''}
-                                `
-                                    }
-                                >
-                                    {word}
-                                </button>
-                            );
-                        }}
-                    </For>
+                        return (
+                            <button
+                                lang={langs().a}
+                                onClick={() => handleWordClick(word)}
+                                disabled={isSelected}
+                                class={`word-option 
+                                        ${isSelected ? (isCorrect ? 'correct' : 'incorrect') : ''} 
+                                        ${shake() === word ? 'shake' : ''}
+                                `}
+                            >
+                                {word}
+                            </button>
+                        );
+                    })}
                 </div>
+
             </section>
 
             {isComplete() && (
