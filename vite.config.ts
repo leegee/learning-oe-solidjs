@@ -6,11 +6,17 @@ import packageJson from './package.json';
 const homepage = packageJson.homepage || '/';
 const base = homepage ? (new URL(homepage)).pathname.replace(/\/?$/, '/') : '/';
 
-console.info(['='.repeat(30), 'Base: ' + base, "=".repeat(30)].join("\n"))
-
 // https://vitejs.dev/config/
 export default defineConfig({
   base,
+
+  build: {
+    target: 'esnext',
+  },
+  resolve: {
+    conditions: ['development', 'browser'],
+  },
+
   plugins: [
     solidPlugin(),
     VitePWA({

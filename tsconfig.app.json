@@ -20,7 +20,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "solid-js",
     "types": [
-      "solid-js"
+      "solid-js",
+      "vitest/globals"
     ],
     /* Linting */
     "strict": true,
