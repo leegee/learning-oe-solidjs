@@ -2,23 +2,34 @@ import js from '@eslint/js'
 import globals from 'globals'
 import solidPlugin from 'eslint-plugin-solid'
 import tseslint from '@typescript-eslint/eslint-plugin'
+import tsparser from '@typescript-eslint/parser'
 
-export default tseslint.config(
-  { ignores: ['dist'] },
+export default [
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['**/*.{ts,tsx}'],
+    ignores: ['dist', '*.config.[jt]s', 'tests'],
+  },
+  {
     languageOptions: {
-      ecmaVersion: 2020,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: globals.browser,
-    },
-    plugins: {
-      'solid': solidPlugin,
-    },
-    rules: {
-      // Solid-specific rules
-      'solid/jsx-no-undef': 'error', // For ensuring JSX elements are defined
-      'solid/props-rule': 'warn', // You can add Solid-specific rules here
+      parser: tsparser,
+      parserOptions: {
+        project: './tsconfig.app.json', // Ensure this exists
+      },
     },
   },
-)
+  {
+    files: ['**/*.{ts,tsx}'],
+    plugins: {
+      solid: solidPlugin,
+      '@typescript-eslint': tseslint,
+    },
+    rules: {
+      ...js.configs.recommended.rules, // JavaScript recommended rules
+      ...tseslint.configs.recommended.rules, // TypeScript recommended rules
+      'solid/jsx-no-undef': 'error', // Ensure JSX elements are defined
+      'solid/no-unknown-namespaces': 'warn', // Solid-specific rule
+    },
+  },
+]

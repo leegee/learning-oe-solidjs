@@ -1,10 +1,10 @@
-import { createContext, useContext, createSignal } from "solid-js";
+import { createContext, useContext, createSignal, JSX } from "solid-js";
 import { t } from '../i18n';
 import "./Confirm.css";
 
 const ConfirmContext = createContext<{ showConfirm: (message: string, action: () => void) => void }>();
 
-export const ConfirmProvider = (props: { children: any }) => {
+export const ConfirmProvider = (props: { children: JSX.Element }) => {
     const [isOpen, setIsOpen] = createSignal(false);
     const [confirmAction, setConfirmAction] = createSignal<() => void>(() => void (0));
     const [message, setMessage] = createSignal("");

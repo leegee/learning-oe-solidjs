@@ -4,12 +4,12 @@ import { currentLessonIndex, countLessonAnswersIncorrect, getLessonQuestionCount
 
 import './LessonCompleted.css';
 
-interface LessonCompletedComponent {
+interface LessonCompletedComponentProps {
     durationInSeconds: number;
     onLessonComplete: () => void;
 }
 
-const LessonCompletedComponent = (props: LessonCompletedComponent) => {
+const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const idx = currentLessonIndex();
     const incorrectAnswerCount = countLessonAnswersIncorrect(idx);
     const questionCount = getLessonQuestionCount(idx);
