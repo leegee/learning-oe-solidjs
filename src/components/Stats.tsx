@@ -8,7 +8,7 @@ const [totalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnsw
 const [totalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());
 
 const Stats = () => {
-    if (!totalIncorrectAnswers() && !totalQuestionsAnswered()) {
+    if (!totalQuestionsAnswered()) {
         return '';
     }
 
