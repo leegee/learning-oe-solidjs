@@ -1,5 +1,5 @@
 // BlanksCard.tsx
-import { createSignal, createEffect, For } from 'solid-js';
+import { createSignal, createEffect } from 'solid-js';
 import { t } from '../../i18n';
 
 import { shuffleArray } from '../../lib/shuffle-array.ts';
