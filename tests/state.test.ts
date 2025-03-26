@@ -7,6 +7,7 @@ import {
     saveAnswer,
     getTotalCorrectAnswers,
     getTotalIncorrectAnswers,
+    getLessonQuestionCount,
 } from "../src/Lessons/state";
 
 describe("state", () => {
@@ -173,6 +174,23 @@ describe("state", () => {
             const count = getTotalIncorrectAnswers();
 
             expect(count).toEqual(3);
+            expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe("getLessonQuestionCount", () => {
+        it("should return a count of all questions answered in a specific lesson", () => {
+            const mockData = {
+                1: [["answer1"], [""]],
+                2: [[""], ["wrong2"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const getItemSpy = vi.spyOn(localStorage, 'getItem');
+
+            const count = getLessonQuestionCount(2);
+
+            expect(count).toEqual(2);
             expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
