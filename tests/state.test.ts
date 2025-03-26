@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     getLessonAnswers,
+    getTotalLessonsCount,
     resetLesson,
     saveAnswer,
 } from "../src/Lessons/state";
@@ -103,4 +104,22 @@ describe("state", () => {
             expect(setItemSpy).not.toHaveBeenCalled();
         });
     });
+
+    describe("getTotalLessonsCount", () => {
+        it("should return a count of all lessons", () => {
+            const mockData = {
+                1: [["answer1"], ["answer2"]],
+                2: [["wrong1"], ["wrong2"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const getItemSpy = vi.spyOn(localStorage, 'getItem');
+
+            const count = getTotalLessonsCount();
+
+            expect(count).toEqual(Object.keys(mockData).length);
+            expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
 });
