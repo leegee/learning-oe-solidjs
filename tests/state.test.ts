@@ -69,7 +69,7 @@ describe("state", () => {
         });
     });
 
-    describe.only("resetLesson", () => {
+    describe("resetLesson", () => {
         it("should remove answers for the given lesson index", () => {
             const mockData = {
                 1: [["answer1"], ["answer2"]],
@@ -94,7 +94,7 @@ describe("state", () => {
             expect(getLessonAnswers(2)).toEqual([]); // Check if the data i
         });
 
-        it.skip("should do nothing if the lesson index doesn't exist", () => {
+        it("should do nothing if the lesson index doesn't exist", () => {
             vi.spyOn(localStorage, "getItem").mockReturnValue("{}");
             const setItemSpy = vi.spyOn(localStorage, "setItem");
 

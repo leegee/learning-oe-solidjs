@@ -76,12 +76,11 @@ export const resetAll = () => {
 // Reset answers for a specific lesson
 export const resetLesson = (lessonIndex: number): void => {
   const savedAnswers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
-  savedAnswers[lessonIndex] = [];
+  if (savedAnswers[lessonIndex]) {
+    savedAnswers[lessonIndex] = [];
+    localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
+  }
 
-  // Save updated answers to localStorage
-  localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
-
-  // Recalculate total questions answered
   setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(savedAnswers));
 };
 
@@ -144,3 +143,8 @@ export const countLessonAnswersCorrect = (lessonIndex: number): number => {
     0
   );
 };
+
+
+
+
+
