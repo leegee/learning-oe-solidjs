@@ -1,15 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     getLessonAnswers,
-    getTotalTakenLessonsCount,
+    getTotalTakenLessons,
     getTotalQuestionsAnswered,
     resetLesson,
     saveAnswer,
     getTotalCorrectAnswers,
     getTotalIncorrectAnswers,
     getLessonQuestionCount,
-    countLessonAnswersIncorrect,
-    countLessonAnswersCorrect,
+    getLessonQuestionsAnsweredIncorrect,
+    getLessonQuestionsAnsweredCcorrect,
     resetAll,
 } from "./lessons-state";
 
@@ -120,7 +120,7 @@ describe("state", () => {
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
 
-            const count = getTotalTakenLessonsCount();
+            const count = getTotalTakenLessons();
             expect(count).toEqual(3);
         });
     });
@@ -186,7 +186,7 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const count = countLessonAnswersIncorrect(2);
+            const count = getLessonQuestionsAnsweredIncorrect(2);
             expect(count).toEqual(2);
         });
     });
@@ -199,7 +199,7 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const count = countLessonAnswersCorrect(2);
+            const count = getLessonQuestionsAnsweredCcorrect(2);
             expect(count).toEqual(1);
         });
     });

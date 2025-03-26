@@ -85,7 +85,7 @@ export const resetLesson = (lessonIndex: number): void => {
 };
 
 // Get total lessons based on answers stored in localStorage
-export const getTotalTakenLessonsCount = (): number => {
+export const getTotalTakenLessons = (): number => {
   const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.keys(answers).length;
 };
@@ -127,7 +127,7 @@ export const getLessonQuestionCount = (lessonIndex: number): number => {
 };
 
 // Count the number of incorrect answers for a particular lesson
-export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
+export const getLessonQuestionsAnsweredIncorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(
     (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer !== "").length : 0),
@@ -136,7 +136,7 @@ export const countLessonAnswersIncorrect = (lessonIndex: number): number => {
 };
 
 // Count the number of correct answers for a particular lesson
-export const countLessonAnswersCorrect = (lessonIndex: number): number => {
+export const getLessonQuestionsAnsweredCcorrect = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(
     (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer === "").length : 0),
