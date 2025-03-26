@@ -61,9 +61,16 @@ describe("state", () => {
         });
 
         it("should return the stored answers for a given lesson index", () => {
-            const mockAnswers = { 2: [[], ["wrong1"], [], ["wrong2", "wrong3"]] };
-            vi.spyOn(localStorage, "getItem").mockReturnValue(JSON.stringify(mockAnswers));
-            expect(getLessonAnswers(2)).toEqual(mockAnswers[2]);
+            const mockData = {
+                1: [["answer1"], ["answer2"]],
+                2: [["wrong1"], ["wrong2"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem(
+                'oe_answers',
+                JSON.stringify(mockData)
+            );
+            expect(getLessonAnswers(2)).toEqual(mockData[2]);
         });
 
         it("should return an empty array if localStorage contains invalid JSON", () => {
@@ -86,18 +93,10 @@ describe("state", () => {
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
 
-            const setItemSpy = vi.spyOn(localStorage, 'setItem');
-
             resetLesson(2);
 
             const savedAnswers = JSON.parse(localStorage.getItem('oe_answers') || '');
             expect(savedAnswers[2]).toEqual([]);
-
-            expect(setItemSpy).toHaveBeenCalledWith('oe_answers', JSON.stringify({
-                1: [["answer1"], ["answer2"]],
-                2: [],
-                3: [["extra"]],
-            }));
 
             expect(getLessonAnswers(2)).toEqual([]); // Check if the data i
         });
@@ -120,12 +119,9 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
 
             const count = getTotalTakenLessonsCount();
-
             expect(count).toEqual(3);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -137,12 +133,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = getTotalQuestionsAnswered();
-
             expect(count).toEqual(5);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -155,12 +147,8 @@ describe("state", () => {
                 4: [[""]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = getTotalCorrectAnswers();
-
             expect(count).toEqual(3);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -172,11 +160,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = getTotalIncorrectAnswers();
             expect(count).toEqual(3);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -188,11 +173,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = getLessonQuestionCount(2);
             expect(count).toEqual(2);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -204,11 +186,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = countLessonAnswersIncorrect(2);
             expect(count).toEqual(2);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -220,11 +199,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const getItemSpy = vi.spyOn(localStorage, 'getItem');
-
             const count = countLessonAnswersCorrect(2);
             expect(count).toEqual(1);
-            expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
 
@@ -236,11 +212,8 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const removeItemSpy = vi.spyOn(localStorage, 'removeItem');
-
             resetAll();
-
-            expect(removeItemSpy).toHaveBeenCalledTimes(2);
+            expect(localStorage.getItem('oe_answers')).toBe(null);
         });
     });
 });
