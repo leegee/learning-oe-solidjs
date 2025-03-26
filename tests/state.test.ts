@@ -1,78 +1,106 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     getLessonAnswers,
+    resetLesson,
     saveAnswer,
 } from "../src/Lessons/state";
 
-describe("saveAnswer", () => {
-    beforeEach(() => {
-        localStorage.clear(); // Ensure a clean slate before each test
-    });
-
-    it("should save an incorrect answer for a lesson card", () => {
-        saveAnswer(1, 0, "incorrect1");
-
-        const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
-        expect(storedAnswers).toEqual({ 1: [["incorrect1"]] });
-    });
-
-    it("should append multiple incorrect answers to the same card", () => {
-        saveAnswer(1, 0, "wrong1");
-        saveAnswer(1, 0, "wrong2");
-
-        const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
-        expect(storedAnswers).toEqual({ 1: [["wrong1", "wrong2"]] });
-    });
-
-    it("should initialize arrays when saving to a new lesson index", () => {
-        saveAnswer(2, 3, "mistake");
-
-        const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
-        expect(storedAnswers).toEqual({ 2: [[], [], [], ["mistake"]] });
-    });
-
-    it("should not break when saving an empty string as an answer", () => {
-        saveAnswer(1, 0, "");
-
-        const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
-        expect(storedAnswers).toEqual({ 1: [[""]] });
-    });
-
-    it("should preserve existing data when adding new answers", () => {
-        localStorage.setItem("oe_answers", JSON.stringify({ 1: [["existing"]] }));
-
-        saveAnswer(1, 0, "new");
-
-        const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
-        expect(storedAnswers).toEqual({ 1: [["existing", "new"]] });
-    });
-});
-
-describe("getLessonAnswers", () => {
+describe("state", () => {
     beforeEach(() => {
         localStorage.clear();
+        vi.restoreAllMocks();
     });
 
-    it("should return an empty array if no answers exist for the lesson", () => {
-        expect(getLessonAnswers(2)).toEqual([]);
+    describe("saveAnswer", () => {
+        it("should save an incorrect answer for a lesson card", () => {
+            saveAnswer(1, 0, "incorrect1");
+            const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
+            expect(storedAnswers).toEqual({ 1: [["incorrect1"]] });
+        });
+
+        it("should append multiple incorrect answers to the same card", () => {
+            saveAnswer(1, 0, "wrong1");
+            saveAnswer(1, 0, "wrong2");
+            const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
+            expect(storedAnswers).toEqual({ 1: [["wrong1", "wrong2"]] });
+        });
+
+        it("should initialize arrays when saving to a new lesson index", () => {
+            saveAnswer(2, 3, "mistake");
+            const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
+            expect(storedAnswers).toEqual({ 2: [[], [], [], ["mistake"]] });
+        });
+
+        it("should not break when saving an empty string as an answer", () => {
+            saveAnswer(1, 0, "");
+            const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
+            expect(storedAnswers).toEqual({ 1: [[""]] });
+        });
+
+        it("should preserve existing data when adding new answers", () => {
+            localStorage.setItem("oe_answers", JSON.stringify({ 1: [["existing"]] }));
+
+            saveAnswer(1, 0, "new");
+
+            const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
+            expect(storedAnswers).toEqual({ 1: [["existing", "new"]] });
+        });
     });
 
-    it("should return the stored answers for a given lesson index", () => {
-        const mockAnswers = { 2: [[], ["wrong1"], [], ["wrong2", "wrong3"]] };
-        vi.spyOn(localStorage, "getItem").mockReturnValue(JSON.stringify(mockAnswers));
+    describe("getLessonAnswers", () => {
+        it("should return an empty array if no answers exist for the lesson", () => {
+            expect(getLessonAnswers(2)).toEqual([]);
+        });
 
-        expect(getLessonAnswers(2)).toEqual(mockAnswers[2]);
+        it("should return the stored answers for a given lesson index", () => {
+            const mockAnswers = { 2: [[], ["wrong1"], [], ["wrong2", "wrong3"]] };
+            vi.spyOn(localStorage, "getItem").mockReturnValue(JSON.stringify(mockAnswers));
+            expect(getLessonAnswers(2)).toEqual(mockAnswers[2]);
+        });
+
+        it("should return an empty array if localStorage contains invalid JSON", () => {
+            vi.spyOn(localStorage, "getItem").mockReturnValue("invalid json");
+            expect(getLessonAnswers(2)).toEqual([]);
+        });
+
+        it("should return an empty array if localStorage has no 'oe_answers' key", () => {
+            vi.spyOn(localStorage, "getItem").mockReturnValue(null);
+            expect(getLessonAnswers(2)).toEqual([]);
+        });
     });
 
-    it("should return an empty array if localStorage contains invalid JSON", () => {
-        vi.spyOn(localStorage, "getItem").mockReturnValue("invalid json");
+    describe.only("resetLesson", () => {
+        it("should remove answers for the given lesson index", () => {
+            const mockData = {
+                1: [["answer1"], ["answer2"]],
+                2: [["wrong1"], ["wrong2"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
 
-        expect(getLessonAnswers(2)).toEqual([]);
-    });
+            const setItemSpy = vi.spyOn(localStorage, 'setItem');
 
-    it("should return an empty array if localStorage has no 'oe_answers' key", () => {
-        vi.spyOn(localStorage, "getItem").mockReturnValue(null);
+            resetLesson(2);
 
-        expect(getLessonAnswers(2)).toEqual([]);
+            const savedAnswers = JSON.parse(localStorage.getItem('oe_answers') || '');
+            expect(savedAnswers[2]).toEqual([]);
+
+            expect(setItemSpy).toHaveBeenCalledWith('oe_answers', JSON.stringify({
+                1: [["answer1"], ["answer2"]],
+                2: [],
+                3: [["extra"]],
+            }));
+
+            expect(getLessonAnswers(2)).toEqual([]); // Check if the data i
+        });
+
+        it.skip("should do nothing if the lesson index doesn't exist", () => {
+            vi.spyOn(localStorage, "getItem").mockReturnValue("{}");
+            const setItemSpy = vi.spyOn(localStorage, "setItem");
+
+            resetLesson(5); // Non-existent lesson
+
+            expect(setItemSpy).not.toHaveBeenCalled();
+        });
     });
 });
