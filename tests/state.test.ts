@@ -9,6 +9,7 @@ import {
     getTotalIncorrectAnswers,
     getLessonQuestionCount,
     countLessonAnswersIncorrect,
+    countLessonAnswersCorrect,
 } from "../src/Lessons/state";
 
 describe("state", () => {
@@ -173,7 +174,6 @@ describe("state", () => {
             const getItemSpy = vi.spyOn(localStorage, 'getItem');
 
             const count = getTotalIncorrectAnswers();
-
             expect(count).toEqual(3);
             expect(getItemSpy).toHaveBeenCalledOnce();
         });
@@ -190,7 +190,6 @@ describe("state", () => {
             const getItemSpy = vi.spyOn(localStorage, 'getItem');
 
             const count = getLessonQuestionCount(2);
-
             expect(count).toEqual(2);
             expect(getItemSpy).toHaveBeenCalledOnce();
         });
@@ -207,8 +206,23 @@ describe("state", () => {
             const getItemSpy = vi.spyOn(localStorage, 'getItem');
 
             const count = countLessonAnswersIncorrect(2);
-
             expect(count).toEqual(2);
+            expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe("countLessonAnswersCorrect", () => {
+        it("should return a count of all questions answered correctly in a specific lesson", () => {
+            const mockData = {
+                1: [["answer1"], [""]],
+                2: [[""], ["wrong2"], ["wrong3"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const getItemSpy = vi.spyOn(localStorage, 'getItem');
+
+            const count = countLessonAnswersCorrect(2);
+            expect(count).toEqual(1);
             expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
