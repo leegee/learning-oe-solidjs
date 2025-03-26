@@ -10,6 +10,7 @@ import {
     getLessonQuestionCount,
     countLessonAnswersIncorrect,
     countLessonAnswersCorrect,
+    resetAll,
 } from "../src/Lessons/state";
 
 describe("state", () => {
@@ -224,6 +225,22 @@ describe("state", () => {
             const count = countLessonAnswersCorrect(2);
             expect(count).toEqual(1);
             expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe("resetAll", () => {
+        it("should reset all lessons", () => {
+            const mockData = {
+                1: [["answer1"], [""]],
+                2: [[""], ["wrong2"], ["wrong3"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const removeItemSpy = vi.spyOn(localStorage, 'removeItem');
+
+            resetAll();
+
+            expect(removeItemSpy).toHaveBeenCalledTimes(2);
         });
     });
 });
