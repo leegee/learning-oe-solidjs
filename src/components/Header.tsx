@@ -1,6 +1,6 @@
 import config from "../config";
 import { t } from "../i18n";
-import { currentLessonIndex, getTotalLessonsCount } from "../Lessons/state";
+import { currentLessonIndex, getTotalTakenLessonsCount } from "../Lessons/state";
 
 interface HeaderProps {
     isLessonActive: boolean;
@@ -12,7 +12,7 @@ const Header = (props: HeaderProps) => {
     }
 
     const lessonIndex = currentLessonIndex();
-    const totalLessons = getTotalLessonsCount();
+    const totalLessons = getTotalTakenLessonsCount();
 
     return (
         <header>

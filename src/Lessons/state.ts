@@ -85,7 +85,7 @@ export const resetLesson = (lessonIndex: number): void => {
 };
 
 // Get total lessons based on answers stored in localStorage
-export const getTotalLessonsCount = (): number => {
+export const getTotalTakenLessonsCount = (): number => {
   const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
   return Object.keys(answers).length;
 };
