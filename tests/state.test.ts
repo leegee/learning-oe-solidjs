@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
+    getLessonAnswers,
     saveAnswer,
 } from "../src/Lessons/state";
 
@@ -44,5 +45,34 @@ describe("saveAnswer", () => {
 
         const storedAnswers = JSON.parse(localStorage.getItem("oe_answers") || "{}");
         expect(storedAnswers).toEqual({ 1: [["existing", "new"]] });
+    });
+});
+
+describe("getLessonAnswers", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    it("should return an empty array if no answers exist for the lesson", () => {
+        expect(getLessonAnswers(2)).toEqual([]);
+    });
+
+    it("should return the stored answers for a given lesson index", () => {
+        const mockAnswers = { 2: [[], ["wrong1"], [], ["wrong2", "wrong3"]] };
+        vi.spyOn(localStorage, "getItem").mockReturnValue(JSON.stringify(mockAnswers));
+
+        expect(getLessonAnswers(2)).toEqual(mockAnswers[2]);
+    });
+
+    it("should return an empty array if localStorage contains invalid JSON", () => {
+        vi.spyOn(localStorage, "getItem").mockReturnValue("invalid json");
+
+        expect(getLessonAnswers(2)).toEqual([]);
+    });
+
+    it("should return an empty array if localStorage has no 'oe_answers' key", () => {
+        vi.spyOn(localStorage, "getItem").mockReturnValue(null);
+
+        expect(getLessonAnswers(2)).toEqual([]);
     });
 });

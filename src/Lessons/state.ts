@@ -36,9 +36,15 @@ createEffect(() => {
 });
 
 
-// Functions to handle answers and lesson updates
 export const getLessonAnswers = (lessonIndex: number): string[][] => {
-  const answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
+  let answers: Answers = {};
+
+  try {
+    answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || "{}");
+  } catch (error) {
+    console.error("Error parsing lesson answers:", error);
+  }
+
   return answers[lessonIndex] ?? [];
 };
 
