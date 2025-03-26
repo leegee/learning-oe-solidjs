@@ -25,11 +25,9 @@ const calculateTotalQuestionsAnswered = (answers: Answers = JSON.parse(localStor
   );
 };
 
-export const [_totalQuestionsAnswered, setTotalQuestionsAnswered] = createSignal(
+const [, setTotalQuestionsAnswered] = createSignal(
   calculateTotalQuestionsAnswered()
 );
-
-export const totalQuestionsAnswered = _totalQuestionsAnswered;
 
 // Recalculate the total questions answered whenever the answers are updated
 createEffect(() => {
