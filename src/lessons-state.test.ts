@@ -11,7 +11,7 @@ import {
     countLessonAnswersIncorrect,
     countLessonAnswersCorrect,
     resetAll,
-} from "../src/Lessons/state";
+} from "./lessons-state";
 
 describe("state", () => {
     beforeEach(() => {

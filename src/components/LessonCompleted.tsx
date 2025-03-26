@@ -1,6 +1,6 @@
 import { t } from '../i18n';
 import { formatDuration } from "../lib/format-duration";
-import { currentLessonIndex, countLessonAnswersIncorrect, getLessonQuestionCount } from '../Lessons/state';
+import { currentLessonIndex, countLessonAnswersIncorrect, getLessonQuestionCount } from '../lessons-state';
 
 import './LessonCompleted.css';
 

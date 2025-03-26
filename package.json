@@ -9,9 +9,10 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "delint": "eslint .",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "test": "vitest"
   },
   "dependencies": {
     "@solid-primitives/i18n": "^2.2.0",

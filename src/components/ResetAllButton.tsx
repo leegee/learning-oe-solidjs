@@ -2,7 +2,7 @@
 
 import { createMemo } from "solid-js";
 import { t } from "../i18n";
-import { resetAll, getTotalQuestionsAnswered } from "../Lessons/state";
+import { resetAll, getTotalQuestionsAnswered } from "../lessons-state";
 import { useConfirm } from "../contexts/Confirm";
 
 export const ResetAllButtonComponent = () => {

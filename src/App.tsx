@@ -1,7 +1,7 @@
 import { createSignal, createMemo } from "solid-js";
 
 import LessonList from "./components/LessonList";
-import * as state from "./Lessons/state";
+import * as state from "./lessons-state";
 import { lessons, lessonTitles2Indicies } from "./Lessons";
 import { ConfirmProvider } from "./contexts/Confirm";
 import Header from "./components/Header";

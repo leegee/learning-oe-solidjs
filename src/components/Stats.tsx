@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 import { t } from '../i18n';
-import * as state from "../Lessons/state";
+import * as state from "../lessons-state";
 import './Stats.css';
 
 const [totalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());

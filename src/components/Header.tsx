@@ -1,6 +1,6 @@
 import config from "../config";
 import { t } from "../i18n";
-import { currentLessonIndex, getTotalTakenLessonsCount } from "../Lessons/state";
+import { currentLessonIndex, getTotalTakenLessonsCount } from "../lessons-state";
 
 interface HeaderProps {
     isLessonActive: boolean;
