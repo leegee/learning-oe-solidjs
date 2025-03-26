@@ -5,6 +5,7 @@ import {
     getTotalQuestionsAnswered,
     resetLesson,
     saveAnswer,
+    getTotalCorrectAnswers,
 } from "../src/Lessons/state";
 
 describe("state", () => {
@@ -107,7 +108,7 @@ describe("state", () => {
     });
 
     describe("getTotalLessonsCount", () => {
-        it("should return a count of all lessons", () => {
+        it("should return a count of all lessons taken", () => {
             const mockData = {
                 1: [["answer1"], ["answer2"]],
                 2: [["wrong1"], ["wrong2"]],
@@ -123,7 +124,6 @@ describe("state", () => {
         });
     });
 
-
     describe("getTotalQuestionsAnswered", () => {
         it("should return a count of all questions answered", () => {
             const mockData = {
@@ -137,6 +137,24 @@ describe("state", () => {
             const count = getTotalQuestionsAnswered();
 
             expect(count).toEqual(5);
+            expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe("getTotalCorrectAnswers", () => {
+        it("should return a count of all questions answered correctly", () => {
+            const mockData = {
+                1: [["answer1"], [""]],
+                2: [[""], ["wrong2"]],
+                3: [["extra"]],
+                4: [[""]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const getItemSpy = vi.spyOn(localStorage, 'getItem');
+
+            const count = getTotalCorrectAnswers();
+
+            expect(count).toEqual(3);
             expect(getItemSpy).toHaveBeenCalledOnce();
         });
     });
