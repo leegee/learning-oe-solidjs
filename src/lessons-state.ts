@@ -1,5 +1,3 @@
-import { createSignal, createEffect } from "solid-js";
-
 // const LOG_PREFIX = 'Storage ';
 const STORAGE_PREFIX = 'oe_';
 
@@ -12,29 +10,13 @@ interface Answers {
   [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
 }
 
-// Reactive state hooks for lesson data
-export const [currentLessonIndex, setCurrentLessonIndex] = createSignal(
-  JSON.parse(localStorage.getItem(keys.CURRENT_LESSON_INDEX) || "0")
-);
+export const setCurrentLessonIndex = (lessonIndex: number) => {
+  localStorage.setItem(keys.CURRENT_LESSON_INDEX, String(lessonIndex));
+}
 
-// Calculate the total questions answered
-const calculateTotalQuestionsAnswered = (answers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}')) => {
-  return Object.values(answers).reduce(
-    (total: number, lessonAnswers: string[][]) => total + (lessonAnswers ? lessonAnswers.length : 0),
-    0
-  );
-};
-
-const [, setTotalQuestionsAnswered] = createSignal(
-  calculateTotalQuestionsAnswered()
-);
-
-// Recalculate the total questions answered whenever the answers are updated
-createEffect(() => {
-  const answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
-  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(answers));
-});
-
+export const currentLessonIndex = () => {
+  return JSON.parse(localStorage.getItem(keys.CURRENT_LESSON_INDEX) || '0');
+}
 
 export const getLessonAnswers = (lessonIndex: number): string[][] => {
   let answers: Answers = {};
@@ -60,9 +42,6 @@ export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnsw
 
   // Save updated answers to localStorage
   localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
-
-  // Trigger reactivity for total questions answered
-  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(savedAnswers));
 };
 
 // Reset all state and clear from localStorage
@@ -70,7 +49,6 @@ export const resetAll = () => {
   localStorage.removeItem(keys.CURRENT_LESSON_INDEX);
   localStorage.removeItem(keys.ANSWERS);
   setCurrentLessonIndex(0);
-  setTotalQuestionsAnswered(0);
 };
 
 // Reset answers for a specific lesson
@@ -80,8 +58,6 @@ export const resetLesson = (lessonIndex: number): void => {
     savedAnswers[lessonIndex] = [];
     localStorage.setItem(keys.ANSWERS, JSON.stringify(savedAnswers));
   }
-
-  setTotalQuestionsAnswered(calculateTotalQuestionsAnswered(savedAnswers));
 };
 
 // Get total lessons based on answers stored in localStorage
