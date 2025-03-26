@@ -46,8 +46,12 @@ export const getLessonAnswers = (lessonIndex: number): string[][] => {
 
 export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnswer: string = ""): void => {
   const savedAnswers: Answers = JSON.parse(localStorage.getItem(keys.ANSWERS) || '{}');
-  if (!savedAnswers[lessonIndex]) savedAnswers[lessonIndex] = [];
-  if (!savedAnswers[lessonIndex][cardIndex]) savedAnswers[lessonIndex][cardIndex] = [];
+  savedAnswers[lessonIndex] ??= [];
+  if (!savedAnswers[lessonIndex][cardIndex]) {
+    while (savedAnswers[lessonIndex].length <= cardIndex) {
+      savedAnswers[lessonIndex].push([]);
+    }
+  }
   savedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
 
   // Save updated answers to localStorage
