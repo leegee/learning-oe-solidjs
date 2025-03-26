@@ -6,6 +6,7 @@ import {
     resetLesson,
     saveAnswer,
     getTotalCorrectAnswers,
+    getTotalIncorrectAnswers,
 } from "../src/Lessons/state";
 
 describe("state", () => {
@@ -153,6 +154,23 @@ describe("state", () => {
             const getItemSpy = vi.spyOn(localStorage, 'getItem');
 
             const count = getTotalCorrectAnswers();
+
+            expect(count).toEqual(3);
+            expect(getItemSpy).toHaveBeenCalledOnce();
+        });
+    });
+
+    describe("getTotalIncorrectAnswers", () => {
+        it("should return a count of all questions answered incorrectly", () => {
+            const mockData = {
+                1: [["answer1"], [""]],
+                2: [[""], ["wrong2"]],
+                3: [["extra"]],
+            };
+            localStorage.setItem('oe_answers', JSON.stringify(mockData));
+            const getItemSpy = vi.spyOn(localStorage, 'getItem');
+
+            const count = getTotalIncorrectAnswers();
 
             expect(count).toEqual(3);
             expect(getItemSpy).toHaveBeenCalledOnce();
