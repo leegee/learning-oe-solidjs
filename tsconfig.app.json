@@ -20,6 +20,8 @@
     "jsx": "react-jsx",
     "jsxImportSource": "solid-js",
     "types": [
+      "jest",
+      "@testing-library/jest-dom",
       "solid-js"
     ],
     /* Linting */

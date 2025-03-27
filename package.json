@@ -29,6 +29,7 @@
     "@types/ajv": "^1.0.4",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.13.12",
+    "@types/testing-library__jest-dom": "^6.0.0",
     "@vite-pwa/assets-generator": "^0.2.6",
     "babel-preset-solid": "^1.9.5",
     "eslint": "^9.21.0",

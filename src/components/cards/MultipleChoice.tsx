@@ -14,7 +14,7 @@ export interface IMultipleChoiceCard extends IBaseCard {
     answer: string;
 };
 
-interface IMultipleChoiceCardProps {
+export interface IMultipleChoiceCardProps {
     card: IMultipleChoiceCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
@@ -80,7 +80,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                                 ? (isCorrect() ? 'correct' : 'incorrect')
                                 : ''
                                 }`}
-                            disabled={areButtonsDisabled()}
+                            disabled={areButtonsDisabled() ? true : undefined}
                         >
                             {option}
                         </button>
