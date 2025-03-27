@@ -1,3 +1,5 @@
+import "@jest/globals";
+
 import {
     getLessonAnswers,
     getTotalTakenLessons,
