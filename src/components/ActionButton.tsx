@@ -22,11 +22,9 @@ const ActionButton = (props: ButtonProps) => {
     const handleClick = () => {
         if (!hasChecked()) {
             // First click: Check the answer
-            console.log('actionbutton handleclick oncheckanswer');
             props.onCheckAnswer();
             setHasChecked(true);  // Mark the answer as checked
         } else {
-            console.log('actionbutton handleclick onComplete');
             props.onComplete();
             setHasChecked(false);
         }
