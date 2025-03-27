@@ -12,7 +12,7 @@ export interface IWritingCard extends IBaseCard {
     answer: string;
 };
 
-interface IWritingCardProps {
+export interface IWritingCardProps {
     card: IWritingCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
@@ -73,6 +73,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <textarea
+                    id='writing-input'
                     class='answer'
                     placeholder={t('type_in') + ' ' + t(langs().a) + '...'}
                     ref={el => inputRef = el}

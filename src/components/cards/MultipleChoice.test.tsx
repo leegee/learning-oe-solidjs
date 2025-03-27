@@ -58,7 +58,7 @@ describe("MultipleChoiceComponent", () => {
 
         fireEvent.click(screen.getByText("A library"));
 
-        const checkButton = screen.getByRole("button", { name: "check" });
+        const checkButton = screen.getByRole("button", { name: "action-button" });
         fireEvent.click(checkButton);
 
         await waitFor(() => {
@@ -74,7 +74,7 @@ describe("MultipleChoiceComponent", () => {
 
         fireEvent.click(screen.getByText("A tool"));
 
-        const checkButton = screen.getByRole("button", { name: "check" });
+        const checkButton = screen.getByRole("button", { name: "action-button" });
         fireEvent.click(checkButton);
 
         await waitFor(() => {

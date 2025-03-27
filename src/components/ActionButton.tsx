@@ -32,6 +32,7 @@ const ActionButton = (props: ButtonProps) => {
 
     return (
         <button
+            aria-label='action-button'
             class={
                 props.isCorrect === null
                     ? 'next-button'
