@@ -73,8 +73,10 @@ describe("state", () => {
         });
 
         it("should return an empty array if localStorage contains invalid JSON", () => {
+            const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => { });
             jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue('mock invalid json');
             expect(getLessonAnswers(2)).toEqual([]);
+            consoleErrorMock.mockRestore();
         });
 
         it("should return an empty array if localStorage has no 'oe_answers' key", () => {
