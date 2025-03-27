@@ -1,6 +1,14 @@
 CHANGE LOG
 ==========
 
+2025-03-26: 0.1.3
+
+* Switch to the clunkier, slower Jest because at least it works.
+
+2025-03-26: 0.1.2
+
+* Test lesson state storage with Vitest.
+
 2025-03-25: 0.1.2
 
 * Change `For` to `map` as it wasn't detecting reactivity that effected styles

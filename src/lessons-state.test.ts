@@ -1,4 +1,3 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
 import {
     getLessonAnswers,
     getTotalTakenLessons,
@@ -16,7 +15,7 @@ import {
 describe("state", () => {
     beforeEach(() => {
         localStorage.clear();
-        vi.restoreAllMocks();
+        jest.restoreAllMocks();
     });
 
     describe("saveAnswer", () => {
@@ -74,12 +73,12 @@ describe("state", () => {
         });
 
         it("should return an empty array if localStorage contains invalid JSON", () => {
-            vi.spyOn(localStorage, "getItem").mockReturnValue("invalid json");
+            jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue('mock invalid json');
             expect(getLessonAnswers(2)).toEqual([]);
         });
 
         it("should return an empty array if localStorage has no 'oe_answers' key", () => {
-            vi.spyOn(localStorage, "getItem").mockReturnValue(null);
+            jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue(null);
             expect(getLessonAnswers(2)).toEqual([]);
         });
     });
@@ -102,8 +101,8 @@ describe("state", () => {
         });
 
         it("should do nothing if the lesson index doesn't exist", () => {
-            vi.spyOn(localStorage, "getItem").mockReturnValue("{}");
-            const setItemSpy = vi.spyOn(localStorage, "setItem");
+            jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue("{}");
+            const setItemSpy = jest.spyOn(global.Storage.prototype, "setItem").mockImplementation(() => { });
 
             resetLesson(5); // Non-existent lesson
 
