@@ -11,6 +11,13 @@ export interface IVocabMatchCard extends IBaseCard {
     vocab: { [key: string]: string };
 };
 
+export interface IVocabMatchCardProps {
+    card: IVocabMatchCard;
+    onCorrect: () => void;
+    onIncorrect: () => void;
+    onComplete: () => void;
+}
+
 interface ITableRow {
     leftWord: string;
     rightWord: string;
@@ -23,12 +30,6 @@ interface ITableRow {
     shakeRight: boolean;
 }
 
-interface IVocabMatchCardProps {
-    card: IVocabMatchCard;
-    onCorrect: () => void;
-    onIncorrect: () => void;
-    onComplete: () => void;
-}
 
 const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
