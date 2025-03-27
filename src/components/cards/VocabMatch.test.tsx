@@ -1,5 +1,3 @@
-// VocabMatch.test.tsx
-
 import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
 import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
 import { shuffleArray } from '../../lib/shuffle-array.ts';
