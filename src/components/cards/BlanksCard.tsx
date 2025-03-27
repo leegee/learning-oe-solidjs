@@ -13,7 +13,7 @@ export interface IBlanksCard extends IBaseCard {
     words: { word: string; correct: boolean }[]; // Array of words with a correct boolean flag
 };
 
-interface IBlanksCardProps {
+export interface IBlanksCardProps {
     card: IBlanksCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
@@ -89,18 +89,16 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                 <div class="word-options">
                     {shuffledWords().map((word) => {
                         const isSelected = selectedWords().includes(word);
-                        console.log(word, isSelected);
-                        const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
+                        const isCorrect = props.card.words.some((item) => item.word === word && item.correct);
+                        const shakeClass = shake() === word ? 'shake' : '';
+                        const className = 'word-option ' + (isSelected ? (isCorrect ? 'correct' : 'incorrect') : '') + shakeClass;
 
                         return (
                             <button
                                 lang={langs().a}
                                 onClick={() => handleWordClick(word)}
                                 disabled={isSelected}
-                                class={`word-option 
-                                        ${isSelected ? (isCorrect ? 'correct' : 'incorrect') : ''} 
-                                        ${shake() === word ? 'shake' : ''}
-                                `}
+                                class={className}
                             >
                                 {word}
                             </button>
