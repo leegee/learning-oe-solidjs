@@ -2,11 +2,11 @@ import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
 import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch.tsx';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 
-jest.mock('../../i18n', () => ({
+jest.mock('../../../i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key),
 }));
 
-jest.mock('../../lib/shuffle-array.ts', () => ({
+jest.mock('../../../lib/shuffle-array.ts', () => ({
     shuffleArray: jest.fn(),
 }));
 

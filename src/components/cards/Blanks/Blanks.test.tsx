@@ -2,11 +2,11 @@ import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
 import BlanksCardComponent, { type IBlanksCard, type IBlanksCardProps } from './Blanks.tsx';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 
-jest.mock('../../i18n', () => ({
+jest.mock('../../../i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key),
 }));
 
-jest.mock('../../lib/shuffle-array.ts', () => ({
+jest.mock('../../../lib/shuffle-array.ts', () => ({
     shuffleArray: jest.fn(),
 }));
 
