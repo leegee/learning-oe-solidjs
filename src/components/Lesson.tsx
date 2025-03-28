@@ -1,15 +1,17 @@
 import { createSignal, onCleanup, Switch, Match, createMemo, createEffect } from 'solid-js';
 import { t } from '../i18n';
-import { type Lesson } from '../Lessons';
-import {
-    BlanksCardComponent,
-    DynamicVocabComponent,
+import type { Lesson } from '../Lessons';
+import type {
     IBlanksCard,
     IDynamicVocabCard,
     IMultipleChoiceCard,
     IVocabMatchCard,
     IWritingBlocksCard,
-    IWritingCard,
+    IWritingCard
+} from './cards';
+import {
+    BlanksCardComponent,
+    DynamicVocabComponent,
     MultipleChoiceComponent,
     VocabMatchCardComponent,
     WritingBlocksCardComponent,
@@ -17,7 +19,7 @@ import {
 } from './cards';
 import './Lesson.css';
 
-interface ILessonProps {
+export interface ILessonProps {
     lesson: Lesson;
     onAnswer: (cardIndex: number, incorrectAnswer?: string) => void;
     onCancel: () => void;
@@ -25,8 +27,8 @@ interface ILessonProps {
 }
 
 const LessonComponent = (props: ILessonProps) => {
-    const [lessonQueue, setLessonQueue] = createSignal(props.lesson.cards);
-    const currentCard = createMemo(() => lessonQueue()[0] ?? null);
+    const [lessonStack, setLessonStack] = createSignal(props.lesson.cards);
+    const currentCard = createMemo(() => lessonStack()[0] ?? null);
     let correctlyAnswered: null | boolean = null;
 
     createEffect(() => {
@@ -55,28 +57,26 @@ const LessonComponent = (props: ILessonProps) => {
 
 
     const goToNextCard = () => {
-        console.log('Enter goToNextCard correctlyAnswered=', correctlyAnswered, 'queue =', lessonQueue());
+        // console.log('Enter goToNextCard correctlyAnswered=', correctlyAnswered, 'stack =', lessonStack());
 
         if (correctlyAnswered) {
-            // Update the queue state and use new signal reference
-            setLessonQueue((prevQueue) => {
-                const updatedQueue = prevQueue.slice(1);  // Remove the first card
-                console.log('Updated lessonQueue after correct answer =', updatedQueue);
-                return updatedQueue;
+            setLessonStack((prevStack) => {
+                const updatedStack = prevStack.slice(1);  // Remove the first card
+                console.log('Updated lessonStack after correct answer =', updatedStack);
+                return updatedStack;
             });
 
-            // If no cards are left, complete the lesson
-            if (lessonQueue().length === 0) {
+            if (lessonStack().length === 0) {
                 props.onLessonComplete();
                 return;
             }
         } else {
-            // Move incorrectly answered card to the other end of the queue
-            setLessonQueue((prevQueue) => {
-                const currentCard = prevQueue[0];
-                const updatedQueue = [...prevQueue.slice(1), currentCard];
-                console.log('Updated lessonQueue after incorrect answer =', updatedQueue);
-                return updatedQueue;
+            // Move incorrectly answered card to the other end of the stack
+            setLessonStack((prevStack) => {
+                const currentCard = prevStack[0];
+                const updatedStack = [...prevStack.slice(1), currentCard];
+                console.log('Updated lessonStack after incorrect answer =', updatedStack);
+                return updatedStack;
             });
         }
     };
@@ -84,21 +84,16 @@ const LessonComponent = (props: ILessonProps) => {
     const onIncorrect = () => {
         console.log('Enter onIncorrect');
         correctlyAnswered = false;
-        const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
+        const currentCardIndex = props.lesson.cards.indexOf(lessonStack()[0]);
         props.onAnswer(currentCardIndex, 'bad_answer_goes_here');
     };
 
     const onCorrect = () => {
         console.log('Enter onCorrect');
         correctlyAnswered = true;
-        const currentCardIndex = props.lesson.cards.indexOf(lessonQueue()[0]);
+        const currentCardIndex = props.lesson.cards.indexOf(lessonStack()[0]);
         props.onAnswer(currentCardIndex);
     };
-
-    createEffect(() => {
-        console.log('lessonQueue', lessonQueue())
-        console.log('curentCard', currentCard());
-    });
 
     return (
         <article class="lesson">
@@ -108,10 +103,10 @@ const LessonComponent = (props: ILessonProps) => {
             </h2>
 
             <progress
-                value={lessonQueue().length === 0 ? 1 : (props.lesson.cards.length - lessonQueue().length + 1)}
+                value={lessonStack().length === 0 ? 1 : (props.lesson.cards.length - lessonStack().length + 1)}
                 max={props.lesson.cards.length}
                 aria-label={t('lesson_progress')}
-                title={`${props.lesson.cards.length - lessonQueue().length + 1} / ${props.lesson.cards.length}`}
+                title={`${props.lesson.cards.length - lessonStack().length + 1} / ${props.lesson.cards.length}`}
             />
 
             <Switch fallback={<p>Unknown lesson card...</p>}>
