@@ -1,6 +1,5 @@
 import { createSignal, onCleanup, Switch, Match, createMemo, createEffect } from 'solid-js';
 import { t } from '../i18n';
-import type { Lesson } from '../Lessons';
 import type {
     IBlanksCard,
     IDynamicVocabCard,
@@ -18,6 +17,12 @@ import {
     WritingCardComponent
 } from './cards';
 import './Lesson.css';
+
+export interface Lesson {
+    title: string;
+    description?: string;
+    cards: (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
+};
 
 export interface ILessonProps {
     lesson: Lesson;

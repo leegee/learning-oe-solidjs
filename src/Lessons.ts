@@ -1,17 +1,8 @@
 import Ajv from 'ajv';
 
-import type {
-    IMultipleChoiceCard,
-    IVocabMatchCard,
-    IBlanksCard,
-    IWritingCard,
-    IWritingBlocksCard,
-    IDynamicVocabCard
-
-} from './components/cards';
-
 import lessonsSchema from '../lessons.schema.json';
 import lessonsData from '../lessons.json';
+import { Lesson } from './components/Lesson';
 
 const ajv = new Ajv();
 const validate = ajv.compile(lessonsSchema);
@@ -20,12 +11,6 @@ const valid = validate(lessonsData);
 if (!valid) {
     console.log('Invalid lesson JSON:', validate.errors);
 }
-
-export type Lesson = {
-    title: string;
-    description?: string;
-    cards: (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
-};
 
 export type LessonSummary = {
     title: string;
