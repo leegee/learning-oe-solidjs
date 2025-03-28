@@ -40,8 +40,8 @@
                 "answer": "mann",
                 "options": [
                     "mann",
-                    "wīf",
-                    "god",
+                    "stān",
+                    "blōstm",
                     "hūs"
                 ]
             },
@@ -49,14 +49,18 @@
                 "class": "blanks",
                 "qlang": "default",
                 "alang": "target",
-                "question": "Ic ēom a ____.",
+                "question": "Hit is hūs.",
                 "words": [
                     {
-                        "word": "mann",
+                        "word": "hūs",
                         "correct": true
                     },
                     {
                         "word": "wīf",
+                        "correct": false
+                    },
+                    {
+                        "word": "hiw",
                         "correct": false
                     }
                 ]
