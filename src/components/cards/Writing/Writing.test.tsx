@@ -1,5 +1,5 @@
-import { cleanup, render, screen, fireEvent, waitFor } from "solid-testing-library";
-import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './WritingCard';
+import { cleanup, render, screen, fireEvent } from "solid-testing-library";
+import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
 
 jest.mock("../../i18n", () => ({
     t: (key: string) => key,

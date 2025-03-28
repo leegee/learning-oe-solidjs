@@ -1,9 +1,9 @@
 import { createSignal, createEffect, For } from 'solid-js';
 
-import { type IBaseCard } from './BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
-import ActionButton from '../ActionButton.tsx';
-import './WritingBlocksCard.css';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import ActionButton from '../../ActionButton.tsx';
+import './WritingBlocks.css';
 
 export interface IWritingBlocksCard extends IBaseCard {
     class: 'writing-blocks';

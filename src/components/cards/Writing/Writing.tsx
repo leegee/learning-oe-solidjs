@@ -1,11 +1,11 @@
 import { createSignal, createEffect, createMemo } from 'solid-js';
-import { t } from '../../i18n';
+import { t } from '../../../i18n.ts';
 
-import { type IBaseCard } from './BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
-import ActionButton from '../ActionButton';
-import LetterButtons from '../LetterButtons';
-import './WritingCard.css';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import ActionButton from '../../ActionButton.tsx';
+import LetterButtons from '../../LetterButtons.tsx';
+import './Writing.css';
 
 export interface IWritingCard extends IBaseCard {
     class: 'writing';

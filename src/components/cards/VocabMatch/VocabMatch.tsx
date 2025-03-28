@@ -1,9 +1,9 @@
 import { createSignal, createEffect, For, Show } from 'solid-js';
-import { t } from '../../i18n';
-import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type IBaseCard } from './BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
-import appConfig from '../../config.ts';
+import { t } from '../../../i18n.ts';
+import { shuffleArray } from '../../../lib/shuffle-array.ts';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import appConfig from '../../../config.ts';
 import './VocabMatch.css';
 
 export interface IVocabMatchCard extends IBaseCard {

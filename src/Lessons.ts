@@ -1,11 +1,14 @@
 import Ajv from 'ajv';
 
-import { type IMultipleChoiceCard } from './components/cards/MultipleChoice';
-import { type IVocabMatchCard } from './components/cards/VocabMatch';
-import { type IBlanksCard } from './components/cards/BlanksCard';
-import { type IWritingCard } from './components/cards/WritingCard';
-import { type IWritingBlocksCard } from './components/cards/WritingBlocksCard';
-import { type IDynamicVocabCard } from './components/cards/DynamicVocabCard';
+import type {
+    IMultipleChoiceCard,
+    IVocabMatchCard,
+    IBlanksCard,
+    IWritingCard,
+    IWritingBlocksCard,
+    IDynamicVocabCard
+
+} from './components/cards';
 
 import lessonsSchema from '../lessons.schema.json';
 import lessonsData from '../lessons.json';

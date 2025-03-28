@@ -1,8 +1,8 @@
 import { createMemo } from 'solid-js';
 
-import { type IBaseCard } from './BaseCard.type';
-import { Lesson } from '../../Lessons';
-import VocabMatchCardComponent, { type IVocabMatchCard } from './VocabMatch';
+import { type IBaseCard } from '../BaseCard.type';
+import { Lesson } from '../../../Lessons';
+import VocabMatchCardComponent, { type IVocabMatchCard } from '../VocabMatch/VocabMatch';
 
 export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
@@ -16,22 +16,29 @@ interface IDynamicVocabCardProps {
     onComplete: () => void;
 }
 
+type VocabWord = {
+    word: string;
+    correct: boolean;
+}
+
 const DynamicVocabComponent = (props: IDynamicVocabCardProps) => {
     const vocab = createMemo(() => {
         const newVocab: { [key: string]: string } = {};
 
-        for (const thisCard of props.lesson.cards.filter(card => ['vocab', 'blanks'].includes(card.class))) {
-            if (thisCard.class === 'blanks' && thisCard.qlang === props.card.qlang) {
-                const blankWords = thisCard.words.filter(wordObj => wordObj.correct);
-                blankWords.forEach(blank => {
-                    newVocab[blank.word] = blank.word;
+        for (const lessonCard of props.lesson.cards.filter(card => ['vocab', 'blanks'].includes(card.class))) {
+            if (lessonCard.class === 'blanks' && lessonCard.qlang === props.card.qlang) {
+                const blankWords = lessonCard.words.filter((wordObj: VocabWord) => wordObj.correct);
+
+                blankWords.forEach((wordObj: VocabWord) => {
+                    newVocab[wordObj.word] = wordObj.word;
                 });
-            } else if (thisCard.class === 'vocab') {
-                if (thisCard.qlang === props.card.qlang) {
-                    Object.assign(newVocab, thisCard.vocab);
+            }
+            else if (lessonCard.class === 'vocab') {
+                if (lessonCard.qlang === props.card.qlang) {
+                    Object.assign(newVocab, lessonCard.vocab);
                 } else {
                     const swappedVocab = Object.fromEntries(
-                        Object.entries(thisCard.vocab).map(([key, value]) => [value, key])
+                        Object.entries(lessonCard.vocab).map(([key, value]) => [value, key])
                     );
                     Object.assign(newVocab, swappedVocab);
                 }

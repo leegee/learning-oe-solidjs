@@ -1,11 +1,11 @@
 // BlanksCard.tsx
 import { createSignal, createEffect } from 'solid-js';
-import { t } from '../../i18n';
+import { t } from '../../../i18n';
 
-import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type IBaseCard } from './BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
-import './BlanksCard.css';
+import { shuffleArray } from '../../../lib/shuffle-array.ts';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import './Blanks.css';
 
 export interface IBlanksCard extends IBaseCard {
     class: 'blanks';

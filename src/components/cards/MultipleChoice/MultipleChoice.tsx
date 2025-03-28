@@ -1,11 +1,11 @@
 import { For } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
-import { t } from '../../i18n';
 
-import { shuffleArray } from '../../lib/shuffle-array.ts';
-import { type IBaseCard } from './BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../lib/set-q-and-a-langs.ts';
-import ActionButton from '../ActionButton.tsx';
+import { t } from '../../../i18n';
+import { shuffleArray } from '../../../lib/shuffle-array.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import ActionButton from '../../ActionButton.tsx';
 import './MultipleChoice.css';
 
 export interface IMultipleChoiceCard extends IBaseCard {
