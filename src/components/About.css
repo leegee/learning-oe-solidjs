@@ -7,12 +7,7 @@
      font-family: Junicode;
      font-style: italic;
      text-align: center;
- }
-
- #home img {
-     width: 30%;
-     float: right;
-     margin-left: 1em;
-     margin-bottom: 1em;
-     opacity: 40%;
+     display: flex;
+     align-items: baseline;
+     justify-content: center !important;
  }
