@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
-import LessonComponent from './Lesson';
-import type { Lesson } from '../Lessons';
+import LessonComponent, { type Lesson } from './Lesson';
 import { IMultipleChoiceCard } from './cards';
 
 jest.mock('./cards', () => ({
@@ -61,28 +60,47 @@ describe('LessonComponent', () => {
             />
         ));
 
+        await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(0));
+        await waitFor(() => expect(onLessonComplete).toHaveBeenCalledTimes(0));
+
         await waitFor(() => expect(
             screen.getByText(lesson.cards[0].question!)
+        ).toBeInTheDocument());
+
+        let incorrect = await waitFor(() => screen.getByText('Incorrect'));
+        fireEvent.click(incorrect);
+
+        let next = await waitFor(() => screen.getByText('Next'));
+        fireEvent.click(next);
+
+        await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(1));
+        await waitFor(() => expect(onLessonComplete).toHaveBeenCalledTimes(0));
+
+        await waitFor(() => expect(
+            screen.getByText(lesson.cards[1].question!)
         ).toBeInTheDocument());
 
         let correct = await waitFor(() => screen.getByText('Correct'));
         fireEvent.click(correct);
 
-        let next = await waitFor(() => screen.getByText('Next'));
+        next = await waitFor(() => screen.getByText('Next'));
         fireEvent.click(next);
 
+        await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(2));
+        await waitFor(() => expect(onLessonComplete).toHaveBeenCalledTimes(0));
+
         await waitFor(() => expect(
-            screen.getByText(lesson.cards[1].question!)
+            screen.getByText(lesson.cards[0].question!)
         ).toBeInTheDocument());
+
         correct = await waitFor(() => screen.getByText('Correct'));
         fireEvent.click(correct);
 
         next = await waitFor(() => screen.getByText('Next'));
         fireEvent.click(next);
 
+        await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(3));
         await waitFor(() => expect(onLessonComplete).toHaveBeenCalledTimes(1));
-
-        await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(2));
     });
 
 });
