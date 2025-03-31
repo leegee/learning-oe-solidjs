@@ -19,19 +19,15 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
             <section class='card lesson-completed'>
                 <h2>{t('lesson_completed')}</h2>
                 <p>
-                    {
-                        t(
-                            'lesson_completed_counts',
-                            {
-                                questionCount: questionCount,
-                                incorrectAnswerCount: incorrectAnswerCount,
-                                duration: formatDuration(t, props.durationInSeconds)
-                            }
-                        )
-                    }
+                    {t('lesson_completed_counts',
+                        {
+                            questionCount: questionCount,
+                            incorrectAnswerCount: incorrectAnswerCount,
+                            duration: formatDuration(t, props.durationInSeconds)
+                        }
+                    )}
                 </p>
                 <footer>
-                    {/* Keep the same button as before */}
                     <button class='next-button' onClick={props.onNext}>{t('continue')}</button>
                 </footer>
             </section>
