@@ -105,7 +105,7 @@ const App = () => {
       case LessonState.Completed:
         return (
           <LessonCompleted
-            onLessonComplete={lessonComplete}
+            onNext={lessonComplete}
             durationInSeconds={lessonTime() ?? -1}
           />
         );

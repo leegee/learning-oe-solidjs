@@ -6,7 +6,7 @@ import './LessonCompleted.css';
 
 interface LessonCompletedComponentProps {
     durationInSeconds: number;
-    onLessonComplete: () => void;
+    onNext: () => void;
 }
 
 const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
@@ -32,7 +32,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                 </p>
                 <footer>
                     {/* Keep the same button as before */}
-                    <button class='next-button' onClick={props.onLessonComplete}>{t('continue')}</button>
+                    <button class='next-button' onClick={props.onNext}>{t('continue')}</button>
                 </footer>
             </section>
         </>
