@@ -14,7 +14,7 @@ export const setCurrentLessonIndex = (lessonIndex: number) => {
   localStorage.setItem(keys.CURRENT_LESSON_INDEX, String(lessonIndex));
 }
 
-export const currentLessonIndex = () => {
+export const getCurrentLessonIndex = () => {
   return JSON.parse(localStorage.getItem(keys.CURRENT_LESSON_INDEX) || '0');
 }
 

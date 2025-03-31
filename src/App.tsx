@@ -24,7 +24,7 @@ enum LessonState {
 }
 
 const App = () => {
-  const initialLessonIndex = state.currentLessonIndex();
+  const initialLessonIndex = state.getCurrentLessonIndex();
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [lessonTime, setLessonTime] = createSignal<number>(0);

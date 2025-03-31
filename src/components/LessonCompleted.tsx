@@ -1,6 +1,6 @@
 import { t } from '../i18n';
 import { formatDuration } from "../lib/format-duration";
-import { currentLessonIndex, getLessonQuestionsAnsweredIncorrect, getLessonQuestionCount } from '../lessons-state';
+import { getCurrentLessonIndex, getLessonQuestionsAnsweredIncorrect, getLessonQuestionCount } from '../lessons-state';
 
 import './LessonCompleted.css';
 
@@ -10,7 +10,7 @@ interface LessonCompletedComponentProps {
 }
 
 const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
-    const idx = currentLessonIndex();
+    const idx = getCurrentLessonIndex();
     const incorrectAnswerCount = getLessonQuestionsAnsweredIncorrect(idx);
     const questionCount = getLessonQuestionCount(idx);
 
