@@ -65,11 +65,8 @@ const LessonComponent = (props: ILessonProps) => {
         // console.log('Enter goToNextCard correctlyAnswered=', correctlyAnswered, 'stack =', lessonStack());
 
         if (correctlyAnswered) {
-            setLessonStack((prevStack) => {
-                const updatedStack = prevStack.slice(1);  // Remove the first card
-                console.log('Updated lessonStack after correct answer =', updatedStack);
-                return updatedStack;
-            });
+            // Remove the first card
+            setLessonStack((prevStack) => prevStack.slice(1));
 
             if (lessonStack().length === 0) {
                 props.onLessonComplete();
@@ -77,12 +74,7 @@ const LessonComponent = (props: ILessonProps) => {
             }
         } else {
             // Move incorrectly answered card to the other end of the stack
-            setLessonStack((prevStack) => {
-                const currentCard = prevStack[0];
-                const updatedStack = [...prevStack.slice(1), currentCard];
-                console.log('Updated lessonStack after incorrect answer =', updatedStack);
-                return updatedStack;
-            });
+            setLessonStack((prevStack) => [...prevStack.slice(1), prevStack[0]]);
         }
     };
 
