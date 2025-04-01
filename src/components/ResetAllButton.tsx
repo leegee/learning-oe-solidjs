@@ -2,7 +2,7 @@
 
 import { createMemo } from "solid-js";
 import { t } from "../i18n";
-import { resetAll, getTotalQuestionsAnswered } from "../lessons-state";
+import { resetCourse, getTotalQuestionsAnswered } from "../lessons-state";
 import { useConfirm } from "../contexts/Confirm";
 
 export const ResetAllButtonComponent = () => {
@@ -10,7 +10,7 @@ export const ResetAllButtonComponent = () => {
     const totalAnswered = createMemo(() => getTotalQuestionsAnswered());
 
     const onConfirmed = () => {
-        resetAll();
+        resetCourse();
         window.location.reload();
     }
 

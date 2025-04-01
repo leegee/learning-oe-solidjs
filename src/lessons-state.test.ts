@@ -11,7 +11,7 @@ import {
     getLessonQuestionCount,
     getLessonQuestionsAnsweredIncorrect,
     getLessonQuestionsAnsweredCcorrect,
-    resetAll,
+    resetCourse,
 } from "./lessons-state";
 
 describe("state", () => {
@@ -215,7 +215,7 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            resetAll();
+            resetCourse();
             expect(localStorage.getItem('oe_answers')).toBe(null);
         });
     });

@@ -2,6 +2,7 @@ import { createSignal, createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../lessons.schema.json";
 import appConfig from "./config";
+import { getCourseIndex, setCourseIndex } from "./lessons-state";
 import { type Lesson } from './components/Lesson';
 
 export type LessonSummary = {
@@ -26,19 +27,15 @@ export interface CourseData extends CourseMetadata {
 
 // Global reactive state
 const [_courseMetadata, setCourseMetadata] = createSignal<CourseMetadata | null>(null);
-const [selectedCourseIndex, setSelectedCourseIndex] = createSignal<number | null>(null);
+const [localSelectedCourseIndex, setLocalSelectedCourseIndex] = createSignal<number | null>(null);
 const [_lessons, setLessons] = createSignal<Lesson[]>([]);
 const [_loading, setLoading] = createSignal(true);
 
-// Load saved course selection from localStorage on startup
-const savedIndex = localStorage.getItem("selectedCourseIndex");
-if (savedIndex !== null) {
-    setSelectedCourseIndex(parseInt(savedIndex, 10));
-}
+setLocalSelectedCourseIndex(getCourseIndex());
 
 // Load lessons when `selectedCourseIndex` changes
 createEffect(async () => {
-    const index = selectedCourseIndex();
+    const index = localSelectedCourseIndex();
     if (index === null || index >= appConfig.lessons.length) {
         console.log('Course index out of range');
         return;
@@ -84,8 +81,8 @@ export const loadingCourse = _loading;
 // Function to change the selected course from anywhere
 export const setSelectedCourse = (index: number) => {
     console.info("Selected course", index);
-    setSelectedCourseIndex(index);
-    localStorage.setItem("selectedCourseIndex", index.toString());
+    setLocalSelectedCourseIndex(index);
+    setCourseIndex(index);
 };
 
 export const lessonTitles2Indicies = (): LessonSummary[] => {
@@ -99,7 +96,7 @@ const CourseSelector = () => {
     return (
         <ul>
             {appConfig.lessons.map((course, index) => (
-                <li class={selectedCourseIndex() === index ? 'selected' : ''}>
+                <li class={localSelectedCourseIndex() === index ? 'selected' : ''}>
                     <button onClick={() => setSelectedCourse(index)}>
                         {course.title}
                     </button>
