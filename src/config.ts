@@ -1,6 +1,9 @@
 import defaultConfig from './default.config.json';
 import appConfigRaw from '../app.config.json';
 
+import '../uk-constitution.json';
+import '../lessons.json';
+
 interface AvailableLanguages {
     [language: string]: {
         [key: string]: string;
