@@ -27,9 +27,9 @@ describe('BlanksCardComponent', () => {
                 qlang: 'target',
                 question: 'This is a __ __.',
                 words: [
-                    { word: 'sample', correct: true },
-                    { word: 'test', correct: true },
-                    { word: 'example', correct: false },
+                    { sample: true },
+                    { test: true },
+                    { example: false },
                 ],
             } as IBlanksCard,
             onCorrect: mockOnCorrect,
@@ -42,26 +42,24 @@ describe('BlanksCardComponent', () => {
         render(() => <BlanksCardComponent {...props} />);
 
         expect(screen.getByText(props.card.question)).toBeInTheDocument();
-        for (const i of props.card.words) {
-            expect(screen.getByText(i.word)).toBeInTheDocument();
-            expect(screen.getByText(i.word)).toBeInTheDocument();
-            expect(screen.getByText(i.word)).toBeInTheDocument();
+
+        for (const wordObj of props.card.words) {
+            const word = Object.keys(wordObj)[0];
+            expect(screen.getByText(word)).toBeInTheDocument();
         }
     });
 
     it('should call onCorrect when a correct word is clicked', async () => {
         render(() => <BlanksCardComponent {...props} />);
 
-        fireEvent.click(screen.getByText(props.card.words[0].word));
+        const correctWords = props.card.words.filter(w => Object.values(w)[0]);
+        for (const wordObj of correctWords) {
+            const word = Object.keys(wordObj)[0];
+            fireEvent.click(screen.getByText(word));
+        }
 
         await waitFor(() => {
-            expect(mockOnCorrect).toHaveBeenCalledTimes(1);
-        });
-
-        fireEvent.click(screen.getByText(props.card.words[1].word));
-
-        await waitFor(() => {
-            expect(mockOnCorrect).toHaveBeenCalledTimes(2);
+            expect(mockOnCorrect).toHaveBeenCalledTimes(correctWords.length);
         });
 
         expect(screen.getByText('This is a sample test.')).toBeInTheDocument();
@@ -70,18 +68,25 @@ describe('BlanksCardComponent', () => {
     it('should call onIncorrect when an incorrect word is clicked', async () => {
         render(() => <BlanksCardComponent {...props} />);
 
-        fireEvent.click(screen.getByText('example'));
+        const incorrectWordObj = props.card.words.find(w => !Object.values(w)[0]);
+        if (incorrectWordObj) {
+            const incorrectWord = Object.keys(incorrectWordObj)[0];
+            fireEvent.click(screen.getByText(incorrectWord));
 
-        await waitFor(() => {
-            expect(mockOnIncorrect).toHaveBeenCalledTimes(1);
-        });
+            await waitFor(() => {
+                expect(mockOnIncorrect).toHaveBeenCalledTimes(1);
+            });
+        }
     });
 
     it('should call onComplete when all correct words are selected', async () => {
         render(() => <BlanksCardComponent {...props} />);
 
-        fireEvent.click(screen.getByText(props.card.words[0].word));
-        fireEvent.click(screen.getByText(props.card.words[1].word));
+        const correctWords = props.card.words.filter(w => Object.values(w)[0]);
+        for (const wordObj of correctWords) {
+            const word = Object.keys(wordObj)[0];
+            fireEvent.click(screen.getByText(word));
+        }
 
         fireEvent.click(screen.getByText('next'));
 
@@ -93,10 +98,19 @@ describe('BlanksCardComponent', () => {
     it('should add the correct CSS classes based on selection', () => {
         render(() => <BlanksCardComponent {...props} />);
 
-        fireEvent.click(screen.getByText(props.card.words[0].word));
-        expect(screen.getByText('sample')).toHaveClass('correct');
+        const correctWordObj = props.card.words.find(w => Object.values(w)[0]);
+        const incorrectWordObj = props.card.words.find(w => !Object.values(w)[0]);
 
-        fireEvent.click(screen.getByText(props.card.words[2].word));
-        expect(screen.getByText('example')).toHaveClass('shake');
+        if (correctWordObj) {
+            const correctWord = Object.keys(correctWordObj)[0];
+            fireEvent.click(screen.getByText(correctWord));
+            expect(screen.getByText(correctWord)).toHaveClass('correct');
+        }
+
+        if (incorrectWordObj) {
+            const incorrectWord = Object.keys(incorrectWordObj)[0];
+            fireEvent.click(screen.getByText(incorrectWord));
+            expect(screen.getByText(incorrectWord)).toHaveClass('shake');
+        }
     });
 });
