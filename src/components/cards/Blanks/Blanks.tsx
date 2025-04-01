@@ -47,7 +47,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
             if (word === expectedWord) {
                 props.onCorrect();
-                setSelectedWords([...selectedWords(), word]);
+                setSelectedWords((prev) => [...prev, word])
                 let updatedSentence = currentSentence();
                 updatedSentence = updatedSentence.replace(/__+/, word);
                 setCurrentSentence(updatedSentence);
