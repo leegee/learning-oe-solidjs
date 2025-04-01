@@ -92,6 +92,14 @@ export default defineConfig({
             },
           },
           {
+            urlPattern: ({ url }) => url.origin === location.origin && url.pathname.endsWith('.json'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'json-cache',
+              networkTimeoutSeconds: 10,
+            },
+          },
+          {
             urlPattern: ({ url }) => url.origin === location.origin && url.pathname.endsWith('.tff'),
             handler: 'NetworkFirst',
             options: {
