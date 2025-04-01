@@ -3,7 +3,7 @@ CHANGE LOG
 
 2025-04-01
 
-* Simplify `Blanks` data structure
+* Simplify `Blanks` data structure and highlight repalced words
 
 2025-03-27
 
