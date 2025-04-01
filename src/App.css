@@ -22,65 +22,10 @@ main * {
     }
 }
 
-main header {
-    margin-top: 0.6em;
-    transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
-}
-
-main header .header-text {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    margin: 0 0.3em;
-}
-
-main header h1,
-main header h2 {
-    margin: 0;
-    font-weight: normal;
-}
-
-main header h1 {
-    font-size: 2em;
-    font-style: italic;
-}
-
-main header h2 {
-    font-size: 1.6em;
-}
-
 .correct-answer-alt,
 .incorrect-answers-alt,
 .questions-answered-alt {
     display: none;
-}
-
-@media (max-width: 1024px) {
-    main header h2 {
-        /* display: none; */
-    }
-
-    main header .stats {
-        font-size: 1.2em;
-    }
-}
-
-main header h2 {
-    font-weight: 100;
-}
-
-main header .header-progress,
-main header .course-progress {
-    width: 100%;
-    height: 2pt;
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-main header .header-progress {
-    margin-bottom: 0.2em;
 }
 
 main.lesson-active header {

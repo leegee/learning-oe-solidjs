@@ -1,6 +1,8 @@
-import config from "../config";
-import { t } from "../i18n";
-import { getCurrentLessonIndex, getTotalTakenLessons } from "../lessons-state";
+import config from "../../config";
+import { t } from "../../i18n";
+import Menu from "../Menu";
+import { getCurrentLessonIndex, getTotalTakenLessons } from "../../lessons-state";
+import './Header.css';
 
 interface HeaderProps {
     isLessonActive: boolean;
@@ -16,7 +18,7 @@ const Header = (props: HeaderProps) => {
 
     return (
         <header>
-            <div class="header-progress">
+            <aside class="header-progress">
                 <progress
                     class="course-progress"
                     value={lessonIndex}
@@ -24,10 +26,13 @@ const Header = (props: HeaderProps) => {
                     aria-label={t("course_progress")}
                     title={`${t("all_lessons")} ${lessonIndex + 1} / ${totalLessons}`}
                 />
-            </div>
+            </aside>
 
             <div class="header-text">
-                <h1 lang={config.targetLanguage}>{config.target.apptitle}</h1>
+                <h1 lang={config.targetLanguage}>
+                    {config.target.apptitle}
+                    {/* <Menu /> */}
+                </h1>
                 <h2 lang={config.defaultLanguage}>{config.default.apptitle}</h2>
             </div>
         </header>
