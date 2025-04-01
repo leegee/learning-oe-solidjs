@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
-import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch.tsx';
-import { shuffleArray } from '../../../lib/shuffle-array.ts';
+import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
+import { shuffleArray } from '../../../lib/shuffle-array';
 
 jest.mock('../../../i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key),

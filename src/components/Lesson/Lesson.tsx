@@ -1,5 +1,5 @@
 import { createSignal, onCleanup, Switch, Match, createMemo, createEffect } from 'solid-js';
-import { t } from '../i18n';
+import { t } from '../../i18n';
 import type {
     IBlanksCard,
     IDynamicVocabCard,
@@ -7,7 +7,7 @@ import type {
     IVocabMatchCard,
     IWritingBlocksCard,
     IWritingCard
-} from './cards';
+} from '../cards';
 import {
     BlanksCardComponent,
     DynamicVocabComponent,
@@ -15,7 +15,7 @@ import {
     VocabMatchCardComponent,
     WritingBlocksCardComponent,
     WritingCardComponent
-} from './cards';
+} from '../cards';
 import './Lesson.css';
 
 export interface Lesson {
