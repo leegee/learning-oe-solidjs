@@ -1,4 +1,3 @@
-// BlanksCard.tsx
 import { createSignal, createEffect } from 'solid-js';
 import { t } from '../../../i18n';
 
@@ -10,7 +9,7 @@ import './Blanks.css';
 export interface IBlanksCard extends IBaseCard {
     class: 'blanks';
     question: string;
-    words: { word: string; correct: boolean }[]; // Array of words with a correct boolean flag
+    words: Record<string, boolean>[]; // New structure
 };
 
 export interface IBlanksCardProps {
@@ -28,47 +27,42 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
     const [currentSentence, setCurrentSentence] = createSignal<string>(props.card.question);
     const [shake, setShake] = createSignal<string | null>(null);
 
+    // Extract words from new structure
+    const getWords = () => props.card.words.map(wordObj => Object.keys(wordObj)[0]);
+    const getCorrectWords = () => props.card.words.filter(wordObj => Object.values(wordObj)[0]).map(wordObj => Object.keys(wordObj)[0]);
+
     createEffect(() => {
-        setShuffledWords(shuffleArray(props.card.words.map(word => word.word)));
+        setShuffledWords(shuffleArray(getWords()));
         setLangs(setQandALangs(props.card));
     });
 
     const handleWordClick = (word: string) => {
         const firstBlankIndex = currentSentence().indexOf('__');
+        if (firstBlankIndex === -1) return;
 
-        if (firstBlankIndex === -1) {
-            return;
-        }
-
-        const isCorrect = props.card.words.find((item) => item.word === word && item.correct);
+        const isCorrect = props.card.words.some(wordObj => wordObj[word] === true);
 
         if (isCorrect) {
-            const expectedWord = props.card.words.filter(word => word.correct)[selectedWords().length].word;
-
+            const expectedWord = getCorrectWords()[selectedWords().length];
             if (word === expectedWord) {
                 props.onCorrect();
-                setSelectedWords((prev) => [...prev, word])
-                let updatedSentence = currentSentence();
-                updatedSentence = updatedSentence.replace(/__+/, word);
-                setCurrentSentence(updatedSentence);
+                setSelectedWords(prev => [...prev, word]);
+                setCurrentSentence(prev => prev.replace(/__+/, word));
             } else {
-                // Word is correct but out of order
                 setShake(word);
                 setTimeout(() => setShake(null), 1000);
                 props.onIncorrect();
             }
         } else {
-            // Word is incorrect
             setShake(word);
             setTimeout(() => setShake(null), 1000);
             props.onIncorrect();
         }
     };
 
-    // Check if all correct words are selected in the correct order
     createEffect(() => {
-        const correctOrder = props.card.words.filter(word => word.correct).map(item => item.word);
-        if (selectedWords().length === correctOrder.length && selectedWords().every((word, index) => word === correctOrder[index])) {
+        if (selectedWords().length === getCorrectWords().length &&
+            selectedWords().every((word, index) => word === getCorrectWords()[index])) {
             setIsComplete(true);
         }
     });
@@ -82,16 +76,14 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
     return (
         <>
             <section class="card blanks-card">
-
                 <h4>{t('fill_in_the_blanks')}</h4>
                 <h3 class="question" lang={langs().q}>{currentSentence()}</h3>
-
                 <div class="word-options">
                     {shuffledWords().map((word) => {
                         const isSelected = selectedWords().includes(word);
-                        const isCorrect = props.card.words.some((item) => item.word === word && item.correct);
+                        const isCorrect = props.card.words.some(wordObj => wordObj[word] === true);
                         const shakeClass = shake() === word ? 'shake' : '';
-                        const className = 'word-option ' + (isSelected ? (isCorrect ? 'correct' : 'incorrect') : '') + shakeClass;
+                        const className = `word-option ${isSelected ? (isCorrect ? 'correct' : 'incorrect') : ''} ${shakeClass}`;
 
                         return (
                             <button
@@ -105,9 +97,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                         );
                     })}
                 </div>
-
             </section>
-
             {isComplete() && (
                 <button class="next-button" onClick={handleNextClick}>
                     {t('next')}

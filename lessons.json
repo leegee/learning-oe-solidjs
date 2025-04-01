@@ -52,16 +52,13 @@
                 "question": "Hit is ___.",
                 "words": [
                     {
-                        "word": "hūs",
-                        "correct": true
+                        "hūs": true
                     },
                     {
-                        "word": "wīf",
-                        "correct": false
+                        "wīf": false
                     },
                     {
-                        "word": "hiw",
-                        "correct": false
+                        "hiw": false
                     }
                 ]
             }

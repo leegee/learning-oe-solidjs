@@ -196,18 +196,11 @@
                                     "type": "array",
                                     "items": {
                                         "type": "object",
-                                        "properties": {
-                                            "word": {
-                                                "type": "string"
-                                            },
-                                            "correct": {
-                                                "type": "boolean"
-                                            }
-                                        },
-                                        "required": [
-                                            "word",
-                                            "correct"
-                                        ]
+                                        "minProperties": 1,
+                                        "maxProperties": 1,
+                                        "additionalProperties": {
+                                            "type": "boolean"
+                                        }
                                     }
                                 }
                             },
