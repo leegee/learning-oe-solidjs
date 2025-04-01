@@ -1,3 +1,7 @@
+interface Answers {
+  [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
+}
+
 const STORAGE_PREFIX = 'oe_';
 
 const storageKeys = {
@@ -5,11 +9,6 @@ const storageKeys = {
   ANSWERS: (courseId: number) => `${STORAGE_PREFIX}answers_${courseId}`,
   COURSE_INDEX: `${STORAGE_PREFIX}course`,
 };
-
-// Interface for answers
-interface Answers {
-  [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
-}
 
 let courseId: number = getCourseIndex();
 
@@ -48,7 +47,6 @@ export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnsw
   localStorage.setItem(storageKeys.ANSWERS(courseId), JSON.stringify(savedAnswers));
 };
 
-// Reset all state and clear from localStorage for a specific course
 export const resetCourse = () => {
   localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(courseId));
   localStorage.removeItem(storageKeys.ANSWERS(courseId));
