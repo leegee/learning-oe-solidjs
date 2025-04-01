@@ -1,6 +1,14 @@
 CHANGE LOG
 ==========
 
+2025-04-01
+
+* Simplify `Blanks` data structure
+
+2025-03-27
+
+* Unit tests
+
 2025-03-26: 0.1.3
 
 * Switch to the clunkier, slower Jest because at least it works.
