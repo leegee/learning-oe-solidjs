@@ -2,7 +2,7 @@ import { createSignal, createMemo, createEffect } from "solid-js";
 
 import * as state from "./lessons-state";
 import { ConfirmProvider } from "./contexts/Confirm";
-import { lessons, lessonTitles2Indicies, loadingCourse } from "./Course.tsx";
+import { courseMetadata, lessons, lessonTitles2Indicies, loadingCourse } from "./Course.tsx";
 import LessonList from "./components/LessonLIst/LessonList";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
@@ -79,6 +79,7 @@ const App = () => {
           <HomeScreen>
             <Stats />
             <LessonList
+              courseMetadata={courseMetadata()!}
               currentLessonIndex={currentLessonIndex()}
               lessons={lessonTitles2Indicies()}
               onLessonSelected={showLessonIntro}
@@ -133,7 +134,10 @@ const App = () => {
           .filter(Boolean)
           .join(" ")}
       >
-        <Header isLessonActive={lessonState() === LessonState.InProgress} />
+        <Header
+          courseMetadata={courseMetadata()!}
+          isLessonActive={lessonState() === LessonState.InProgress}
+        />
 
         {!loadingCourse() && renderContent()}
       </main>

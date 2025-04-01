@@ -1,38 +1,42 @@
 import { For } from 'solid-js';
-import { t } from '../../i18n';
-import { type LessonSummary } from "../../Course.tsx";
+// import { t } from '../../i18n';
+import { type CourseMetadata, type LessonSummary } from "../../Course.tsx";
 import './LessonList.css';
 
 interface LessonListProps {
     lessons: LessonSummary[];
     currentLessonIndex: number;
+    courseMetadata: CourseMetadata;
     onLessonSelected: (lessonIndex: number) => void;
 }
 
-const LessonList = ({ lessons, currentLessonIndex, onLessonSelected }: LessonListProps) => {
+const LessonList = (props: LessonListProps) => {
     const onLessonSelectedLocal = (lessonIndex: number) => {
         console.log('LessonList set lesson index to', lessonIndex);
-        onLessonSelected(lessonIndex);
+        props.onLessonSelected(lessonIndex);
     };
 
     return (
         <section class="card lesson-list">
-            <h2>{t('list_lessons_title')}</h2>
+            <h2>
+                {/* {t('list_lessons_title')} */}
+                {props.courseMetadata.courseTitle}
+            </h2>
             <ol>
-                <For each={lessons}>
+                <For each={props.lessons}>
                     {(lessonSummary, index) => (
                         <li>
                             <button
-                                disabled={index() > currentLessonIndex}
+                                disabled={index() > props.currentLessonIndex}
                                 onClick={() => {
-                                    if (index() <= currentLessonIndex) {
+                                    if (index() <= props.currentLessonIndex) {
                                         onLessonSelectedLocal(index());
                                     }
                                 }}
                                 class={[
-                                    index() < currentLessonIndex && 'completed',
-                                    index() === currentLessonIndex && 'current',
-                                    index() > currentLessonIndex && 'todo'
+                                    index() < props.currentLessonIndex && 'completed',
+                                    index() === props.currentLessonIndex && 'current',
+                                    index() > props.currentLessonIndex && 'todo'
                                 ].filter(Boolean).join(' ')}
                             >
                                 <span class='index'>{index() + 1}</span>

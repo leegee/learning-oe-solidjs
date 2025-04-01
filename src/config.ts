@@ -14,14 +14,6 @@ interface I18n {
     availableLanguages: AvailableLanguages;
 }
 
-interface ConfigTarget {
-    apptitle: string;
-}
-
-interface ConfigDefault {
-    apptitle: string;
-}
-
 interface LessonConfig {
     title: string;
     path: string; // relative to Lessons.ts
@@ -32,8 +24,7 @@ interface Config {
     defaultLanguage: string;
     targetLanguage: string;
     uiLanguage?: string;
-    target: ConfigTarget;
-    default: ConfigDefault;
+    appTitle: string;
     i18n: I18n;
     animationShakeMs: number;
     // [key: string]: string | number | boolean | I18n | ConfigTarget | ConfigDefault | undefined;

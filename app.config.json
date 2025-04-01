@@ -2,12 +2,7 @@
     "defaultLanguage": "en",
     "targetLanguage": "ang",
     "uiLanguage": "en",
-    "default": {
-        "apptitle": "Old English Lessons"
-    },
-    "target": {
-        "apptitle": "Eald Englisc Lārspel"
-    },
+    "appTitle": "Learning Cards",
     "lessons": [
         {
             "title": "UK Constitutional Law",
