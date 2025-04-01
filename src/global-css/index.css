@@ -155,13 +155,15 @@ h3 {
     margin: 0.3em 0 0.6em 0;
 }
 
-h3.question::before {
+/* h3.question::before {
     content: '“';
+    opacity: 0.3;
 }
 
 h3.question::after {
     content: '”';
-}
+    opacity: 0.3;
+} */
 
 h4 {
     font-size: 1em;

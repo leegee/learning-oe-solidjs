@@ -9,7 +9,9 @@ export type LessonSummary = {
     index: number;
 };
 
-const courseLessons: Lesson[] = require(appConfig.lessons[0].path);
+const courseLessons: Lesson[] = (await import(appConfig.lessons[0].path)).default;
+
+console.log(courseLessons)
 
 const ajv = new Ajv();
 const validate = ajv.compile(courseLessonsSchema);

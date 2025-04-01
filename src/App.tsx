@@ -2,7 +2,7 @@ import { createSignal, createMemo } from "solid-js";
 
 import LessonList from "./components/LessonLIst/LessonList";
 import * as state from "./lessons-state";
-import { lessons, lessonTitles2Indicies } from "./Lessons";
+import { lessons, lessonTitles2Indicies } from "./Course";
 import { ConfirmProvider } from "./contexts/Confirm";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
@@ -34,7 +34,7 @@ const App = () => {
 
   const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
 
-  const startLesson = (lessonIndex: number) => {
+  const showLessonIntro = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
     state.setCurrentLessonIndex(lessonIndex);
     setLessonState(LessonState.Intro);
@@ -53,7 +53,7 @@ const App = () => {
 
   const lessonComplete = () => {
     if (currentLessonIndex() < lessons.length - 1) {
-      startLesson(currentLessonIndex() + 1);
+      showLessonIntro(currentLessonIndex() + 1);
       goHome();
     } else {
       setLessonState(LessonState.CourseFinished);
@@ -76,7 +76,7 @@ const App = () => {
             <LessonList
               currentLessonIndex={currentLessonIndex()}
               lessons={lessonTitles2Indicies()}
-              onLessonSelected={startLesson}
+              onLessonSelected={showLessonIntro}
             />
             <AboutComponent />
           </HomeScreen>

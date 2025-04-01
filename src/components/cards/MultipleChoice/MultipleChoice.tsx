@@ -68,7 +68,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     return (
         <>
             <section class='card multiple-choice'>
-                <h4 lang={langs().q}>{t('in_lang_how_do_you_say', { lang: t(langs().a) })}</h4>
+                {/* <h4 lang={langs().q}>{t('in_lang_how_do_you_say', { lang: t(langs().a) })}</h4> */}
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <For each={shuffledOptions()}>

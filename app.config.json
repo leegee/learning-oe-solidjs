@@ -10,6 +10,10 @@
     },
     "lessons": [
         {
+            "title": "UK Constitutional Law",
+            "path": "../uk-constitution.json"
+        },
+        {
             "title": "Old English",
             "path": "../lessons.json"
         }
