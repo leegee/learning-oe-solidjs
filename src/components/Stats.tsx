@@ -1,13 +1,19 @@
-import { createSignal } from 'solid-js';
+import { createSignal, createEffect } from 'solid-js';
 import { t } from '../i18n';
 import * as state from "../lessons-state";
 import './Stats.css';
 
-const [totalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());
-const [totalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnswers());
-const [totalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());
-
 const Stats = () => {
+    const [totalCorrectAnswers, setTotalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());
+    const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnswers());
+    const [totalQuestionsAnswered, setTotalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());
+
+    createEffect(() => {
+        setTotalCorrectAnswers(state.getTotalCorrectAnswers());
+        setTotalIncorrectAnswers(state.getTotalIncorrectAnswers());
+        setTotalQuestionsAnswered(state.getTotalQuestionsAnswered());
+    });
+
     if (!totalQuestionsAnswered()) {
         return '';
     }
@@ -42,8 +48,8 @@ const Stats = () => {
                     {totalQuestionsAnswered()}
                 </span>
             </span>
-        </span >
+        </span>
     );
-}
+};
 
 export default Stats;
