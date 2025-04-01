@@ -47,6 +47,18 @@ main header h2 {
     margin-bottom: 0.2em;
 }
 
+main.lesson-active header {
+    font-size: 0;
+    margin-top: 0;
+    opacity: 0;
+    transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
+}
+
+main.lesson-active progress {
+    font-size: 2pt;
+    line-height: 2pt;
+}
+
 @media (max-width: 1024px) {
     /* main header h2 {
         display: none;

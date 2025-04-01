@@ -14,7 +14,10 @@
 }
 
 .lesson h2 {
-    font-weight: light;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .lesson h2 em {
@@ -25,11 +28,16 @@
 .lesson h2 .close-button {
     float: right;
     text-align: center;
-    font-size: 1em;
+    font-size: 2em;
     padding: 1pt 4pt;
     border-radius: 50%;
     margin: 0;
     border: none;
+    width: 1em;
+    height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .lesson h2 .close-button:hover {

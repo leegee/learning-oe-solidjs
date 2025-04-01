@@ -95,7 +95,7 @@ const LessonComponent = (props: ILessonProps) => {
     return (
         <article class="lesson">
             <h2>
-                {t('lesson')}: <em>{props.lesson.title}</em>
+                <em>{props.lesson.title}</em>
                 <button class="close-button" onClick={props.onCancel} aria-label={t('lesson_progress')} />
             </h2>
 

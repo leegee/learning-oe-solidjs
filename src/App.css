@@ -27,15 +27,3 @@ main * {
 .questions-answered-alt {
     display: none;
 }
-
-main.lesson-active header {
-    font-size: 0;
-    margin-top: 0;
-    opacity: 0;
-    transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
-}
-
-main.lesson-active progress {
-    font-size: 2pt;
-    line-height: 2pt;
-}
