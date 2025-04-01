@@ -112,14 +112,7 @@ const App = () => {
 
       case LessonState.CourseFinished:
         return (
-          <CompletedAllLessons totalLessons={lessons.length}>
-            <Stats />
-            <LessonList
-              currentLessonIndex={currentLessonIndex()}
-              lessons={lessonTitles2Indicies()}
-              onLessonSelected={startLesson}
-            />
-          </CompletedAllLessons>
+          <CompletedAllLessons totalLessons={lessons.length} />
         );
 
       default:

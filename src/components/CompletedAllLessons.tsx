@@ -4,7 +4,7 @@ import './CompletedAllLessons.css';
 
 interface CompletionSummaryProps {
     totalLessons: number;
-    children: JSX.Element
+    children?: JSX.Element
 }
 
 const CompletedAllLessons = (props: CompletionSummaryProps) => {
@@ -17,7 +17,7 @@ const CompletedAllLessons = (props: CompletionSummaryProps) => {
                 <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
             </article>
 
-            {props.children}
+            {props.children && props.children}
         </>
     );
 };
