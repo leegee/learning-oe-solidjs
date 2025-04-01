@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/learning-oe-solidjs/sw.js', { scope: '/learning-oe-solidjs/' })})}
