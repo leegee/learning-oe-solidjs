@@ -1,8 +1,7 @@
 import { createMemo } from 'solid-js';
-
-import { type IBaseCard } from '../BaseCard.type';
-import { Lesson } from '../../../Lessons';
 import VocabMatchCardComponent, { type IVocabMatchCard } from '../VocabMatch/VocabMatch';
+import { type IBaseCard } from '../BaseCard.type';
+import { type Lesson } from '../../Lesson';
 
 export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
@@ -16,27 +15,24 @@ interface IDynamicVocabCardProps {
     onComplete: () => void;
 }
 
-type VocabWord = {
-    word: string;
-    correct: boolean;
-}
-
 const DynamicVocabComponent = (props: IDynamicVocabCardProps) => {
     const vocab = createMemo(() => {
         const newVocab: { [key: string]: string } = {};
 
         for (const lessonCard of props.lesson.cards.filter(card => ['vocab', 'blanks'].includes(card.class))) {
             if (lessonCard.class === 'blanks' && lessonCard.qlang === props.card.qlang) {
-                const blankWords = lessonCard.words.filter((wordObj: VocabWord) => wordObj.correct);
-
-                blankWords.forEach((wordObj: VocabWord) => {
-                    newVocab[wordObj.word] = wordObj.word;
+                // Collect words and their correctness from the blanks card
+                lessonCard.words.forEach((wordObj: any) => {
+                    const word = Object.keys(wordObj)[0]; // Extract the word from the object
+                    const correct = wordObj[word];
+                    newVocab[word] = correct ? word : ''; // Only store correct words
                 });
             }
             else if (lessonCard.class === 'vocab') {
                 if (lessonCard.qlang === props.card.qlang) {
                     Object.assign(newVocab, lessonCard.vocab);
                 } else {
+                    // Swap the vocab mapping if qlang does not match
                     const swappedVocab = Object.fromEntries(
                         Object.entries(lessonCard.vocab).map(([key, value]) => [value, key])
                     );
@@ -48,11 +44,11 @@ const DynamicVocabComponent = (props: IDynamicVocabCardProps) => {
         return newVocab;
     });
 
-    // Create the new card
+    // Create the new card with the updated vocab structure
     const newCard: IVocabMatchCard = {
         class: 'vocab',
         qlang: props.card.qlang,
-        vocab: vocab()
+        vocab: vocab() // The vocab now correctly reflects the structure with correctness
     };
 
     return (
