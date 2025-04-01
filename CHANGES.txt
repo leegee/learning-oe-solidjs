@@ -3,6 +3,8 @@ CHANGE LOG
 
 2025-04-01
 
+* Add support for mulitple courses
+* Tidy fs layout
 * Simplify `Blanks` data structure and highlight repalced words
 
 2025-03-27
