@@ -1,6 +1,6 @@
 import { For } from 'solid-js';
-import { t } from '../i18n';
-import { type LessonSummary } from "../Lessons";
+import { t } from '../../i18n';
+import { type LessonSummary } from "../../Lessons";
 import './LessonList.css';
 
 interface LessonListProps {
