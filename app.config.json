@@ -8,6 +8,12 @@
     "target": {
         "apptitle": "Eald Englisc Lārspel"
     },
+    "lessons": [
+        {
+            "title": "Old English",
+            "path": "../lessons.json"
+        }
+    ],
     "animationShakeMs": 300,
     "i18n": {
         "detectUserLanguage": false,

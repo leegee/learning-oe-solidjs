@@ -3,6 +3,12 @@
     "targetLanguage": "ang",
     "uiLanguage": "en",
     "animationShakeMs": 333,
+    "lessons": [
+        {
+            "title": "Old English",
+            "path": "../lessons.json"
+        }
+    ],
     "default": {
         "apptitle": "Default App Target"
     },

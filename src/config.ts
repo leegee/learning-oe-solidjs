@@ -22,10 +22,16 @@ interface ConfigDefault {
     apptitle: string;
 }
 
+interface LessonConfig {
+    title: string;
+    path: string; // relative to Lessons.ts
+}
+
 interface Config {
+    lessons: LessonConfig[];
     defaultLanguage: string;
     targetLanguage: string;
-    uiLanguage?: string; // Optional, as it may not always be present
+    uiLanguage?: string;
     target: ConfigTarget;
     default: ConfigDefault;
     i18n: I18n;
