@@ -29,6 +29,10 @@ body,
     margin: 0;
 }
 
+* {
+    border-radius: var(--oe-border-radius);
+}
+
 [lang="ang"] {
     font-family: 'Junicode', serif;
     font-style: italic;

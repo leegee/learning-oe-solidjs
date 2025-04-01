@@ -1,6 +1,5 @@
-import { createSignal, createEffect } from 'solid-js';
-import { t } from '../../../i18n';
-
+import { createSignal, createEffect, type JSX } from 'solid-js';
+import { t } from '../../../i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
@@ -9,8 +8,8 @@ import './Blanks.css';
 export interface IBlanksCard extends IBaseCard {
     class: 'blanks';
     question: string;
-    words: Record<string, boolean>[]; // New structure
-};
+    words: { [word: string]: boolean }[]; // Updated structure
+}
 
 export interface IBlanksCardProps {
     card: IBlanksCard;
@@ -22,37 +21,48 @@ export interface IBlanksCardProps {
 const BlanksCardComponent = (props: IBlanksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
-    const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
+    const [selectedWords, setSelectedWords] = createSignal<string[]>([]); // Track selected words
     const [isComplete, setIsComplete] = createSignal(false);
-    const [currentSentence, setCurrentSentence] = createSignal<string>(props.card.question);
+
+    // Update currentSentence to handle JSX.Element correctly
+    const [currentSentence, setCurrentSentence] = createSignal<JSX.Element[]>([]);
+
     const [shake, setShake] = createSignal<string | null>(null);
 
-    // Extract words from new structure
-    const getWords = () => props.card.words.map(wordObj => Object.keys(wordObj)[0]);
-    const getCorrectWords = () => props.card.words.filter(wordObj => Object.values(wordObj)[0]).map(wordObj => Object.keys(wordObj)[0]);
-
     createEffect(() => {
-        setShuffledWords(shuffleArray(getWords()));
+        setShuffledWords(shuffleArray(props.card.words.map(word => Object.keys(word)[0])));
         setLangs(setQandALangs(props.card));
+
+        const initialSentence = props.card.question.split(/\b/).reduce((acc, part, index) => {
+            if (/^_{2,}$/.test(part)) {
+                acc.push(
+                    <span class={props.card.words[index] ? 'blank-correct' : 'blank'}>
+                        {'__'}
+                    </span>
+                );
+            } else {
+                acc.push(<span class='word'>{part}</span>);
+            }
+            return acc;
+        }, [] as JSX.Element[]);
+        setCurrentSentence(initialSentence);
     });
 
     const handleWordClick = (word: string) => {
-        const firstBlankIndex = currentSentence().indexOf('__');
-        if (firstBlankIndex === -1) return;
+        const firstBlankIndex = currentSentence().findIndex((el) => el instanceof HTMLElement && el.classList.contains('blank'));
+        if (firstBlankIndex === -1) {
+            return;
+        }
 
-        const isCorrect = props.card.words.some(wordObj => wordObj[word] === true);
+        const isCorrect = props.card.words.find((item) => item[word]);
 
         if (isCorrect) {
-            const expectedWord = getCorrectWords()[selectedWords().length];
-            if (word === expectedWord) {
-                props.onCorrect();
-                setSelectedWords(prev => [...prev, word]);
-                setCurrentSentence(prev => prev.replace(/__+/, word));
-            } else {
-                setShake(word);
-                setTimeout(() => setShake(null), 1000);
-                props.onIncorrect();
-            }
+            const updatedSentence = [...currentSentence()];
+            updatedSentence[firstBlankIndex] = <span class="blank-correct">{word}</span>;
+
+            setCurrentSentence(updatedSentence);
+            setSelectedWords([...selectedWords(), word]);
+            props.onCorrect();
         } else {
             setShake(word);
             setTimeout(() => setShake(null), 1000);
@@ -61,8 +71,8 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
     };
 
     createEffect(() => {
-        if (selectedWords().length === getCorrectWords().length &&
-            selectedWords().every((word, index) => word === getCorrectWords()[index])) {
+        const correctOrder = props.card.words.filter(word => Object.values(word)[0]).map(item => Object.keys(item)[0]);
+        if (selectedWords().length === correctOrder.length && selectedWords().every((word, index) => word === correctOrder[index])) {
             setIsComplete(true);
         }
     });
@@ -77,13 +87,16 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
         <>
             <section class="card blanks-card">
                 <h4>{t('fill_in_the_blanks')}</h4>
-                <h3 class="question" lang={langs().q}>{currentSentence()}</h3>
+                <h3 class="question" lang={langs().q}>
+                    {currentSentence()}
+                </h3>
+
                 <div class="word-options">
                     {shuffledWords().map((word) => {
                         const isSelected = selectedWords().includes(word);
-                        const isCorrect = props.card.words.some(wordObj => wordObj[word] === true);
+                        const isCorrect = props.card.words.some((item) => Object.keys(item)[0] === word && Object.values(item)[0]);
                         const shakeClass = shake() === word ? 'shake' : '';
-                        const className = `word-option ${isSelected ? (isCorrect ? 'correct' : 'incorrect') : ''} ${shakeClass}`;
+                        const className = 'word-option ' + (isSelected ? (isCorrect ? 'correct' : 'incorrect') : '') + shakeClass;
 
                         return (
                             <button
@@ -98,6 +111,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                     })}
                 </div>
             </section>
+
             {isComplete() && (
                 <button class="next-button" onClick={handleNextClick}>
                     {t('next')}

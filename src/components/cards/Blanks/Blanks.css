@@ -1,5 +1,5 @@
 .blanks-card h3 {
-    margin: 1em 0;
+    margin: 1em;
 }
 
 .blanks-card h4 {
@@ -10,7 +10,8 @@
     display: flex;
     justify-content: space-evenly;
     gap: 1em;
-    margin-top: 2em;
+    margin-top: 3em;
+    margin-bottom: 1em;
 }
 
 .blanks-card button.word-option {
@@ -21,4 +22,9 @@
     border-color: #888;
     background-color: #333;
     color: #888;
+}
+
+.blanks-card .blank-correct {
+    border: 1pt solid #888;
+    padding: 0 0.3em
 }
