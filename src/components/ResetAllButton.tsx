@@ -9,7 +9,12 @@ export const ResetAllButtonComponent = () => {
     const { showConfirm } = useConfirm();
     const totalAnswered = createMemo(() => getTotalQuestionsAnswered());
 
-    return (<button onClick={() => showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), resetAll)}
+    const onConfirmed = () => {
+        resetAll();
+        window.location.reload();
+    }
+
+    return (<button onClick={() => showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
         disabled={totalAnswered() === 0}
     >
         {t('reset_all')}
