@@ -10,7 +10,6 @@ import LessonIntro from "./components/LessonIntro";
 import LessonComponent from "./components/Lesson";
 import LessonCompleted from "./components/LessonCompleted";
 import CompletedAllLessons from "./components/CompletedAllLessons";
-import AboutComponent from "./components/About";
 import Stats from "./components/Stats";
 
 import "./App.css";
@@ -84,7 +83,6 @@ const App = () => {
               lessons={lessonTitles2Indicies()}
               onLessonSelected={showLessonIntro}
             />
-            <AboutComponent />
           </HomeScreen>
         );
 

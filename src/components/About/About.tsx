@@ -2,8 +2,7 @@ import './About.css';
 
 const AboutComponent = () => {
     return (
-        <section class="card about">
-            <img src="icons/dog.webp" />
+        <section class="about" lang='en'>
             <h2>About This App</h2>
             <p>
                 This little app was written in under a week to help me
@@ -14,7 +13,7 @@ const AboutComponent = () => {
                 Nothing is stored outside of your device.
             </p>
             <footer>
-                &mdash; <a title='E-mail' href='mailto:leegee@gmail.com'>Lee Goddard</a>, Gödöllő, 2025
+                &copy; <a title='E-mail' href='mailto:leegee@gmail.com'>Lee Goddard</a>, Gödöllő, 2025
             </footer>
         </section>
     );

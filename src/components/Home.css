@@ -68,14 +68,6 @@
     display: inline-block;
 }
 
-#home img {
-    width: 30%;
-    float: right;
-    margin-left: 1em;
-    margin-bottom: 1em;
-    opacity: 40%;
-}
-
 #home footer {
     display: flex;
     align-items: baseline;

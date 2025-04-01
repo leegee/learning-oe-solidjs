@@ -1,9 +1,14 @@
 import { createSignal } from "solid-js";
 import Course from "../../Course";
-import './Menu.css';
 import ResetAllButtonComponent from "../ResetAllButton";
+import AboutComponent from "../About";
+import './Menu.css';
 
-const Menu = () => {
+interface MenuProps {
+    title: string;
+}
+
+const Menu = (props: MenuProps) => {
     const [isOpen, setIsOpen] = createSignal(false);
     const toggleMenu = () => setIsOpen(prev => !prev);
     const closeMenu = () => setIsOpen(false);
@@ -14,14 +19,21 @@ const Menu = () => {
                 <span class="hamburger-icon">☰</span>
             </button>
 
-            <nav class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
-                <Course />
-                <ul>
+            <div class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
+
+                <h1>{props.title}</h1>
+
+                <nav>
+                    <Course />
                     <li>
                         <ResetAllButtonComponent />
                     </li>
-                </ul>
-            </nav>
+                </nav>
+
+                <AboutComponent />
+            </div>
+
+
         </aside>
     );
 };

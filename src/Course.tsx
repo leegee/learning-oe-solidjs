@@ -46,9 +46,6 @@ createEffect(async () => {
 
     try {
         const courseData: CourseData = (await import(appConfig.lessons[index].path));
-        console.info("Course loaded successfully");
-
-        console.debug('lessonsData', courseData);
 
         if (!courseData) {
             throw new TypeError('Unexecpted course lesson data');
@@ -66,9 +63,11 @@ createEffect(async () => {
             console.error("Invalid lesson JSON:");
             console.debug(JSON.stringify(validate.errors, null, 4))
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error("Error loading lessons:", error);
-    } finally {
+    }
+    finally {
         setLoading(false);
     }
 });
@@ -94,7 +93,7 @@ export const lessonTitles2Indicies = (): LessonSummary[] => {
 
 const CourseSelector = () => {
     return (
-        <ul>
+        <>
             {appConfig.lessons.map((course, index) => (
                 <li class={localSelectedCourseIndex() === index ? 'selected' : ''}>
                     <button onClick={() => setSelectedCourse(index)}>
@@ -102,7 +101,7 @@ const CourseSelector = () => {
                     </button>
                 </li>
             ))}
-        </ul>
+        </>
     );
 };
 

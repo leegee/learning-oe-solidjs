@@ -1,13 +1,24 @@
- .about p {
-     font-weight: normal;
-     line-height: 160%;
- }
+.about,
+.about * {
+    background-color: var(--oe-clr-card-bg);
+    color: var(--oe-clr-card-fg);
+}
 
- .about footer {
-     font-family: Junicode;
-     font-style: italic;
-     text-align: center;
-     display: flex;
-     align-items: baseline;
-     justify-content: center !important;
- }
+.about {
+    margin-top: 2em;
+}
+
+.about p {
+    font-weight: normal;
+    line-height: 160%;
+}
+
+.about footer {
+    font-family: Junicode;
+    font-style: italic;
+    text-align: center;
+    display: flex;
+    align-items: baseline;
+    justify-content: center !important;
+    opacity: 50%;
+}

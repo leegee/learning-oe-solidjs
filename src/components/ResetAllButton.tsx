@@ -14,11 +14,16 @@ export const ResetAllButtonComponent = () => {
         window.location.reload();
     }
 
-    return (<button onClick={() => showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
-        disabled={totalAnswered() === 0}
-    >
-        {t('reset_all')}
-    </button>
+    if (totalAnswered() === 0) {
+        return '';
+    }
+
+    return (
+        <button onClick={() =>
+            showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
+        >
+            {t('reset_all')}
+        </button>
     );
 }
 

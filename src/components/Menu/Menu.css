@@ -22,13 +22,16 @@
 /* .hamburger-icon {} */
 
 .hamburger-menu {
-    position: absolute;
-    top: 1.2em;
+    position: fixed;
+    top: 0;
+    left: 0;
     right: 0;
+    bottom: 0;
+    padding: 10vh 10vw;
+
     color: var(--oe-clr-card-fg);
-    background-color: var(--oe-clr-card-bg);
+    background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
-    padding: 2pt;
     display: none;
     flex-direction: column;
     gap: 0.5em;
@@ -39,32 +42,53 @@
     display: flex;
 }
 
-.hamburger-menu ul {
+.hamburger-menu h1 {
+    font-size: 100%;
+    background-color: inherit;
+}
+
+.hamburger-menu nav {
     list-style-type: none;
     padding: 0;
     margin: 0;
     font-size: 1rem;
 }
 
-.hamburger-menu li {
-    font-weight: lighter;
-}
-
 .hamburger-menu li a,
 .hamburger-menu li button {
+    font-weight: 100;
+    background-color: var(--oe-clr-card-bg);
     display: block;
     width: 100%;
-    padding: 0.3em 1em;
     text-decoration: none;
     border: 0;
     white-space: nowrap;
-    text-align: right;
+    text-align: left;
 }
 
 .hamburger-menu li a:hover {
     background-color: #555;
 }
 
-.hamburger-menu li.selected * {
-    font-weight: bold;
+.hamburger-menu li.selected button {
+    font-weight: bolder;
+}
+
+.hamburger-menu li button:before {
+    content: '▶ ';
+    opacity: 0;
+}
+
+.hamburger-menu li.selected button:before {
+    opacity: 50%;
+}
+
+.hamburger-menu li button:disabled {
+    background-color: var(--oe-clr-card-bg) !important;
+}
+
+.hamburger-menu .about {
+    padding-left: 0.3em;
+    font-size: 40%;
+    width: 40vw;
 }
