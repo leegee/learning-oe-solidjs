@@ -98,7 +98,7 @@ export const getLessonQuestionCount = (lessonIndex: number): number => {
   return lessonAnswers.length;
 };
 
-export const getLessonQuestionsAnsweredIncorrect = (lessonIndex: number): number => {
+export const getLessonQuestionsAnsweredIncorrectly = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(
     (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer !== "").length : 0),
@@ -106,7 +106,7 @@ export const getLessonQuestionsAnsweredIncorrect = (lessonIndex: number): number
   );
 };
 
-export const getLessonQuestionsAnsweredCorrect = (lessonIndex: number): number => {
+export const getLessonQuestionsAnsweredCorrectly = (lessonIndex: number): number => {
   const lessonAnswers = getLessonAnswers(lessonIndex);
   return lessonAnswers.reduce(
     (total: number, cardAnswers: string[]) => total + (Array.isArray(cardAnswers) ? cardAnswers.filter(answer => answer === "").length : 0),

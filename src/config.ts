@@ -57,7 +57,7 @@ if (!defaultConfig || !appConfigRaw) {
 // Perform deep merge, ensuring the result is of type `Config`
 const appConfig = deepMerge<Config>(defaultConfig, appConfigRaw);
 
-const requiredKeys: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'target', 'default', 'i18n'];
+const requiredKeys: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'appTitle', 'i18n'];
 
 let ok = true;
 requiredKeys.forEach((key) => {

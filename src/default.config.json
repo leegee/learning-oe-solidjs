@@ -9,12 +9,7 @@
             "path": "../lessons.json"
         }
     ],
-    "default": {
-        "apptitle": "Default App Target"
-    },
-    "target": {
-        "apptitle": "Target App Target"
-    },
+    "appTitle": "Default App Target",
     "i18n": {
         "detectUserLanguage": false,
         "defaultLanguage": "en",

@@ -39,7 +39,7 @@ describe('Config file tests', () => {
         expect(appConfig.targetLanguage).toBe('fr');
         expect(appConfig.defaultLanguage).toBe('fr');
         expect(appConfig.i18n.defaultLanguage).toBe('fr');
-        expect(appConfig.target.apptitle).toBe('Mon Appli');
+        expect(appConfig.appTitle).toBe('Mon Appli');
         expect(appConfig.animationShakeMs).toBe(200);
     });
 

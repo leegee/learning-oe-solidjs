@@ -9,8 +9,8 @@ import {
     getTotalCorrectAnswers,
     getTotalIncorrectAnswers,
     getLessonQuestionCount,
-    getLessonQuestionsAnsweredIncorrect,
-    getLessonQuestionsAnsweredCcorrect,
+    getLessonQuestionsAnsweredIncorrectly,
+    getLessonQuestionsAnsweredCorrectly,
     resetCourse,
 } from "./lessons-state";
 
@@ -189,7 +189,7 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const count = getLessonQuestionsAnsweredIncorrect(2);
+            const count = getLessonQuestionsAnsweredIncorrectly(2);
             expect(count).toEqual(2);
         });
     });
@@ -202,7 +202,7 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem('oe_answers', JSON.stringify(mockData));
-            const count = getLessonQuestionsAnsweredCcorrect(2);
+            const count = getLessonQuestionsAnsweredCorrectly(2);
             expect(count).toEqual(1);
         });
     });
