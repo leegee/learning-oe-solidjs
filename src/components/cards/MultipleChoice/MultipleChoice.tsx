@@ -1,7 +1,7 @@
 import { For } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 
-import { t } from '../../../i18n';
+// import { t } from '../../../i18n';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import { type IBaseCard } from '../BaseCard.type';

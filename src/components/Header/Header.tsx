@@ -1,6 +1,6 @@
 import config from "../../config";
 import { t } from "../../i18n";
-// import Menu from "../Menu";
+import Menu from "../Menu";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../lessons-state";
 import './Header.css';
 
@@ -31,7 +31,7 @@ const Header = (props: HeaderProps) => {
             <div class="header-text">
                 <h1 lang={config.targetLanguage}>
                     {config.target.apptitle}
-                    {/* <Menu /> */}
+                    <Menu />
                 </h1>
                 <h2 lang={config.defaultLanguage}>{config.default.apptitle}</h2>
             </div>

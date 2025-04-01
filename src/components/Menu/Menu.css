@@ -6,14 +6,25 @@
     background: none;
     border: none;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 50%;
+    font-weight: normal;
+    opacity: 66%;
+}
+
+.hamburger-button:hover {
+    outline: none !important;
+    font-weight: bolder;
+    opacity: 100%;
 }
 
 /* .hamburger-icon {} */
 
 .hamburger-menu {
     position: absolute;
-    top: 50pt;
-    left: 0;
+    top: 1.2em;
+    right: 0;
     color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-card-bg);
     border: 1pt solid var(--oe-clr-border);
@@ -32,14 +43,28 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    font-size: 1rem;
 }
 
-.hamburger-menu li a {
-    text-decoration: none;
-    padding: 5pt 10pt;
+.hamburger-menu li {
+    font-weight: lighter;
+}
+
+.hamburger-menu li a,
+.hamburger-menu li button {
     display: block;
+    width: 100%;
+    padding: 0.3em 1em;
+    text-decoration: none;
+    border: 0;
+    white-space: nowrap;
+    text-align: right;
 }
 
 .hamburger-menu li a:hover {
     background-color: #555;
+}
+
+.hamburger-menu li.selected * {
+    font-weight: bold;
 }

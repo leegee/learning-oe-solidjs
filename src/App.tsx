@@ -1,9 +1,9 @@
-import { createSignal, createMemo } from "solid-js";
+import { createSignal, createMemo, createEffect } from "solid-js";
 
-import LessonList from "./components/LessonLIst/LessonList";
 import * as state from "./lessons-state";
-import { lessons, lessonTitles2Indicies } from "./Course";
 import { ConfirmProvider } from "./contexts/Confirm";
+import { lessons, lessonTitles2Indicies, loadingCourse } from "./Course.tsx";
+import LessonList from "./components/LessonLIst/LessonList";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
 import LessonIntro from "./components/LessonIntro";
@@ -28,11 +28,8 @@ const App = () => {
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [lessonTime, setLessonTime] = createSignal<number>(0);
-  const [lessonState, setLessonState] = createSignal(
-    initialLessonIndex >= lessons.length ? LessonState.CourseFinished : LessonState.Home
-  );
-
-  const currentLesson = createMemo(() => lessons[currentLessonIndex()]);
+  const [lessonState, setLessonState] = createSignal(LessonState.Home);
+  const currentLesson = createMemo(() => lessons()[currentLessonIndex()]);
 
   const showLessonIntro = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
@@ -52,7 +49,7 @@ const App = () => {
   };
 
   const lessonComplete = () => {
-    if (currentLessonIndex() < lessons.length - 1) {
+    if (currentLessonIndex() < lessons().length - 1) {
       showLessonIntro(currentLessonIndex() + 1);
       goHome();
     } else {
@@ -66,6 +63,14 @@ const App = () => {
     console.log(`onAsnwer for ${currentLessonIndex()} / ${cardIndex} = ${incorrectAnswer || 'incorrect'}`);
     state.saveAnswer(currentLessonIndex(), cardIndex, incorrectAnswer || '');
   };
+
+  // Watch for changes in loadingCourse and lessons
+  createEffect(() => {
+    if (!loadingCourse()) {
+      const isCourseFinished = initialLessonIndex >= lessons().length;
+      setLessonState(isCourseFinished ? LessonState.CourseFinished : LessonState.Home);
+    }
+  });
 
   const renderContent = () => {
     switch (lessonState()) {
@@ -112,7 +117,7 @@ const App = () => {
 
       case LessonState.CourseFinished:
         return (
-          <CompletedAllLessons totalLessons={lessons.length} />
+          <CompletedAllLessons totalLessons={lessons().length} />
         );
 
       default:
@@ -130,7 +135,7 @@ const App = () => {
       >
         <Header isLessonActive={lessonState() === LessonState.InProgress} />
 
-        {renderContent()}
+        {!loadingCourse() && renderContent()}
       </main>
     </ConfirmProvider>
   );

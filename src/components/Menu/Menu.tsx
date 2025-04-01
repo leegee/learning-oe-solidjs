@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import Course from "../../Course";
 import './Menu.css';
 
 const Menu = () => {
@@ -12,13 +13,8 @@ const Menu = () => {
                 <span class="hamburger-icon">☰</span>
             </button>
 
-            <nav class={`hamburger-menu ${isOpen() ? "open" : ""}`}>
-                <ul>
-                    <li><a href="#" onClick={closeMenu}>Home</a></li>
-                    <li><a href="#" onClick={closeMenu}>About</a></li>
-                    <li><a href="#" onClick={closeMenu}>Lessons</a></li>
-                    <li><a href="#" onClick={closeMenu}>Stats</a></li>
-                </ul>
+            <nav class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
+                <Course />
             </nav>
         </aside>
     );
