@@ -2,7 +2,7 @@
   "name": "learning-oe-solidjs",
   "description": "Configurable quiz cards for language learning or other quizes",
   "private": true,
-  "version": "0.1.3",
+  "version": "0.1.4",
   "type": "module",
   "homepage": "https://leegee.github.io/learning-oe-solidjs",
   "scripts": {

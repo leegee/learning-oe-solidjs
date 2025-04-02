@@ -1,6 +1,11 @@
 CHANGE LOG
 ==========
 
+2025-04-02: 0.1.4
+
+* Add a store for course data
+* Load courses through Vite
+
 2025-04-01
 
 * Add support for mulitple courses
