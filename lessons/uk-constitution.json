@@ -19,6 +19,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is the primary role of the UK Monarch in government?",
                     "answers": [
                         "Making laws",
@@ -31,6 +32,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What does the principle of parliamentary sovereignty mean?",
                     "answers": [
                         "The judiciary can override parliamentary decisions",
@@ -43,6 +45,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which document is part of the UK’s constitution?",
                     "answers": [
                         "The Magna Carta",
@@ -55,6 +58,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which of the following is a key function of the House of Commons?",
                     "answers": [
                         "Debating and voting on laws",
@@ -67,6 +71,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Who appoints the UK Prime Minister?",
                     "answers": [
                         "The Monarch",
@@ -79,6 +84,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is the primary purpose of the Human Rights Act 1998?",
                     "answers": [
                         "To incorporate the European Convention on Human Rights into UK law",
@@ -92,6 +98,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which court has the power to rule on the legality of laws passed by Parliament?",
                     "answers": [
                         "The House of Lords",
@@ -104,6 +111,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which part of the UK Parliament represents the people?",
                     "answers": [
                         "The House of Lords",
@@ -116,6 +124,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is meant by ‘the rule of law’ in the UK?",
                     "answers": [
                         "The government is above the law",
@@ -128,6 +137,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which of the following powers was devolved to the Scottish Parliament in 1999?",
                     "answers": [
                         "Defense",
@@ -146,6 +156,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is the highest court in the UK?",
                     "answers": [
                         "The Court of Appeal",
@@ -158,6 +169,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What does judicial independence ensure in the UK?",
                     "answers": [
                         "Judges can make laws",
@@ -170,6 +182,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which of the following is a role of the judiciary in the UK?",
                     "answers": [
                         "Making laws",
@@ -182,6 +195,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which body can challenge the constitutionality of UK laws?",
                     "answers": [
                         "The House of Commons",
@@ -194,6 +208,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which of the following is NOT a function of the UK judiciary?",
                     "answers": [
                         "Interpreting laws",
@@ -206,6 +221,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is the role of the UK judiciary in the separation of powers?",
                     "answers": [
                         "To make executive decisions",
@@ -218,6 +234,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which court has the authority to hear appeals from the decisions of lower courts?",
                     "answers": [
                         "The High Court",
@@ -230,6 +247,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "In the UK, who nominates judges to the Supreme Court?",
                     "answers": [
                         "The Prime Minister",
@@ -242,6 +260,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which principle underpins the judicial review process in the UK?",
                     "answers": [
                         "That judges can create laws",
@@ -254,6 +273,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What is the function of judicial review in the UK?",
                     "answers": [
                         "To make laws",
@@ -272,6 +292,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case reaffirmed the principle of parliamentary sovereignty in the UK?",
                     "answers": [
                         "Entick v Carrington (1765)",
@@ -284,6 +305,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What was the key principle established in the case of Entick v Carrington (1765)?",
                     "answers": [
                         "Judicial review is essential for the protection of rights",
@@ -296,6 +318,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What was the central issue in R (Miller) v Secretary of State for Exiting the European Union (2017)?",
                     "answers": [
                         "The legality of the Brexit referendum",
@@ -308,6 +331,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case addressed the issue of executive power in relation to the detention of foreign nationals under anti-terrorism laws?",
                     "answers": [
                         "R (Miller) v Secretary of State for Exiting the European Union (2017)",
@@ -320,6 +344,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case clarified that the Human Rights Act 1998 applies directly to the UK Parliament?",
                     "answers": [
                         "R (Miller) v Secretary of State for Exiting the European Union (2017)",
@@ -332,6 +357,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case is often cited for establishing the idea that UK courts can declare legislation incompatible with the European Convention on Human Rights?",
                     "answers": [
                         "R v Secretary of State for the Home Department (2002)",
@@ -344,6 +370,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which constitutional principle was clarified by the case of Jackson v Attorney General (2005)?",
                     "answers": [
                         "The supremacy of the judiciary over Parliament",
@@ -356,6 +383,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What did the case of Ghaidan v Godin-Mendoza (2004) involve?",
                     "answers": [
                         "The compatibility of UK law with the European Convention on Human Rights",
@@ -368,6 +396,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What constitutional issue was central in R (Nicklinson) v Ministry of Justice (2014)?",
                     "answers": [
                         "The legality of assisted suicide",
@@ -380,6 +409,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case emphasized the role of the judiciary in checking the powers of the executive in constitutional matters?",
                     "answers": [
                         "R v Secretary of State for the Home Department (2002)",
@@ -398,6 +428,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case highlighted the importance of the separation of powers between the judiciary and the executive?",
                     "answers": [
                         "M v Home Office (1993)",
@@ -410,6 +441,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What was the key ruling in M v Home Office (1993)?",
                     "answers": [
                         "The executive must comply with judicial orders",
@@ -422,6 +454,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case clarified that the UK Parliament cannot unilaterally remove rights guaranteed by EU law, despite Brexit?",
                     "answers": [
                         "R v Secretary of State for the Home Department (2002)",
@@ -434,6 +467,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case extended the concept of judicial review by allowing courts to review executive actions in specific instances?",
                     "answers": [
                         "R v Secretary of State for the Home Department (2002)",
@@ -446,6 +480,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What was the primary issue in the case of R v Secretary of State for the Home Department (2002)?",
                     "answers": [
                         "The compatibility of UK law with the European Convention on Human Rights",
@@ -458,6 +493,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "Which case reinforced Parliament’s sovereignty while considering the legality of the Hunting Act 2004?",
                     "answers": [
                         "R (Miller) v Secretary of State for Exiting the European Union (2017)",
@@ -470,6 +506,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
+                    "alang": "default",
                     "question": "What case clarified that executive decisions could not override statutory rights and could be subject to judicial review?",
                     "answers": [
                         "Anisminic Ltd v Foreign Compensation Commission (1969)",
