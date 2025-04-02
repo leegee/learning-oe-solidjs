@@ -3,7 +3,7 @@ import appConfig from "./config";
 
 const CourseSelector = () => {
     return (
-        <ul>
+        <>
             {appConfig.lessons.map((course, index) => (
                 <li class={courseStore.selectedCourseIndex === index ? 'selected' : ''}>
                     <button onClick={() => setSelectedCourse(index)}>
@@ -11,7 +11,7 @@ const CourseSelector = () => {
                     </button>
                 </li>
             ))}
-        </ul>
+        </>
     );
 };
 

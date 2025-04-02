@@ -54,6 +54,11 @@
     font-size: 1rem;
 }
 
+.hamburger-menu li {
+    list-style: none;
+    ;
+}
+
 .hamburger-menu li a,
 .hamburger-menu li button {
     font-weight: 100;
