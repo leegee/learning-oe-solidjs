@@ -2,7 +2,7 @@ import { Show } from "solid-js";
 import config from "../../config";
 import { t } from "../../i18n";
 import Menu from "../Menu";
-import { getCurrentLessonIndex, getTotalTakenLessons } from "../../lessons-state";
+import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
 import { type CourseMetadata } from "../../global-state/course";
 import './Header.css';
 

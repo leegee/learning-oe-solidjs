@@ -12,7 +12,7 @@ import {
     getLessonQuestionsAnsweredIncorrectly,
     getLessonQuestionsAnsweredCorrectly,
     resetCourse,
-} from "./lessons-state";
+} from "./lessons";
 
 describe("state", () => {
     beforeEach(() => {

@@ -3,7 +3,7 @@ import { createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import appConfig from "../config";
-import { getCourseIndex, setCourseIndex } from "../lessons-state";
+import { getCourseIndex, setCourseIndex } from "./lessons";
 import { type Lesson } from '../components/Lesson';
 
 const LESSONS_DIR = '../../lessons';
