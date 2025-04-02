@@ -6,15 +6,15 @@
     "lessons": [
         {
             "title": "UK Constitutional Law",
-            "path": "uk-constitution"
+            "fileBasename": "uk-constitution"
         },
         {
             "title": "Old English",
-            "path": "lessons"
+            "fileBasename": "lessons"
         },
         {
             "title": "Test",
-            "path": "test"
+            "fileBasename": "test"
         }
     ],
     "animationShakeMs": 300,

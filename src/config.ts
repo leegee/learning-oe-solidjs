@@ -16,7 +16,7 @@ interface I18n {
 
 interface LessonConfig {
     title: string;
-    path: string; // relative to Lessons.ts
+    fileBasename: string;
 }
 
 interface Config {
@@ -27,7 +27,6 @@ interface Config {
     appTitle: string;
     i18n: I18n;
     animationShakeMs: number;
-    // [key: string]: string | number | boolean | I18n | ConfigTarget | ConfigDefault | undefined;
 }
 
 const deepMerge = <T>(target: T, source: T): T => {
@@ -54,7 +53,6 @@ if (!defaultConfig || !appConfigRaw) {
     throw new Error('Config files are not properly loaded');
 }
 
-// Perform deep merge, ensuring the result is of type `Config`
 const appConfig = deepMerge<Config>(defaultConfig, appConfigRaw);
 
 const requiredKeys: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'appTitle', 'i18n'];
@@ -62,7 +60,7 @@ const requiredKeys: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'ap
 let ok = true;
 requiredKeys.forEach((key) => {
     if (!appConfig[key]) {
-        console.error(`app.config.json should contain the "${key}" key`);
+        console.warn(`app.config.json should contain the "${key}" key`);
         ok = false;
     }
 });

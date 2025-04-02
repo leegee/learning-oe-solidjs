@@ -6,7 +6,7 @@
     "lessons": [
         {
             "title": "Old English",
-            "path": "../lessons.json"
+            "fileBasename": "../lessons.json"
         }
     ],
     "appTitle": "Default App Target",

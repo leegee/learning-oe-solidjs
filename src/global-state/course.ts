@@ -29,7 +29,6 @@ export interface CourseData extends CourseMetadata {
     lessons: Lesson[];
 };
 
-// ** Define a reactive store **
 export const [courseStore, setCourseStore] = createStore({
     courseMetadata: null as CourseMetadata | null,
     selectedCourseIndex: getCourseIndex(),
@@ -67,11 +66,11 @@ createEffect(async () => {
         return;
     }
 
-    console.info("Loading course:", appConfig.lessons[index].path);
+    console.info("Loading course:", appConfig.lessons[index].fileBasename);
     setCourseStore("loading", true);
 
     try {
-        const courseData: CourseData = await loadCourse(appConfig.lessons[index].path);
+        const courseData: CourseData = await loadCourse(appConfig.lessons[index].fileBasename);
 
         if (!courseData) {
             throw new TypeError('Unexpected course lesson data');
