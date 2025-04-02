@@ -9,8 +9,7 @@ describe('Config file tests', () => {
         jest.mock('./default.config.json', () => ({
             defaultLanguage: 'en',
             targetLanguage: 'en',
-            target: { apptitle: 'My App' },
-            default: { apptitle: 'My App' },
+            appTitle: 'Mon Appli',
             i18n: {
                 detectUserLanguage: true,
                 defaultLanguage: 'en',
@@ -23,8 +22,7 @@ describe('Config file tests', () => {
         jest.mock('../app.config.json', () => ({
             targetLanguage: 'fr',
             defaultLanguage: 'fr',
-            target: { apptitle: 'Mon Appli' },
-            default: { apptitle: 'Mon Appli' },
+            appTitle: 'Mon Appli',
             i18n: {
                 detectUserLanguage: true,
                 defaultLanguage: 'fr',
