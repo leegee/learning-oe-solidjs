@@ -118,8 +118,8 @@ export const getLessonQuestionsAnsweredCorrectly = (lessonIndex: number): number
 };
 
 export function getCourseIndex() {
-  const savedIndex = Number(localStorage.getItem(storageKeys.COURSE_INDEX));
-  return isNaN(savedIndex) ? 0 : savedIndex;
+  const savedIndex = localStorage.getItem(storageKeys.COURSE_INDEX);
+  return savedIndex === null ? -1 : isNaN(Number(savedIndex)) ? 0 : parseInt(savedIndex, 10);
 };
 
 export const setCourseIndex = (index: number) => {

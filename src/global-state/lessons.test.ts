@@ -232,8 +232,8 @@ describe("state", () => {
         });
 
         describe("getCourseIndex", () => {
-            it("should return 0 if no course index is saved in localStorage", () => {
-                expect(getCourseIndex()).toBe(0);
+            it("should return -1 if no course index is saved in localStorage", () => {
+                expect(getCourseIndex()).toBe(-1);
             });
 
             it("should return the saved course index from localStorage", () => {
@@ -258,6 +258,8 @@ describe("state", () => {
                 expect(Current_Course_Index).toBe(7);
             });
         });
+
+
     });
 
 });
