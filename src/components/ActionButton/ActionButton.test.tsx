@@ -1,7 +1,7 @@
 import { render, screen } from "solid-testing-library";
 import ActionButton from "./ActionButton";
 
-jest.mock("../i18n", () => ({
+jest.mock("../../i18n", () => ({
     t: (key: string) => key,
 }));
 
