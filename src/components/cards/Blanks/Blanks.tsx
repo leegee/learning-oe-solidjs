@@ -1,8 +1,9 @@
 import { createSignal, createEffect, type JSX } from 'solid-js';
-import { t } from '../../../i18n.ts';
-import { shuffleArray } from '../../../lib/shuffle-array.ts';
-import { type IBaseCard } from '../BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import { t } from '../../../i18n';
+import { shuffleArray } from '../../../lib/shuffle-array';
+import { type IBaseCard } from '../BaseCard.type';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
+import ActionButton from '../../ActionButton/index';
 import './Blanks.css';
 
 export interface IBlanksCard extends IBaseCard {
@@ -59,11 +60,11 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
         if (isCorrect) {
             const updatedSentence = [...currentSentence()];
             updatedSentence[firstBlankIndex] = <span class="blank-correct">{word}</span>;
-
             setCurrentSentence(updatedSentence);
             setSelectedWords([...selectedWords(), word]);
             props.onCorrect();
-        } else {
+        }
+        else {
             setShake(word);
             setTimeout(() => setShake(null), 1000);
             props.onIncorrect();
@@ -112,11 +113,13 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                 </div>
             </section>
 
-            {isComplete() && (
-                <button class="next-button" onClick={handleNextClick}>
-                    {t('next')}
-                </button>
-            )}
+            <ActionButton
+                isCorrect={isComplete()}
+                isInputPresent={isComplete()}
+                onCheckAnswer={handleNextClick}
+                onComplete={props.onComplete}
+            />
+
         </>
     );
 };
