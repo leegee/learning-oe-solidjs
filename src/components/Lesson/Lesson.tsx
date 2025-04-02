@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, Switch, Match, createMemo, createEffect } from 'solid-js';
+import { createSignal, onCleanup, Switch, Match, createMemo } from 'solid-js';
 import { t } from '../../i18n';
 import type {
     IBlanksCard,
