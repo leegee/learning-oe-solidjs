@@ -5,6 +5,9 @@ import appConfig from "./config";
 import { getCourseIndex, setCourseIndex } from "./lessons-state";
 import { type Lesson } from './components/Lesson';
 
+const LESSONS_DIR = '../lessons';
+const LESSONS_JSON = import.meta.glob('../lessons/*.json');
+
 export type LessonSummary = {
     title: string;
     index: number;
@@ -45,7 +48,9 @@ createEffect(async () => {
     setLoading(true);
 
     try {
-        const courseData: CourseData = (await import(appConfig.lessons[index].path));
+        const courseData: CourseData = await loadCourse(
+            appConfig.lessons[index].path
+        );
 
         if (!courseData) {
             throw new TypeError('Unexecpted course lesson data');
@@ -59,16 +64,19 @@ createEffect(async () => {
             setLessons(courseData.lessons as Lesson[]);
             const { lessons, ...courseMetadata } = courseData;
             setCourseMetadata(courseMetadata as CourseMetadata);
-        } else {
-            console.error("Invalid lesson JSON:");
+            setLoading(false);
+        }
+        else {
             console.debug(JSON.stringify(validate.errors, null, 4))
+            throw new TypeError('Invalid JSON');
         }
     }
     catch (error) {
         console.error("Error loading lessons:", error);
+        throw error;
     }
     finally {
-        setLoading(false);
+
     }
 });
 
@@ -106,3 +114,20 @@ const CourseSelector = () => {
 };
 
 export default CourseSelector;
+
+async function loadCourse(fileName: string): Promise<CourseData> {
+    const filePath = `${LESSONS_DIR}/${fileName}.json`;
+
+    if (LESSONS_JSON[filePath]) {
+        try {
+            const module = (await LESSONS_JSON[filePath]()) as { default: CourseData };
+            console.log('Loaded data:', module.default);
+            return module.default;
+        } catch (error) {
+            console.error('Error loading JSON file:', error);
+        }
+    } else {
+        console.error(`${filePath} not found`);
+    }
+    throw new Error('Could not load lesson: ' + filePath);
+}

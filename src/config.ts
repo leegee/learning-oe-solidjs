@@ -1,11 +1,6 @@
 import defaultConfig from './default.config.json';
 import appConfigRaw from '../app.config.json';
 
-import a from '../uk-constitution.json';
-import b from '../lessons.json';
-
-console.log(a, b);
-
 interface AvailableLanguages {
     [language: string]: {
         [key: string]: string;
