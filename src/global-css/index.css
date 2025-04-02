@@ -157,6 +157,10 @@ h3 {
     margin: 0.3em 0 0.6em 0;
 }
 
+h3.question {
+    margin: 1em 0;
+}
+
 /* h3.question::before {
     content: '“';
     opacity: 0.3;

@@ -19,7 +19,7 @@ export interface IWritingBlocksCardProps {
 }
 
 const normalizeText = (text: string): string => {
-    return text.trim().toLowerCase().replace(/\W+/g, '').replace(/\s+/g, ' ');
+    return text.trim().toLowerCase().replace(/[^\s\w]+/g, '').replace(/\s+/g, ' ');
 };
 
 const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
@@ -46,6 +46,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     const handleCheckAnswer = () => {
         const normalizedUserInput = normalizeText(selectedWords().join(' '));
         const normalizedAnswer = normalizeText(props.card.answer);
+        console.log(normalizedUserInput, normalizedAnswer)
         if (normalizedUserInput === normalizedAnswer) {
             setIsCorrect(true);
             props.onCorrect();
@@ -69,6 +70,8 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
                         )}
                     </For>
                 </div>
+
+                <hr />
 
                 <div class='options'>
                     <For each={props.card.options}>
