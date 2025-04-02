@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
 import LessonComponent, { type Lesson } from './Lesson';
 import { IMultipleChoiceCard } from '../cards';
 
-jest.mock('./cards', () => ({
+jest.mock('../cards', () => ({
     MultipleChoiceComponent: (props: any) => (
         <div>
             <h3>{props.card.question}</h3>
@@ -17,7 +17,7 @@ jest.mock('./cards', () => ({
     BlanksCardComponent: jest.fn(),
 }));
 
-jest.mock('../i18n', () => ({
+jest.mock('../../i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key), // Return the key as the translation
 }));
 
