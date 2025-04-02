@@ -1,6 +1,3 @@
-import defaultConfig from './default.config.json';
-import appConfigRaw from '../app.config.json';
-
 interface AvailableLanguages {
     [language: string]: {
         [key: string]: string;
@@ -29,6 +26,10 @@ interface Config {
     animationShakeMs: number;
 }
 
+const REQUIRED_KEYS: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'appTitle', 'i18n'];
+
+let configPromise: Promise<Config> | null = null;
+
 const deepMerge = <T>(target: T, source: T): T => {
     if (typeof target !== 'object' || typeof source !== 'object' || target === null || source === null) {
         return source;
@@ -48,25 +49,42 @@ const deepMerge = <T>(target: T, source: T): T => {
     return target;
 };
 
-
-if (!defaultConfig || !appConfigRaw) {
-    throw new Error('Config files are not properly loaded');
-}
-
-const appConfig = deepMerge<Config>(defaultConfig, appConfigRaw);
-
-const requiredKeys: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'appTitle', 'i18n'];
-
-let ok = true;
-requiredKeys.forEach((key) => {
-    if (!appConfig[key]) {
-        console.warn(`app.config.json should contain the "${key}" key`);
-        ok = false;
+export const loadConfig = async (): Promise<Config> => {
+    if (configPromise) {
+        return configPromise;
     }
-});
 
-if (!ok) {
-    throw new TypeError('Invalid configuration file JSON.');
-}
+    configPromise = (async () => {
+        let defaultConfig, appConfigRaw;
+        try {
+            defaultConfig = (await import('./default.config.json')).default;
+        } catch (err) {
+            throw new Error('Default config file did not properly load');
+        }
 
-export default appConfig;
+        try {
+            appConfigRaw = (await import('../app.config.json')).default;
+        } catch (err) {
+            throw new Error('Config file "app.config.json" did not properly load');
+        }
+
+        const appConfig = deepMerge<Config>(defaultConfig, appConfigRaw);
+
+        let ok = true;
+
+        REQUIRED_KEYS.forEach((key) => {
+            if (!appConfig[key]) {
+                console.warn(`app.config.json should contain the "${key}" key`);
+                ok = false;
+            }
+        });
+
+        if (!ok) {
+            throw new Error('Invalid configuration file JSON.');
+        }
+
+        return appConfig;
+    })();
+
+    return configPromise;
+};

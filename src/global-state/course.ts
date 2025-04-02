@@ -2,12 +2,14 @@ import { createStore } from "solid-js/store";
 import { createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
-import appConfig from "../config";
+import { loadConfig } from "../config";
 import { getCourseIndex, setCourseIndex } from "./lessons";
 import { type Lesson } from '../components/Lesson';
 
 const LESSONS_DIR = '../../lessons';
 const LESSONS_JSON = import.meta.glob('../../lessons/*.json');
+
+const appConfig = await loadConfig();
 
 export type LessonSummary = {
     title: string;

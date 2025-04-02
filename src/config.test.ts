@@ -1,11 +1,9 @@
 describe('Config file tests', () => {
-    // This will run before each test case
     beforeEach(() => {
         jest.resetModules(); // Reset modules to ensure proper mock application
     });
 
     it('should correctly merge the config files', async () => {
-        // Mock the config files dynamically inside the test to ensure they're applied correctly
         jest.mock('./default.config.json', () => ({
             defaultLanguage: 'en',
             targetLanguage: 'en',
@@ -32,7 +30,8 @@ describe('Config file tests', () => {
             animationShakeMs: 200,
         }));
 
-        const appConfig = (await import('./config')).default;
+        const { loadConfig } = await import('./config');
+        const appConfig = await loadConfig();
 
         expect(appConfig.targetLanguage).toBe('fr');
         expect(appConfig.defaultLanguage).toBe('fr');
@@ -41,28 +40,58 @@ describe('Config file tests', () => {
         expect(appConfig.animationShakeMs).toBe(200);
     });
 
-    it('should throw an error if config files are not loaded correctly', async () => {
-        jest.doMock('./default.config.json', () => undefined, { virtual: true });
-        jest.doMock('../app.config.json', () => undefined, { virtual: true });
+    describe('should gracefully handle config errors', () => {
+        let logSpy: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]]>;
 
-        await expect(import('./config')).rejects.toThrow('Config files are not properly loaded');
-    });
+        beforeEach(() => {
+            jest.resetModules();
+            jest.clearAllMocks();
+            logSpy = jest.spyOn(console, "warn").mockImplementation(() => { });
+        });
 
-    it('should throw an error if any required keys are missing from the merged config', async () => {
-        jest.doMock('../app.config.json', () => ({
-            targetLanguage: 'fr',
-            defaultLanguage: 'fr',
-            target: { apptitle: 'Mon Appli' },
-        }), { virtual: true });
+        afterEach(() => {
+            logSpy.mockRestore();
+        });
 
-        await expect(import('./config')).rejects.toThrow('Config files are not properly loaded');
-    });
+        it('should throw an error if the default config file failed to load', async () => {
+            jest.doMock('./default.config.json', () => { throw new Error('Mocked load failure'); }, { virtual: true });
+            const { loadConfig } = await import('./config');
+            await expect(loadConfig()).rejects.toThrow('Default config file did not properly load');
+            expect(logSpy).not.toHaveBeenCalled();
+        });
 
-    it('should throw an error if required keys are missing from the default config', async () => {
-        jest.doMock('./default.config.json', () => ({
-            targetLanguage: 'en',
-        }), { virtual: true });
+        it('should throw an error if the custom config file failed to load', async () => {
+            jest.doMock('../app.config.json', () => { throw new Error('Mocked load failure'); }, { virtual: true });
+            jest.doMock('./default.config.json', () => ({
+                defaultLanguage: 'en',
+                targetLanguage: 'en',
+                appTitle: 'Test App',
+                i18n: {
+                    detectUserLanguage: true,
+                    defaultLanguage: 'en',
+                    fallbackLanguage: 'en',
+                    availableLanguages: {},
+                },
+                animationShakeMs: 300,
+            }), { virtual: true });
+            const { loadConfig } = await import('./config');
+            await expect(loadConfig()).rejects.toThrow('Config file "app.config.json" did not properly load');
+            expect(logSpy).not.toHaveBeenCalled();
+        });
 
-        await expect(import('./config')).rejects.toThrow('Invalid configuration file JSON.');
+        it('should throw an error if any required keys are missing from the merged config', async () => {
+            jest.doMock('./default.config.json', () => ({
+                targetLanguage: 'en',
+                defaultLanguage: 'en',
+            }), { virtual: true });
+            jest.doMock('../app.config.json', () => ({
+                targetLanguage: 'iv',
+                defaultLanguage: 'iv',
+            }), { virtual: true });
+            const { loadConfig } = await import('./config');
+            await expect(loadConfig()).rejects.toThrow('Invalid configuration file JSON.');
+            expect(logSpy).toHaveBeenCalled();
+        });
+
     });
 });

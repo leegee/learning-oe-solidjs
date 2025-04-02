@@ -1,5 +1,7 @@
 import i18n from "i18next";
-import appConfig from "../app.config.json";
+import { loadConfig } from "./config";
+
+const appConfig = await loadConfig();
 
 const { defaultLanguage, targetLanguage, uiLanguage, i18n: i18nConfig } = appConfig;
 

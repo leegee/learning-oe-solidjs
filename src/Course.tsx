@@ -1,5 +1,7 @@
 import { courseStore, setSelectedCourse } from "./global-state/course";
-import appConfig from "./config";
+import { loadConfig } from "./config";
+
+const appConfig = await loadConfig();
 
 const CourseSelector = () => {
     return (
