@@ -27,15 +27,24 @@
     left: 0;
     right: 0;
     bottom: 0;
-    padding: 10vh 10vw;
 
     color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
     display: none;
     flex-direction: column;
-    gap: 0.5em;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 4vh;
+    gap: 1em;
     z-index: 1000;
+}
+
+.hamburger-menu .inner {
+    max-width: var(--oe-max-width);
+    background-color: var(--oe-clr-modal-bg);
+    border: 1pt solid var(--oe-clr-border);
+    padding: 10vh 10vw;
 }
 
 .hamburger-menu.open {
@@ -44,8 +53,10 @@
 
 .hamburger-menu h1 {
     font-size: 100%;
+    margin-bottom: 1em;
     background-color: inherit;
 }
+
 
 .hamburger-menu nav {
     list-style-type: none;
@@ -56,7 +67,6 @@
 
 .hamburger-menu li {
     list-style: none;
-    ;
 }
 
 .hamburger-menu li a,
@@ -95,5 +105,15 @@
 .hamburger-menu .about {
     padding-left: 0.3em;
     font-size: 40%;
-    width: 40vw;
+    width: 100%;
+}
+
+.hamburger-menu .about h2 {
+    margin-top: 4em;
+    margin-bottom: 1em;
+}
+
+.hamburger-menu .about footer {
+    margin-top: 2em;
+    justify-content: flex-end;
 }

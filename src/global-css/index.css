@@ -16,6 +16,8 @@
     --fade-duration: 0.5s;
     --fade-timing: ease-in-out;
     --fade-delay: 0s;
+
+    --oe-max-width: 40rem;
 }
 
 :root,

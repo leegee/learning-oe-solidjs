@@ -1,7 +1,7 @@
 main {
     display: flex;
     flex-direction: column;
-    max-width: 40rem;
+    max-width: var(--oe-max-width);
     margin: 0 auto;
     padding-top: 0;
     font-family: 'Work Sans';

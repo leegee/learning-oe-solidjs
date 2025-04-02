@@ -20,20 +20,19 @@ const Menu = (props: MenuProps) => {
             </button>
 
             <div class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
+                <div class='inner'>
+                    <h1>{props.title}</h1>
 
-                <h1>{props.title}</h1>
+                    <nav>
+                        <Course />
+                        <li>
+                            <ResetAllButtonComponent />
+                        </li>
+                    </nav>
 
-                <nav>
-                    <Course />
-                    <li>
-                        <ResetAllButtonComponent />
-                    </li>
-                </nav>
-
-                <AboutComponent />
+                    <AboutComponent />
+                </div>
             </div>
-
-
         </aside>
     );
 };
