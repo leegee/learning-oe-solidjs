@@ -14,21 +14,6 @@
             "description": "Test components",
             "cards": [
                 {
-                    "class": "writing-blocks",
-                    "qlang": "target",
-                    "question": "Ic ēom a man.",
-                    "answer": "I am a man.",
-                    "options": [
-                        "man",
-                        "woman",
-                        "I",
-                        "was",
-                        "the",
-                        "a",
-                        "am"
-                    ]
-                },
-                {
                     "class": "blanks",
                     "qlang": "default",
                     "alang": "target",
@@ -43,6 +28,21 @@
                         {
                             "hiw": false
                         }
+                    ]
+                },
+                {
+                    "class": "writing-blocks",
+                    "qlang": "target",
+                    "question": "Ic ēom a man.",
+                    "answer": "I am a man.",
+                    "options": [
+                        "man",
+                        "woman",
+                        "I",
+                        "was",
+                        "the",
+                        "a",
+                        "am"
                     ]
                 },
                 {

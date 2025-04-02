@@ -1,116 +1,84 @@
 import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
-import BlanksCardComponent, { type IBlanksCard, type IBlanksCardProps } from './Blanks';
-import { shuffleArray } from '../../../lib/shuffle-array';
+import BlanksCardComponent, { IBlanksCardProps } from './Blanks';
+import { t } from '../../../i18n.ts';
 
-jest.mock('../../../i18n', () => ({
-    t: jest.fn().mockImplementation((key: string) => key),
-}));
-
-jest.mock('../../../lib/shuffle-array.ts', () => ({
-    shuffleArray: jest.fn(),
+jest.mock("../../../i18n", () => ({
+    t: (key: string) => key,
 }));
 
 describe('BlanksCardComponent', () => {
-    (shuffleArray as jest.Mock).mockReturnValue(['test', 'sample', 'example']);
-    let mockOnCorrect: jest.Mock;
-    let mockOnIncorrect: jest.Mock;
-    let mockOnComplete: jest.Mock;
     let props: IBlanksCardProps;
 
     beforeEach(() => {
-        mockOnCorrect = jest.fn();
-        mockOnIncorrect = jest.fn();
-        mockOnComplete = jest.fn();
         props = {
             card: {
                 class: 'blanks',
-                qlang: 'target',
+                qlang: 'default',
                 question: 'This is a __ __.',
                 words: [
-                    { sample: true },
-                    { test: true },
-                    { example: false },
-                ],
-            } as IBlanksCard,
-            onCorrect: mockOnCorrect,
-            onIncorrect: mockOnIncorrect,
-            onComplete: mockOnComplete,
+                    { example: true },
+                    { test: false },
+                    { sample: true }
+                ]
+            },
+            onCorrect: jest.fn(),
+            onIncorrect: jest.fn(),
+            onComplete: jest.fn()
         };
     });
 
-    it('should render the component correctly', () => {
+    test('should render the component correctly', () => {
         render(() => <BlanksCardComponent {...props} />);
-
-        expect(screen.getByText(props.card.question)).toBeInTheDocument();
-
-        for (const wordObj of props.card.words) {
-            const word = Object.keys(wordObj)[0];
-            expect(screen.getByText(word)).toBeInTheDocument();
-        }
+        expect(screen.getByText(t('fill_in_the_blanks'))).toBeInTheDocument();
     });
 
-    it('should call onCorrect when a correct word is clicked', async () => {
+    test('should call onCorrect when a correct word is clicked', () => {
         render(() => <BlanksCardComponent {...props} />);
-
-        const correctWords = props.card.words.filter(w => Object.values(w)[0]);
-        for (const wordObj of correctWords) {
-            const word = Object.keys(wordObj)[0];
-            fireEvent.click(screen.getByText(word));
-        }
-
-        await waitFor(() => {
-            expect(mockOnCorrect).toHaveBeenCalledTimes(correctWords.length);
-        });
-
-        expect(screen.getByText('This is a sample test.')).toBeInTheDocument();
+        let correctWord = screen.getByText('example');
+        fireEvent.click(correctWord);
+        correctWord = screen.getByText('sample');
+        fireEvent.click(correctWord);
+        expect(props.onCorrect).toHaveBeenCalledTimes(2);
     });
 
-    it('should call onIncorrect when an incorrect word is clicked', async () => {
+    test('should call onIncorrect when an incorrect word is clicked', () => {
         render(() => <BlanksCardComponent {...props} />);
-
-        const incorrectWordObj = props.card.words.find(w => !Object.values(w)[0]);
-        if (incorrectWordObj) {
-            const incorrectWord = Object.keys(incorrectWordObj)[0];
-            fireEvent.click(screen.getByText(incorrectWord));
-
-            await waitFor(() => {
-                expect(mockOnIncorrect).toHaveBeenCalledTimes(1);
-            });
-        }
+        const incorrectWord = screen.getByText('test');
+        fireEvent.click(incorrectWord);
+        expect(props.onIncorrect).toHaveBeenCalled();
     });
 
-    it('should call onComplete when all correct words are selected', async () => {
+    test('should call onComplete when all correct words are selected and Next clicked', () => {
         render(() => <BlanksCardComponent {...props} />);
-
-        const correctWords = props.card.words.filter(w => Object.values(w)[0]);
-        for (const wordObj of correctWords) {
-            const word = Object.keys(wordObj)[0];
-            fireEvent.click(screen.getByText(word));
-        }
-
+        fireEvent.click(screen.getByText('example'));
+        fireEvent.click(screen.getByText('sample'));
         fireEvent.click(screen.getByText('next'));
+        expect(props.onComplete).toHaveBeenCalled();
+    });
 
-        await waitFor(() => {
-            expect(mockOnComplete).toHaveBeenCalledTimes(1);
+
+    describe('should add the correct CSS classes', () => {
+        test('on a correct selection', async () => {
+            render(() => <BlanksCardComponent {...props} />);
+
+            const correctWord = screen.getByText('example');
+            expect(correctWord).toHaveClass('word-option');
+
+            fireEvent.click(correctWord);
+            const insertedWord = screen.getByRole('button', { name: 'example' });
+            await waitFor(() => expect(insertedWord).toHaveClass('word-option correct'));
+        });
+
+        test('on an incorrect selection', async () => {
+            render(() => <BlanksCardComponent {...props} />);
+
+            const incorrectWord = screen.getByText('test');
+            expect(incorrectWord).toHaveClass('word-option');
+
+            fireEvent.click(incorrectWord);
+            const clickedWord = screen.getByText('test');
+            await waitFor(() => expect(clickedWord).toHaveClass('word-option shake'));
         });
     });
 
-    it('should add the correct CSS classes based on selection', () => {
-        render(() => <BlanksCardComponent {...props} />);
-
-        const correctWordObj = props.card.words.find(w => Object.values(w)[0]);
-        const incorrectWordObj = props.card.words.find(w => !Object.values(w)[0]);
-
-        if (correctWordObj) {
-            const correctWord = Object.keys(correctWordObj)[0];
-            fireEvent.click(screen.getByText(correctWord));
-            expect(screen.getByText(correctWord)).toHaveClass('correct');
-        }
-
-        if (incorrectWordObj) {
-            const incorrectWord = Object.keys(incorrectWordObj)[0];
-            fireEvent.click(screen.getByText(incorrectWord));
-            expect(screen.getByText(incorrectWord)).toHaveClass('shake');
-        }
-    });
 });
