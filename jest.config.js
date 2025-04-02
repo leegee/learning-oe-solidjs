@@ -8,5 +8,14 @@ export default {
     },
     moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
     setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-};
 
+
+    reporters: [
+        'default',
+        ['jest-stare', {
+            resultDir: 'test-results',
+            reportTitle: 'Jest Test Report',
+            darkMode: true,
+        }],
+    ],
+};
