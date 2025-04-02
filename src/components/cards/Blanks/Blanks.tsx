@@ -33,15 +33,16 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
         setShuffledWords(shuffleArray(props.card.words.map(word => Object.keys(word)[0])));
         setLangs(setQandALangs(props.card));
 
-        const initialSentence = props.card.question.split(/\b/).reduce((acc, part, index) => {
-            if (/^_{2,}$/.test(part)) {
+        const initialSentence = props.card.question.split(/[\s\b]/).reduce((acc, word, index) => {
+            console.log('/' + word + '/');
+            if (/^_{2,}/.test(word)) {
                 acc.push(
-                    <span class={props.card.words[index] ? 'blank-correct' : 'blank'}>
+                    <span class={currentSentence().includes(word) ? 'blank-correct' : 'blank'}>
                         {'__'}
                     </span>
                 );
             } else {
-                acc.push(<span class='word'>{part}</span>);
+                acc.push(<span class='provided-word'>{word}</span>);
             }
             return acc;
         }, [] as JSX.Element[]);
@@ -50,6 +51,9 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
     const handleWordClick = (word: string) => {
         const firstBlankIndex = currentSentence().findIndex((el) => el instanceof HTMLElement && el.classList.contains('blank'));
+
+        console.log('click', currentSentence())
+
         if (firstBlankIndex === -1) {
             return;
         }

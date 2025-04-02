@@ -6,6 +6,12 @@
     margin-bottom: 1em;
 }
 
+.blanks-card .blank,
+.blanks-card .blank-correct,
+.blanks-card .provided-word {
+    margin-right: 0.3em;
+}
+
 .blanks-card .word-options {
     display: flex;
     justify-content: space-evenly;
