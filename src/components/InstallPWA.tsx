@@ -37,12 +37,12 @@ const InstallPWA = () => {
         if (promptEvent) {
             await promptEvent.prompt();
             const choice = await promptEvent.userChoice;
-            console.log("User choice:", choice.outcome);
+            console.debug("User choice:", choice.outcome);
 
             if (choice.outcome === 'accepted') {
-                console.log('User accepted the install prompt');
+                console.debug('User accepted the install prompt');
             } else {
-                console.log('User dismissed the install prompt');
+                console.debug('User dismissed the install prompt');
             }
 
             setDeferredPrompt(null);

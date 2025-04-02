@@ -1,4 +1,6 @@
-import { createSignal } from "solid-js";
+import { createSignal, createEffect } from "solid-js";
+import { t } from "i18next";
+import { getCourseIndex } from "../../global-state/lessons";
 import Course from "../../Course";
 import ResetAllButtonComponent from "../ResetAllButton";
 import AboutComponent from "../About";
@@ -10,8 +12,24 @@ interface MenuProps {
 
 const Menu = (props: MenuProps) => {
     const [isOpen, setIsOpen] = createSignal(false);
-    const toggleMenu = () => setIsOpen(prev => !prev);
-    const closeMenu = () => setIsOpen(false);
+
+    const closeMenu = () => {
+        if (getCourseIndex() > -1) {
+            setIsOpen(false);
+        }
+    }
+
+    const toggleMenu = () => {
+        if (getCourseIndex() > -1) {
+            setIsOpen(prev => !prev);
+        }
+    }
+
+    createEffect(() => {
+        if (getCourseIndex() === -1) {
+            setIsOpen(true);
+        }
+    });
 
     return (
         <aside aria-roledescription="Toggle menu" class="menu-container">
@@ -23,6 +41,7 @@ const Menu = (props: MenuProps) => {
                 <div class='inner'>
                     <h1>{props.title}</h1>
 
+                    {getCourseIndex() === -1 && <p>{t('choose_a_course')}</p>}
                     <nav>
                         <Course />
                         <li>

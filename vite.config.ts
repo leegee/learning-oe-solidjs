@@ -6,7 +6,7 @@ import packageJson from './package.json';
 const homepage = packageJson.homepage || '/';
 const base = homepage ? (new URL(homepage)).pathname.replace(/\/?$/, '/') : '/';
 
-console.log('# Base: ', base);
+console.info('# Base: ', base);
 
 // https://vitejs.dev/config/
 export default defineConfig({

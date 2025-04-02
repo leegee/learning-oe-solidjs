@@ -149,7 +149,10 @@ button.selected {
 }
 
 h2 {
+    font-size: 1.6em;
+    font-weight: 200;
     margin-top: 0;
+    margin-bottom: 0.3em;
 }
 
 h3 {

@@ -59,7 +59,7 @@ const App = () => {
   const goHome = () => setLessonState(LessonState.Home);
 
   const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-    console.log(`onAsnwer for ${currentLessonIndex()} / ${cardIndex} = ${incorrectAnswer || 'incorrect'}`);
+    // console.debug(`onAsnwer for ${currentLessonIndex()} / ${cardIndex} = ${incorrectAnswer || 'incorrect'}`);
     state.saveAnswer(currentLessonIndex(), cardIndex, incorrectAnswer || '');
   };
 

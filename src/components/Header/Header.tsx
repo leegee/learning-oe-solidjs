@@ -39,8 +39,8 @@ const Header = (props: HeaderProps) => {
                     <Show when={!props.isLessonActive}>
                         {config.appTitle}
                     </Show>
-                    <Menu title={config.appTitle} />
                 </h1>
+                <Menu title={config.appTitle} />
             </div>
         </header>
     );

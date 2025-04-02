@@ -36,10 +36,6 @@ const LessonComponent = (props: ILessonProps) => {
     const currentCard = createMemo(() => lessonStack()[0] ?? null);
     let correctlyAnswered: null | boolean = null;
 
-    createEffect(() => {
-        console.log('Rendering card:', currentCard());
-    });
-
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
             props.onCancel();
@@ -62,8 +58,6 @@ const LessonComponent = (props: ILessonProps) => {
 
 
     const goToNextCard = () => {
-        // console.log('Enter goToNextCard correctlyAnswered=', correctlyAnswered, 'stack =', lessonStack());
-
         if (correctlyAnswered) {
             // Remove the first card
             setLessonStack((prevStack) => prevStack.slice(1));
@@ -79,14 +73,12 @@ const LessonComponent = (props: ILessonProps) => {
     };
 
     const onIncorrect = () => {
-        console.log('Enter onIncorrect');
         correctlyAnswered = false;
         const currentCardIndex = props.lesson.cards.indexOf(lessonStack()[0]);
         props.onAnswer(currentCardIndex, 'bad_answer_goes_here');
     };
 
     const onCorrect = () => {
-        console.log('Enter onCorrect');
         correctlyAnswered = true;
         const currentCardIndex = props.lesson.cards.indexOf(lessonStack()[0]);
         props.onAnswer(currentCardIndex);

@@ -44,7 +44,6 @@ async function loadCourse(fileName: string): Promise<CourseData> {
     if (LESSONS_JSON[filePath]) {
         try {
             const module = (await LESSONS_JSON[filePath]()) as { default: CourseData };
-            console.log('Loaded data:', module.default);
             return module.default;
         } catch (error) {
             console.error('Error loading JSON file:', error);
@@ -58,8 +57,13 @@ async function loadCourse(fileName: string): Promise<CourseData> {
 // ** Watch for changes in selectedCourseIndex and load course data **
 createEffect(async () => {
     const index = courseStore.selectedCourseIndex;
-    if (index === null || index >= appConfig.lessons.length) {
-        console.log('Course index out of range');
+
+    if (index === -1) {
+        return;
+    }
+
+    if (index >= appConfig.lessons.length) {
+        console.warn('Course index out of range');
         return;
     }
 

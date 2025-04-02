@@ -12,9 +12,12 @@ interface LessonListProps {
 
 const LessonList = (props: LessonListProps) => {
     const onLessonSelectedLocal = (lessonIndex: number) => {
-        console.log('LessonList set lesson index to', lessonIndex);
         props.onLessonSelected(lessonIndex);
     };
+
+    if (!props.courseMetadata) {
+        return '';
+    }
 
     return (
         <section class="card lesson-list">

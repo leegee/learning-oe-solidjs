@@ -25,6 +25,7 @@
         "availableLanguages": {
             "en": {
                 "reset_all": "Reset progress",
+                "choose_a_course": "Please select a course from the list",
                 "lesson": "Lesson",
                 "all_lessons": "All Lessons",
                 "list_lessons_title": "Available Lessons",
@@ -68,6 +69,7 @@
             },
             "ang": {
                 "reset_all": "Styrtan Ara",
+                "choose_a_course": "Please select a course from the list",
                 "lessons": "lāran",
                 "all_lessons": "Lār",
                 "list_lessons_title": "Lār",

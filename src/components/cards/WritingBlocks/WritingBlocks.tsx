@@ -46,7 +46,6 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     const handleCheckAnswer = () => {
         const normalizedUserInput = normalizeText(selectedWords().join(' '));
         const normalizedAnswer = normalizeText(props.card.answer);
-        console.log(normalizedUserInput, normalizedAnswer)
         if (normalizedUserInput === normalizedAnswer) {
             setIsCorrect(true);
             props.onCorrect();
