@@ -52,7 +52,7 @@ describe('BlanksCardComponent', () => {
         render(() => <BlanksCardComponent {...props} />);
         fireEvent.click(screen.getByText('example'));
         fireEvent.click(screen.getByText('sample'));
-        fireEvent.click(screen.getByText('next'));
+        fireEvent.click(screen.getByLabelText('action-button'));
         expect(props.onComplete).toHaveBeenCalled();
     });
 
