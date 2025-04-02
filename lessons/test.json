@@ -1,0 +1,58 @@
+{
+    "courseTitle": "Test",
+    "language": "en",
+    "targetLanguage": "ang",
+    "level": "beginner",
+    "createdAt": "2025-04-01T00:00:00Z",
+    "updatedAt": "2025-04-01T00:00:00Z",
+    "tags": [
+        "test"
+    ],
+    "lessons": [
+        {
+            "title": "Components",
+            "description": "Test components",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "woman": "wīf",
+                        "I": "Ic",
+                        "am": "ēom"
+                    }
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "What is the Old English word for 'man'?",
+                    "answers": [
+                        "mann",
+                        "wīf",
+                        "god",
+                        "hūs"
+                    ],
+                    "answer": "mann"
+                },
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "house",
+                    "answer": "hūs"
+                },
+                {
+                    "class": "writing-blocks",
+                    "qlang": "target",
+                    "question": "Ic ēom a ____.",
+                    "answer": "mann",
+                    "options": [
+                        "mann",
+                        "stān",
+                        "blōstm",
+                        "hūs"
+                    ]
+                }
+            ]
+        }
+    ]
+}

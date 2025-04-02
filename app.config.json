@@ -11,6 +11,10 @@
         {
             "title": "Old English",
             "path": "lessons"
+        },
+        {
+            "title": "Test",
+            "path": "test"
         }
     ],
     "animationShakeMs": 300,
