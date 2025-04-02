@@ -21,10 +21,9 @@ export interface IBlanksCardProps {
 const BlanksCardComponent = (props: IBlanksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
-    const [selectedWords, setSelectedWords] = createSignal<string[]>([]); // Track selected words
+    const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
     const [isComplete, setIsComplete] = createSignal(false);
 
-    // Update currentSentence to handle JSX.Element correctly
     const [currentSentence, setCurrentSentence] = createSignal<JSX.Element[]>([]);
 
     const [shake, setShake] = createSignal<string | null>(null);
@@ -33,8 +32,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
         setShuffledWords(shuffleArray(props.card.words.map(word => Object.keys(word)[0])));
         setLangs(setQandALangs(props.card));
 
-        const initialSentence = props.card.question.split(/[\s\b]/).reduce((acc, word, index) => {
-            console.log('/' + word + '/');
+        const initialSentence = props.card.question.split(/[\s\b]/).reduce((acc, word) => {
             if (/^_{2,}/.test(word)) {
                 acc.push(
                     <span class={currentSentence().includes(word) ? 'blank-correct' : 'blank'}>
@@ -51,8 +49,6 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
     const handleWordClick = (word: string) => {
         const firstBlankIndex = currentSentence().findIndex((el) => el instanceof HTMLElement && el.classList.contains('blank'));
-
-        console.log('click', currentSentence())
 
         if (firstBlankIndex === -1) {
             return;
