@@ -3,7 +3,7 @@ import config from "../../config";
 import { t } from "../../i18n";
 import Menu from "../Menu";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../lessons-state";
-import { type CourseMetadata } from "../../Course";
+import { type CourseMetadata } from "../../global-state/course";
 import './Header.css';
 
 interface HeaderProps {
