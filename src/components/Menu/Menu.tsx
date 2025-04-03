@@ -3,7 +3,6 @@ import { t } from "i18next";
 import { getCourseIndex } from "../../global-state/lessons";
 import Course from "../../Course";
 import ResetAllButtonComponent from "../ResetAllButton";
-import AboutComponent from "../About";
 import './Menu.css';
 
 interface MenuProps {
