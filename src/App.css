@@ -86,6 +86,7 @@ h3.question::after {
 .incorrect-next-button,
 .try-again-button,
 .next-button {
+    text-align: center;
     width: 100%;
     background-color: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
