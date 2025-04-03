@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-const { loadConfig } = await import('../../config');
+import { loadConfig } from '../../config';
 import { t } from "../../i18n";
 import Menu from "../Menu";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";

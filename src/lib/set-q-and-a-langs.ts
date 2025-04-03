@@ -1,5 +1,5 @@
 import { IBaseCard } from '../components/cards/BaseCard.type';
-const { loadConfig } = await import('../config');
+import { loadConfig } from '../config';
 
 const appConfig = await loadConfig();
 
