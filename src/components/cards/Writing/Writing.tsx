@@ -3,7 +3,7 @@ import { t } from '../../../i18n.ts';
 import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
-import LetterButtons from '../../LetterButtons';
+import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
 import './Writing.css';
 
 export interface IWritingCard extends IBaseCard {
@@ -101,6 +101,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                     <LetterButtons
                         lang={langs().a}
                         onSelect={handleLetterButtonClick}
+                        text={props.card.answer}
                     />
                 </div>
             </section>

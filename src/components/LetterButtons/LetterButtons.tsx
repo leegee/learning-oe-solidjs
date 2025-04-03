@@ -5,6 +5,8 @@ interface Letter {
     name: string;
 }
 
+const Minimum_To_Provide = 3;
+
 const Letters: Record<string, Letter[]> = {
     'ang': [
         { symbol: 'æ', name: 'Ash' },
@@ -26,13 +28,28 @@ const Letters: Record<string, Letter[]> = {
 
 interface LetterButtonsProps {
     lang: string;
+    text: string;
     onSelect: (text: string) => void;
 }
 
 const LetterButtons = (props: LetterButtonsProps) => {
+    if (!Letters[props.lang]) {
+        return 'No buttons for ' + props.lang;
+    }
+
+    let filteredLetters = Letters[props.lang].filter(letter => props.text.includes(letter.symbol));
+
+    if (filteredLetters.length < 3) {
+        const remainingLetters = Letters[props.lang].filter(letter =>
+            !filteredLetters.some(filteredLetter => filteredLetter.symbol === letter.symbol)
+        );
+
+        filteredLetters = [...filteredLetters, ...remainingLetters.slice(0, Minimum_To_Provide - filteredLetters.length)];
+    }
+
     return (
         <div class="letter-buttons">
-            <For each={Letters[props.lang]}>
+            <For each={filteredLetters}>
                 {(letter) => (
                     <button
                         onClick={() => props.onSelect(letter.symbol)}
