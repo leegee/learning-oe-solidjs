@@ -49,6 +49,9 @@ const deepMerge = <T>(target: T, source: T): T => {
     return target;
 };
 
+// A singleton that can be used anywhere
+// Since it is initially used by main.tsx, we can be assured the necesary files are loaded.
+// In components, this is exposed via contexts/ConfigProvider set up in App.tsx
 export const loadConfig = async (): Promise<Config> => {
     if (configPromise) {
         return configPromise;
