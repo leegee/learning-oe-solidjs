@@ -1,6 +1,7 @@
-import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
+import { screen, fireEvent, waitFor } from 'solid-testing-library';
 import BlanksCardComponent, { IBlanksCardProps } from './Blanks';
 import { t } from '../../../i18n.ts';
+import { renderTestElement } from '../../../../jest.setup.tsx';
 
 jest.mock("../../../i18n", () => ({
     t: (key: string) => key,
@@ -28,12 +29,12 @@ describe('BlanksCardComponent', () => {
     });
 
     test('should render the component correctly', () => {
-        render(() => <BlanksCardComponent {...props} />);
+        renderTestElement(BlanksCardComponent, props);
         expect(screen.getByText(t('fill_in_the_blanks'))).toBeInTheDocument();
     });
 
     test('should call onCorrect when a correct word is clicked', () => {
-        render(() => <BlanksCardComponent {...props} />);
+        renderTestElement(BlanksCardComponent, props);
         let correctWord = screen.getByText('example');
         fireEvent.click(correctWord);
         correctWord = screen.getByText('sample');
@@ -42,14 +43,14 @@ describe('BlanksCardComponent', () => {
     });
 
     test('should call onIncorrect when an incorrect word is clicked', () => {
-        render(() => <BlanksCardComponent {...props} />);
+        renderTestElement(BlanksCardComponent, props);
         const incorrectWord = screen.getByText('test');
         fireEvent.click(incorrectWord);
         expect(props.onIncorrect).toHaveBeenCalled();
     });
 
     test('should call onComplete when all correct words are selected and Next clicked', () => {
-        render(() => <BlanksCardComponent {...props} />);
+        renderTestElement(BlanksCardComponent, props);
         fireEvent.click(screen.getByText('example'));
         fireEvent.click(screen.getByText('sample'));
         fireEvent.click(screen.getByLabelText('action-button'));
@@ -59,7 +60,7 @@ describe('BlanksCardComponent', () => {
 
     describe('should add the correct CSS classes', () => {
         test('on a correct selection', async () => {
-            render(() => <BlanksCardComponent {...props} />);
+            renderTestElement(BlanksCardComponent, props);
 
             const correctWord = screen.getByText('example');
             expect(correctWord).toHaveClass('word-option');
@@ -70,7 +71,7 @@ describe('BlanksCardComponent', () => {
         });
 
         test('on an incorrect selection', async () => {
-            render(() => <BlanksCardComponent {...props} />);
+            renderTestElement(BlanksCardComponent, props);
 
             const incorrectWord = screen.getByText('test');
             expect(incorrectWord).toHaveClass('word-option');
@@ -82,3 +83,5 @@ describe('BlanksCardComponent', () => {
     });
 
 });
+
+

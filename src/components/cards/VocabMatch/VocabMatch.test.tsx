@@ -1,6 +1,7 @@
-import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
-import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
+import { screen, fireEvent, waitFor } from 'solid-testing-library';
 import { shuffleArray } from '../../../lib/shuffle-array';
+import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
+import { renderTestElement } from '../../../../jest.setup';
 
 jest.mock('../../../i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key),
@@ -40,7 +41,7 @@ describe('VocabMatchCardComponent', () => {
     });
 
     it('should render the component correctly', () => {
-        render(() => <VocabMatchCardComponent {...props} />);
+        renderTestElement(VocabMatchCardComponent, props);
 
         Object.keys(props.card.vocab).forEach((word) => {
             expect(screen.getByText(word)).toBeInTheDocument();
@@ -49,7 +50,7 @@ describe('VocabMatchCardComponent', () => {
     });
 
     it('should call onComplete when all correct pairs are selected', async () => {
-        render(() => <VocabMatchCardComponent {...props} />);
+        renderTestElement(VocabMatchCardComponent, props);
 
         fireEvent.click(screen.getByText('dog'));
         fireEvent.click(screen.getByText('hund'));
@@ -69,7 +70,7 @@ describe('VocabMatchCardComponent', () => {
 
     describe('should add CSS classes', () => {
         beforeEach(() => {
-            render(() => <VocabMatchCardComponent {...props} />);
+            renderTestElement(VocabMatchCardComponent, props);
         });
 
         it('for a correct match', () => {
@@ -86,5 +87,5 @@ describe('VocabMatchCardComponent', () => {
             expect(screen.getByText('katt')).toHaveClass('shake');
         });
     });
-
 });
+

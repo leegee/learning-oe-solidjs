@@ -1,6 +1,5 @@
 import { createSignal, createEffect, createMemo } from 'solid-js';
 import { t } from '../../../i18n.ts';
-
 import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';

@@ -1,8 +1,10 @@
 import { createSignal, createMemo, createEffect } from "solid-js";
 
 import * as state from "./global-state/lessons";
+import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
 import { courseStore, lessonTitles2Indicies } from "./global-state/course";
+import { type Config } from "./config";
 import LessonList from "./components/LessonLIst/LessonList";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
@@ -22,7 +24,11 @@ enum LessonState {
   CourseFinished, // All lessons are completed
 }
 
-const App = () => {
+interface IAppProps {
+  config: Config;
+}
+
+const App = (props: IAppProps) => {
   const initialLessonIndex = state.getCurrentLessonIndex();
 
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
@@ -127,21 +133,23 @@ const App = () => {
   };
 
   return (
-    <ConfirmProvider>
-      <main
-        id="main"
-        class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        <Header
-          courseMetadata={courseStore.courseMetadata!}
-          isLessonActive={lessonState() === LessonState.InProgress}
-        />
+    <ConfigProvider config={props.config}>
+      <ConfirmProvider>
+        <main
+          id="main"
+          class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <Header
+            courseMetadata={courseStore.courseMetadata!}
+            isLessonActive={lessonState() === LessonState.InProgress}
+          />
 
-        {!courseStore.loading && renderContent()}
-      </main>
-    </ConfirmProvider>
+          {!courseStore.loading && renderContent()}
+        </main>
+      </ConfirmProvider>
+    </ConfigProvider>
   );
 };
 

@@ -1,12 +1,11 @@
 import { createSignal, createEffect, For, Show } from 'solid-js';
+import { useConfigContext } from '../../../contexts/Config';
 import { t } from '../../../i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
-import { loadConfig } from "../../../config";
 import './VocabMatch.css';
 
-const appConfig = await loadConfig();
 
 export interface IVocabMatchCard extends IBaseCard {
     class: 'vocab';
@@ -38,9 +37,9 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]);
     const [tableData, setTableData] = createSignal<ITableRow[]>([]);
     const [isComplete, setIsComplete] = createSignal(false);
-
     const [selectedLeft, setSelectedLeft] = createSignal<string | null>(null);
     const [selectedRight, setSelectedRight] = createSignal<string | null>(null);
+    const { config } = useConfigContext();
 
     createEffect(() => {
         setLangs(setQandALangs(props.card));
@@ -124,7 +123,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                         row.shakeIt || row.shakeRight ? { ...row, shakeIt: false, shakeRight: false } : row
                     )
                 );
-            }, appConfig.animationShakeMs);
+            }, config.animationShakeMs);
 
             setSelectedLeft(null);
             setSelectedRight(null);

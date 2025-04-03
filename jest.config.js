@@ -7,7 +7,7 @@ export default {
         "^.+\\.json5$": "json5-jest"
     },
     moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
-    setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.tsx"],
 
 
     reporters: [

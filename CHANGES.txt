@@ -1,6 +1,15 @@
 CHANGE LOG
 ==========
 
+2025-04-04: 0.1.5
+
+* Load config before loading app and expose as a context
+* Update small-screen CSS
+
+2025-04-03
+
+* Load courses dynamically
+
 2025-04-02: 0.1.4
 
 * Add a store for course data

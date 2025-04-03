@@ -1,4 +1,5 @@
-import { cleanup, render, screen, fireEvent, waitFor } from "solid-testing-library";
+import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
+import { renderTestElement } from "../../../../jest.setup";
 import WritingBlocksCardComponent, { type IWritingBlocksCard, type IWritingBlocksCardProps } from "./WritingBlocks";
 
 jest.mock("../../../i18n", () => ({
@@ -35,7 +36,7 @@ describe("WritingBlocksCardComponent", () => {
     });
 
     test("renders the component and displays the question", () => {
-        render(() => <WritingBlocksCardComponent {...props} />);
+        renderTestElement(WritingBlocksCardComponent, props);
 
         expect(screen.getByText("Rearrange the words to form a correct sentence.")).toBeInTheDocument();
         expect(screen.getByText("Solid.js")).toBeInTheDocument();
@@ -45,7 +46,7 @@ describe("WritingBlocksCardComponent", () => {
     });
 
     test("selecting a word adds it to the selected words area", () => {
-        render(() => <WritingBlocksCardComponent {...props} />);
+        renderTestElement(WritingBlocksCardComponent, props);
 
         const wordButton = screen.getByText("Solid.js", { selector: ".option-button" }); // Select from options
         fireEvent.click(wordButton);
@@ -55,7 +56,7 @@ describe("WritingBlocksCardComponent", () => {
     });
 
     test("removing a word from selected words updates the state", () => {
-        render(() => <WritingBlocksCardComponent {...props} />);
+        renderTestElement(WritingBlocksCardComponent, props);
 
         const wordButton = screen.getByText("Solid.js", { selector: ".option-button" });
         fireEvent.click(wordButton);
@@ -67,7 +68,7 @@ describe("WritingBlocksCardComponent", () => {
     });
 
     test("checking the correct answer triggers the correct callback", async () => {
-        render(() => <WritingBlocksCardComponent {...props} />);
+        renderTestElement(WritingBlocksCardComponent, props);
 
         fireEvent.click(screen.getByText("Solid.js", { selector: ".option-button" }));
         fireEvent.click(screen.getByText("is", { selector: ".option-button" }));
@@ -83,7 +84,7 @@ describe("WritingBlocksCardComponent", () => {
     });
 
     test("checking an incorrect answer triggers the incorrect callback", async () => {
-        render(() => <WritingBlocksCardComponent {...props} />);
+        renderTestElement(WritingBlocksCardComponent, props);
 
         fireEvent.click(screen.getByText("Solid.js", { selector: ".option-button" }));
         fireEvent.click(screen.getByText("awesome", { selector: ".option-button" }));

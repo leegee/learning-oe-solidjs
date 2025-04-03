@@ -1,11 +1,10 @@
 import { IBaseCard } from '../components/cards/BaseCard.type';
-import { loadConfig } from '../config';
-
-const appConfig = await loadConfig();
+import { useConfigContext } from '../contexts/Config';
 
 export type setQandALangsReturnType = { q: string, a: string };
 
 export const setQandALangs = (card: IBaseCard): setQandALangsReturnType => {
+    const { config } = useConfigContext();
     if (card.alang && card.alang === card.qlang) {
         return {
             q: card.qlang,
@@ -13,7 +12,7 @@ export const setQandALangs = (card: IBaseCard): setQandALangsReturnType => {
         };
     }
     return {
-        q: (card.qlang === 'default' ? appConfig.defaultLanguage : appConfig.targetLanguage) as string,
-        a: (card.alang ?? (card.qlang === 'default' ? appConfig.targetLanguage : appConfig.defaultLanguage)) as string,
+        q: (card.qlang === 'default' ? config.defaultLanguage : config.targetLanguage) as string,
+        a: (card.alang ?? (card.qlang === 'default' ? config.targetLanguage : config.defaultLanguage)) as string,
     };
 };

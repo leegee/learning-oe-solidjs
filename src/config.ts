@@ -16,7 +16,7 @@ interface LessonConfig {
     fileBasename: string;
 }
 
-interface Config {
+export interface Config {
     lessons: LessonConfig[];
     defaultLanguage: string;
     targetLanguage: string;
@@ -28,7 +28,7 @@ interface Config {
 
 const REQUIRED_KEYS: (keyof Config)[] = ['targetLanguage', 'defaultLanguage', 'appTitle', 'i18n'];
 
-let configPromise: Promise<Config> | null = null;
+let configPromise: Promise<Config>;
 
 const deepMerge = <T>(target: T, source: T): T => {
     if (typeof target !== 'object' || typeof source !== 'object' || target === null || source === null) {
@@ -88,3 +88,4 @@ export const loadConfig = async (): Promise<Config> => {
 
     return configPromise;
 };
+

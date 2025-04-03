@@ -1,4 +1,6 @@
-import { cleanup, render, screen, fireEvent } from "solid-testing-library";
+import { cleanup, screen, fireEvent } from "solid-testing-library";
+import { renderTestElement } from '../../../../jest.setup.tsx';
+
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
 
 jest.mock("../../../i18n", () => ({
@@ -34,12 +36,12 @@ describe('WritingCardComponent', () => {
     });
 
     it('should display the question', () => {
-        render(() => <WritingCardComponent {...props} />);
+        renderTestElement(WritingCardComponent, props);
         expect(screen.getByText('What is the answer?')).toBeInTheDocument();
     });
 
     it('should call onCorrect when the answer is correct', () => {
-        render(() => <WritingCardComponent {...props} />);
+        renderTestElement(WritingCardComponent, props);
         fireEvent.input(
             screen.getByPlaceholderText('type_in ang...'),
             { target: { value: 'correct answer' } }
@@ -51,7 +53,7 @@ describe('WritingCardComponent', () => {
     });
 
     it('should call onIncorrect when the answer is incorrect', () => {
-        render(() => <WritingCardComponent {...props} />);
+        renderTestElement(WritingCardComponent, props);
         fireEvent.input(screen.getByPlaceholderText('type_in ang...'), { target: { value: 'wrong answer' } });
         fireEvent.click(screen.getByRole('button', { name: 'action-button' }));
 
@@ -60,7 +62,7 @@ describe('WritingCardComponent', () => {
     });
 
     it('should call onComplete after next button click', () => {
-        render(() => <WritingCardComponent {...props} />);
+        renderTestElement(WritingCardComponent, props);
         fireEvent.input(screen.getByPlaceholderText('type_in ang...'), { target: { value: 'correct answer' } });
         fireEvent.click(screen.getByRole('button', { name: 'action-button' }));
 
@@ -72,7 +74,7 @@ describe('WritingCardComponent', () => {
     });
 
     it('should focus on input after letter button click', () => {
-        render(() => <WritingCardComponent {...props} />);
+        renderTestElement(WritingCardComponent, props);
         fireEvent.click(screen.getByText('æ'));
 
         expect(screen.getByRole('textbox')).toHaveFocus();

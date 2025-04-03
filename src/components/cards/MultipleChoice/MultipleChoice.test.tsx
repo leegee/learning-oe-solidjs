@@ -1,5 +1,6 @@
-import { cleanup, render, screen, fireEvent, waitFor } from "solid-testing-library";
+import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import MultipleChoiceComponent, { type IMultipleChoiceCard, type IMultipleChoiceCardProps } from "./MultipleChoice";
+import { renderTestElement } from "../../../../jest.setup";
 
 jest.mock("../../../i18n", () => ({
     t: (key: string) => key,
@@ -35,7 +36,7 @@ describe("MultipleChoiceComponent", () => {
     });
 
     test("renders the component and displays the question", () => {
-        render(() => <MultipleChoiceComponent {...props} />);
+        renderTestElement(MultipleChoiceComponent, props);
 
         expect(screen.getByText("What is Solid.js?")).toBeInTheDocument();
         expect(screen.getByText("A framework")).toBeInTheDocument();
@@ -45,7 +46,7 @@ describe("MultipleChoiceComponent", () => {
     });
 
     test("selecting an option updates the selected state", () => {
-        render(() => <MultipleChoiceComponent {...props} />);
+        renderTestElement(MultipleChoiceComponent, props);
 
         const optionButton = screen.getByText("A library");
         fireEvent.click(optionButton);
@@ -54,7 +55,7 @@ describe("MultipleChoiceComponent", () => {
     });
 
     test("checking the answer triggers the correct callback", async () => {
-        render(() => <MultipleChoiceComponent {...props} />);
+        renderTestElement(MultipleChoiceComponent, props);
 
         fireEvent.click(screen.getByText("A library"));
 
@@ -70,7 +71,7 @@ describe("MultipleChoiceComponent", () => {
     });
 
     test("checking an incorrect answer triggers the incorrect callback", async () => {
-        render(() => <MultipleChoiceComponent {...props} />);
+        renderTestElement(MultipleChoiceComponent, props);
 
         fireEvent.click(screen.getByText("A tool"));
 
