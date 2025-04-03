@@ -1,4 +1,5 @@
 import { createSignal, onCleanup, Switch, Match, createMemo } from 'solid-js';
+import { useConfirm } from "../../contexts/Confirm";
 import { t } from '../../i18n';
 import type {
     IBlanksCard,
@@ -32,13 +33,16 @@ export interface ILessonProps {
 }
 
 const LessonComponent = (props: ILessonProps) => {
+    const { showConfirm } = useConfirm();
     const [lessonStack, setLessonStack] = createSignal(props.lesson.cards);
     const currentCard = createMemo(() => lessonStack()[0] ?? null);
     let correctlyAnswered: null | boolean = null;
 
+    const leaveIfConfirmed = () => showConfirm(t('confirm_leave_lesson'), props.onCancel);
+
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
-            props.onCancel();
+            leaveIfConfirmed();
         }
     };
 
@@ -88,7 +92,7 @@ const LessonComponent = (props: ILessonProps) => {
         <article class="lesson">
             <h2>
                 <em>{props.lesson.title}</em>
-                <button class="close-button" onClick={props.onCancel} aria-label={t('lesson_progress')} />
+                <button class="close-button" onClick={leaveIfConfirmed} aria-label={t('lesson_progress')} />
             </h2>
 
             <progress
