@@ -1,9 +1,11 @@
 import "@testing-library/jest-dom";
 
-import { JSX } from 'solid-js';
+import { type Config } from "./src/config";
+import { type TFunction } from "i18next";
+import { type JSX } from 'solid-js';
 import { render } from 'solid-testing-library';
 import { ConfigProvider } from './src/contexts/Config';
-import { type Config } from "./src/config";
+import { ConfirmProvider } from "./src/contexts/Confirm";
 
 export const MockConfig = {
     defaultLanguage: 'en',
@@ -21,6 +23,8 @@ export const MockConfig = {
     },
 };
 
+export const MockT: TFunction = ((key: string) => key) as TFunction;
+
 interface RenderTestElement {
     children?: JSX.Element;
     <T extends object>(Component: (props: T & JSX.IntrinsicAttributes) => JSX.Element, props: T, mockConfig?: typeof MockConfig): void;
@@ -33,7 +37,9 @@ export const renderTestElement: RenderTestElement = function <T extends object>(
 ) {
     render(() => (
         <ConfigProvider config={mockConfig}>
-            <Component {...props} />
+            <ConfirmProvider t={MockT}>
+                <Component {...props} />
+            </ConfirmProvider>
         </ConfigProvider>
     ));
 };

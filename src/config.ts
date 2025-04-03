@@ -1,3 +1,5 @@
+// import i18n from "i18next";
+
 interface AvailableLanguages {
     [language: string]: {
         [key: string]: string;
@@ -74,17 +76,29 @@ export const loadConfig = async (): Promise<Config> => {
         const appConfig = deepMerge<Config>(defaultConfig, appConfigRaw);
 
         let ok = true;
-
         REQUIRED_KEYS.forEach((key) => {
             if (!appConfig[key]) {
                 console.warn(`app.config.json should contain the "${key}" key`);
                 ok = false;
             }
         });
-
         if (!ok) {
             throw new Error('Invalid configuration file JSON.');
         }
+
+        // const resources = Object.fromEntries(
+        //     Object.entries(appConfig.i18n.availableLanguages).map(([lang, translations]) => [
+        //         lang,
+        //         { translation: translations },
+        //     ])
+        // );
+
+        // i18n.init({
+        //     resources,
+        //     lng: appConfig.uiLanguage || appConfig.targetLanguage || appConfig.defaultLanguage,
+        //     fallbackLng: appConfig.defaultLanguage,
+        //     interpolation: { escapeValue: false },
+        // });
 
         return appConfig;
     })();

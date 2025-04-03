@@ -13,6 +13,7 @@ import LessonComponent from "./components/Lesson";
 import LessonCompleted from "./components/LessonCompleted";
 import CompletedAllLessons from "./components/CompletedAllLessons";
 import Stats from "./components/Stats";
+import { t } from "./i18n";
 
 import "./App.css";
 
@@ -134,7 +135,7 @@ const App = (props: IAppProps) => {
 
   return (
     <ConfigProvider config={props.config}>
-      <ConfirmProvider>
+      <ConfirmProvider t={t}>
         <main
           id="main"
           class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]

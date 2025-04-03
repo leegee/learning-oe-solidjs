@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from 'solid-testing-library';
+import { screen, fireEvent, waitFor } from 'solid-testing-library';
+import { renderTestElement } from '../../../jest.setup';
 import LessonComponent, { type Lesson } from './Lesson';
 import { IMultipleChoiceCard } from '../cards';
 
@@ -18,7 +19,7 @@ jest.mock('../cards', () => ({
 }));
 
 jest.mock('../../i18n', () => ({
-    t: jest.fn().mockImplementation((key: string) => key), // Return the key as the translation
+    t: jest.fn().mockImplementation((key: string) => key),
 }));
 
 describe('LessonComponent', () => {
@@ -51,14 +52,10 @@ describe('LessonComponent', () => {
     });
 
     it('should render a lesson and call onCorrect when the correct button is clicked', async () => {
-        render(() => (
-            <LessonComponent
-                lesson={lesson}
-                onAnswer={onAnswer}
-                onCancel={onCancel}
-                onLessonComplete={onLessonComplete}
-            />
-        ));
+        renderTestElement(
+            LessonComponent,
+            { lesson, onAnswer, onCancel, onLessonComplete }
+        );
 
         await waitFor(() => expect(onAnswer).toHaveBeenCalledTimes(0));
         await waitFor(() => expect(onLessonComplete).toHaveBeenCalledTimes(0));

@@ -1,10 +1,15 @@
-import { createContext, useContext, createSignal, JSX } from "solid-js";
-import { t } from '../i18n';
+import { createContext, useContext, createSignal, type JSX } from "solid-js";
+import { type TFunction } from "i18next";
 import "./Confirm.css";
 
 const ConfirmContext = createContext<{ showConfirm: (message: string, action: () => void) => void }>();
 
-export const ConfirmProvider = (props: { children: JSX.Element }) => {
+interface IConfirmProviderProps {
+    t: TFunction;
+    children: JSX.Element;
+}
+
+export const ConfirmProvider = (props: IConfirmProviderProps) => {
     const [isOpen, setIsOpen] = createSignal(false);
     const [confirmAction, setConfirmAction] = createSignal<() => void>(() => void (0));
     const [message, setMessage] = createSignal("");
@@ -31,8 +36,8 @@ export const ConfirmProvider = (props: { children: JSX.Element }) => {
                 <dialog class="confirm-dialog" open={isOpen()}>
                     <h3>{message()}</h3>
                     <footer>
-                        <button class="cancel-button" onClick={cancel}>{t('no')}</button>
-                        <button class="next-button" onClick={confirm}>{t('yes')}</button>
+                        <button class="cancel-button" onClick={cancel}>{props.t('no')}</button>
+                        <button class="next-button" onClick={confirm}>{props.t('yes')}</button>
                     </footer>
                 </dialog>
             </div>
@@ -40,7 +45,6 @@ export const ConfirmProvider = (props: { children: JSX.Element }) => {
     );
 };
 
-// ✅ Export useConfirm so other components can use it
 export const useConfirm = () => {
     const context = useContext(ConfirmContext);
     if (!context) {
