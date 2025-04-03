@@ -42,10 +42,22 @@ const WritingCardComponent = (props: IWritingCardProps) => {
     }
 
     const handleLetterButtonClick = (letter: string) => {
-        setTheUserInput(userInput() + letter);
-        if (inputRef) {
-            inputRef.focus();
-        }
+        if (!inputRef) return;
+
+        const input = inputRef;
+        const start = input.selectionStart ?? userInput().length;
+        const end = input.selectionEnd ?? userInput().length;
+
+        // Insert or replace text at the cursor/selection
+        const newValue = userInput().slice(0, start) + letter + userInput().slice(end);
+        setTheUserInput(newValue);
+
+        // Move cursor after inserted letter - 
+        // after the state change but before the re-render
+        queueMicrotask(() => {
+            input.selectionStart = input.selectionEnd = start + letter.length;
+            input.focus();
+        });
     };
 
     const handleCheckAnswer = () => {
