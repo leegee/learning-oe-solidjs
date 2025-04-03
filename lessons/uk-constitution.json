@@ -13,7 +13,7 @@
     ],
     "lessons": [
         {
-            "title": "Introduction to English Constitutional Law",
+            "title": "Introduction",
             "description": "This lesson provides an overview of the fundamental principles of English constitutional law, including the role of Parliament, the Monarch, and the judiciary.",
             "cards": [
                 {
@@ -150,7 +150,7 @@
             ]
         },
         {
-            "title": "The Role of the Judiciary in the UK",
+            "title": "The Judiciary",
             "description": "This lesson covers the importance of an independent judiciary in upholding the rule of law, as well as the functions of the UK's highest courts.",
             "cards": [
                 {
@@ -286,7 +286,7 @@
             ]
         },
         {
-            "title": "Advanced Constitutional Law: Landmark Cases",
+            "title": "Landmark Cases",
             "description": "This lesson covers landmark cases in UK constitutional law that have influenced the relationship between the state, government, and citizens, and shaped constitutional principles such as parliamentary sovereignty and the rule of law.",
             "cards": [
                 {
@@ -422,7 +422,7 @@
             ]
         },
         {
-            "title": "Advanced Constitutional Law: Separation of Powers",
+            "title": "Separation of Powers",
             "description": "This lesson explores the separation of powers in the UK constitution, focusing on the independence of the judiciary, the powers of Parliament, and the role of the executive.",
             "cards": [
                 {
