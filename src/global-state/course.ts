@@ -38,7 +38,6 @@ export const [courseStore, setCourseStore] = createStore({
     loading: false,
 });
 
-// ** Function to load a course **
 async function loadCourse(fileName: string): Promise<CourseData> {
     const filePath = `${LESSONS_DIR}/${fileName}.json`;
 
@@ -55,7 +54,7 @@ async function loadCourse(fileName: string): Promise<CourseData> {
     throw new Error('Could not load lesson: ' + filePath);
 }
 
-// ** Watch for changes in selectedCourseIndex and load course data **
+// Watch for changes in selectedCourseIndex and load course data
 createEffect(async () => {
     const index = courseStore.selectedCourseIndex;
 
@@ -99,7 +98,6 @@ createEffect(async () => {
     }
 });
 
-// ** Actions **
 export function setSelectedCourse(index: number) {
     console.info("Selected course", index);
     setCourseStore("selectedCourseIndex", index);

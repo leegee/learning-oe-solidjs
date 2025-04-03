@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-import config from "../../config";
+const { loadConfig } = await import('../../config');
 import { t } from "../../i18n";
 import Menu from "../Menu";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
@@ -10,6 +10,8 @@ interface HeaderProps {
     isLessonActive: boolean;
     courseMetadata: CourseMetadata;
 }
+
+const appConfig = await loadConfig();
 
 const Header = (props: HeaderProps) => {
     if (props.isLessonActive) {
@@ -32,15 +34,15 @@ const Header = (props: HeaderProps) => {
             </aside>
 
             <div class="header-text">
-                <h1 lang={config.targetLanguage}>
+                <h1 lang={appConfig.targetLanguage}>
                     <Show when={props.isLessonActive}>
                         {props.courseMetadata.courseTitle}
                     </Show>
                     <Show when={!props.isLessonActive}>
-                        {config.appTitle}
+                        {appConfig.appTitle}
                     </Show>
                 </h1>
-                <Menu title={config.appTitle} />
+                <Menu title={appConfig.appTitle} />
             </div>
         </header>
     );
