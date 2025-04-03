@@ -34,7 +34,12 @@ interface LetterButtonsProps {
 
 const LetterButtons = (props: LetterButtonsProps) => {
     if (!Letters[props.lang]) {
-        return 'No buttons for ' + props.lang;
+        console.warn(`No buttons exist for the supplied language, "${props.lang}".`);
+        return '';
+    }
+
+    if (props.text.length === 0) {
+        return '';
     }
 
     let filteredLetters = Letters[props.lang].filter(letter => props.text.includes(letter.symbol));
