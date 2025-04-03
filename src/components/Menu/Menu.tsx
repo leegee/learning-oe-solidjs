@@ -1,4 +1,5 @@
 import { createSignal, createEffect } from "solid-js";
+import packageJson from '../../../package.json';
 import { t } from "i18next";
 import { getCourseIndex } from "../../global-state/lessons";
 import Course from "../../Course";
@@ -40,17 +41,21 @@ const Menu = (props: MenuProps) => {
                 <section class='card'>
 
                     <h1>{props.title}</h1>
-                    <h2>Choose a course</h2>
 
-                    {getCourseIndex() === -1 && <p>{t('choose_a_course')}</p>}
-                    <nav>
-                        <Course />
-                        <li>
-                            <ResetAllButtonComponent />
-                        </li>
-                    </nav>
+                    <div>
+                        {getCourseIndex() === -1 && <h2>{t('choose_a_course')}</h2>}
+                        <nav>
+                            <Course />
+                            <li>
+                                <ResetAllButtonComponent />
+                            </li>
+                        </nav>
+                    </div>
 
-                    <button class='next-button'>OK</button>
+                    <footer>
+                        <button class='next-button'>OK</button>
+                        <small>Version {packageJson.version}</small>
+                    </footer>
                 </section>
             </div>
         </aside>

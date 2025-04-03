@@ -41,7 +41,7 @@
 }
 
 .hamburger-menu .card {
-    max-width: calc(var(--oe-max-width) - 2em);
+    min-width: calc(var(--oe-max-width) - 2em);
     padding: 1em;
     margin: 1em;
     background-color: var(--oe-clr-modal-bg);
@@ -61,6 +61,10 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    justify-items: center;
+    text-align: left;
+    width: 100%;
 }
 
 .hamburger-menu li {
@@ -122,7 +126,16 @@
     margin-top: 2em;
 }
 
+.hamburger-menu footer {
+    margin-top: 1em;
+    text-align: center;
+}
+
+.hamburger-menu small {
+    opacity: 50%;
+}
+
 .hamburger-menu .next-button {
-    margin-top: 2em;
     font-size: 12pt;
+    margin: 1em 0;
 }

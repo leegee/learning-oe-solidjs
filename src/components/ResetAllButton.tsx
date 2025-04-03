@@ -19,7 +19,7 @@ export const ResetAllButtonComponent = () => {
     }
 
     return (
-        <button onClick={() =>
+        <button class='reset-course' onClick={() =>
             showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
         >
             {t('reset_all')}
