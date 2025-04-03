@@ -5,6 +5,9 @@ CHANGE LOG
 
 * Load config before loading app and expose as a context
 * Update small-screen CSS
+* Update LetterButtons to only display a few for a1lly
+* Use ActionButton in all cards
+* Keyboard shortcuts in ActionButton and Lesson
 
 2025-04-03
 
