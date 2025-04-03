@@ -26,9 +26,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
     color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
@@ -36,13 +38,13 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 1em;
     gap: 1em;
-    z-index: 1000;
 }
 
-.hamburger-menu .inner {
-    max-width: var(--oe-max-width);
+.hamburger-menu .card {
+    max-width: calc(var(--oe-max-width) - 2em);
+    padding: 1em;
+    margin: 1em;
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
 }
@@ -52,7 +54,7 @@
 }
 
 .hamburger-menu h1 {
-    margin-bottom: 18pt;
+    margin-bottom: 16pt;
     background-color: inherit;
 }
 
@@ -105,8 +107,7 @@
 }
 
 .hamburger-menu .about {
-    padding-left: 0.3em;
-    width: 100%;
+    margin-top: 1em;
 }
 
 .hamburger-menu .about p {
@@ -114,10 +115,19 @@
 }
 
 .hamburger-menu .about h2 {
-    margin-top: 4em;
-    margin-bottom: 1em;
+    font-weight: 200;
+}
+
+.hamburger-menu .about p {
+    font-size: 1em;
+    font-weight: light;
 }
 
 .hamburger-menu .about footer {
     margin-top: 2em;
+}
+
+.hamburger-menu .next-button {
+    margin-top: 2em;
+    font-size: 12pt;
 }
