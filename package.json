@@ -12,7 +12,8 @@
     "deploy": "gh-pages -d dist",
     "test": "jest",
     "preview": "vite preview",
-    "predeploy": "npm run build"
+    "predeploy": "npm run build",
+    "prebuild": "npm run test"
   },
   "dependencies": {
     "@solid-primitives/i18n": "^2.2.0",
