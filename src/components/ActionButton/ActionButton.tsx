@@ -3,10 +3,10 @@ import { t } from '../../i18n';
 import './ActionButton.css';
 
 interface ButtonProps {
-    isCorrect: boolean | null;
-    isInputPresent: boolean;
-    onCheckAnswer: () => void;
-    onComplete: () => void;
+    isCorrect: boolean | null; // null=not yet answered
+    isInputPresent: boolean;   // allows clicking
+    onCheckAnswer: () => void; // first click
+    onComplete: () => void;    // second click
 }
 
 const ActionButton = (props: ButtonProps) => {
@@ -23,12 +23,27 @@ const ActionButton = (props: ButtonProps) => {
         if (!hasChecked()) {
             // First click: Check the answer
             props.onCheckAnswer();
-            setHasChecked(true);  // Mark the answer as checked
+            setHasChecked(true);
         } else {
             props.onComplete();
             setHasChecked(false);
         }
     };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+        if (props.isCorrect !== null
+            && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')
+        ) {
+            handleClick();
+        }
+    };
+
+    createEffect(() => {
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    });
 
     return (
         <button
