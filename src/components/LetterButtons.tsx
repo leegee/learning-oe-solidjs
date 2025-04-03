@@ -8,11 +8,11 @@ interface Letter {
 
 const Letters: Record<string, Letter[]> = {
     'ang': [
-        { symbol: 'æ', name: 'ash' },
+        { symbol: 'æ', name: 'Ash' },
         { symbol: 'ø', name: 'o-slash' },
-        { symbol: 'þ', name: 'thorn' },
-        { symbol: 'ð', name: 'eth' },
-        { symbol: 'ȝ', name: 'yogh' },
+        { symbol: 'þ', name: 'Thorn' },
+        { symbol: 'ð', name: 'Eth' },
+        { symbol: 'ȝ', name: 'Yogh' },
         { symbol: 'œ', name: 'o-e' },
         { symbol: 'ſ', name: 'long-s' },
         { symbol: 'ƿ', name: 'wynn' },
@@ -30,20 +30,15 @@ interface LetterButtonsProps {
     onSelect: (text: string) => void;
 }
 
-const LetterButtons = ({ lang, onSelect }: LetterButtonsProps) => {
-
-
-    const handleLetterButtonClick = (letter: string) => {
-        onSelect(letter);
-    };
-
+const LetterButtons = (props: LetterButtonsProps) => {
     return (
         <div class="letter-buttons">
-            <For each={Letters[lang]}>
+            <For each={Letters[props.lang]}>
                 {(letter) => (
                     <button
-                        onClick={() => handleLetterButtonClick(letter.symbol)}
-                        aria-label={t(`insert_${letter.name}`)}
+                        onClick={() => props.onSelect(letter.symbol)}
+                        aria-label={letter.name}
+                        title={letter.name}
                     >
                         {letter.symbol}
                     </button>

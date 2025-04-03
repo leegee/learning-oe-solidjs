@@ -98,12 +98,10 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                         aria-label={t('enter_answer')}
                     />
 
-                    {langs().a === 'ang' && (
-                        <LetterButtons
-                            lang={langs().a}
-                            onSelect={handleLetterButtonClick}
-                        />
-                    )}
+                    <LetterButtons
+                        lang={langs().a}
+                        onSelect={handleLetterButtonClick}
+                    />
                 </div>
             </section>
 
