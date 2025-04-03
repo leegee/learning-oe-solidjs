@@ -53,7 +53,10 @@ export const saveAnswer = (lessonIndex: number, cardIndex: number, incorrectAnsw
 export const resetCourse = () => {
   localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(Current_Course_Index));
   localStorage.removeItem(storageKeys.ANSWERS(Current_Course_Index));
-  setCurrentLessonIndex(0);
+  Current_Course_Index = -1;
+  localStorage.removeItem(storageKeys.COURSE_INDEX);
+  // setCurrentLessonIndex(-1);
+  // TODO iterate over all courses and remove
 };
 
 export const resetLesson = (lessonIndex: number): void => {
