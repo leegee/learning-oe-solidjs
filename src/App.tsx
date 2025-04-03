@@ -116,7 +116,9 @@ const App = () => {
 
       case LessonState.CourseFinished:
         return (
-          <CompletedAllLessons totalLessons={courseStore.lessons.length} />
+          <CompletedAllLessons totalLessons={courseStore.lessons.length}>
+            <Stats />
+          </CompletedAllLessons>
         );
 
       default:

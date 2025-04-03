@@ -5,17 +5,9 @@
     height: 100%;
 }
 
-.lesson-intro .card {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 2em;
-}
-
-.lesson-intro .card .next-button {
-    padding-left: 2em;
-    padding-right: 2em;
+.lesson-intro .next-button {
+    width: 100%;
+    margin-left: auto;
 }
 
 @media (min-height: 800px) {
@@ -26,24 +18,15 @@
 
 .lesson-intro .lesson-list h2,
 .lesson-intro h2 {
-    font-weight: 200;
-    font-size: 1.3em;
+    font-size: 1em;
+    font-weight: 100;
 }
 
 .lesson-intro h3 {
     font-weight: 700;
-    font-size: 2em;
+    font-size: 1.6em;
 }
 
 .lesson-intro .description {
     text-align: center;
-}
-
-.lesson-intro footer {
-    margin-top: 2em;
-    text-align: right;
-}
-
-.lesson-intro .next-button {
-    width: unset;
 }

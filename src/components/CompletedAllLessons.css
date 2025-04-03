@@ -1,6 +1,10 @@
-/* CompletedAllLessons.css */
-
 .completed-all-lessons {
     width: auto;
     margin: auto;
+}
+
+
+.completed-all-lessons .stats {
+    margin-bottom: auto;
+    line-height: 160%;
 }

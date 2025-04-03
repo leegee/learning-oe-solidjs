@@ -1,13 +1,13 @@
 main header {
-    margin-top: 0.6em;
     transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
+    margin-bottom: 0.3em;
 }
 
 main header .header-text {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
     margin: 0 0.3em;
 }
@@ -20,11 +20,10 @@ main header h2 {
 
 main header h1 {
     font-size: 2em;
-    font-style: italic;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* width: auto; */
+    font-weight: 200;
 }
 
 .header-progress,

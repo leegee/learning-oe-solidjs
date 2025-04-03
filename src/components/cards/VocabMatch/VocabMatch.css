@@ -5,6 +5,8 @@
 .vocab-match table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .vocab-match td {

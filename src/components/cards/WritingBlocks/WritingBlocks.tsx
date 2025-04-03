@@ -57,7 +57,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
 
     return (
         <>
-            <section class='writing-blocks-card'>
+            <section class='writing-blocks-card card'>
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <div class='selected-words'>

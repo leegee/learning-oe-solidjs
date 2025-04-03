@@ -2,22 +2,23 @@ import { JSX } from 'solid-js';
 import { t } from '../i18n';
 import './CompletedAllLessons.css';
 
-interface CompletionSummaryProps {
+interface CompletedAllLessonsProps {
     totalLessons: number;
     children?: JSX.Element
 }
 
-const CompletedAllLessons = (props: CompletionSummaryProps) => {
-
-    // todo rephrase
+const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
+    // todo 
     return (
         <>
-            <article class="completed-all-lessons">
+            <article class="completed-all-lessons card">
                 <h2>{t('all_lessons_done')}</h2>
-                <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
+                <div class='stats'>
+                    <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
+                </div>
+                {props.children && props.children}
             </article>
 
-            {props.children && props.children}
         </>
     );
 };

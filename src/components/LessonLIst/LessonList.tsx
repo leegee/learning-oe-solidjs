@@ -22,7 +22,6 @@ const LessonList = (props: LessonListProps) => {
     return (
         <section class="card lesson-list">
             <h2>
-                {/* {t('list_lessons_title')} */}
                 {props.courseMetadata.courseTitle}
             </h2>
             <ol>

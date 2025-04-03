@@ -19,36 +19,40 @@ const Stats = () => {
     }
 
     return (
-        <span class="stats">
+        <section class="stats-component">
             <h2>{t('progress')}</h2>
 
-            <span class="correct-answers" title={t('corect_answers_alt')}>
-                <span class='correct-answers-alt'>
-                    {t('correct_answer_count_alt')}
-                </span>
-                <span class='correct-answers-value'>
-                    {totalCorrectAnswers()}
-                </span>
-            </span>
+            <table>
+                <tbody>
+                    <tr class="correct-answers" title={t('corect_answers_alt')}>
+                        <th class='correct-answers-alt'>
+                            {t('correct_answer_count_alt')}
+                        </th>
+                        <td class='correct-answers-value'>
+                            {totalCorrectAnswers()}
+                        </td>
+                    </tr>
 
-            <span class="incorrect-answers" title={t('incorrect_answer_count_alt')}>
-                <span class='incorrect-answers-alt'>
-                    {t('incorrect_answer_count_alt')}
-                </span>
-                <span class='incorrect-answers-value'>
-                    {totalIncorrectAnswers()}
-                </span>
-            </span>
+                    <tr class="incorrect-answers" title={t('incorrect_answer_count_alt')}>
+                        <th class='incorrect-answers-alt'>
+                            {t('incorrect_answer_count_alt')}
+                        </th>
+                        <td class='incorrect-answers-value'>
+                            {totalIncorrectAnswers()}
+                        </td>
+                    </tr>
 
-            <span class="questions-answered" title={t('questions_answered_count_alt')}>
-                <span class='questions-answered-alt'>
-                    {t('questions_answered_count_alt')}
-                </span>
-                <span class='questions-answered-value'>
-                    {totalQuestionsAnswered()}
-                </span>
-            </span>
-        </span>
+                    <tr class="questions-answered" title={t('questions_answered_count_alt')}>
+                        <th class='questions-answered-alt'>
+                            {t('questions_answered_count_alt')}
+                        </th>
+                        <td class='questions-answered-value'>
+                            {totalQuestionsAnswered()}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
     );
 };
 

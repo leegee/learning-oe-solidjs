@@ -1,12 +1,6 @@
-/* Stats.css */
-
-.stats {
+.stats-component {
     display: flex;
     gap: 0.3em;
-}
-
-
-.home-active .stats {
     padding: 1em;
     margin-top: 1em;
     display: flex;
@@ -17,22 +11,8 @@
     width: 100%;
 }
 
-.home-active .stats h2 {
+.stats-component th {
+    font-weight: normal;
     text-align: left;
-    font-style: normal;
-    display: block;
-}
-
-.home-active .stats .correct-answers,
-.home-active .stats .incorrect-answers,
-.home-active .stats .questions-answered {
-    font-size: 1em;
-}
-
-
-.home-active .stats .correct-answers-alt,
-.home-active .stats .incorrect-answers-alt,
-.home-active .stats .questions-answered-alt {
-    margin-right: 1em;
-    display: inline-block;
+    font-size: normal;
 }

@@ -13,8 +13,8 @@
 
     --oe-border-radius: 0.3em;
 
-    --fade-duration: 0.5s;
-    --fade-timing: ease-in-out;
+    --oe-fade-duration: 0.5s;
+    --oe-fade-timing: ease-in-out;
     --fade-delay: 0s;
 
     --oe-max-width: 40rem;
@@ -29,6 +29,9 @@ body,
     height: 100%;
     padding: 0;
     margin: 0;
+    font-family: 'Work Sans';
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
 }
 
 * {
@@ -53,49 +56,21 @@ textarea[lang="ang"] {
 
 [hidden] {
     display: none;
-    ;
 }
 
-section.card {
-    margin: 1em 0;
-}
-
-.card {
-    background-color: var(--oe-clr-card-bg);
-    border: 1pt solid #fff6;
-    margin: 1em 0;
-    padding: 1em;
-}
-
-.card * {
-    background-color: var(--oe-clr-card-bg);
-}
-
-.correct,
-.incorrect {
+button,
+a {
     color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
 }
 
-.correct {
-    background-color: green;
-}
-
-.incorrect {
-    background-color: darkred;
-}
-
-.shake {
-    color: white;
-    background-color: darkred;
-}
 
 button {
     font-size: 125%;
     border: 1pt solid grey;
     padding: 0.3em;
     cursor: pointer;
-    transition: background-color var(--fade-duration) var(--fade-timing), filter var(--fade-duration) var(--fade-timing);
-
+    transition: background-color var(--oe-fade-duration) var(--oe-fade-timing), filter var(--oe-fade-duration) var(--oe-fade-timing);
 }
 
 button:not([disabled]):hover {
@@ -113,16 +88,8 @@ button.incorrect[disabled] {
     filter: brightness(0.9);
 }
 
-
 button[disabled]:hover {
     cursor: default;
-}
-
-.skip-button {
-    background-color: maroon;
-    color: white;
-    margin: 1em 0;
-    float: right;
 }
 
 button.selected {
@@ -130,49 +97,18 @@ button.selected {
     background-color: #6666;
 }
 
-.correct-next-button,
-.incorrect-next-button,
-.try-again-button,
-.next-button {
-    width: 100%;
-    background-color: var(--oe-clr-primary-bg);
-    color: var(--oe-clr-primary-fg);
-}
-
-.correct-next-button {
-    background-color: green;
-}
-
-.incorrect-next-button,
-.try-again-button {
-    background-color: maroon;
-}
-
 h2 {
-    font-size: 1.6em;
+    font-size: 1.2em;
     font-weight: 200;
     margin-top: 0;
     margin-bottom: 0.3em;
 }
 
 h3 {
-    font-size: 150%;
+    font-weight: 200;
+    font-size: 1em;
     margin: 0.3em 0 0.6em 0;
 }
-
-h3.question {
-    margin: 1em 0;
-}
-
-/* h3.question::before {
-    content: '“';
-    opacity: 0.3;
-}
-
-h3.question::after {
-    content: '”';
-    opacity: 0.3;
-} */
 
 h4 {
     font-size: 1em;
@@ -180,9 +116,4 @@ h4 {
     font-style: italic;
     margin: 0;
     opacity: 60%;
-}
-
-#install-btn {
-    font-size: small;
-    display: inline-block;
 }

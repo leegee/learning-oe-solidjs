@@ -8,9 +8,10 @@
     cursor: pointer;
     padding: 0;
     margin: 0;
-    font-size: 100%;
+    font-size: 150%;
     font-weight: normal;
     opacity: 66%;
+    color: var(--oe-clr-fg);
 }
 
 .hamburger-button:hover {
@@ -35,7 +36,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 4vh;
+    padding: 1em;
     gap: 1em;
     z-index: 1000;
 }
@@ -44,7 +45,6 @@
     max-width: var(--oe-max-width);
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
-    padding: 10vh 10vw;
 }
 
 .hamburger-menu.open {

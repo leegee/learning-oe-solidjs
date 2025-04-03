@@ -1,4 +1,6 @@
-/* LessonCompleted.css */
+.lesson-completed p {
+    line-height: 160%;
+}
 
 .lesson-completed footer {
     margin-top: 2em;
