@@ -1,4 +1,4 @@
-import { cleanup, screen, fireEvent } from "solid-testing-library";
+import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from '../../../../jest.setup.tsx';
 
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
@@ -73,10 +73,10 @@ describe('WritingCardComponent', () => {
         expect(mockOnComplete).toHaveBeenCalled();
     });
 
-    it('should focus on input after letter button click', () => {
+    it('should focus on input after letter button click', async () => {
         renderTestElement(WritingCardComponent, props);
         fireEvent.click(screen.getByText('æ'));
-
-        expect(screen.getByRole('textbox')).toHaveFocus();
+        // Wait for the microtask:
+        await waitFor(() => expect(screen.getByRole('textbox')).toHaveFocus());
     });
 });
