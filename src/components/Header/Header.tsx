@@ -1,5 +1,5 @@
 import { Show } from "solid-js";
-import { loadConfig } from '../../config';
+import { useConfigContext } from "../../contexts/Config";
 import { t } from "../../i18n";
 import Menu from "../Menu";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
@@ -11,17 +11,18 @@ interface HeaderProps {
     courseMetadata: CourseMetadata;
 }
 
-const appConfig = await loadConfig();
 
 const Header = (props: HeaderProps) => {
     if (props.isLessonActive) {
         return null;
     }
+    const { config } = useConfigContext();
 
     const lessonIndex = getCurrentLessonIndex();
     const totalLessons = getTotalTakenLessons();
 
     return (
+
         <header>
             <aside class="header-progress">
                 <progress
@@ -34,15 +35,15 @@ const Header = (props: HeaderProps) => {
             </aside>
 
             <div class="header-text">
-                <h1 lang={appConfig.targetLanguage}>
+                <h1 lang={config.targetLanguage}>
                     <Show when={props.isLessonActive}>
                         {props.courseMetadata.courseTitle}
                     </Show>
                     <Show when={!props.isLessonActive}>
-                        {appConfig.appTitle}
+                        {config.appTitle}
                     </Show>
                 </h1>
-                <Menu title={appConfig.appTitle} />
+                <Menu title={config.appTitle} />
             </div>
         </header>
     );
