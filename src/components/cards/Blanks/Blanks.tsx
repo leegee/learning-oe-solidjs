@@ -23,7 +23,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
-    const [isComplete, setIsComplete] = createSignal(false);
+    const [isComplete, setIsComplete] = createSignal<null | boolean>(null);
 
     const [currentSentence, setCurrentSentence] = createSignal<JSX.Element[]>([]);
 
@@ -115,7 +115,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
             <ActionButton
                 isCorrect={isComplete()}
-                isInputPresent={isComplete()}
+                isInputPresent={isComplete() ? true : false}
                 onCheckAnswer={handleNextClick}
                 onComplete={props.onComplete}
             />

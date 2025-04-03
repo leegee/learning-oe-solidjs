@@ -14,15 +14,6 @@
             "description": "Test components",
             "cards": [
                 {
-                    "class": "vocab",
-                    "qlang": "default",
-                    "vocab": {
-                        "woman": "wīf",
-                        "I": "Ic",
-                        "am": "ēom"
-                    }
-                },
-                {
                     "class": "blanks",
                     "qlang": "default",
                     "alang": "target",
@@ -32,12 +23,21 @@
                             "hūs": true
                         },
                         {
-                            "wīf": false
+                            "blu": false
                         },
                         {
-                            "hiw": false
+                            "tim": false
                         }
                     ]
+                },
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "woman": "wīf",
+                        "I": "Ic",
+                        "am": "ēom"
+                    }
                 },
                 {
                     "class": "writing-blocks",
