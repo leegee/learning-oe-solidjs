@@ -1,5 +1,4 @@
 import { For } from 'solid-js';
-import { t } from '../i18n';
 
 interface Letter {
     symbol: string;
