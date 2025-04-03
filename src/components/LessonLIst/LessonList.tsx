@@ -41,7 +41,6 @@ const LessonList = (props: LessonListProps) => {
                                     index() > props.currentLessonIndex && 'todo'
                                 ].filter(Boolean).join(' ')}
                             >
-                                <span class='index'>{index() + 1}</span>
                                 {lessonSummary.title}
                             </button>
                         </li>
