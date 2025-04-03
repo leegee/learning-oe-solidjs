@@ -68,9 +68,9 @@ const WritingCardComponent = (props: IWritingCardProps) => {
     return (
         <>
             <section class='card writing-card'>
-                {/* {langs().q !== langs().a &&
+                {langs().q !== langs().a &&
                     <h4>{t('translate_to_lang', { lang: t(langs().a) })}</h4>
-                } */}
+                }
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
                 <div class='input'>

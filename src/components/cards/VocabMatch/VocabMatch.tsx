@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For, Show } from 'solid-js';
+import { createSignal, createEffect, For } from 'solid-js';
 import { useConfigContext } from '../../../contexts/Config';
 import { t } from '../../../i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
