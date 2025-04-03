@@ -66,6 +66,7 @@ a {
 
 
 button {
+    text-align: left;
     font-size: 125%;
     border: 1pt solid grey;
     padding: 0.3em;

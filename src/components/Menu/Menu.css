@@ -1,9 +1,4 @@
-.menu-container {
-    position: relative;
-}
-
 .hamburger-button {
-    background: none;
     border: none;
     cursor: pointer;
     padding: 0;
@@ -32,13 +27,17 @@
     margin: 0;
     padding: 0;
     color: var(--oe-clr-card-fg);
-    background-color: var(--oe-clr-modal-bg);
+    background-color: var(--oe-clr-bg);
     border: 1pt solid var(--oe-clr-border);
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     gap: 1em;
+}
+
+.hamburger-menu.open {
+    display: flex;
 }
 
 .hamburger-menu .card {
@@ -49,17 +48,13 @@
     border: 1pt solid var(--oe-clr-border);
 }
 
-.hamburger-menu.open {
-    display: flex;
+.hamburger-menu h1,
+.hamburger-menu h2 {
+    align-self: center;
 }
 
-.hamburger-menu h1 {
-    margin-bottom: 16pt;
-    background-color: inherit;
-}
-
-.hamburger-menu p {
-    font-size: 14pt;
+.hamburger-menu h2 {
+    align-self: center;
 }
 
 .hamburger-menu nav {
