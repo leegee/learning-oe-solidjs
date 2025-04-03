@@ -75,21 +75,23 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                 }
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
-                <For each={shuffledOptions()}>
-                    {(option) => (
-                        <button
-                            lang={langs().a}
-                            onClick={() => handleOptionClick(option)}
-                            class={`multiple-choice-button ${selectedOption() === option ? 'selected' : ''} ${hasChecked() && selectedOption() === option
-                                ? (isCorrect() ? 'correct' : 'incorrect')
-                                : ''
-                                }`}
-                            disabled={areButtonsDisabled() ? true : undefined}
-                        >
-                            {option}
-                        </button>
-                    )}
-                </For>
+                <div class='options'>
+                    <For each={shuffledOptions()}>
+                        {(option) => (
+                            <button
+                                lang={langs().a}
+                                onClick={() => handleOptionClick(option)}
+                                class={`multiple-choice-button ${selectedOption() === option ? 'selected' : ''} ${hasChecked() && selectedOption() === option
+                                    ? (isCorrect() ? 'correct' : 'incorrect')
+                                    : ''
+                                    }`}
+                                disabled={areButtonsDisabled() ? true : undefined}
+                            >
+                                {option}
+                            </button>
+                        )}
+                    </For>
+                </div>
             </section>
 
             <ActionButton

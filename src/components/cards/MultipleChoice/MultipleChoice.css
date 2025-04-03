@@ -1,4 +1,9 @@
+.multiple-choice .options {
+    margin-bottom: auto;
+}
+
 .multiple-choice .multiple-choice-button {
     width: 100%;
     margin-top: 1em;
+    text-align: center;
 }
