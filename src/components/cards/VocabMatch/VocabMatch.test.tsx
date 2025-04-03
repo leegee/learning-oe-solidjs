@@ -61,7 +61,7 @@ describe('VocabMatchCardComponent', () => {
         fireEvent.click(screen.getByText('bird'));
         fireEvent.click(screen.getByText('fågel'));
 
-        fireEvent.click(screen.getByText('next')); // The "next" button
+        fireEvent.click(screen.getByLabelText('action-button'));
 
         await waitFor(() => {
             expect(mockOnComplete).toHaveBeenCalledTimes(1);
