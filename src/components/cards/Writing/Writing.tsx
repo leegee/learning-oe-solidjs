@@ -71,24 +71,26 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                 {/*<h4>{t('translate_to_lang', { lang: t(langs.a) })}</h4> */}
                 <h3 class="question" lang={langs().q}>{props.card.question}</h3>
 
-                <textarea
-                    id='writing-input'
-                    class='answer'
-                    placeholder={t('type_in') + ' ' + t(langs().a) + '...'}
-                    ref={el => inputRef = el}
-                    lang={langs().a}
-                    value={userInput()}
-                    autofocus={true}
-                    onInput={(e) => setTheUserInput(e.target.value)}
-                    aria-label={t('enter_answer')}
-                />
-
-                {langs().a === 'ang' && (
-                    <LetterButtons
+                <div class='input'>
+                    <textarea
+                        id='writing-input'
+                        class='answer'
+                        placeholder={t('type_in') + ' ' + t(langs().a) + '...'}
+                        ref={el => inputRef = el}
                         lang={langs().a}
-                        onSelect={handleLetterButtonClick}
+                        value={userInput()}
+                        autofocus={true}
+                        onInput={(e) => setTheUserInput(e.target.value)}
+                        aria-label={t('enter_answer')}
                     />
-                )}
+
+                    {langs().a === 'ang' && (
+                        <LetterButtons
+                            lang={langs().a}
+                            onSelect={handleLetterButtonClick}
+                        />
+                    )}
+                </div>
             </section>
 
             <ActionButton

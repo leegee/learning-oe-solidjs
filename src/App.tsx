@@ -123,7 +123,7 @@ const App = (props: IAppProps) => {
       case LessonState.CourseFinished:
         return (
           <CompletedAllLessons totalLessons={courseStore.lessons.length}>
-            <Stats />
+            {/* <Stats /> */}
           </CompletedAllLessons>
         );
 
