@@ -5,6 +5,7 @@ import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
 import './VocabMatch.css';
+import ActionButton from '../../ActionButton/ActionButton.tsx';
 
 
 export interface IVocabMatchCard extends IBaseCard {
@@ -173,12 +174,12 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                 </table>
             </section>
 
-            <Show when={isComplete()} fallback=''>
-                <button class="next-button" onClick={handleComplete}>
-                    {t('next')}
-                </button>
-
-            </Show>
+            <ActionButton
+                isCorrect={isComplete()}
+                isInputPresent={isComplete()}
+                onCheckAnswer={handleComplete}
+                onComplete={handleComplete}
+            />
         </>
     );
 };

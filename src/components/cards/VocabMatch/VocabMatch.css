@@ -14,6 +14,10 @@
     width: 50%;
 }
 
+.vocab-match td button {
+    text-align: center;
+}
+
 .vocab-match .matched {
     color: #5959;
     border-color: #5959;
