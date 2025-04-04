@@ -1,0 +1,11 @@
+.animated-text {
+    text-align: center;
+    letter-spacing: -0.6em;
+    opacity: .2;
+    transition: letter-spacing 1s ease-in-out, opacity .5s ease-in-out;
+}
+
+.animated-text.visible {
+    letter-spacing: 0;
+    opacity: 1;
+}

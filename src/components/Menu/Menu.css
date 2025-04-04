@@ -46,11 +46,18 @@
     margin: 1em;
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-.hamburger-menu h1,
-.hamburger-menu h2 {
+.hamburger-menu .card h1 {
     align-self: center;
+    font-style: italic;
+    font-size: 480%;
+    opacity: 50%;
+    font-family: "Junicode";
+    width: unset;
 }
 
 .hamburger-menu h2 {

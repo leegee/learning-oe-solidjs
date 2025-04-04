@@ -11,8 +11,9 @@
     flex: 1;
 }
 
-.lesson-intro .next-button {
-    width: 100%;
+.lesson-intro-footer .next-button {
+    width: 10em;
+    float: right;
     margin-left: auto;
 }
 

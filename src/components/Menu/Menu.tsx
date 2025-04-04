@@ -4,6 +4,7 @@ import { t } from "i18next";
 import { getCourseIndex } from "../../global-state/lessons";
 import Course from "../../Course";
 import ResetAllButtonComponent from "../ResetAllButton";
+import TitleComponent from "./Title";
 import './Menu.css';
 
 interface MenuProps {
@@ -40,7 +41,7 @@ const Menu = (props: MenuProps) => {
             <div class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
                 <section class='card'>
 
-                    <h1>{props.title}</h1>
+                    <TitleComponent title={props.title} />
 
                     <div>
                         {getCourseIndex() === -1 && <h2>{t('choose_a_course')}</h2>}

@@ -12,10 +12,11 @@ main header .header-text {
     margin: 0 0.3em;
 }
 
-main header h1,
-main header h2 {
+main header .header-text h1,
+main header .header-text h2 {
     margin: 0;
     font-weight: normal;
+    width: 100%;
 }
 
 main header h1 {
