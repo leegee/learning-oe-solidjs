@@ -23,6 +23,7 @@ const startApp = async () => {
     const root = document.getElementById("root");
 
     if (root) {
+      root.innerHTML = '';
       render(() => <App config={appConfig as Config} />, root);
     } else {
       createRoot(() => (<App config={appConfig as Config} />));
