@@ -1,8 +1,14 @@
 /* LessonIntro.css */
 
+.lesson-intro-footer,
 .lesson-intro {
     width: 100%;
-    height: 100%;
+    height: auto;
+}
+
+.lesson-intro-footer {
+    margin-bottom: auto;
+    flex: 1;
 }
 
 .lesson-intro .next-button {
@@ -10,13 +16,6 @@
     margin-left: auto;
 }
 
-@media (min-height: 800px) {
-    .lesson-intro .card {
-        max-height: 40em;
-    }
-}
-
-.lesson-intro .lesson-list h2,
 .lesson-intro h2 {
     font-size: 1em;
     font-weight: 100;

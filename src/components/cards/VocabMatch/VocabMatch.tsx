@@ -4,8 +4,8 @@ import { t } from '../../../i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
-import './VocabMatch.css';
 import ActionButton from '../../ActionButton/ActionButton.tsx';
+import './VocabMatch.css';
 
 
 export interface IVocabMatchCard extends IBaseCard {
@@ -140,7 +140,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
 
     return (
         <>
-            <section class="card vocab-match">
+            <section class="vocab-match card">
                 <h3 lang={langs().q}>{props.card.question || t('match_the_words')}</h3>
                 <table>
                     <tbody>
@@ -174,12 +174,14 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                 </table>
             </section>
 
-            <ActionButton
-                isCorrect={isComplete()}
-                isInputPresent={isComplete()}
-                onCheckAnswer={handleComplete}
-                onComplete={handleComplete}
-            />
+            <footer class="vocab-match-footer">
+                <ActionButton
+                    isCorrect={isComplete()}
+                    isInputPresent={isComplete()}
+                    onCheckAnswer={handleComplete}
+                    onComplete={handleComplete}
+                />
+            </footer>
         </>
     );
 };

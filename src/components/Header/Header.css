@@ -7,7 +7,7 @@ main header .header-text {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
-    align-items: flex-start;
+    justify-content: space-evenly;
     width: 100%;
     margin: 0 0.3em;
 }

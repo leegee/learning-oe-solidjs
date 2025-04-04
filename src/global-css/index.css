@@ -41,6 +41,8 @@ body,
 [lang="ang"] {
     font-family: 'Junicode', serif;
     font-style: italic;
+    font-size: 150%;
+    line-height: 80%;
 }
 
 [lang="ang"] input,

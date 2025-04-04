@@ -11,20 +11,22 @@ interface LessonIntroProps {
 const LessonIntro = (props: LessonIntroProps) => {
 
     return (
-        <article class="lesson-intro card">
-            <header>
-                <h2>
-                    {t('lesson')} {props.index + 1}
-                </h2>
-                <h3>{props.title}</h3>
-            </header>
+        <>
+            <article class="lesson-intro card">
+                <header>
+                    <h2>
+                        {t('lesson')} {props.index + 1}
+                    </h2>
+                    <h3>{props.title}</h3>
+                </header>
 
-            {props.description && (<p class="description">{props.description}</p>)}
+                {props.description && (<p class="description">{props.description}</p>)}
+            </article >
 
-            <footer>
+            <footer class="lesson-intro-footer">
                 <button class='next-button' onClick={props.onLessonStart}>{t('begin')}</button>
             </footer>
-        </article >
+        </>
     );
 };
 
