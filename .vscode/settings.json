@@ -1,0 +1,11 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": [
+                "*lessons.json"
+            ],
+            "url": "./lessons.schema.json"
+        }
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
+}
