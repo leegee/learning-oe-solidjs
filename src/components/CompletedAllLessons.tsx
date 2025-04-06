@@ -1,5 +1,6 @@
 import { JSX } from 'solid-js';
 import { t } from '../i18n';
+import ResetCourseButtonComponent from './ResetCourseButton';
 import './CompletedAllLessons.css';
 
 interface CompletedAllLessonsProps {
@@ -17,6 +18,7 @@ const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
                     <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
                 </div>
                 {props.children && props.children}
+                <ResetCourseButtonComponent />
             </section>
 
         </>

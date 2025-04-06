@@ -12,9 +12,11 @@
 
 .writing-blocks-card .selected-words {
     margin-top: 2em;
+    min-height: 4.5em;
 }
 
 .writing-blocks-card .options {
+    min-height: 4.5em;
     margin-bottom: auto;
     justify-content: center;
 }
