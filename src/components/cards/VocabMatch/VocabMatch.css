@@ -18,11 +18,6 @@
     text-align: center;
 }
 
-.vocab-match .matched {
-    color: #5959;
-    border-color: #5959;
-}
-
 .vocab-match .next-button {
     margin-top: 10px;
     width: 100%;
@@ -31,7 +26,3 @@
 .vocab-match button.vocab-match {
     width: 100%;
 }
-
-/* .vocab-match-footer {
-    flex: 1;
-} */

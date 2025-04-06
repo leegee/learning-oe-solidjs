@@ -1,12 +1,17 @@
-.lesson-completed p {
+.lesson-completed.card {
+    justify-content: center;
+}
+
+.lesson-completed.card p {
     line-height: 160%;
 }
 
-.lesson-completed footer {
-    margin-top: 2em;
+.lesson-completed-footer {
+    margin-top: 1em;
+    flex: 1;
 }
 
-.lesson-completed .next-button {
+.lesson-completed-footer .next-button {
     width: auto;
     float: right;
 }

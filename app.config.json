@@ -24,7 +24,7 @@
         "fallbackLanguage": "en",
         "availableLanguages": {
             "en": {
-                "reset_all": "Reset progress",
+                "reset_course": "Reset progress",
                 "choose_a_course": "Please select a course from the list",
                 "lesson": "Lesson",
                 "all_lessons": "All Lessons",
@@ -68,7 +68,7 @@
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             },
             "ang": {
-                "reset_all": "Styrtan Ara",
+                "reset_course": "Styrtan Ara",
                 "choose_a_course": "Please select a course from the list",
                 "lessons": "lāran",
                 "all_lessons": "Lār",

@@ -22,7 +22,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
 
     return (
         <>
-            <section class='card lesson-completed'>
+            <section class='lesson-completed card'>
                 <h2>{t('lesson_completed')}</h2>
                 <p>
                     {t('lesson_completed_counts',
@@ -33,10 +33,10 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                         }
                     )}
                 </p>
-                <footer>
-                    <button class='next-button' onClick={handleClick}>{t('continue')}</button>
-                </footer>
             </section>
+            <footer class='lesson-completed-footer'>
+                <button class='next-button' onClick={handleClick}>{t('continue')}</button>
+            </footer>
         </>
     );
 }

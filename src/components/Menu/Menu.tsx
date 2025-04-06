@@ -3,7 +3,7 @@ import packageJson from '../../../package.json';
 import { t } from "i18next";
 import { getCourseIndex } from "../../global-state/lessons";
 import Course from "../../Course";
-import ResetAllButtonComponent from "../ResetAllButton";
+import ResetCourseButtonComponent from "../ResetCourseButton";
 import TitleComponent from "./Title";
 import './Menu.css';
 
@@ -48,7 +48,7 @@ const Menu = (props: MenuProps) => {
                     <nav>
                         <Course />
                         <li>
-                            <ResetAllButtonComponent />
+                            <ResetCourseButtonComponent />
                         </li>
                     </nav>
 

@@ -5,7 +5,7 @@ import { t } from "../i18n";
 import { resetCourse, getTotalQuestionsAnswered } from "../global-state/lessons";
 import { useConfirm } from "../contexts/Confirm";
 
-export const ResetAllButtonComponent = () => {
+export const ResetCourseButtonComponent = () => {
     const { showConfirm } = useConfirm();
     const totalAnswered = createMemo(() => getTotalQuestionsAnswered());
 
@@ -22,9 +22,9 @@ export const ResetAllButtonComponent = () => {
         <button class='reset-course' onClick={() =>
             showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
         >
-            {t('reset_all')}
+            {t('reset_course')}
         </button>
     );
 }
 
-export default ResetAllButtonComponent;
+export default ResetCourseButtonComponent;

@@ -11,13 +11,13 @@ const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
     // todo 
     return (
         <>
-            <article class="completed-all-lessons card">
+            <section class="completed-all-lessons card">
                 <h2>{t('all_lessons_done')}</h2>
                 <div class='stats'>
                     <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p>
                 </div>
                 {props.children && props.children}
-            </article>
+            </section>
 
         </>
     );

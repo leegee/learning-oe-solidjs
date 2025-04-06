@@ -1,9 +1,10 @@
-.completed-all-lessons {
-    width: auto;
-    margin: auto;
+.completed-all-lessons.card {
+    display: flex;
+    align-items: center;
+    font-size: 150%;
 }
 
-.completed-all-lessons .stats {
+.completed-all-lessons.card .stats {
     margin-bottom: auto;
     line-height: 160%;
 }

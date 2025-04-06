@@ -93,7 +93,7 @@ h3.question::after {
 }
 
 .correct-next-button {
-    background-color: green;
+    background-color: darkgreen;
 }
 
 .incorrect-next-button,
