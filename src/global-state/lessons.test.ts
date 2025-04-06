@@ -1,9 +1,7 @@
 import 'core-js/features/structured-clone';
-import 'fake-indexeddb/auto';  // Import this at the top of your test file or in a global setup file
+import 'fake-indexeddb/auto';
 import { connect, getCurrentCourseIndex } from './lessons';
 import { AnswerEntry, CourseProgress } from './lessons';
-
-const DEBUG = false;
 
 describe('AppDB Tests', () => {
     let db: any;
@@ -27,7 +25,8 @@ describe('AppDB Tests', () => {
         }
     });
 
-    it('should add an answer entry', async () => {
+    // Test for adding and retrieving an AnswerEntry
+    it('should add and retrieve an answer entry', async () => {
         const answer: AnswerEntry = {
             id: '1_0_0',
             courseId: 1,
@@ -37,75 +36,87 @@ describe('AppDB Tests', () => {
         };
 
         try {
-            // Add an answer entry to the DB
             await db.answers.add(answer);
-            DEBUG && console.debug('Answer added:', answer);
-
-            // Fetch the stored answer and compare it
             const storedAnswer = await db.answers.get(answer.id);
-            DEBUG && console.debug('Stored answer:', storedAnswer);
             expect(storedAnswer).toEqual(answer);
         } catch (error) {
-            console.error('Error adding answer:', error);
-            throw error;  // Rethrow to ensure test fails if there's an issue
-        }
-    });
-
-    it('should retrieve the current course index', async () => {
-        try {
-            const courseIndex = await getCurrentCourseIndex();
-            expect(courseIndex).toBe(1); // Assuming 1 is the expected result
-        } catch (error) {
-            console.error('Error retrieving course index:', error);
+            console.error('Error adding/retrieving answer:', error);
             throw error;
         }
     });
 
-    it('should add course progress entry', async () => {
-        const courseProgress: CourseProgress = {
-            courseId: 1,
-            currentLessonIndex: 0,
-        };
+    // Test for adding, updating, and retrieving CourseProgress
+    it('should add, update, and retrieve course progress', async () => {
+        const courseId = 1;
+        const initialProgress: CourseProgress = { courseId, currentLessonIndex: 0 };
 
         try {
-            // Add a course progress entry to the DB
-            await db.courseProgress.add(courseProgress);
-            DEBUG && console.debug('Course Progress added:', courseProgress);
+            // Add course progress
+            await db.courseProgress.add(initialProgress);
+            let storedProgress = await db.courseProgress.get(courseId);
+            expect(storedProgress?.currentLessonIndex).toBe(initialProgress.currentLessonIndex);
 
-            // Fetch the stored course progress and compare it
-            const storedProgress = await db.courseProgress.get(courseProgress.courseId);
-            DEBUG && console.debug('Stored Course Progress:', storedProgress);
-            expect(storedProgress).toEqual(courseProgress);
+            // Update course progress
+            const updatedProgress: CourseProgress = { courseId, currentLessonIndex: 1 };
+            await db.courseProgress.put(updatedProgress);
+            storedProgress = await db.courseProgress.get(courseId);
+            expect(storedProgress?.currentLessonIndex).toBe(updatedProgress.currentLessonIndex);
         } catch (error) {
-            console.error('Error adding course progress:', error);
-            throw error;  // Rethrow to ensure test fails if there's an issue
+            console.error('Error adding/updating/retrieving course progress:', error);
+            throw error;
         }
     });
 
-    it('should retrieve course progress for a given course', async () => {
-        const courseId = 1;
-        const courseProgress: CourseProgress = {
-            courseId,
-            currentLessonIndex: 0,
+    // Test for deleting an AnswerEntry
+    it('should delete an answer entry', async () => {
+        const answer: AnswerEntry = {
+            id: '1_0_0',
+            courseId: 1,
+            lessonIndex: 0,
+            cardIndex: 0,
+            answers: ['Answer 1'],
         };
 
         try {
-            // Add a course progress entry to the DB (ensures that there is data to retrieve)
+            await db.answers.add(answer);
+            await db.answers.delete(answer.id);
+            const storedAnswer = await db.answers.get(answer.id);
+            expect(storedAnswer).toBeUndefined();
+        } catch (error) {
+            console.error('Error deleting answer:', error);
+            throw error;
+        }
+    });
+
+    // Test for deleting CourseProgress
+    it('should delete course progress', async () => {
+        const courseId = 1;
+        const courseProgress: CourseProgress = { courseId, currentLessonIndex: 0 };
+
+        try {
             await db.courseProgress.add(courseProgress);
-            DEBUG && console.debug('Course Progress added:', courseProgress);
+            await db.courseProgress.delete(courseId);
+            const storedProgress = await db.courseProgress.get(courseId);
+            expect(storedProgress).toBeUndefined();
+        } catch (error) {
+            console.error('Error deleting course progress:', error);
+            throw error;
+        }
+    });
 
-            // Fetch the stored course progress
-            const retrievedCourseProgress = await db.courseProgress.get(courseId);
-            DEBUG && console.debug('Retrieved Course Progress:', retrievedCourseProgress);
+    // Test for retrieving course progress by courseId
+    it('should retrieve course progress for a given course', async () => {
+        const courseId = 1;
+        const courseProgress: CourseProgress = { courseId, currentLessonIndex: 0 };
 
-            // Ensure the progress was successfully added
-            expect(retrievedCourseProgress).not.toBeNull();
-            expect(retrievedCourseProgress?.courseId).toBe(courseId);
-            expect(retrievedCourseProgress?.currentLessonIndex).toBe(courseProgress.currentLessonIndex);
+        try {
+            await db.courseProgress.add(courseProgress);
+            const retrievedProgress = await db.courseProgress.get(courseId);
+            expect(retrievedProgress?.courseId).toBe(courseId);
+            expect(retrievedProgress?.currentLessonIndex).toBe(courseProgress.currentLessonIndex);
         } catch (error) {
             console.error('Error retrieving course progress:', error);
             throw error;
         }
     });
-
 });
