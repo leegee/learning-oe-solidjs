@@ -1,6 +1,7 @@
 import { t } from '../i18n';
 import { formatDuration } from "../lib/format-duration";
 import { getCurrentLessonIndex, getLessonQuestionsAnsweredIncorrectly, getLessonQuestionCount } from '../global-state/lessons';
+import { exitFullscreen } from '../lib/fullscreen';
 
 import './LessonCompleted.css';
 
@@ -13,6 +14,11 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const idx = getCurrentLessonIndex();
     const incorrectAnswerCount = getLessonQuestionsAnsweredIncorrectly(idx);
     const questionCount = getLessonQuestionCount(idx);
+
+    const handleClick = () => {
+        exitFullscreen();
+        props.onNext();
+    }
 
     return (
         <>
@@ -28,7 +34,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                     )}
                 </p>
                 <footer>
-                    <button class='next-button' onClick={props.onNext}>{t('continue')}</button>
+                    <button class='next-button' onClick={handleClick}>{t('continue')}</button>
                 </footer>
             </section>
         </>

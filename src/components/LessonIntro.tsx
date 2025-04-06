@@ -1,4 +1,5 @@
 import { t } from '../i18n';
+import { enterFullscreen } from '../lib/fullscreen';
 import './LessonIntro.css';
 
 interface LessonIntroProps {
@@ -9,7 +10,10 @@ interface LessonIntroProps {
 }
 
 const LessonIntro = (props: LessonIntroProps) => {
-
+    const handleClick = () => {
+        enterFullscreen();
+        props.onLessonStart();
+    }
     return (
         <>
             <article class="lesson-intro card">
@@ -24,7 +28,7 @@ const LessonIntro = (props: LessonIntroProps) => {
             </article >
 
             <footer class="lesson-intro-footer">
-                <button class='next-button' onClick={props.onLessonStart}>{t('begin')}</button>
+                <button class='next-button' onClick={handleClick}>{t('begin')}</button>
             </footer>
         </>
     );

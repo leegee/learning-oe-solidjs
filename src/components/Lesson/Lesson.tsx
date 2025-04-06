@@ -1,6 +1,7 @@
 import { createSignal, onCleanup, Switch, Match, createMemo } from 'solid-js';
 import { useConfirm } from "../../contexts/Confirm";
 import { t } from '../../i18n';
+import { exitFullscreen } from '../../lib/fullscreen';
 import type {
     IBlanksCard,
     IDynamicVocabCard,
@@ -38,7 +39,13 @@ const LessonComponent = (props: ILessonProps) => {
     const currentCard = createMemo(() => lessonStack()[0] ?? null);
     let correctlyAnswered: null | boolean = null;
 
-    const leaveIfConfirmed = () => showConfirm(t('confirm_leave_lesson'), props.onCancel);
+    const leaveIfConfirmed = () => {
+        const final = () => {
+            exitFullscreen();
+            props.onCancel();
+        }
+        showConfirm(t('confirm_leave_lesson'), final)
+    };
 
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
