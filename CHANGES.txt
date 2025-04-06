@@ -1,6 +1,10 @@
 CHANGE LOG
 ==========
 
+2025-04-06
+
+Visual consitency
+
 2025-04-04: 0.1.5
 
 * Load config before loading app and expose as a context
