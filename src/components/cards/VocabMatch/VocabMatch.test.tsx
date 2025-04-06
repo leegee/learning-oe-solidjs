@@ -77,7 +77,7 @@ describe('VocabMatchCardComponent', () => {
             fireEvent.click(screen.getByText('dog'));
             expect(screen.getByText('dog')).toHaveClass('selected');
             fireEvent.click(screen.getByText('hund'));
-            expect(screen.getByText('hund')).toHaveClass(' vocab-match right-word matched');
+            expect(screen.getByText('hund')).toHaveClass(' vocab-match right-word correct');
         });
 
         it(' for an incorrect match', () => {

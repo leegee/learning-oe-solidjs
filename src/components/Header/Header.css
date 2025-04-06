@@ -17,10 +17,15 @@ main header .header-text h2 {
     margin: 0;
     font-weight: normal;
     width: 100%;
+    margin-top: 4pt;
+    font-size: 24pt;
+    opacity: 50%;
+    line-height: 18pt;
+    align-items: center;
 }
 
 main header h1 {
-    font-size: 2em;
+    font-size: 21em;
     display: flex;
     align-items: center;
     justify-content: space-between;
