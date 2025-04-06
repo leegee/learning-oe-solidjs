@@ -133,7 +133,6 @@
 }
 
 .hamburger-menu .next-button {
-    font-size: 12pt;
-    margin: 1em 0;
-    max-width: 10em;
+    width: 4em;
+    margin-bottom: 0.6em;
 }

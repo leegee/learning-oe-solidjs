@@ -53,7 +53,7 @@ const Menu = (props: MenuProps) => {
                     </nav>
 
                     <footer>
-                        <button class='next-button'>OK</button>
+                        {getCourseIndex() > -1 && <button class='next-button' aria-label="Return to lessons">▶</button>}
                         <small>Version {packageJson.version}</small>
                     </footer>
                 </section>
