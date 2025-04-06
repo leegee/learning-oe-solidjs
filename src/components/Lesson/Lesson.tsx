@@ -2,15 +2,13 @@ import { createSignal, onCleanup, Switch, Match, createMemo } from 'solid-js';
 import { useConfirm } from "../../contexts/Confirm";
 import { t } from '../../i18n';
 import { exitFullscreen } from '../../lib/fullscreen';
-import type {
-    IBlanksCard,
-    IDynamicVocabCard,
-    IMultipleChoiceCard,
-    IVocabMatchCard,
-    IWritingBlocksCard,
-    IWritingCard
-} from '../cards';
 import {
+    type IBlanksCard,
+    type IDynamicVocabCard,
+    type IMultipleChoiceCard,
+    type IVocabMatchCard,
+    type IWritingBlocksCard,
+    type IWritingCard,
     BlanksCardComponent,
     DynamicVocabComponent,
     MultipleChoiceComponent,
@@ -40,11 +38,10 @@ const LessonComponent = (props: ILessonProps) => {
     let correctlyAnswered: null | boolean = null;
 
     const leaveIfConfirmed = () => {
-        const final = () => {
+        showConfirm(t('confirm_leave_lesson'), () => {
             exitFullscreen();
             props.onCancel();
-        }
-        showConfirm(t('confirm_leave_lesson'), final)
+        })
     };
 
     const handleKeys = (e: KeyboardEvent) => {
@@ -68,7 +65,7 @@ const LessonComponent = (props: ILessonProps) => {
     });
 
 
-    const goToNextCard = () => {
+    const goToNextQuestionCard = () => {
         if (correctlyAnswered) {
             // Remove the first card
             setLessonStack((prevStack) => prevStack.slice(1));
@@ -118,7 +115,7 @@ const LessonComponent = (props: ILessonProps) => {
                     <DynamicVocabComponent
                         card={currentCard() as IDynamicVocabCard}
                         lesson={props.lesson}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                         onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
@@ -127,7 +124,7 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'writing'}>
                     <WritingCardComponent
                         card={currentCard() as IWritingCard}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                         onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
@@ -136,7 +133,7 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'writing-blocks'}>
                     <WritingBlocksCardComponent
                         card={currentCard() as IWritingBlocksCard}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                         onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
@@ -145,7 +142,7 @@ const LessonComponent = (props: ILessonProps) => {
                 <Match when={currentCard().class === 'multiple-choice'}>
                     <MultipleChoiceComponent
                         card={currentCard() as IMultipleChoiceCard}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                         onCorrect={onCorrect}
                         onIncorrect={onIncorrect}
                     />
@@ -156,7 +153,7 @@ const LessonComponent = (props: ILessonProps) => {
                         card={currentCard() as IVocabMatchCard}
                         onIncorrect={onIncorrect}
                         onCorrect={onCorrect}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                     />
                 </Match>
 
@@ -165,7 +162,7 @@ const LessonComponent = (props: ILessonProps) => {
                         card={currentCard() as IBlanksCard}
                         onIncorrect={onIncorrect}
                         onCorrect={onCorrect}
-                        onComplete={goToNextCard}
+                        onComplete={goToNextQuestionCard}
                     />
                 </Match>
             </Switch>
