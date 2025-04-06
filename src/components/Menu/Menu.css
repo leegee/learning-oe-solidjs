@@ -54,10 +54,10 @@
 .hamburger-menu .card h1 {
     align-self: center;
     font-style: italic;
-    font-size: 480%;
     opacity: 50%;
     font-family: "Junicode";
     width: unset;
+    font-size: calc(100vw / 12);
 }
 
 .hamburger-menu h2 {

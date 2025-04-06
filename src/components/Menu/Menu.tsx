@@ -43,15 +43,14 @@ const Menu = (props: MenuProps) => {
 
                     <TitleComponent title={props.title} />
 
-                    <div>
-                        {getCourseIndex() === -1 && <h2>{t('choose_a_course')}</h2>}
-                        <nav>
-                            <Course />
-                            <li>
-                                <ResetAllButtonComponent />
-                            </li>
-                        </nav>
-                    </div>
+                    {getCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
+
+                    <nav>
+                        <Course />
+                        <li>
+                            <ResetAllButtonComponent />
+                        </li>
+                    </nav>
 
                     <footer>
                         <button class='next-button'>OK</button>
