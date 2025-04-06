@@ -28,6 +28,7 @@ export default defineConfig({
         name: 'Learn Old English',
         short_name: 'Old English',
         description: 'Old English Learning',
+        display: "fullscreen",
         orientation: "portrait",
         theme_color: '#000033',
         scope: base,
