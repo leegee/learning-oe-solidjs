@@ -5,7 +5,7 @@ import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
 import { courseStore, lessonTitles2Indicies } from "./global-state/course";
 import { type Config } from "./config";
-import LessonList from "./components/LessonLIst/LessonList";
+import LessonList from "./components/LessonList";
 import Header from "./components/Header";
 import HomeScreen from "./components/Home";
 import LessonIntro from "./components/LessonIntro";
