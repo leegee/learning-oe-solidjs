@@ -1,4 +1,4 @@
-import { createSignal, createEffect } from "solid-js";
+import { createSignal, createEffect, onCleanup } from "solid-js";
 import packageJson from '../../../package.json';
 import { t } from "i18next";
 import { getCourseIndex } from "../../global-state/lessons";
@@ -29,6 +29,19 @@ const Menu = (props: MenuProps) => {
     createEffect(() => {
         if (getCourseIndex() === -1) {
             setIsOpen(true);
+        }
+    });
+
+    createEffect(() => {
+        if (isOpen()) {
+            const handleKeys = (e: KeyboardEvent) => {
+                if (e.key === ' ' || e.key === 'Enter' || e.key === 'Escape') {
+                    setIsOpen(false);
+                }
+            };
+
+            window.addEventListener('keyup', handleKeys);
+            onCleanup(() => window.removeEventListener('keyup', handleKeys));
         }
     });
 
