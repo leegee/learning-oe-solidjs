@@ -97,12 +97,14 @@ button[disabled]:hover {
 
 button.selected {
     border-color: var(--oe-clr-fg);
-    background-color: #6666;
+    background-color: #6665;
+    filter: brightness(160%);
+    border-color: cyan;
 }
 
 h2 {
-    font-size: 1.2em;
-    font-weight: 200;
+    font-size: 1.6em;
+    font-weight: 700;
     margin-top: 0;
     margin-bottom: 0.3em;
 }
