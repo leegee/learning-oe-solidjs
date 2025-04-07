@@ -15,6 +15,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
         if (props.isOpen) {
             const handleKeys = (e: KeyboardEvent) => {
                 if (e.key === ' ' || e.key === 'Enter') {
+                    console.log('confirm dialog captured enter key');
                     props.onConfirm();
                 } else if (e.key === 'Escape') {
                     props.onCancel();

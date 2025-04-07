@@ -1,8 +1,10 @@
 import { createSignal, createEffect, onCleanup } from "solid-js";
+
 import packageJson from '../../../package.json';
+import { courseStore, setSelectedCourse } from "../../global-state/course";
+import { useConfigContext } from "../../contexts/Config";
 import { t } from "i18next";
-import { getCourseIndex } from "../../global-state/lessons";
-import Course from "../../Course";
+import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 import ResetCourseButtonComponent from "../ResetCourseButton";
 import TitleComponent from "./Title";
 import './Menu.css';
@@ -12,19 +14,31 @@ interface MenuProps {
 }
 
 const Menu = (props: MenuProps) => {
+    const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
+    const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
+
+    createEffect(async () => {
+        const index = await getCourseIndex();
+        setLocalCourseIndex(index);
+    });
+
+    const setLocalSelectedCourse = (courseIndex: number) => {
+        setLocalCourseIndex(courseIndex);
+        setSelectedCourse(courseIndex);
+    }
 
     const closeMenu = () => {
         if (getCourseIndex() > -1) {
             setIsOpen(false);
         }
-    }
+    };
 
     const toggleMenu = () => {
         if (getCourseIndex() > -1) {
             setIsOpen(prev => !prev);
         }
-    }
+    };
 
     createEffect(() => {
         if (getCourseIndex() === -1) {
@@ -35,14 +49,35 @@ const Menu = (props: MenuProps) => {
     createEffect(() => {
         if (isOpen()) {
             const handleKeys = (e: KeyboardEvent) => {
-                if (e.key === ' ' || e.key === 'Enter' || e.key === 'Escape') {
+                console.log(e.key);
+                if (e.key === ' ' || e.key === 'Enter') {
+                    console.log('menu captured enter key');
+                    setLocalSelectedCourse(localCourseIndex());
+                } if (e.key === 'Escape') {
                     setIsOpen(false);
+                } else if (e.key === 'ArrowDown') {
+                    setLocalCourseIndex(prev => {
+                        const newValue = Math.min(prev + 1, config.lessons.length - 1);
+                        setCourseIndex(newValue);
+                        return newValue;
+                    });
+                } else if (e.key === 'ArrowUp') {
+                    setLocalCourseIndex(prev => {
+                        const newValue = Math.max(prev - 1, 0);
+                        setCourseIndex(newValue);
+                        return newValue;
+                    });
                 }
             };
 
-            window.addEventListener('keyup', handleKeys);
-            onCleanup(() => window.removeEventListener('keyup', handleKeys));
+            window.addEventListener('keydown', handleKeys);
+            onCleanup(() => window.removeEventListener('keydown', handleKeys));
         }
+    });
+
+    createEffect(() => {
+        // Sync the localCourseIndex with the global state when it changes
+        setCourseIndex(localCourseIndex());
     });
 
     return (
@@ -61,7 +96,14 @@ const Menu = (props: MenuProps) => {
                     {getCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                     <nav>
-                        <Course />
+                        {config.lessons.map((course, index) => (
+                            <li class={localCourseIndex() === index ? 'selected' : ''}>
+                                <button onClick={() => setLocalSelectedCourse(index)}>
+                                    {course.title}
+                                </button>
+                            </li>
+                        ))}
+
                         <li>
                             <ResetCourseButtonComponent />
                         </li>
