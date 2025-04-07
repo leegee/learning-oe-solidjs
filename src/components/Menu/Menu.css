@@ -1,3 +1,8 @@
+:root {
+    --oe-hamburber-right-padding: 8pt;
+}
+
+.close-menu-button,
 .hamburger-button {
     border: none;
     cursor: pointer;
@@ -9,6 +14,17 @@
     color: var(--oe-clr-fg);
 }
 
+.hamburger-button {
+    margin-right: var(--oe-hamburber-right-padding);
+}
+
+.close-menu-button {
+    position: absolute;
+    top: -2pt;
+    right: var(--oe-hamburber-right-padding);
+}
+
+.close-menu-button:hover,
 .hamburger-button:hover {
     outline: none !important;
     font-weight: bolder;
@@ -41,8 +57,9 @@
 }
 
 .hamburger-menu .card {
+    position: relative;
     min-width: calc(var(--oe-max-width) - 2em);
-    padding: 1em;
+    padding: 0.6em;
     margin: 1em;
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);

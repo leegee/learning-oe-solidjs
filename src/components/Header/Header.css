@@ -9,7 +9,6 @@ main header .header-text {
     justify-content: space-between;
     justify-content: space-evenly;
     width: 100%;
-    margin: 0 0.3em;
 }
 
 main header .header-text h1,
@@ -21,6 +20,14 @@ main header .header-text h2 {
     font-size: 24pt;
     opacity: 50%;
     line-height: 18pt;
+    font-style: normal;
+}
+
+main header .header-text h1 {
+    align-items: baseline
+}
+
+main header .header-text h2 {
     align-items: center;
 }
 

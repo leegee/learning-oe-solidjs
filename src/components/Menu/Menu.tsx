@@ -41,6 +41,8 @@ const Menu = (props: MenuProps) => {
             <div class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
                 <section class='card'>
 
+                    <div class="close-menu-button">✕</div>
+
                     <TitleComponent title={props.title} />
 
                     {getCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
