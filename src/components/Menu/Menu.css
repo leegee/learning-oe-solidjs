@@ -97,7 +97,7 @@
 }
 
 .hamburger-menu li button {
-    font-size: 14pt;
+    font-size: 1.2em;
     font-weight: 100;
     background-color: var(--oe-clr-card-bg);
     display: block;

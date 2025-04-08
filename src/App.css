@@ -106,3 +106,24 @@ h3.question::after {
     color: var(--oe-clr-fg);
     background-color: var(--oe-clr-bg);
 }
+
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--oe-clr-modal-bg);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+.modal-bg * {
+    z-index: 1001;
+}

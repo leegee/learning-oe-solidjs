@@ -1,7 +1,7 @@
 .animated-text {
-    letter-spacing: -0.6em;
-    opacity: .2 !important;
-    transition: all 4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    letter-spacing: -0.8em;
+    opacity: .4 !important;
+    transition: all 6s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 .animated-text.visible {

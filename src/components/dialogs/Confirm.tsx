@@ -32,7 +32,7 @@ const ConfirmDialog = (props: ConfirmDialogProps) => {
     }
 
     return (
-        <div class="confirm-dialog-overlay">
+        <div class="modal-bg">
             <div class="confirm-dialog">
                 <p>{props.message}</p>
                 <footer>

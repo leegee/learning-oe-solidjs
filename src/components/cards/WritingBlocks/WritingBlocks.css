@@ -22,8 +22,10 @@
 }
 
 .writing-blocks-card hr {
-    height: 1em;
+    display: none;
+    width: 4em;
     width: 100%;
+    height: 1em;
     border: 0;
     margin: 1em 0;
     opacity: 50%;

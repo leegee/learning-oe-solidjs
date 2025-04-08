@@ -32,7 +32,7 @@ export const ConfirmProvider = (props: IConfirmProviderProps) => {
     return (
         <ConfirmContext.Provider value={{ showConfirm }}>
             {props.children}
-            <div class="confirm-dialog-overlay" style={{ display: isOpen() ? "flex" : "none" }}>
+            <div class="modal-bg" style={{ display: isOpen() ? "flex" : "none" }}>
                 <dialog class="confirm-dialog" open={isOpen()}>
                     <h3>{message()}</h3>
                     <footer>

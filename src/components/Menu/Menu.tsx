@@ -1,22 +1,26 @@
-import { createSignal, createEffect, onCleanup } from "solid-js";
+import { createSignal, createEffect, onCleanup, createMemo } from "solid-js";
 
 import packageJson from '../../../package.json';
+import * as state from "../../global-state/lessons";
 import { courseStore, setSelectedCourse } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/Config";
 import { t } from "i18next";
 import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 import ResetCourseButtonComponent from "../ResetCourseButton";
 import TitleComponent from "./Title";
+import CourseOverview from "../CourseOverview";
 import './Menu.css';
 
 interface MenuProps {
     title: string;
 }
 
+
 const Menu = (props: MenuProps) => {
     const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
+    const currentLesson = createMemo(() => courseStore.lessons[state.getCurrentLessonIndex()]);
 
     createEffect(async () => {
         const index = await getCourseIndex();
@@ -106,6 +110,9 @@ const Menu = (props: MenuProps) => {
 
                         <li>
                             <ResetCourseButtonComponent />
+                        </li>
+                        <li>
+                            <CourseOverview lesson={currentLesson()} />
                         </li>
                     </nav>
 
