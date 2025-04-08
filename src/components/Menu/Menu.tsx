@@ -112,7 +112,7 @@ const Menu = (props: MenuProps) => {
                             <ResetCourseButtonComponent />
                         </li>
                         <li>
-                            <CourseOverview lesson={currentLesson()} />
+                            <CourseOverview lessons={courseStore.lessons} />
                         </li>
                     </nav>
 

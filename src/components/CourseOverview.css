@@ -3,15 +3,51 @@
 
 .course-overview {
     position: relative;
+    padding: 4em;
+    overflow: auto;
 }
 
 .course-overview header {
     display: flex;
     flex-direction: row;
-    align-items: center;
     justify-content: space-evenly;
+    align-items: flex-end;
     font-size: 200%;
     margin: 1em;
+}
+
+.course-overview header h2 {
+    font-size: 1em;
+    padding-bottom: 0.1em;
+}
+
+.course-overview header h3 {
+    font-size: 60%;
+}
+
+.course-overview section header {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+}
+
+.course-overview section header h4 {
+    border-right: 1pt solid #555;
+    height: 100%;
+    padding-right: 1em;
+}
+
+.course-overview section header h4,
+.course-overview section header h5 {
+    font-size: 60%;
+    font-weight: normal;
+    font-weight: 200 !important;
+    font-weight: normal;
+}
+
+.card-holder .card h2,
+.card-holder .card h3 {
+    font-size: 200%;
 }
 
 .hamburger-menu li .course-overview header button {
@@ -44,17 +80,13 @@
     min-height: 120%;
     max-height: 120%;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .hamburger-menu .card-holder .card * {
     background-color: unset;
     color: black;
     border-color: black;
-}
-
-.card-holder .card h2,
-.card-holder .card h3 {
-    font-size: 200%;
 }
 
 .card-holder .card button {

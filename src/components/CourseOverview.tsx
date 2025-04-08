@@ -1,14 +1,15 @@
 import { createSignal, For, Show } from "solid-js";
 import Card from "./Card";
+import { type Lesson } from "./Lesson";
 import './CourseOverview.css';
 
-export default function CourseOverview(props: { lesson: any }) {
+export default function CourseOverview(props: { lessons: Lesson[] }) {
     const [open, setOpen] = createSignal(false);
 
     const toggle = (e: MouseEvent) => {
         e.stopPropagation();
         setOpen(!open());
-    }
+    };
 
     return (
         <>
@@ -17,24 +18,39 @@ export default function CourseOverview(props: { lesson: any }) {
             </button>
 
             <Show when={open()}>
-                <div class='modal-bg'>
-                    <article class='course-overview'>
+                <aside class="modal-bg">
+                    <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
                         <header>
-                            <h2>Lesson Overview</h2>
-                            <button onClick={toggle} > ✕ </button>
+                            <div>
+                                <h2>Course Overview</h2>
+                                <h3>All Lessons and Cards</h3>
+                            </div>
+                            <button onClick={toggle}>✕</button>
                         </header>
 
-                        <section class='cards'>
-                            <For each={props.lesson.cards}>
-                                {(card, index) => (
-                                    <div class="card-holder" >
-                                        <Card card={card} />
-                                    </div>
+                        <div class="lessons">
+                            <For each={props.lessons}>
+                                {(lesson) => (
+                                    <section>
+                                        <header>
+                                            <h4>{lesson.title}</h4>
+                                            <h5>{lesson.description}</h5>
+                                        </header>
+                                        <div class="cards">
+                                            <For each={lesson.cards}>
+                                                {(card) => (
+                                                    <div class="card-holder">
+                                                        <Card card={card} />
+                                                    </div>
+                                                )}
+                                            </For>
+                                        </div>
+                                    </section>
                                 )}
                             </For>
-                        </section>
+                        </div>
                     </article>
-                </div>
+                </aside>
             </Show>
         </>
     );
