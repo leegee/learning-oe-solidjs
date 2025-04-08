@@ -53,9 +53,7 @@ const Menu = (props: MenuProps) => {
     createEffect(() => {
         if (isOpen()) {
             const handleKeys = (e: KeyboardEvent) => {
-                console.log(e.key);
                 if (e.key === ' ' || e.key === 'Enter') {
-                    console.log('menu captured enter key');
                     setLocalSelectedCourse(localCourseIndex());
                 } if (e.key === 'Escape') {
                     setIsOpen(false);

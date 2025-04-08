@@ -63,6 +63,15 @@
     max-width: clamp(80em, 90vw, 80em);
 }
 
+.hamburger-menu nav li .course-overview button:before {
+    content: '';
+}
+
+.hamburger-menu nav li.selected .course-overview button:before {
+    opacity: inherit;
+}
+
+
 .card-holder {
     border: 2pt solid grey;
     height: 29vh;
@@ -73,20 +82,25 @@
 }
 
 .hamburger-menu .card-holder .card {
+    pointer-events: none;
     margin: 0;
     font-size: 50%;
     min-width: 20em;
     max-width: 20em;
     min-height: 120%;
     max-height: 120%;
-    box-sizing: border-box;
     overflow: hidden;
 }
 
 .hamburger-menu .card-holder .card * {
+    pointer-events: none;
     background-color: unset;
     color: black;
     border-color: black;
+}
+
+.card-holder.dragging {
+    cursor: grabbing;
 }
 
 .card-holder .card button {
@@ -163,4 +177,58 @@
 
 .card-holder .card.blanks-card {
     background: rgb(180, 92, 70);
+}
+
+.card-holder.dragging {
+    opacity: 0.5;
+}
+
+
+
+.card-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* margin: 1rem; */
+}
+
+.course-overview .vertical-controls button,
+.course-overview .horizontal-controls button {
+    color: transparent;
+}
+
+.course-overview .card-holder:hover .vertical-controls button:not([disabled]),
+.course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
+    color: white;
+}
+
+.course-overview .card-holder {
+    position: relative;
+}
+
+.course-overview .vertical-controls {
+    position: relative;
+    width: 100%;
+}
+
+.course-overview .top-controls {
+    top: 0;
+}
+
+.course-overview .bottom-controls {
+    top: 0.5em;
+}
+
+.course-overview .horizontal-controls {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 3.25em);
+}
+
+.course-overview .vertical-controls button,
+.course-overview .horizontal-controls button {
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0 auto;
 }

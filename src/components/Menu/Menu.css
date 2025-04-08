@@ -91,12 +91,12 @@
     width: 100%;
 }
 
-.hamburger-menu li {
+.hamburger-menu nav li {
     list-style: none;
     margin: 0.3em 0;
 }
 
-.hamburger-menu li button {
+.hamburger-menu nav li button {
     font-size: 1.2em;
     font-weight: 100;
     background-color: var(--oe-clr-card-bg);
@@ -109,20 +109,20 @@
     text-align: left;
 }
 
-.hamburger-menu li.selected button {
+.hamburger-menu nav li.selected button {
     font-weight: bolder;
 }
 
-.hamburger-menu li button:before {
+.hamburger-menu nav li button:before {
     content: '▶ ';
     opacity: 0;
 }
 
-.hamburger-menu li.selected button:before {
+.hamburger-menu nav li.selected button:before {
     opacity: 50%;
 }
 
-.hamburger-menu li button:disabled {
+.hamburger-menu nav li button:disabled {
     background-color: var(--oe-clr-card-bg) !important;
 }
 

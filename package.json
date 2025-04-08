@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@solid-primitives/i18n": "^2.2.0",
+    "@thisbeyond/solid-dnd": "^0.7.5",
     "ajv": "^8.17.1",
     "dexie": "^4.0.11",
     "i18next": "^24.2.2",
