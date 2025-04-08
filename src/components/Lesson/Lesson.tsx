@@ -1,20 +1,15 @@
-import { createSignal, onCleanup, Switch, Match, createMemo } from 'solid-js';
+import { createSignal, onCleanup, createMemo } from 'solid-js';
 import { useConfirm } from "../../contexts/Confirm";
 import { t } from '../../i18n';
 import { exitFullscreen } from '../../lib/fullscreen';
+import Card from '../Card';
 import {
     type IBlanksCard,
     type IDynamicVocabCard,
     type IMultipleChoiceCard,
     type IVocabMatchCard,
     type IWritingBlocksCard,
-    type IWritingCard,
-    BlanksCardComponent,
-    DynamicVocabComponent,
-    MultipleChoiceComponent,
-    VocabMatchCardComponent,
-    WritingBlocksCardComponent,
-    WritingCardComponent
+    type IWritingCard
 } from '../cards';
 import './Lesson.css';
 
@@ -106,66 +101,13 @@ const LessonComponent = (props: ILessonProps) => {
                 title={`${props.lesson.cards.length - lessonStack().length + 1} / ${props.lesson.cards.length}`}
             />
 
-            <Switch fallback={<p>Unknown lesson card...</p>}>
-                <Match when={!currentCard()}>
-                    <p>{t('lesson_complete')}</p>
-                </Match>
-
-                <Match when={currentCard().class === 'dynamic-vocab'}>
-                    <DynamicVocabComponent
-                        card={currentCard() as IDynamicVocabCard}
-                        lesson={props.lesson}
-                        onComplete={goToNextQuestionCard}
-                        onCorrect={onCorrect}
-                        onIncorrect={onIncorrect}
-                    />
-                </Match>
-
-                <Match when={currentCard().class === 'writing'}>
-                    <WritingCardComponent
-                        card={currentCard() as IWritingCard}
-                        onComplete={goToNextQuestionCard}
-                        onCorrect={onCorrect}
-                        onIncorrect={onIncorrect}
-                    />
-                </Match>
-
-                <Match when={currentCard().class === 'writing-blocks'}>
-                    <WritingBlocksCardComponent
-                        card={currentCard() as IWritingBlocksCard}
-                        onComplete={goToNextQuestionCard}
-                        onCorrect={onCorrect}
-                        onIncorrect={onIncorrect}
-                    />
-                </Match>
-
-                <Match when={currentCard().class === 'multiple-choice'}>
-                    <MultipleChoiceComponent
-                        card={currentCard() as IMultipleChoiceCard}
-                        onComplete={goToNextQuestionCard}
-                        onCorrect={onCorrect}
-                        onIncorrect={onIncorrect}
-                    />
-                </Match>
-
-                <Match when={currentCard().class === 'vocab'}>
-                    <VocabMatchCardComponent
-                        card={currentCard() as IVocabMatchCard}
-                        onIncorrect={onIncorrect}
-                        onCorrect={onCorrect}
-                        onComplete={goToNextQuestionCard}
-                    />
-                </Match>
-
-                <Match when={currentCard().class === 'blanks'}>
-                    <BlanksCardComponent
-                        card={currentCard() as IBlanksCard}
-                        onIncorrect={onIncorrect}
-                        onCorrect={onCorrect}
-                        onComplete={goToNextQuestionCard}
-                    />
-                </Match>
-            </Switch>
+            <Card
+                card={currentCard()}
+                lesson={props.lesson}
+                onComplete={goToNextQuestionCard}
+                onCorrect={onCorrect}
+                onIncorrect={onIncorrect}
+            />
         </article >
     );
 };

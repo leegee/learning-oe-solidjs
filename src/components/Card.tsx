@@ -1,0 +1,89 @@
+import { Switch, Match } from "solid-js";
+import {
+    type IBlanksCard,
+    type IDynamicVocabCard,
+    type IMultipleChoiceCard,
+    type IVocabMatchCard,
+    type IWritingBlocksCard,
+    type IWritingCard,
+    BlanksCardComponent,
+    DynamicVocabComponent,
+    MultipleChoiceComponent,
+    VocabMatchCardComponent,
+    WritingBlocksCardComponent,
+    WritingCardComponent
+} from './cards';
+import { t } from "../i18n";
+
+type Props = {
+    card: any | null;
+    lesson?: any;
+    onComplete?: () => void;
+    onCorrect?: () => void;
+    onIncorrect?: () => void;
+};
+
+export default function Card(props: Props) {
+    return (
+        <Switch fallback={<p>Unknown lesson card...</p>}>
+            <Match when={!props.card}>
+                <p>{t("lesson_complete")}</p>
+            </Match>
+
+            <Match when={props.card?.class === "dynamic-vocab"}>
+                <DynamicVocabComponent
+                    card={props.card as IDynamicVocabCard}
+                    lesson={props.lesson}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+
+            <Match when={props.card?.class === "writing"}>
+                <WritingCardComponent
+                    card={props.card as IWritingCard}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+
+            <Match when={props.card?.class === "writing-blocks"}>
+                <WritingBlocksCardComponent
+                    card={props.card as IWritingBlocksCard}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+
+            <Match when={props.card?.class === "multiple-choice"}>
+                <MultipleChoiceComponent
+                    card={props.card as IMultipleChoiceCard}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+
+            <Match when={props.card?.class === "vocab"}>
+                <VocabMatchCardComponent
+                    card={props.card as IVocabMatchCard}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+
+            <Match when={props.card?.class === "blanks"}>
+                <BlanksCardComponent
+                    card={props.card as IBlanksCard}
+                    onComplete={props.onComplete ? props.onComplete : () => void (0)}
+                    onCorrect={props.onCorrect ? props.onCorrect : () => void (0)}
+                    onIncorrect={props.onIncorrect ? props.onIncorrect : () => void (0)}
+                />
+            </Match>
+        </Switch>
+    );
+}
