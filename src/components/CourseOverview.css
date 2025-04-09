@@ -13,7 +13,7 @@
 .course-overview header {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: flex-end;
     font-size: 200%;
     margin: 1em;
@@ -48,6 +48,14 @@
     font-weight: normal;
 }
 
+.card-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
 .card-holder .card h2,
 .card-holder .card h3 {
     font-size: 200%;
@@ -55,6 +63,8 @@
 
 .hamburger-menu li .course-overview header button {
     width: auto;
+    display: flex;
+    ;
 }
 
 .course-overview .cards {
@@ -76,23 +86,22 @@
 
 
 .card-holder {
-    border: 2pt solid grey;
-    height: 29vh;
+    border: 1pt solid var(--oe-clr-border);
+    height: 25em;
     margin: 1vw;
     overflow: hidden;
     display: inline-flex;
-    border: 3em solid #333;
 }
 
 .hamburger-menu .card-holder .card {
-    pointer-events: none;
     margin: 0;
     font-size: 50%;
     min-width: 20em;
     max-width: 20em;
-    min-height: 120%;
-    max-height: 120%;
+    min-height: 100%;
+    height: 25em;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .hamburger-menu .card-holder .card * {
@@ -106,14 +115,22 @@
     cursor: grabbing;
 }
 
-.card-holder .card button {
+.card-holder .card button,
+.card-holder .card button.option-button {
     display: inline-block;
     width: unset;
-    border: 1pt solid var(--oe-clr-fg);
+    border: 1pt solid var(--oe-clr-bg);
+}
+
+.card-holder h2,
+.card-holder h3,
+.card-holder h4,
+.card-holder textarea::placeholder {
+    color: var(--oe-clr-bg);
 }
 
 .card-holder .card input {
-    border: 1pt solid var(--oe-clr-fg);
+    border: 1pt solid var(--oe-clr-bg);
 }
 
 .card-holder .card textarea.answer,
@@ -193,25 +210,6 @@
     opacity: 0.5;
 }
 
-
-
-.card-holder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* margin: 1rem; */
-}
-
-.course-overview .vertical-controls button,
-.course-overview .horizontal-controls button {
-    color: transparent;
-}
-
-.course-overview .card-holder:hover .vertical-controls button:not([disabled]),
-.course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
-    color: white;
-}
-
 .course-overview .card-holder {
     position: relative;
 }
@@ -232,13 +230,22 @@
 .course-overview .horizontal-controls {
     display: flex;
     width: 100%;
-    height: calc(100% - 3.25em);
 }
 
 .course-overview .vertical-controls button,
 .course-overview .horizontal-controls button {
+    color: transparent;
     width: 100%;
     text-align: center;
-    padding: 0;
-    margin: 0 auto;
+    padding: 1em;
+}
+
+.course-overview .vertical-controls button:hover,
+.course-overview .horizontal-controls button:hover {
+    outline: 0;
+}
+
+.course-overview .card-holder:hover .vertical-controls button:not([disabled]),
+.course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
+    color: white;
 }
