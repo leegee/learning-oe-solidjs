@@ -1,5 +1,8 @@
 /* CourseOverview.css */
-.modal-bg {}
+.modal-bg {
+    background-color: red;
+    ;
+}
 
 .course-overview {
     position: relative;
@@ -145,8 +148,12 @@
 }
 
 .card-holder .card button.multiple-choice-button {
-    width: 100%;
-    display: block;
+    margin: 0.25em;
+    padding: 0.25em;
+}
+
+.card-holder #action-button {
+    display: none;
 }
 
 .card-holder .card:hover {
@@ -158,6 +165,9 @@
     cursor: pointer;
 }
 
+.card-holder .card .letter-buttons button {
+    display: none;
+}
 
 .card-holder .card.multiple-choice {
     background: teal;

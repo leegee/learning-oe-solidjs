@@ -1,0 +1,54 @@
+.edit-card-modal {
+    background: var(--oe-clr-card-bg);
+    color: var(--oe-clr-card-fg);
+    padding: 1em;
+    max-width: 600pt;
+    margin: auto;
+    border: 0.3pt solid var(--oe-clr-border);
+}
+
+.edit-card-modal h2 {
+    padding: 0.6em;
+    margin-bottom: 0.3em !important;
+    border: 0.3pt solid var(--oe-clr-border);
+}
+
+.edit-card-modal footer.modal-actions {
+    padding: 1em;
+    border: 0.3pt dotted var(--oe-clr-border);
+}
+
+.edit-card-modal footer.modal-actions button {
+    line-height: 200%;
+}
+
+.edit-card-modal footer.modal-actions button:before {
+    content: '';
+}
+
+
+.edit-card-modal footer.modal-actions button:nth-of-type(1) {
+    border-bottom: 1pt solid var(--oe-clr-border) !important;
+}
+
+.edit-card-modal footer.modal-actions button:hover {
+    color: var(--oe-clr-primary-fg);
+    border-bottom: 1pt solid var(--oe-clr-fg) !important;
+    background: var(--oe-clr-primary-bg);
+    color: var(--oe-clr-primary-fg);
+}
+
+
+.edit-card-modal textarea {
+    width: 100%;
+    min-height: 4em;
+    margin-top: 0.3em;
+    padding: 0.6em;
+}
+
+.actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}

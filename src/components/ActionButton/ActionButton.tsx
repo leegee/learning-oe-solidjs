@@ -48,6 +48,7 @@ const ActionButton = (props: ButtonProps) => {
 
     return (
         <button
+            id='action-button'
             aria-label='action-button'
             class={
                 props.isCorrect === null

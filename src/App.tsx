@@ -3,7 +3,7 @@ import { createSignal, createMemo, createEffect } from "solid-js";
 import * as state from "./global-state/lessons";
 import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
-import { courseStore, lessonTitles2Indicies } from "./global-state/course";
+import { courseStore } from "./global-state/course";
 import { type Config } from "./config";
 import LessonList from "./components/LessonList";
 import Header from "./components/Header";
@@ -35,7 +35,7 @@ const App = (props: IAppProps) => {
   const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
   const [lessonTime, setLessonTime] = createSignal<number>(0);
   const [lessonState, setLessonState] = createSignal(LessonState.Home);
-  const currentLesson = createMemo(() => courseStore.lessons[currentLessonIndex()]);
+  const currentLesson = createMemo(() => courseStore.store.lessons[currentLessonIndex()]);
 
   const showLessonIntro = (lessonIndex: number) => {
     setCurrentLessonIndex(lessonIndex);
@@ -55,7 +55,7 @@ const App = (props: IAppProps) => {
   };
 
   const lessonComplete = () => {
-    if (currentLessonIndex() < courseStore.lessons.length - 1) {
+    if (currentLessonIndex() < courseStore.store.lessons.length - 1) {
       showLessonIntro(currentLessonIndex() + 1);
       goHome();
     } else {
@@ -72,8 +72,8 @@ const App = (props: IAppProps) => {
 
   // Watch for changes in the course
   createEffect(() => {
-    if (!courseStore.loading) {
-      const isCourseFinished = initialLessonIndex >= courseStore.lessons.length;
+    if (!courseStore.store.loading) {
+      const isCourseFinished = initialLessonIndex >= courseStore.store.lessons.length;
       setLessonState(isCourseFinished ? LessonState.CourseFinished : LessonState.Home);
     }
   });
@@ -85,9 +85,9 @@ const App = (props: IAppProps) => {
           <HomeScreen>
             <Stats />
             <LessonList
-              courseMetadata={courseStore.courseMetadata!}
+              courseMetadata={courseStore.store.courseMetadata!}
               currentLessonIndex={currentLessonIndex()}
-              lessons={lessonTitles2Indicies()}
+              lessons={courseStore.lessonTitles2Indicies()}
               onLessonSelected={showLessonIntro}
             />
           </HomeScreen>
@@ -123,7 +123,7 @@ const App = (props: IAppProps) => {
 
       case LessonState.CourseFinished:
         return (
-          <CompletedAllLessons totalLessons={courseStore.lessons.length}>
+          <CompletedAllLessons totalLessons={courseStore.store.lessons.length}>
             {/* <Stats /> */}
           </CompletedAllLessons>
         );
@@ -143,11 +143,11 @@ const App = (props: IAppProps) => {
             .join(" ")}
         >
           <Header
-            courseMetadata={courseStore.courseMetadata!}
+            courseMetadata={courseStore.store.courseMetadata!}
             isLessonActive={lessonState() === LessonState.InProgress}
           />
 
-          {!courseStore.loading && renderContent()}
+          {!courseStore.store.loading && renderContent()}
         </main>
       </ConfirmProvider>
     </ConfigProvider>

@@ -2,10 +2,15 @@ import { createSignal, onMount, For, Show } from "solid-js";
 import Card from "./Card";
 import { type Lesson } from "./Lesson";
 import './CourseOverview.css';
+import EditCardModal from "./EditCardModal";
 
 export default function CourseOverview(props: { lessons: Lesson[] }) {
     const [open, setOpen] = createSignal(false);
     const [lessons, setLessons] = createSignal<Lesson[]>(props.lessons);
+    const [editingCardInfo, setEditingCardInfo] = createSignal<{
+        lessonIdx: number;
+        cardIdx: number;
+    } | null>(null);
     const STORAGE_KEY = 'oe-lesson-order';
 
     const toggle = (e: MouseEvent) => {
@@ -153,34 +158,40 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                             <For each={lesson.cards}>
                                                 {(card, cardIdx) => (
                                                     <div class="card-holder">
+
                                                         <div class="vertical-controls top-controls">
-                                                            <button
+                                                            <button disabled={lessonIdx() === 0}
                                                                 onClick={() => moveCardBetweenLessons(lessonIdx(), cardIdx(), -1)}
-                                                                disabled={lessonIdx() === 0}
                                                             >
                                                                 ↑
                                                             </button>
                                                         </div>
 
                                                         <div class="horizontal-controls">
-                                                            <button
+                                                            <button disabled={cardIdx() === 0}
                                                                 onClick={() => moveCard(lessonIdx(), cardIdx(), -1)}
-                                                                disabled={cardIdx() === 0}
                                                             >
                                                                 ←
                                                             </button>
-                                                            <Card card={card} />
-                                                            <button
+
+                                                            <Card card={card}
+                                                                lesson={lessons()[lessonIdx()]}
+                                                                ondblclick={() =>
+                                                                    setEditingCardInfo({
+                                                                        lessonIdx: lessonIdx(),
+                                                                        cardIdx: cardIdx()
+                                                                    })
+                                                                } />
+
+                                                            <button disabled={cardIdx() === lesson.cards.length - 1}
                                                                 onClick={() => moveCard(lessonIdx(), cardIdx(), 1)}
-                                                                disabled={cardIdx() === lesson.cards.length - 1}
                                                             >
                                                                 →
                                                             </button>
                                                         </div>
 
                                                         <div class="vertical-controls bottom-controls">
-                                                            <button
-                                                                onClick={() => moveCardBetweenLessons(lessonIdx(), cardIdx(), 1)}
+                                                            <button onClick={() => moveCardBetweenLessons(lessonIdx(), cardIdx(), 1)}
                                                                 disabled={lessonIdx() === lessons().length - 1}
                                                             >
                                                                 ↓
@@ -196,6 +207,26 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                         </div>
                     </article>
                 </aside>
+            </Show>
+
+            <Show when={editingCardInfo()}>
+                <EditCardModal
+                    card={
+                        lessons()[
+                            editingCardInfo()!.lessonIdx
+                        ].cards[
+                        editingCardInfo()!.cardIdx
+                        ]
+                    }
+                    onSave={(updatedCard) => {
+                        const data = [...lessons()];
+                        data[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx] = updatedCard;
+                        setLessons(data);
+                        persist(data);
+                        setEditingCardInfo(null);
+                    }}
+                    onCancel={() => setEditingCardInfo(null)}
+                />
             </Show>
         </>
     );

@@ -1,3 +1,12 @@
+import { IBaseCard } from './BaseCard.type';
+import { IBlanksCard } from './Blanks/Blanks';
+import { IDynamicVocabCard } from './DynamicVocab/DynamicVocab';
+import { IMultipleChoiceCard } from './MultipleChoice/MultipleChoice';
+import { IVocabMatchCard } from './VocabMatch/VocabMatch';
+import { IWritingCard } from './Writing/Writing';
+import { IWritingBlocksCard } from './WritingBlocks/WritingBlocks';
+
+export * from './BaseCard.type';
 export * from './MultipleChoice/MultipleChoice';
 export * from './VocabMatch/VocabMatch';
 export * from './Blanks/Blanks';
@@ -17,3 +26,15 @@ export { default as WritingBlocksCardComponent } from './WritingBlocks/WritingBl
 
 export { default as DynamicVocabComponent } from './DynamicVocab/DynamicVocab';
 
+export type AnyCard = IBlanksCard
+    | IDynamicVocabCard
+    | IMultipleChoiceCard
+    | IVocabMatchCard
+    | IWritingBlocksCard
+    | IWritingCard;
+
+export interface AnyCardWithAnswer extends IBaseCard { answer: string };
+
+export function hasAnswerField(card: AnyCard): card is AnyCard & { answer: string } {
+    return 'answer' in card;
+}

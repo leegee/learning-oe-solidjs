@@ -1,9 +1,9 @@
 import { createSignal, createEffect, type JSX } from 'solid-js';
 import { t } from '../../../i18n';
 import { shuffleArray } from '../../../lib/shuffle-array';
-import { type IBaseCard } from '../BaseCard.type';
+import { type IBaseCard } from '../../cards/';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
-import ActionButton from '../../ActionButton/index';
+import ActionButton from '../../ActionButton';
 import './Blanks.css';
 
 export interface IBlanksCard extends IBaseCard {
