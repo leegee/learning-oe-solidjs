@@ -76,8 +76,8 @@
     max-width: clamp(80em, 90vw, 80em);
 }
 
-.hamburger-menu nav li .course-overview button:before {
-    content: '';
+.hamburger-menu nav li .nav-selected-with-highlight button:before {
+    /* content: ''; */
 }
 
 .hamburger-menu nav li.selected .course-overview button:before {

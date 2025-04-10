@@ -15,14 +15,23 @@ export default function EditCardModal(props: {
 }) {
     const [card, setCard] = createSignal<AnyCard>({ ...props.card });
 
+    // Check if the card has an answer and it's filled
+    const isAnswerValid = () => {
+        if (card().class === "multiple-choice") {
+            return (card() as IMultipleChoiceCard).answers.length > 0 &&
+                (card() as IMultipleChoiceCard).answer !== "";
+        }
+        if (hasAnswerField(card())) {
+            return (card() as AnyCardWithAnswer).answer !== "";
+        }
+        return true;
+    };
+
     const updateField = <K extends keyof AnyCard>(field: K, value: AnyCard[K]) => {
         setCard({ ...card(), [field]: value });
     };
 
-    const updateMCField = <K extends keyof IMultipleChoiceCard>(
-        field: K,
-        value: IMultipleChoiceCard[K]
-    ) => {
+    const updateMCField = <K extends keyof IMultipleChoiceCard>(field: K, value: IMultipleChoiceCard[K]) => {
         setCard({ ...card(), [field]: value } as IMultipleChoiceCard);
     };
 
@@ -75,7 +84,7 @@ export default function EditCardModal(props: {
                         </For>
 
                         <button
-                            id='add-answer-button'
+                            id="add-answer-button"
                             type="button"
                             onClick={() => {
                                 const updated = [...((card() as IMultipleChoiceCard).answers || [])];
@@ -94,7 +103,7 @@ export default function EditCardModal(props: {
 
                 {/* Conditionally render the answer field if the card has an 'answer' */}
                 <Show when={hasAnswerField(card())}>
-                    <label class='answer-section'>
+                    <label class="answer-section">
                         <h3>Answer:</h3>
                         <textarea
                             value={(card() as AnyCardWithAnswer).answer}
@@ -106,10 +115,17 @@ export default function EditCardModal(props: {
                 </Show>
 
                 <footer class="modal-actions">
-                    <button onClick={() => props.onSave(card())}>Save</button>
-                    <button onClick={props.onCancel}>Cancel</button>
+                    <button
+                        onClick={() => props.onSave(card())}
+                        disabled={!isAnswerValid()}
+                    >
+                        Save
+                    </button>
+                    <button onClick={props.onCancel} >
+                        Cancel
+                    </button>
                 </footer>
             </section>
-        </article >
+        </article>
     );
 }
