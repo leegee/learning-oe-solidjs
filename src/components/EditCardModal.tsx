@@ -27,12 +27,12 @@ export default function EditCardModal(props: {
     };
 
     const handleModalClick = (e: MouseEvent) => {
-        e.stopPropagation(); // Prevent background click from closing modal
+        e.stopPropagation();
     };
 
     return (
-        <article class="modal-bg" onClick={props.onCancel}>
-            <section class="edit-card-modal" onClick={handleModalClick}>
+        <article class="modal-bg" onClick={handleModalClick}>
+            <section class={`edit-card-modal ${card().class}`} onClick={handleModalClick}>
                 <h2>Edit Card</h2>
 
                 <label>
@@ -94,7 +94,7 @@ export default function EditCardModal(props: {
 
                 {/* Conditionally render the answer field if the card has an 'answer' */}
                 <Show when={hasAnswerField(card())}>
-                    <label>
+                    <label class='answer-section'>
                         <h3>Answer:</h3>
                         <textarea
                             value={(card() as AnyCardWithAnswer).answer}
@@ -110,6 +110,6 @@ export default function EditCardModal(props: {
                     <button onClick={props.onCancel}>Cancel</button>
                 </footer>
             </section>
-        </article>
+        </article >
     );
 }

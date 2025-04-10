@@ -54,9 +54,10 @@
     padding: 0.6em;
     font-family: Junicode;
     font-size: 1.2em;
+    line-height: 166%;
 }
 
-..edit-card-modal textarea,
+.edit-card-modal textarea,
 .edit-card-modal input {
     border: 1pt dotted var(--oe-clr-border);
 }
@@ -75,4 +76,8 @@
     padding-right: 0.3em;
     font-size: 80%;
     border: 1pt solid var(--oe-clr-border);
+}
+
+.edit-card-modal.multiple-choice .answer-section {
+    display: none;
 }

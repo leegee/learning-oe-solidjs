@@ -16,11 +16,12 @@
     gap: 0.3em;
 }
 
-/* Styling for the text input */
 .edit-card-modal .answer-row input[type="text"] {
     flex: 1;
     border: 0;
     border-bottom: 1pt dotted var(--oe-clr-fg);
+    color: var(--oe-clr-card-fg);
+    letter-spacing: 0.3ch;
 }
 
 .answer-label {

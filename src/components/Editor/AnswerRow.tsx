@@ -1,5 +1,3 @@
-import { createSignal } from "solid-js";
-import { IMultipleChoiceCard } from "../cards";
 import './AnswerRow.css';
 
 interface AnswerRowProps {
