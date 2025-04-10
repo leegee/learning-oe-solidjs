@@ -109,20 +109,20 @@
     text-align: left;
 }
 
-.hamburger-menu nav li.selected button {
+.nav-selected-with-highlight li.selected button {
     font-weight: bolder;
 }
 
-.hamburger-menu nav li button:before {
+.nav-selected-with-highlight+li button:before {
     content: '▶ ';
     opacity: 0;
 }
 
-.hamburger-menu nav li.selected button:before {
+.nav-selected-with-highlight+li.selected button:before {
     opacity: 50%;
 }
 
-.hamburger-menu nav li button:disabled {
+.nav-selected-with-highlight li button:disabled {
     background-color: var(--oe-clr-card-bg) !important;
 }
 

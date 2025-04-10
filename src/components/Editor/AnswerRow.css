@@ -1,0 +1,68 @@
+/* Styling for the answer row */
+.edit-card-modal .answer-row {
+    display: flex;
+    align-items: center;
+    gap: 0.6em;
+    margin-bottom: 0.5em;
+    color: var(--oe-clr-card-fg);
+}
+
+.edit-card-modal .answer-row button {
+    padding: 0;
+}
+
+.edit-card-modal .answer-row label {
+    display: flex;
+    gap: 0.3em;
+}
+
+/* Styling for the text input */
+.edit-card-modal .answer-row input[type="text"] {
+    flex: 1;
+    border: 0;
+    border-bottom: 1pt dotted var(--oe-clr-fg);
+}
+
+.answer-label {
+    align-items: center;
+    justify-content: center;
+}
+
+.answer-label input {
+    display: none;
+}
+
+/* Style the checkmark, and make it highlighted when the radio is selected */
+.answer-label .checkmark {
+    font-size: 1.2em;
+    padding: 0;
+    opacity: 50%;
+    font-weight: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 1.4em;
+    height: 1.4em;
+    min-height: 1.4em;
+    max-height: 1.4em;
+    max-width: 1.4em;
+    min-width: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Highlight the checkmark when the radio button is selected */
+.answer-label input:checked+.checkmark {
+    filter: invert(100%);
+    font-size: 0.8em;
+    padding: 1em;
+    opacity: 100%;
+}
+
+/* Focus styles for when the radio button or the label is focused */
+.answer-label:focus-within {
+    background-color: var(--oe-clr-card-fg);
+    border: 1px solid var(--oe-clr-card-bg);
+    padding: 0.3em;
+}

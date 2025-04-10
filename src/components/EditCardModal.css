@@ -7,10 +7,18 @@
     border: 0.3pt solid var(--oe-clr-border);
 }
 
-.edit-card-modal h2 {
+.edit-card-modal h2,
+.edit-card-modal h3 {
     padding: 0.6em;
     margin-bottom: 0.3em !important;
     border: 0.3pt solid var(--oe-clr-border);
+}
+
+.edit-card-modal h3 {
+    border: none;
+    padding: 0.3em 0;
+    margin-top: 1em;
+    font-size: 120%;
 }
 
 .edit-card-modal footer.modal-actions {
@@ -44,6 +52,13 @@
     min-height: 4em;
     margin-top: 0.3em;
     padding: 0.6em;
+    font-family: Junicode;
+    font-size: 1.2em;
+}
+
+..edit-card-modal textarea,
+.edit-card-modal input {
+    border: 1pt dotted var(--oe-clr-border);
 }
 
 .actions {
@@ -51,4 +66,13 @@
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
+}
+
+#add-answer-button {
+    width: auto;
+    margin-left: auto;
+    padding: 1em;
+    padding-right: 0.3em;
+    font-size: 80%;
+    border: 1pt solid var(--oe-clr-border);
 }

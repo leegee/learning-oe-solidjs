@@ -1,16 +1,29 @@
-import { createSignal, Show, Switch, Match } from "solid-js";
-import { AnyCardWithAnswer, hasAnswerField, type AnyCard } from "./cards";
-import './EditCardModal.css';
+import { createSignal, Show, Switch, Match, For } from "solid-js";
+import {
+    AnyCardWithAnswer,
+    hasAnswerField,
+    IMultipleChoiceCard,
+    type AnyCard
+} from "./cards";
+import AnswerRow from "./Editor/AnswerRow";
+import "./EditCardModal.css";
 
 export default function EditCardModal(props: {
     card: AnyCard;
     onSave: (card: AnyCard) => void;
     onCancel: () => void;
 }) {
-    const [card, setCard] = createSignal({ ...props.card });
+    const [card, setCard] = createSignal<AnyCard>({ ...props.card });
 
     const updateField = <K extends keyof AnyCard>(field: K, value: AnyCard[K]) => {
         setCard({ ...card(), [field]: value });
+    };
+
+    const updateMCField = <K extends keyof IMultipleChoiceCard>(
+        field: K,
+        value: IMultipleChoiceCard[K]
+    ) => {
+        setCard({ ...card(), [field]: value } as IMultipleChoiceCard);
     };
 
     const handleModalClick = (e: MouseEvent) => {
@@ -44,7 +57,34 @@ export default function EditCardModal(props: {
                     </Match>
 
                     <Match when={card().class === "multiple-choice"}>
-                        <p>TODO: Editing interface for "multiple-choice.answers" field</p>
+                        <h3>Answers:</h3>
+                        <For each={(card() as IMultipleChoiceCard).answers || []}>
+                            {(option, i) => (
+                                <AnswerRow
+                                    option={option}
+                                    index={i()}
+                                    isCorrect={option === (card() as IMultipleChoiceCard).answer}
+                                    answers={(card() as IMultipleChoiceCard).answers || []}
+                                    answer={(card() as IMultipleChoiceCard).answer}
+                                    updateAnswers={(updatedAnswers) =>
+                                        updateMCField("answers", updatedAnswers)
+                                    }
+                                    updateAnswer={(newAnswer) => updateMCField("answer", newAnswer)}
+                                />
+                            )}
+                        </For>
+
+                        <button
+                            id='add-answer-button'
+                            type="button"
+                            onClick={() => {
+                                const updated = [...((card() as IMultipleChoiceCard).answers || [])];
+                                updated.push("");
+                                updateMCField("answers", updated);
+                            }}
+                        >
+                            Add Answer ➕
+                        </button>
                     </Match>
 
                     <Match when={card().class === "vocab"}>

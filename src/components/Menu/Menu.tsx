@@ -95,7 +95,7 @@ const Menu = (props: MenuProps) => {
 
                     {getCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
-                    <nav>
+                    <nav class="nav-selected-with-highlight">
                         {config.lessons.map((course, index) => (
                             <li class={localCourseIndex() === index ? 'selected' : ''}>
                                 <button onClick={() => setLocalSelectedCourse(index)}>
