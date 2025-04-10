@@ -87,21 +87,21 @@
 
 .card-holder {
     border: 1pt solid var(--oe-clr-border);
-    height: 25em;
+    height: 20em;
     margin: 1vw;
     overflow: hidden;
     display: inline-flex;
 }
 
 .hamburger-menu .card-holder .card {
-    margin: 0;
     font-size: 50%;
     min-width: 20em;
     max-width: 20em;
-    min-height: 100%;
     height: 25em;
     overflow: hidden;
     pointer-events: none;
+    padding: 0;
+    margin: 0;
 }
 
 .hamburger-menu .card-holder .card * {
@@ -224,12 +224,13 @@
 }
 
 .course-overview .bottom-controls {
-    top: 0.5em;
+    /* top: 0.5em; */
 }
 
 .course-overview .horizontal-controls {
     display: flex;
     width: 100%;
+    align-items: center;
 }
 
 .course-overview .vertical-controls button,
@@ -248,4 +249,9 @@
 .course-overview .card-holder:hover .vertical-controls button:not([disabled]),
 .course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
     color: white;
+}
+
+.hamburger-menu .card footer:not(.modal-actions),
+.hamburger-menu .card footer.vocab-match-footer {
+    display: none;
 }
