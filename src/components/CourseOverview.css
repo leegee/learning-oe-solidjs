@@ -158,6 +158,10 @@
     color: silver;
 }
 
+.card-holder #action-button,
+.card-holder .card .letter-buttons button,
+.hamburger-menu .card footer:not(.modal-actions),
+.hamburger-menu .card footer.vocab-match-footer,
 .card-holder .next-button,
 .card-holder .correct-next-button,
 .card-holder .incorrect-next-button {
@@ -169,10 +173,6 @@
     padding: 0.25em;
 }
 
-.card-holder #action-button {
-    display: none;
-}
-
 .card-holder .card:hover {
     cursor: pointer;
 }
@@ -180,10 +180,6 @@
 .card-holder:hover {
     border-color: #555;
     cursor: pointer;
-}
-
-.card-holder .card .letter-buttons button {
-    display: none;
 }
 
 .card-holder .card.multiple-choice {
@@ -248,10 +244,5 @@
 
 .course-overview .card-holder:hover .vertical-controls button:not([disabled]),
 .course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
-    color: white;
-}
-
-.hamburger-menu .card footer:not(.modal-actions),
-.hamburger-menu .card footer.vocab-match-footer {
-    display: none;
+    color: var(--oe-clr-fg);
 }
