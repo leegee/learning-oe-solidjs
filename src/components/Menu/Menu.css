@@ -102,10 +102,10 @@
     background-color: var(--oe-clr-card-bg);
     display: block;
     width: 100%;
-    padding-right: 1em;
+    /* padding-right: 1em; */
     text-decoration: none;
     border: 0;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     text-align: left;
 }
 

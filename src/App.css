@@ -127,3 +127,18 @@ h3.question::after {
 .modal-bg * {
     z-index: 1001;
 }
+
+button.icon {
+    width: 1em !important;
+    height: 1em !important;
+    min-height: 1em !important;
+    max-height: 1em !important;
+    max-width: 1em !important;
+    min-width: 1em !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: normal;
+}

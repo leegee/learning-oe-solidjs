@@ -1,3 +1,4 @@
+// AnswerRow component
 import './AnswerRow.css';
 
 interface AnswerRowProps {

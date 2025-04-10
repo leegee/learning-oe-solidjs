@@ -1,8 +1,10 @@
-import { createSignal, Show, Switch, Match, For } from "solid-js";
+import { createSignal, Show, Switch, Match, onCleanup, createEffect } from "solid-js";
 import {
     AnyCardWithAnswer,
     hasAnswerField,
+    IBlanksCard,
     IMultipleChoiceCard,
+    IWritingBlocksCard,
     type AnyCard
 } from "./cards";
 import AnswerRow from "./Editor/AnswerRow";
@@ -14,8 +16,23 @@ export default function EditCardModal(props: {
     onCancel: () => void;
 }) {
     const [card, setCard] = createSignal<AnyCard>({ ...props.card });
+    const [newOption, setNewOption] = createSignal('');
 
-    // Check if the card has an answer and it's filled
+    createEffect(() => {
+        const handleKeys = (e: KeyboardEvent) => {
+            e.stopPropagation();
+            if (e.key === 'Escape') {
+                // props.onCancel();
+                // Do nothing
+                console.log('even propogation stopped, escape pressed, nothing should happen but earlier event listeners are catching the signal too.')
+            }
+        };
+
+        window.addEventListener('keydown', handleKeys, true);
+        onCleanup(() => window.removeEventListener('keydown', handleKeys, true));
+        // }
+    });
+
     const isAnswerValid = () => {
         if (card().class === "multiple-choice") {
             return (card() as IMultipleChoiceCard).answers.length > 0 &&
@@ -39,6 +56,16 @@ export default function EditCardModal(props: {
         e.stopPropagation();
     };
 
+    // Update answers when options change
+    const updateAnswers = (updatedAnswers: string[]) => {
+        setCard({ ...card(), options: updatedAnswers });
+    };
+
+    // Update the correct answer
+    const updateAnswer = (newAnswer: string) => {
+        setCard({ ...card(), answer: newAnswer });
+    };
+
     return (
         <article class="modal-bg" onClick={handleModalClick}>
             <section class={`edit-card-modal ${card().class}`} onClick={handleModalClick}>
@@ -52,77 +79,124 @@ export default function EditCardModal(props: {
                     />
                 </label>
 
-                <Switch fallback={<p>{JSON.stringify(card(), null, 2)}</p>}>
-                    <Match when={card().class === "dynamic-vocab"}>
-                        <p>Dynamic vocab requires no intervention.</p>
+                <Switch fallback={<p>Unknown card: {JSON.stringify(card(), null, 2)}</p>}>
+                    <Match when={card().class === "writing"}>
+                        <span />
                     </Match>
 
-                    <Match when={card().class === "writing"}>
-                        <p>TODO: Editing interface for "writing.option" field</p>
+
+                    <Match when={card().class === "blanks"}>
+                        <section class="blanks-edit">
+                            <h4>Correct Words for Blanks</h4>
+
+                            <div class="blanks-word-list">
+                                {(card() as IBlanksCard).words.map((wordObj, idx) => {
+                                    const word = Object.keys(wordObj)[0];
+                                    return (
+                                        <div class="answer-row">
+                                            <input
+                                                type="text"
+                                                value={word}
+                                                onInput={(e) => {
+                                                    const updatedWords = [...(card() as IBlanksCard).words];
+                                                    updatedWords[idx] = { [e.currentTarget.value]: true };
+                                                    setCard({ ...card(), words: updatedWords });
+                                                }}
+                                            />
+                                            <button class='icon'
+                                                onClick={() => {
+                                                    const updatedWords = [...(card() as IBlanksCard).words];
+                                                    updatedWords.splice(idx, 1);
+                                                    setCard({ ...card(), words: updatedWords });
+                                                }}
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            <div class="blanks-add-word">
+                                <input
+                                    type="text"
+                                    placeholder="New word"
+                                    value={newOption()}
+                                    onInput={(e) => setNewOption(e.currentTarget.value)}
+                                />
+                                <button
+                                    onClick={() => {
+                                        const newWord = newOption().trim();
+                                        if (newWord) {
+                                            const updatedWords = [...(card() as IBlanksCard).words, { [newWord]: true }];
+                                            setCard({ ...card(), words: updatedWords });
+                                            setNewOption('');
+                                        }
+                                    }}
+                                >
+                                    Add Word ➕
+                                </button>
+                            </div>
+
+                            <p class="blanks-help">
+                                Use underscores (`__`) in the question text to indicate blank positions. The number of blanks must match the number of words listed above.
+                            </p>
+                        </section>
                     </Match>
 
                     <Match when={card().class === "writing-blocks"}>
-                        <p>TODO: Editing interface for "writing-blocks.option" field</p>
-                    </Match>
+                        <section class="writing-blocks-edit">
+                            <h4>Edit Options for Writing Blocks</h4>
 
-                    <Match when={card().class === "multiple-choice"}>
-                        <h3>Answers:</h3>
-                        <For each={(card() as IMultipleChoiceCard).answers || []}>
-                            {(option, i) => (
-                                <AnswerRow
-                                    option={option}
-                                    index={i()}
-                                    isCorrect={option === (card() as IMultipleChoiceCard).answer}
-                                    answers={(card() as IMultipleChoiceCard).answers || []}
-                                    answer={(card() as IMultipleChoiceCard).answer}
-                                    updateAnswers={(updatedAnswers) =>
-                                        updateMCField("answers", updatedAnswers)
-                                    }
-                                    updateAnswer={(newAnswer) => updateMCField("answer", newAnswer)}
+                            <div class="options-list">
+                                {(card() as IWritingBlocksCard).options.map((option, idx) => {
+                                    const isCorrect = option === (card() as IWritingBlocksCard).answer;
+                                    return (
+                                        <AnswerRow
+                                            option={option}
+                                            index={idx}
+                                            isCorrect={isCorrect}
+                                            answers={(card() as IWritingBlocksCard).options}
+                                            answer={(card() as IWritingBlocksCard).answer}
+                                            updateAnswers={updateAnswers}
+                                            updateAnswer={updateAnswer}
+                                        />
+                                    );
+                                })}
+                            </div>
+
+                            <div>
+                                <input
+                                    type="text"
+                                    placeholder="New Option"
+                                    value={newOption()}
+                                    onInput={(e) => setNewOption(e.currentTarget.value)}
                                 />
-                            )}
-                        </For>
-
-                        <button
-                            id="add-answer-button"
-                            type="button"
-                            onClick={() => {
-                                const updated = [...((card() as IMultipleChoiceCard).answers || [])];
-                                updated.push("");
-                                updateMCField("answers", updated);
-                            }}
-                        >
-                            Add Answer ➕
-                        </button>
-                    </Match>
-
-                    <Match when={card().class === "vocab"}>
-                        <p>TODO: Editing interface for "vocab.vocab" field</p>
+                                <button
+                                    onClick={() => {
+                                        if (newOption().trim()) {
+                                            const updatedOptions = [...(card() as IWritingBlocksCard).options, newOption()];
+                                            setCard({ ...card(), options: updatedOptions });
+                                            setNewOption(''); // Clear input after adding
+                                        }
+                                    }}
+                                >
+                                    Add Option ➕
+                                </button>
+                            </div>
+                        </section>
                     </Match>
                 </Switch>
-
-                {/* Conditionally render the answer field if the card has an 'answer' */}
-                <Show when={hasAnswerField(card())}>
-                    <label class="answer-section">
-                        <h3>Answer:</h3>
-                        <textarea
-                            value={(card() as AnyCardWithAnswer).answer}
-                            onInput={(e) =>
-                                setCard({ ...card(), answer: e.currentTarget.value })
-                            }
-                        />
-                    </label>
-                </Show>
 
                 <footer class="modal-actions">
                     <button
                         onClick={() => props.onSave(card())}
                         disabled={!isAnswerValid()}
                     >
-                        Save
+                        ✓ Save
                     </button>
                     <button onClick={props.onCancel} >
-                        Cancel
+                        ✕ Cancel
                     </button>
                 </footer>
             </section>

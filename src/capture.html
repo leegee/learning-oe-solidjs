@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Screen Streaming Example</title>
+</head>
+
+<body>
+    <button id="startCapture">Start Screen Capture</button>
+    <video id="screenVideo" width="640" height="480" autoplay></video>
+
+    <script src="https://cdn.jsdelivr.net/npm/ffmpeg.js@0.10.1/ffmpeg.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/rtmp-rtsp-stream-client-js/dist/rtmp-rtsp-stream-client.min.js"></script>
+
+    <script>
+        const startCaptureButton = document.getElementById('startCapture');
+        const screenVideo = document.getElementById('screenVideo');
+        let mediaRecorder;
+        let chunks = [];
+
+        startCaptureButton.addEventListener('click', async () => {
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({
+                    video: true,
+                    audio: true,
+                });
+
+                // Show the screen capture in the video element
+                screenVideo.srcObject = stream;
+
+                // Create a MediaRecorder for the stream
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = (event) => {
+                    chunks.push(event.data);
+                };
+
+                mediaRecorder.onstop = () => {
+                    // Once the stream is stopped, we can process the video
+                    const videoBlob = new Blob(chunks, { type: 'video/webm' });
+
+                    // Call a function to send the video to an RTMP server
+                    sendToRTMP(videoBlob);
+                };
+
+                // Start recording
+                mediaRecorder.start();
+
+                // Stop recording after 10 seconds (for testing purposes)
+                setTimeout(() => {
+                    mediaRecorder.stop();
+                }, 10000);
+
+            } catch (err) {
+                console.error('Error during screen capture:', err);
+            }
+        });
+
+        // Function to send the video to an RTMP server
+        function sendToRTMP(blob) {
+            // This is where you would encode the video with ffmpeg.js and push to RTMP
+            // For simplicity, this demo assumes an RTMP stream can be sent directly
+            console.log('Sending video to RTMP server...');
+
+            // Example URL for testing YouTube Live RTMP stream (replace with your own stream key)
+            const rtmpUrl = 'rtmp://a.rtmp.youtube.com/live2/YOUR_STREAM_KEY';
+
+            // Initialize RTMP stream
+            const rtmpClient = new RTMPClient();
+            rtmpClient.connect(rtmpUrl);
+
+            // Send the video blob to the RTMP server (You would need to implement encoding here)
+            // For demo purposes, this is just a placeholder for actual encoding logic
+            console.log('Video sent to RTMP server:', blob);
+        }
+    </script>
+</body>
+
+</html>

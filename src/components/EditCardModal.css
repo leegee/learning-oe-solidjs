@@ -51,15 +51,17 @@
     width: 100%;
     min-height: 4em;
     margin-top: 0.3em;
-    padding: 0.6em;
-    font-family: Junicode;
     font-size: 1.2em;
-    line-height: 166%;
 }
 
 .edit-card-modal textarea,
 .edit-card-modal input {
     border: 1pt dotted var(--oe-clr-border);
+    color: var(--oe-clr-card-fg);
+    padding: 0.3em;
+    font-family: Junicode;
+    font-size: 1em;
+    line-height: 133%;
 }
 
 .actions {
@@ -69,6 +71,7 @@
     gap: 1rem;
 }
 
+#add-option-button,
 #add-answer-button {
     width: auto;
     margin-left: auto;
@@ -80,4 +83,13 @@
 
 .edit-card-modal.multiple-choice .answer-section {
     display: none;
+}
+
+.edit-card-modal .option-item {
+    display: flex;
+    gap: 1em;
+    width: 100%;
+    padding: 0.3em;
+    justify-content: space-between;
+    align-items: center;
 }
