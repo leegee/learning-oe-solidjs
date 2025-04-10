@@ -157,7 +157,8 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                         {lesson.cards.map((card, cardIdx) => (
                                             <div class="card-holder">
                                                 <div class="vertical-controls top-controls">
-                                                    <button disabled={lessonIdx === 0}
+                                                    <button title='Move up to the previous lessons'
+                                                        disabled={lessonIdx === 0}
                                                         onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
                                                     >
                                                         ↑
@@ -165,7 +166,8 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                                 </div>
 
                                                 <div class="horizontal-controls">
-                                                    <button disabled={cardIdx === 0}
+                                                    <button title='Move to the left in this lessons'
+                                                        disabled={cardIdx === 0}
                                                         onClick={() => moveCard(lessonIdx, cardIdx, -1)}
                                                     >
                                                         ←
@@ -180,7 +182,8 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                                             })
                                                         } />
 
-                                                    <button disabled={cardIdx === lesson.cards.length - 1}
+                                                    <button title='Move to the right in this lessons'
+                                                        disabled={cardIdx === lesson.cards.length - 1}
                                                         onClick={() => moveCard(lessonIdx, cardIdx, 1)}
                                                     >
                                                         →
@@ -188,7 +191,8 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                                 </div>
 
                                                 <div class="vertical-controls bottom-controls">
-                                                    <button onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
+                                                    <button title='Move to the next lesson'
+                                                        onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
                                                         disabled={lessonIdx === lessons().length - 1}
                                                     >
                                                         ↓
