@@ -3,14 +3,12 @@ import Card from "./Card";
 import { type Lesson } from "./Lesson";
 import EditCardModal from "./EditCardModal";
 import './CourseOverview.css';
+import { IAnyCard } from "./cards";
 
 export default function CourseOverview(props: { lessons: Lesson[] }) {
     const [open, setOpen] = createSignal(false);
     const [lessons, setLessons] = createSignal<Lesson[]>(props.lessons);
-    const [editingCardInfo, setEditingCardInfo] = createSignal<{
-        lessonIdx: number;
-        cardIdx: number;
-    } | null>(null);
+    const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
     const STORAGE_KEY = 'oe-lesson-order';
 
     const toggle = (e: MouseEvent) => {
@@ -38,11 +36,12 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     };
 
-    const moveCard = (
-        lessonIdx: number,
-        cardIdx: number,
-        direction: 1 | -1
-    ) => {
+    const cancelEditing = (e: Event) => {
+        e.stopPropagation();
+        setEditingCardInfo(null);
+    }
+
+    const moveCard = (lessonIdx: number, cardIdx: number, direction: 1 | -1) => {
         const currentLessons = [...lessons()];
         const sourceLesson = currentLessons[lessonIdx];
         const cardToMove = sourceLesson.cards[cardIdx];
@@ -53,10 +52,7 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
             // Intra-lesson move
             const updatedCards = [...sourceLesson.cards];
             [updatedCards[cardIdx], updatedCards[targetCardIdx]] = [updatedCards[targetCardIdx], updatedCards[cardIdx]];
-            currentLessons[lessonIdx] = {
-                ...sourceLesson,
-                cards: updatedCards
-            };
+            currentLessons[lessonIdx] = { ...sourceLesson, cards: updatedCards };
         } else {
             // Inter-lesson move
             const targetLessonIdx = lessonIdx + direction;
@@ -74,34 +70,20 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                 targetCards.push(cardToMove); // insert at end
             }
 
-            currentLessons[lessonIdx] = {
-                ...sourceLesson,
-                cards: sourceCards
-            };
-            currentLessons[targetLessonIdx] = {
-                ...targetLesson,
-                cards: targetCards
-            };
+            currentLessons[lessonIdx] = { ...sourceLesson, cards: sourceCards };
+            currentLessons[targetLessonIdx] = { ...targetLesson, cards: targetCards };
         }
 
         setLessons(currentLessons);
         persist(currentLessons);
     };
 
-    const moveCardBetweenLessons = (
-        lessonIdx: number,
-        cardIdx: number,
-        direction: 1 | -1
-    ) => {
+    const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: 1 | -1) => {
         const data = [...lessons()];
         const sourceLesson = data[lessonIdx];
         const targetLessonIdx = lessonIdx + direction;
 
-        if (
-            targetLessonIdx < 0 ||
-            targetLessonIdx >= data.length ||
-            !sourceLesson.cards[cardIdx]
-        ) return;
+        if (targetLessonIdx < 0 || targetLessonIdx >= data.length || !sourceLesson.cards[cardIdx]) return;
 
         const card = sourceLesson.cards[cardIdx];
         const newSourceCards = [...sourceLesson.cards];
@@ -110,7 +92,6 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
         const targetLesson = data[targetLessonIdx];
         const newTargetCards = [...targetLesson.cards];
 
-        // Insert the card to start or end depending on direction
         if (direction === 1) {
             newTargetCards.unshift(card);
         } else {
@@ -132,12 +113,7 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
 
             <Show when={open()}>
                 <aside class="modal-bg">
-                    <article
-                        class="course-overview"
-                        onClick={(e) => e.stopPropagation()}
-                        role="dialog"
-                        aria-modal="true"
-                    >
+                    <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
                         <header>
                             <div>
                                 <h2>Course Overview</h2>
@@ -155,9 +131,10 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                     </header>
                                     <div class="cards">
                                         {lesson.cards.map((card, cardIdx) => (
-                                            <div class="card-holder">
+                                            <div class="card-holder" >
                                                 <div class="vertical-controls top-controls">
-                                                    <button title='Move up to the previous lessons'
+                                                    <button
+                                                        title="Move up to the previous lessons"
                                                         disabled={lessonIdx === 0}
                                                         onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
                                                     >
@@ -166,23 +143,24 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                                 </div>
 
                                                 <div class="horizontal-controls">
-                                                    <button title='Move to the left in this lessons'
+                                                    <button
+                                                        title="Move to the left in this lessons"
                                                         disabled={cardIdx === 0}
                                                         onClick={() => moveCard(lessonIdx, cardIdx, -1)}
                                                     >
                                                         ←
                                                     </button>
 
-                                                    <Card card={card}
-                                                        lesson={lessons()[lessonIdx]}
-                                                        ondblclick={() =>
-                                                            setEditingCardInfo({
-                                                                lessonIdx,
-                                                                cardIdx
-                                                            })
-                                                        } />
+                                                    <Card
+                                                        card={card}
+                                                        lesson={lesson}
+                                                        ondblclick={() => {
+                                                            setEditingCardInfo({ lessonIdx, cardIdx });
+                                                        }}
+                                                    />
 
-                                                    <button title='Move to the right in this lessons'
+                                                    <button
+                                                        title="Move to the right in this lessons"
                                                         disabled={cardIdx === lesson.cards.length - 1}
                                                         onClick={() => moveCard(lessonIdx, cardIdx, 1)}
                                                     >
@@ -191,7 +169,8 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
                                                 </div>
 
                                                 <div class="vertical-controls bottom-controls">
-                                                    <button title='Move to the next lesson'
+                                                    <button
+                                                        title="Move to the next lesson"
                                                         onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
                                                         disabled={lessonIdx === lessons().length - 1}
                                                     >
@@ -210,15 +189,19 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
 
             <Show when={editingCardInfo()}>
                 <EditCardModal
-                    card={lessons()[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx]}
-                    onSave={(updatedCard) => {
+                    card={lessons()[
+                        editingCardInfo()!.lessonIdx
+                    ].cards[
+                        editingCardInfo()!.cardIdx
+                    ]}
+                    onSave={(updatedCard: IAnyCard) => {
                         const data = [...lessons()];
                         data[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx] = updatedCard;
                         setLessons(data);
                         persist(data);
                         setEditingCardInfo(null);
                     }}
-                    onCancel={() => setEditingCardInfo(null)}
+                    onCancel={(e: Event) => cancelEditing(e)}
                 />
             </Show>
         </>

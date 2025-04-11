@@ -6,10 +6,14 @@ import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a
 import ActionButton from '../../ActionButton';
 import './Blanks.css';
 
+export interface IBooleanWord {
+    [word: string]: boolean
+};
+
 export interface IBlanksCard extends IBaseCard {
     class: 'blanks';
     question: string;
-    words: { [word: string]: boolean }[]; // Updated structure
+    words: IBooleanWord[]
 }
 
 export interface IBlanksCardProps {

@@ -8,6 +8,7 @@ import {
     type IVocabMatchCard,
     type IWritingBlocksCard,
     type IWritingCard,
+    IAnyCard,
     BlanksCardComponent,
     DynamicVocabComponent,
     MultipleChoiceComponent,
@@ -19,7 +20,7 @@ import {
 import { type Lesson } from "./Lesson";
 
 type Props = {
-    card: AnyCard | null;
+    card: IAnyCard | null;
     lesson: Lesson;
     onComplete?: () => void;
     onCorrect?: () => void;

@@ -26,15 +26,15 @@ export { default as WritingBlocksCardComponent } from './WritingBlocks/WritingBl
 
 export { default as DynamicVocabComponent } from './DynamicVocab/DynamicVocab';
 
-export type AnyCard = IBlanksCard
+export type IAnyCard = IBlanksCard
     | IDynamicVocabCard
     | IMultipleChoiceCard
     | IVocabMatchCard
     | IWritingBlocksCard
     | IWritingCard;
 
-export interface AnyCardWithAnswer extends IBaseCard { answer: string };
+export interface IAnyCardWithAnswer extends IBaseCard { answer: string };
 
-export function hasAnswerField(card: AnyCard): card is AnyCard & { answer: string } {
+export function hasAnswerField(card: IAnyCard): card is IAnyCard & { answer: string } {
     return 'answer' in card;
 }

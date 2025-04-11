@@ -7,21 +7,28 @@
     color: var(--oe-clr-card-fg);
 }
 
-.edit-card-modal .answer-row button {
-    padding: 0;
+.edit-card-modal .form-field button {
+    padding: 0 0.2em;
+    width: auto;
 }
 
-.edit-card-modal .answer-row label {
+.form-field label {
     display: flex;
     gap: 0.3em;
+    font-size: xx-small;
+    font-weight: 100;
+    font-variant: small-caps;
+    text-transform: uppercase;
 }
 
-.edit-card-modal .answer-row input[type="text"] {
+.form-field [type="text"] {
     flex: 1;
     border: 0;
     border-bottom: 1pt dotted var(--oe-clr-fg);
     color: var(--oe-clr-card-fg);
-    letter-spacing: 0.3ch;
+    letter-spacing: 0.1ch;
+    padding: 0.3em;
+    padding-bottom: 0;
 }
 
 .answer-label {
@@ -34,7 +41,7 @@
 }
 
 /* Style the checkmark, and make it highlighted when the radio is selected */
-.answer-label .checkmark {
+.checkmark {
     font-size: 1.2em;
     padding: 0;
     opacity: 50%;
@@ -54,10 +61,7 @@
 }
 
 /* Highlight the checkmark when the radio button is selected */
-.answer-label input:checked+.checkmark {
-    filter: invert(100%);
-    font-size: 0.8em;
-    padding: 1em;
+.checkmark.selected {
     opacity: 100%;
 }
 
@@ -66,4 +70,69 @@
     background-color: var(--oe-clr-card-fg);
     border: 1px solid var(--oe-clr-card-bg);
     padding: 0.3em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.boolean-text .answer-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.boolean-text .answer-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.boolean-text .checkmark {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 10px;
+    margin-left: 10px;
+    transition: color 0.2s;
+}
+
+.boolean-text .checkmark.selected {
+    color: green;
+}
+
+.boolean-text button {
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.boolean-text button:hover {
+    opacity: 0.8;
+}
+
+.boolean-text .add-new {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.boolean-text .add-new button {
+    font-size: 24px;
+    margin-left: 10px;
+}
+
+.boolean-text button:focus {
+    outline: none;
 }
