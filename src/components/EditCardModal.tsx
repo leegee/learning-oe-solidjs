@@ -109,7 +109,8 @@ const EditCardModal = (props: EditCardModalProps) => {
             <div class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
                 <section>
                     <h2>Edit Card</h2>
-                    <pre>{JSON.stringify(props.card, null, 4)}</pre>
+
+                    {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
 
                     {question()
                         && <section class='question'>

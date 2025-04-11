@@ -12,7 +12,13 @@
     color: var(--oe-clr-card-fg);
 }
 
-.boolean-text button:hover {
+.answer-row button {
+    border: none;
+    width: auto;
+}
+
+.answer-row button:hover {
+    border-color: transparent;
     opacity: 0.8;
 }
 

@@ -14,7 +14,7 @@
 
 .edit-card-modal section.question {
     margin-bottom: 1em;
-    font-size: 133%;
+    font-size: 166%;
 }
 
 .edit-card-modal h2,
@@ -38,6 +38,8 @@
 
 .edit-card-modal footer.modal-actions button {
     line-height: 200%;
+    width: 100%;
+    border: none;
 }
 
 .edit-card-modal footer.modal-actions button:before {
