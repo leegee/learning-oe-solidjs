@@ -35,6 +35,8 @@ export type IAnyCard = IBlanksCard
 
 export interface IAnyCardWithAnswer extends IBaseCard { answer: string };
 
-export function hasAnswerField(card: IAnyCard): card is IAnyCard & { answer: string } {
-    return 'answer' in card;
+export function isAnyCardWithAnswer(
+    card: IAnyCard
+): card is IAnyCard & { answer: string } {
+    return typeof card === 'object' && card !== null && 'answer' in card;
 }

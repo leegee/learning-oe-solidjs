@@ -10,6 +10,8 @@ import {
     IAnyCardWithAnswer,
     IBooleanWord,
     IWritingBlocksCard,
+    IVocabMatchCard,
+    isAnyCardWithAnswer,
 } from "./cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
@@ -26,6 +28,7 @@ const EditCardModal = (props: EditCardModalProps) => {
     const [answers, setAnswers] = createSignal<string[]>([]);
     const [answer, setAnswer] = createSignal<string>("");
     const [question, setQuestion] = createSignal<string>("");
+    const [vocab, setVocab] = createSignal<{ [key: string]: string }>({});
 
     createEffect(() => {
         if (!props.card) {
@@ -33,34 +36,32 @@ const EditCardModal = (props: EditCardModalProps) => {
             return;
         }
 
-        if ("question" in props.card) {
-            setQuestion((props.card as IBlanksCard).question);
+        if ("answer" in props.card) {
+            setAnswer(props.card.answer || "");
         }
-
-        if ("words" in props.card) {
-            setWords((props.card as IBlanksCard).words);
-        }
-
-        if ("options" in props.card) {
-            setOptions((props.card as IWritingBlocksCard).options);
-        }
-
         if ("answers" in props.card) {
             setAnswers(props.card.answers || []);
         }
-
-        if ("answer" in props.card) {
-            setAnswer(props.card.answer || "");
+        if ("options" in props.card) {
+            setOptions((props.card as IWritingBlocksCard).options);
+        }
+        if ("question" in props.card) {
+            setQuestion((props.card as IBlanksCard).question);
+        }
+        if ("words" in props.card) {
+            setWords((props.card as IBlanksCard).words);
+        }
+        if ("vocab" in props.card) {
+            setVocab(props.card.vocab);
         }
     });
 
     const handleSave = () => {
-        const original = props.card;
-        if (!original) {
+        if (!props.card) {
             return;
         }
 
-        const updatedCard = { ...original } as IAnyCard;
+        const updatedCard = { ...props.card } as IAnyCard;
 
         if ("answers" in updatedCard) {
             (updatedCard as IMultipleChoiceCard).answers = answers();
@@ -68,9 +69,37 @@ const EditCardModal = (props: EditCardModalProps) => {
         if ("answer" in updatedCard) {
             (updatedCard as IAnyCardWithAnswer).answer = answer();
         }
+        if ("options" in updatedCard) {
+            (updatedCard as IWritingBlocksCard).options = options();
+        }
+        if ("question" in props.card) {
+            (updatedCard as IBlanksCard).question = question();
+        }
+        if ("words" in updatedCard) {
+            (updatedCard as IBlanksCard).words = words();
+        }
+        if ("vocab" in updatedCard) {
+            (updatedCard as IVocabMatchCard).vocab = vocab();
+        }
+
 
         props.onSave(updatedCard);
     };
+
+    function onUpdate(
+        callback: Function,
+        answerOptions: any,
+        answer: string,
+    ): void {
+        callback(answerOptions);
+        if (isAnyCardWithAnswer(props.card!)) {
+            setAnswer(answer);
+        }
+    }
+
+    if (!props.card) {
+        return 'No card';
+    }
 
     return (
         <aside class="modal-bg">
@@ -79,8 +108,7 @@ const EditCardModal = (props: EditCardModalProps) => {
                     <h2>Edit Card</h2>
                     <pre>{JSON.stringify(props.card, null, 4)}</pre>
 
-                    {
-                        question()
+                    {question()
                         && <TextInput
                             label={`Question`}
                             value={question() ?? ''}
@@ -98,12 +126,11 @@ const EditCardModal = (props: EditCardModalProps) => {
                         />
                     }
 
-                    {/* For IBlanksCard's .words */}
-                    {"words" in props.card!
+                    {"words" in props.card
                         && <BooleanText list={words()} onUpdate={(updatedWords) => setWords(updatedWords)} />
                     }
 
-                    {"answers" in props.card!
+                    {"answers" in props.card
                         && <AnswerText
                             answer={answer()}
                             list={answers()}
@@ -111,11 +138,11 @@ const EditCardModal = (props: EditCardModalProps) => {
                         />
                     }
 
-                    {"options" in props.card!
+                    {"options" in props.card
                         && <AnswerText
                             answer={answer()}
                             list={options()}
-                            onUpdate={(updatedOptions) => setOptions(updatedOptions)}
+                            onUpdate={(...args) => onUpdate(setOptions, ...args)}
                         />
                     }
                 </section>

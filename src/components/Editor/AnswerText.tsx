@@ -16,14 +16,14 @@ export default function AnswerText(props: AnswerTextProps) {
     const handleInputChange = (index: number, newValue: string) => {
         const updated = [...props.list];
         updated[index] = newValue;
-        props.onUpdate(updated, props.answer); // Pass updated list and current answer
+        props.onUpdate(updated, props.answer);
     };
 
     // Handle removing an answer
     const handleRemoveClick = (index: number) => {
         const updated = [...props.list];
         updated.splice(index, 1);
-        props.onUpdate(updated, props.answer); // Pass updated list and current answer
+        props.onUpdate(updated, props.answer);
     };
 
     // Handle adding a new answer
@@ -37,9 +37,9 @@ export default function AnswerText(props: AnswerTextProps) {
     // Handle toggling the correct answer status
     const handleCheckmarkClick = (word: string) => {
         if (props.answer === word) {
-            props.onUpdate(props.list, ''); // Unmark if it's already the answer
+            props.onUpdate(props.list, '');
         } else {
-            props.onUpdate(props.list, word); // Set the selected answer
+            props.onUpdate(props.list, word);
         }
     };
 
@@ -49,7 +49,6 @@ export default function AnswerText(props: AnswerTextProps) {
             {JSON.stringify(props.list)}
             {props.list.map((word, index) => (
                 <div class="answer-row" >
-                    {/* Text Input for each answer */}
                     <TextInput
                         label={`Option ${index + 1}`}
                         value={word}
@@ -64,8 +63,9 @@ export default function AnswerText(props: AnswerTextProps) {
                     >
                         {props.answer === word ? '✔' : '◯'}
                     </span>
-                    {/* Remove button */}
+
                     <button
+                        class='remove-button'
                         type="button"
                         onClick={() => handleRemoveClick(index)}
                         title="Remove this answer"

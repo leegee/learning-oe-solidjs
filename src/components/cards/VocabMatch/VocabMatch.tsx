@@ -7,7 +7,6 @@ import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a
 import ActionButton from '../../ActionButton/ActionButton.tsx';
 import './VocabMatch.css';
 
-
 export interface IVocabMatchCard extends IBaseCard {
     class: 'vocab';
     vocab: { [key: string]: string };
