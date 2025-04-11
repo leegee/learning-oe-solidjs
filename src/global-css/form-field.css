@@ -1,0 +1,55 @@
+.form-field label {
+    display: flex;
+    gap: 0.3em;
+    font-size: xx-small;
+    font-weight: 100;
+    font-variant: small-caps;
+    text-transform: uppercase;
+}
+
+.form-field [type="text"] {
+    flex: 1;
+    border: 0;
+    border-bottom: 1pt dotted var(--oe-clr-fg);
+    color: var(--oe-clr-card-fg);
+    letter-spacing: 0.1ch;
+    padding: 0.3em;
+    padding-bottom: 0;
+}
+
+.form-field button {
+    padding: 0 0.2em;
+    width: auto !important;
+    margin: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    font-size: 1.2em;
+    padding: 0;
+    opacity: 50%;
+    font-weight: 100;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+    width: 1.4em;
+    height: 1.4em;
+    min-height: 1.4em;
+    max-height: 1.4em;
+    max-width: 1.4em;
+    min-width: 1.4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: transparent;
+    border: none;
+    font-size: 2em;
+    padding: 0 1em;
+    margin-left: 1em;
+}
+
+.checkmark.selected {
+    color: green;
+    opacity: 100%;
+}

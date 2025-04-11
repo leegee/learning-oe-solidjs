@@ -53,13 +53,13 @@ export default function AnswerText(props: AnswerTextProps) {
                         placeholder="Enter answer"
                     />
 
-                    <span
+                    <button
                         onClick={() => handleCheckmarkClick(word)}
                         class={`checkmark ${props.answer === word ? 'selected' : ''}`}
                         title="Select as the correct answer"
                     >
                         {props.answer === word ? '✔' : '◯'}
-                    </span>
+                    </button>
 
                     <button
                         class='remove-button'

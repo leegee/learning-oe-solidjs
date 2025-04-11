@@ -124,6 +124,7 @@ const EditCardModal = (props: EditCardModalProps) => {
 
                     {(props.card! as IAnyCardWithAnswer).answer
                         && props.card.class !== 'writing-blocks'
+                        && props.card.class !== 'multiple-choice'
                         && <TextInput
                             label={`Answer`}
                             value={(props.card as IAnyCardWithAnswer).answer}

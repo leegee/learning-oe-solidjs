@@ -60,7 +60,7 @@ export default function BooleanText(props: BooleanTextProps) {
                             title="Click to mark as correct answer"
                             onClick={() => handleCorrectToggle(index)}
                         >
-                            ✔
+                            {isCorrect ? '✔' : '◯'}
                         </button>
 
                         <button type="button" onClick={() => handleRemoveClick(index)} title="Remove this answer">
