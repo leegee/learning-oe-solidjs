@@ -40,3 +40,4 @@ export function isAnyCardWithAnswer(
 ): card is IAnyCard & { answer: string } {
     return typeof card === 'object' && card !== null && 'answer' in card;
 }
+

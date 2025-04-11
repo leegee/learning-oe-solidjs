@@ -12,6 +12,7 @@ import {
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
+    WritingBlocksCardComponent,
 } from "./cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
@@ -108,18 +109,21 @@ const EditCardModal = (props: EditCardModalProps) => {
             <div class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
                 <section>
                     <h2>Edit Card</h2>
-                    {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
+                    <pre>{JSON.stringify(props.card, null, 4)}</pre>
 
                     {question()
-                        && <TextInput
-                            label={`Question`}
-                            value={question() ?? ''}
-                            onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
-                            placeholder="Option: enter a question"
-                        />
+                        && <section class='question'>
+                            <TextInput
+                                label={`Question`}
+                                value={question() ?? ''}
+                                onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
+                                placeholder="Option: enter a question"
+                            />
+                        </section>
                     }
 
                     {(props.card! as IAnyCardWithAnswer).answer
+                        && props.card.class !== 'writing-blocks'
                         && <TextInput
                             label={`Answer`}
                             value={(props.card as IAnyCardWithAnswer).answer}
