@@ -196,6 +196,7 @@
 
 .card-holder .card.writing-blocks-card {
     background: rgb(173, 180, 70);
+    padding: 1em;
 }
 
 .card-holder .card.blanks-card {
@@ -219,8 +220,10 @@
     top: 0;
 }
 
-.course-overview .bottom-controls {
-    /* top: 0.5em; */
+.course-overview .vertical-controls button,
+.course-overview .horizontal-controls button {
+    border: none;
+    background-color: none !important;
 }
 
 .course-overview .horizontal-controls {

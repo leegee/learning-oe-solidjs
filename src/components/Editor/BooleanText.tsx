@@ -79,11 +79,6 @@ export default function BooleanText(props: BooleanTextProps) {
                 />
 
                 <button
-                    class="checkmark"
-                    title="Click to mark as correct answer"
-                >✔</button>
-
-                <button
                     type="button"
                     onClick={handleAddClick}
                     title="Add this entry"

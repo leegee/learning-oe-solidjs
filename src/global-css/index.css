@@ -71,7 +71,7 @@ a {
 button {
     text-align: left;
     font-size: 125%;
-    border: 1pt solid grey;
+    border: 1pt solid var(--oe-clr-border);
     padding: 0.3em;
     cursor: pointer;
     transition: background-color var(--oe-fade-duration) var(--oe-fade-timing), filter var(--oe-fade-duration) var(--oe-fade-timing);
@@ -81,10 +81,10 @@ button:not([disabled]):hover {
     outline: 1px solid var(--oe-clr-fg);
 }
 
-button:disabled:not(.correct):not(.incorrect) {
+/* button:disabled:not(.correct):not(.incorrect) {
     background-color: #333;
     color: #666;
-}
+} */
 
 button.correct[disabled],
 button.incorrect[disabled] {
