@@ -6,32 +6,31 @@ import './AnswerText.css';
 interface AnswerTextProps {
     list: string[];  // List of strings
     answer: string;  // Correct answer (string)
-    onUpdate: (updatedList: string[], updatedAnswer: string) => void;  // Callback to update the parent component
+    onUpdate: (updatedList: string[], updatedAnswer?: string) => void;  // Callback to update the parent component
 }
 
 export default function AnswerText(props: AnswerTextProps) {
     const [newWord, setNewWord] = createSignal('');
 
-    // Handle input change in the list of answers
-    const handleInputChange = (index: number, newValue: string) => {
+    const handleAnswersChange = (index: number, newValue: string) => {
         const updated = [...props.list];
         updated[index] = newValue;
-        props.onUpdate(updated, props.answer);
+        props.onUpdate(updated, newValue);
     };
 
-    // Handle removing an answer
     const handleRemoveClick = (index: number) => {
         const updated = [...props.list];
         updated.splice(index, 1);
-        props.onUpdate(updated, props.answer);
+        props.onUpdate(updated);
     };
 
-    // Handle adding a new answer
     const handleAddClick = () => {
-        if (!newWord()) return; // Don't add empty answers
+        if (!newWord()) {
+            return;
+        }
         const updated = [...props.list, newWord()];
-        props.onUpdate(updated, props.answer); // Pass updated list and current answer
-        setNewWord(''); // Reset the input
+        props.onUpdate(updated);
+        setNewWord('');
     };
 
     // Handle toggling the correct answer status
@@ -45,17 +44,15 @@ export default function AnswerText(props: AnswerTextProps) {
 
     return (
         <section class="answer-text answer-list">
-            {/* Render each answer in the list */}
-            {JSON.stringify(props.list)}
             {props.list.map((word, index) => (
                 <div class="answer-row" >
                     <TextInput
                         label={`Option ${index + 1}`}
                         value={word}
-                        onInput={(e) => handleInputChange(index, (e.target as HTMLInputElement).value)}
+                        onInput={(e) => handleAnswersChange(index, (e.target as HTMLInputElement).value)}
                         placeholder="Enter answer"
                     />
-                    {/* Checkmark to select the correct answer */}
+
                     <span
                         onClick={() => handleCheckmarkClick(word)}
                         class={`checkmark ${props.answer === word ? 'selected' : ''}`}
@@ -75,7 +72,6 @@ export default function AnswerText(props: AnswerTextProps) {
                 </div>
             ))}
 
-            {/* Input fields for adding a new word */}
             <div class="answer-row add-new">
                 <TextInput
                     label="New Option"
@@ -83,6 +79,7 @@ export default function AnswerText(props: AnswerTextProps) {
                     onInput={(e) => setNewWord((e.target as HTMLInputElement).value)}
                     placeholder="Enter new option"
                 />
+
                 <button
                     type="button"
                     onClick={handleAddClick}

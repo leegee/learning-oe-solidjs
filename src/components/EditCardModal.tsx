@@ -15,6 +15,7 @@ import {
 } from "./cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
+import VocabText from "./Editor/VocabText";
 
 interface EditCardModalProps {
     card: IAnyCard | null;
@@ -89,12 +90,13 @@ const EditCardModal = (props: EditCardModalProps) => {
     function onUpdate(
         callback: Function,
         answerOptions: any,
-        answer: string,
+        answer?: string,
     ): void {
         callback(answerOptions);
-        if (isAnyCardWithAnswer(props.card!)) {
+        if (answer && isAnyCardWithAnswer(props.card!)) {
             setAnswer(answer);
         }
+        // If there is an answer that doesn't match the answerOptions, remove it
     }
 
     if (!props.card) {
@@ -106,7 +108,7 @@ const EditCardModal = (props: EditCardModalProps) => {
             <div class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
                 <section>
                     <h2>Edit Card</h2>
-                    <pre>{JSON.stringify(props.card, null, 4)}</pre>
+                    {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
 
                     {question()
                         && <TextInput
@@ -127,14 +129,17 @@ const EditCardModal = (props: EditCardModalProps) => {
                     }
 
                     {"words" in props.card
-                        && <BooleanText list={words()} onUpdate={(updatedWords) => setWords(updatedWords)} />
+                        && <BooleanText
+                            list={words()}
+                            onUpdate={(...args) => onUpdate(setWords, ...args)}
+                        />
                     }
 
                     {"answers" in props.card
                         && <AnswerText
                             answer={answer()}
                             list={answers()}
-                            onUpdate={(updatedAnswers) => setAnswers(updatedAnswers)}
+                            onUpdate={(...args) => onUpdate(setAnswers, ...args)}
                         />
                     }
 
@@ -145,6 +150,14 @@ const EditCardModal = (props: EditCardModalProps) => {
                             onUpdate={(...args) => onUpdate(setOptions, ...args)}
                         />
                     }
+
+                    {"vocab" in props.card
+                        && <VocabText
+                            list={vocab()}
+                            onUpdate={(...args) => onUpdate(setVocab, ...args)}
+                        />
+                    }
+
                 </section>
 
                 <footer class="modal-actions">
