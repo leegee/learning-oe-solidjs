@@ -18,6 +18,7 @@ export type LessonSummary = {
 
 export interface CourseMetadata {
     courseTitle: string;
+    description?: string;
     language: string;
     targetLanguage: string;
     level: string;
