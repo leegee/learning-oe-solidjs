@@ -139,6 +139,14 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                     </q>
                                 </h2>
                                 <h3>All Lessons and Cards</h3>
+                                <nav class="lesson-pager">
+                                    {lessons().map((_, idx) => (
+                                        <a role='button' class='pager-link button' href={`#lesson-${idx}`}>
+                                            {idx + 1} {_.title}
+                                        </a>
+                                    ))}
+                                </nav>
+
                             </div>
                             <button onClick={toggle}>✕</button>
                         </header>

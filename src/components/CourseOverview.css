@@ -15,17 +15,34 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
-    font-size: 200%;
     margin: 1em;
 }
 
 .course-overview header h2 {
+    font-size: 200%;
+    font-weight: 100 !important;
     font-size: 1em;
     padding-bottom: 0.1em;
 }
 
 .course-overview header h3 {
-    font-size: 60%;
+    font-size: 1em;
+    font-weight: 300;
+}
+
+nav.lesson-pager {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.lesson-pager .pager-link {
+    font-size: 1rem;
+    text-decoration: none;
+    font-weight: 200;
+    display: inline-block;
+    ;
 }
 
 .course-overview section header {
@@ -42,7 +59,6 @@
 
 .course-overview section header h4,
 .course-overview section header h5 {
-    font-size: 60%;
     font-weight: normal;
     font-weight: 200 !important;
     font-weight: normal;
@@ -58,7 +74,8 @@
 
 .card-holder .card h2,
 .card-holder .card h3 {
-    font-size: 200%;
+    font-size: 160%;
+    text-align: center;
 }
 
 .hamburger-menu li .course-overview header button {
@@ -245,7 +262,7 @@
     outline: 0;
 }
 
-.course-overview .card-holder:hover .vertical-controls button:not([disabled]),
-.course-overview .card-holder:hover .horizontal-controls button:not([disabled]) {
+.course-overview .card-holder:hover .vertical-controls>button:not([disabled]),
+.course-overview .card-holder:hover .horizontal-controls>button:not([disabled]) {
     color: var(--oe-clr-fg);
 }

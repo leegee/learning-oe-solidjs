@@ -85,7 +85,7 @@
     margin-bottom: 2em;
 }
 
-.hamburger-menu nav {
+.hamburger-menu>nav {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -95,7 +95,7 @@
     width: 100%;
 }
 
-.hamburger-menu nav li {
+.hamburger-menu>nav li {
     list-style: none;
     margin: 0.3em 0;
 }
