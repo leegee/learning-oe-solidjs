@@ -14,6 +14,7 @@ export interface ICourseOverviewProps {
 export default function CourseOverview(props: ICourseOverviewProps) {
     const [open, setOpen] = createSignal(false);
     const [lessons, setLessons] = createSignal<Lesson[]>(props.lessons);
+    const [courseTitle, setCourseTitle] = createSignal<string>(props.courseMetadata.courseTitle);
     const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
     const STORAGE_KEY = 'oe-lesson-order';
 
@@ -121,10 +122,14 @@ export default function CourseOverview(props: ICourseOverviewProps) {
     // }
     // });
 
+    function sanitize(text: string) {
+        return text.replace(/[\r\n]+/g, "").trim();
+    }
+
     return (
         <>
             <button class="course-overview-button" onClick={toggle}>
-                <small>Show All Cards For This Course, <q>{props.courseMetadata.courseTitle}</q></small>
+                <small>Show All Cards For This Course</small>
             </button>
 
             <Show when={open()}>
@@ -132,7 +137,24 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                     <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
                         <header>
                             <div>
-                                <h2>Course Overview</h2>
+                                <h2>Course Overview:
+                                    <q
+                                        contentEditable
+                                        classList={{ placeholder: courseTitle() === "" }}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") {
+                                                e.preventDefault();
+                                                e.currentTarget.blur();
+                                            }
+                                        }}
+                                        onBlur={(e) => {
+                                            setCourseTitle(sanitize(e.currentTarget.innerText));
+                                        }}
+                                    >
+                                        {courseTitle()}
+                                    </q>
+
+                                </h2>
                                 <h3>All Lessons and Cards</h3>
                             </div>
                             <button onClick={toggle}>✕</button>
