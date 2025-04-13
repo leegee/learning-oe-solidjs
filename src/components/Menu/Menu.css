@@ -109,6 +109,7 @@
 
 .nav-selected-with-highlight>li>button {
     font-size: 1.2em;
+    line-height: 200%;
     font-weight: 100;
     background-color: var(--oe-clr-card-bg);
     display: block;
@@ -118,6 +119,9 @@
     text-align: left;
     text-wrap: nowrap;
     padding: 0.3em 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-selected-with-highlight>li>button:hover {
@@ -125,27 +129,18 @@
     outline: 0;
 }
 
-.nav-selected-with-highlight .course-overview-button {
-    font-size: 1.2em;
-    max-width: 2em;
-    max-height: 2em;
-    border-radius: 50%;
-    overflow: hidden;
-    color: var(--oe-clr-primary-fg2);
-    margin-right: -2em;
-}
-
+/* 
 .nav-selected-with-highlight>li.selected {
-    outline: 1pt solid var(--oe-clr-border);
+    font-weight: 100 !important;
 }
 
 .nav-selected-with-highlight>li.selected>button {
-    font-weight: bolder;
-}
+    font-weight: 100 !important;
+} */
 
 .nav-selected-with-highlight>li.selected>button:first-of-type:before {
     content: '▶ ';
-    opacity: 50%;
+    margin-left: -1em;
     opacity: 50%;
 }
 

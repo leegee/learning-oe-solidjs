@@ -197,7 +197,7 @@ export default function CourseOverview(props: ICourseOverviewProps) {
 
                                                 <div class="horizontal-controls">
                                                     <button
-                                                        title="Move to the left in this lessons"
+                                                        title="Swap with the card on the left"
                                                         disabled={cardIdx === 0}
                                                         onClick={() => moveCard(idx, cardIdx, -1)}
                                                     >
@@ -213,7 +213,7 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                     />
 
                                                     <button
-                                                        title="Move to the right in this lessons"
+                                                        title="Swap with the card to the right"
                                                         disabled={cardIdx === lesson.cards.length - 1}
                                                         onClick={() => moveCard(idx, cardIdx, 1)}
                                                     >
