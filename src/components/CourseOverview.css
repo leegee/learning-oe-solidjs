@@ -100,7 +100,7 @@
     height: 25em;
     overflow: hidden;
     pointer-events: none;
-    padding: 0;
+    padding: 0em 0.6em;
     margin: 0;
 }
 

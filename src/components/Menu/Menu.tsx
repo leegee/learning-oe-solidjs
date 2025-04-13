@@ -1,10 +1,10 @@
-import { createSignal, createEffect, onCleanup } from "solid-js";
+import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
 
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
+const { store, setSelectedCourse } = courseStore;
 import { useConfigContext } from "../../contexts/Config";
 import { t } from "i18next";
-import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 import ResetCourseButtonComponent from "../ResetCourseButton";
 import TitleComponent from "./Title";
 import CourseOverview from "../CourseOverview";
@@ -14,37 +14,37 @@ interface MenuProps {
     title: string;
 }
 
-
 const Menu = (props: MenuProps) => {
     const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
+    const selectedCourseIndex = () => store.selectedCourseIndex;
 
-    createEffect(async () => {
-        const index = await getCourseIndex();
-        setLocalCourseIndex(index);
+    onMount(() => {
+        setLocalCourseIndex(store.selectedCourseIndex);
     });
 
     const setLocalSelectedCourse = (courseIndex: number) => {
-        setLocalCourseIndex(courseIndex);
-        courseStore.setSelectedCourse(courseIndex);
-        setCourseIndex(courseIndex);
-    }
+        setLocalCourseIndex(_ => {
+            setSelectedCourse(courseIndex); // includes setCourseIndex(courseIndex);
+            return courseIndex;
+        });
+    };
 
     const closeMenu = () => {
-        if (getCourseIndex() > -1) {
+        if (selectedCourseIndex() > -1) {
             setIsOpen(false);
         }
     };
 
     const toggleMenu = () => {
-        if (getCourseIndex() > -1) {
+        if (selectedCourseIndex() > -1) {
             setIsOpen(prev => !prev);
         }
     };
 
     createEffect(() => {
-        if (getCourseIndex() === -1) {
+        if (selectedCourseIndex() === -1) {
             setIsOpen(true);
         }
     });
@@ -54,7 +54,7 @@ const Menu = (props: MenuProps) => {
             const handleKeys = (e: KeyboardEvent) => {
                 if (e.key === ' ' || e.key === 'Enter') {
                     setLocalSelectedCourse(localCourseIndex());
-                } if (e.key === 'Escape') {
+                } else if (e.key === 'Escape') {
                     setIsOpen(false);
                 } else if (e.key === 'ArrowDown') {
                     setLocalSelectedCourse(Math.min(localCourseIndex() + 1, config.lessons.length - 1));
@@ -69,8 +69,7 @@ const Menu = (props: MenuProps) => {
     });
 
     createEffect(() => {
-        // Sync the localCourseIndex with the global state when it changes
-        setCourseIndex(localCourseIndex());
+        setSelectedCourse(localCourseIndex());
     });
 
     return (
@@ -86,30 +85,33 @@ const Menu = (props: MenuProps) => {
 
                     <TitleComponent title={props.title} />
 
-                    {getCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
+                    {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                     <nav class="nav-selected-with-highlight">
                         {config.lessons.map((course, index) => (
-                            <li class={localCourseIndex() === index ? 'selected' : ''}>
+                            <li tabIndex={index + 1} class={localCourseIndex() === index ? 'selected' : ''}>
                                 <button onClick={() => setLocalSelectedCourse(index)}>
                                     {course.title}
                                 </button>
+
+                                {localCourseIndex() === index
+                                    && store.selectedCourseIndex === index
+                                    && store.courseMetadata
+                                    && !store.loading
+                                    && <CourseOverview
+                                        lessons={store.lessons}
+                                        courseMetadata={store.courseMetadata}
+                                    />}
+
                             </li>
                         ))}
 
-                        <li>
+                        <li tabIndex={config.lessons.length + 1}>
                             <ResetCourseButtonComponent />
                         </li>
-
-                        {!courseStore.store.loading
-                            && <li>
-                                <CourseOverview lessons={courseStore.store.lessons} courseMetadata={courseStore.store.courseMetadata!} />
-                            </li>
-                        }
                     </nav>
 
                     <footer>
-                        {getCourseIndex() > -1 && <button class='next-button' aria-label="Return to lessons">▶</button>}
                         <small>Version {packageJson.version}</small>
                     </footer>
                 </section>

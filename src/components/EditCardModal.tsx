@@ -115,6 +115,7 @@ const EditCardModal = (props: EditCardModalProps) => {
                     {question()
                         && <section class='question'>
                             <TextInput
+                                multiline={true}
                                 label={`Question`}
                                 value={question() ?? ''}
                                 onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}

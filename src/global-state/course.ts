@@ -52,7 +52,7 @@ export const courseStore = createRoot(() => {
             return;
         }
 
-        console.info("Loading course:", appConfig.lessons[index].fileBasename);
+        console.info("-----------Loading course:", appConfig.lessons[index].fileBasename);
         setStore("loading", true);
 
         try {
@@ -94,7 +94,6 @@ export const courseStore = createRoot(() => {
 
     return {
         store,
-        setStore,
         setSelectedCourse,
         lessonTitles2Indicies,
     };

@@ -12,6 +12,10 @@
     flex-direction: column;
 }
 
+.edit-card-modal.card section {
+    width: 100%;
+}
+
 .edit-card-modal section.question {
     margin-bottom: 1em;
     font-size: 166%;

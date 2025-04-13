@@ -1,3 +1,7 @@
+.form-field {
+    width: 100%;
+}
+
 .form-field label {
     display: flex;
     gap: 0.3em;
@@ -15,6 +19,7 @@
     letter-spacing: 0.1ch;
     padding: 0.3em;
     padding-bottom: 0;
+    width: 100%;
 }
 
 .form-field button {

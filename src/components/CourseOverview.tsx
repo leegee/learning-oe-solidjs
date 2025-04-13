@@ -1,4 +1,4 @@
-import { createSignal, onMount, Show } from "solid-js";
+import { createEffect, createSignal, on, onMount, Show } from "solid-js";
 import Card from "./Card";
 import { type Lesson } from "./Lesson";
 import EditCardModal from "./EditCardModal";
@@ -12,35 +12,33 @@ export interface ICourseOverviewProps {
 }
 
 export default function CourseOverview(props: ICourseOverviewProps) {
-    const [open, setOpen] = createSignal(false);
-    const [lessons, setLessons] = createSignal<Lesson[]>(props.lessons);
+    const [isOpen, setOpen] = createSignal(false);
+    const [lessons, setLessons] = createSignal<Lesson[]>([]);
+    const [courseMetadata, setCourseMetadata] = createSignal<CourseMetadata>({} as CourseMetadata);
     const [courseTitle, setCourseTitle] = createSignal<string>(props.courseMetadata.courseTitle);
     const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
-    const STORAGE_KEY = 'oe-lesson-order';
+    const EDITING_LESSON_STORAGE_KEY = 'oe-lesson-editing';
 
     const toggle = (e: MouseEvent) => {
         e.stopPropagation();
-        setOpen(!open());
+        setOpen(!isOpen());
     };
 
-    onMount(() => {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-            try {
-                setLessons(JSON.parse(saved));
-                console.log('Loaded from storage');
-                return;
-            } catch (err) {
-                console.warn("Failed to parse saved lessons:", err);
+    createEffect(
+        on(
+            () => [props.lessons, props.courseMetadata] as [Lesson[], CourseMetadata],
+            ([lessons, metadata]: [Lesson[], CourseMetadata]) => {
+                setCourseMetadata(metadata);
+                setCourseTitle(metadata.courseTitle);
+                setLessons(lessons);
+                console.log('---set lessons', lessons);
             }
-        }
-        console.log('Set to storage', props.lessons);
-        setLessons(props.lessons);
-    });
+        )
+    );
 
     const persist = (data: Lesson[]) => {
         console.log('persist', data);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        localStorage.setItem(EDITING_LESSON_STORAGE_KEY, JSON.stringify(data));
     };
 
     const cancelEditing = (e: Event) => {
@@ -128,16 +126,14 @@ export default function CourseOverview(props: ICourseOverviewProps) {
 
     return (
         <>
-            <button class="course-overview-button" onClick={toggle}>
-                <small>Show All Cards For This Course</small>
-            </button>
+            <button class="course-overview-button" onClick={toggle}> 🖊️ </button>
 
-            <Show when={open()}>
+            <Show when={isOpen()}>
                 <aside class="modal-bg">
                     <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
                         <header>
                             <div>
-                                <h2>Course Overview:
+                                <h2>Course Overview:&nbsp;
                                     <q
                                         contentEditable
                                         classList={{ placeholder: courseTitle() === "" }}
