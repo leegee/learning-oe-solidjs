@@ -140,9 +140,9 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                 </h2>
                                 <h3>All Lessons and Cards</h3>
                                 <nav class="lesson-pager">
-                                    {lessons().map((_, idx) => (
+                                    {lessons().map((lesson, idx) => (
                                         <a role='button' class='pager-link button' href={`#lesson-${idx}`}>
-                                            {idx + 1} {_.title}
+                                            {idx + 1} {lesson.title}
                                         </a>
                                     ))}
                                 </nav>
@@ -152,8 +152,9 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                         </header>
 
                         <div class="lessons">
-                            {lessons().map((lesson, lessonIdx) => (
-                                <section>
+                            {lessons().map((lesson, idx) => (
+                                <section id={`lesson-${idx}`}>
+                                    {/* <a href={`#lesson-${idx}`} /> */}
 
                                     <header>
                                         <h3>
@@ -161,7 +162,7 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                 value={lesson.title}
                                                 onChange={(newVal) => {
                                                     const updatedLessons = [...lessons()];
-                                                    updatedLessons[lessonIdx] = { ...lesson, title: newVal };
+                                                    updatedLessons[idx] = { ...lesson, title: newVal };
                                                     setLessons(updatedLessons);
                                                     persist(updatedLessons);
                                                 }}
@@ -173,7 +174,7 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                 value={lesson.description || ''}
                                                 onChange={(newVal) => {
                                                     const updatedLessons = [...lessons()];
-                                                    updatedLessons[lessonIdx] = { ...lesson, description: newVal };
+                                                    updatedLessons[idx] = { ...lesson, description: newVal };
                                                     setLessons(updatedLessons);
                                                     persist(updatedLessons);
                                                 }}
@@ -187,8 +188,8 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                 <div class="vertical-controls top-controls">
                                                     <button
                                                         title="Move up to the previous lessons"
-                                                        disabled={lessonIdx === 0}
-                                                        onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
+                                                        disabled={idx === 0}
+                                                        onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
                                                     >
                                                         ↑
                                                     </button>
@@ -198,7 +199,7 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                     <button
                                                         title="Move to the left in this lessons"
                                                         disabled={cardIdx === 0}
-                                                        onClick={() => moveCard(lessonIdx, cardIdx, -1)}
+                                                        onClick={() => moveCard(idx, cardIdx, -1)}
                                                     >
                                                         ←
                                                     </button>
@@ -207,14 +208,14 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                         card={card}
                                                         lesson={lesson}
                                                         ondblclick={() => {
-                                                            setEditingCardInfo({ lessonIdx, cardIdx });
+                                                            setEditingCardInfo({ lessonIdx: idx, cardIdx });
                                                         }}
                                                     />
 
                                                     <button
                                                         title="Move to the right in this lessons"
                                                         disabled={cardIdx === lesson.cards.length - 1}
-                                                        onClick={() => moveCard(lessonIdx, cardIdx, 1)}
+                                                        onClick={() => moveCard(idx, cardIdx, 1)}
                                                     >
                                                         →
                                                     </button>
@@ -223,8 +224,8 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                                 <div class="vertical-controls bottom-controls">
                                                     <button
                                                         title="Move to the next lesson"
-                                                        onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
-                                                        disabled={lessonIdx === lessons().length - 1}
+                                                        onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
+                                                        disabled={idx === lessons().length - 1}
                                                     >
                                                         ↓
                                                     </button>

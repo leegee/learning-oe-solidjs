@@ -16,6 +16,7 @@
     justify-content: space-between;
     align-items: flex-end;
     margin: 1em;
+    padding: 0.3em 0.6em;
 }
 
 .course-overview header h2 {
@@ -34,7 +35,7 @@ nav.lesson-pager {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 0.6em;
 }
 
 .lesson-pager .pager-link {
@@ -42,7 +43,11 @@ nav.lesson-pager {
     text-decoration: none;
     font-weight: 200;
     display: inline-block;
-    ;
+    padding: 4pt;
+}
+
+.lesson-pager .pager-link:hover {
+    outline: 1pt solid var(--oe-clr-border);
 }
 
 .course-overview section header {
@@ -144,6 +149,7 @@ nav.lesson-pager {
 .card-holder h4,
 .card-holder textarea::placeholder {
     color: var(--oe-clr-bg);
+    background-color: unset;
 }
 
 .card-holder .card input {
