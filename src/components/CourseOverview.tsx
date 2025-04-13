@@ -4,6 +4,7 @@ import { type Lesson } from "./Lesson";
 import EditCardModal from "./EditCardModal";
 import { type IAnyCard } from "./cards";
 import { type CourseMetadata } from "../global-state/course";
+import EditableText from "./Editor/EditableText";
 import './CourseOverview.css';
 
 export interface ICourseOverviewProps {
@@ -134,21 +135,11 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                         <header>
                             <div>
                                 <h2>Course Overview:&nbsp;
-                                    <q
-                                        contentEditable
-                                        classList={{ placeholder: courseTitle() === "" }}
-                                        onKeyDown={(e) => {
-                                            if (e.key === "Enter") {
-                                                e.preventDefault();
-                                                e.currentTarget.blur();
-                                            }
-                                        }}
-                                        onBlur={(e) => {
-                                            setCourseTitle(sanitize(e.currentTarget.innerText));
-                                        }}
-                                    >
-                                        {courseTitle()}
-                                    </q>
+                                    <EditableText
+                                        tag="q"
+                                        value={courseTitle()}
+                                        onChange={(newVal) => setCourseTitle(newVal)}
+                                    />
 
                                 </h2>
                                 <h3>All Lessons and Cards</h3>
@@ -159,10 +150,31 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                         <div class="lessons">
                             {lessons().map((lesson, lessonIdx) => (
                                 <section>
+
                                     <header>
-                                        <h4>{lesson.title}</h4>
-                                        <h5>{lesson.description}</h5>
+                                        <EditableText
+                                            tag="h4"
+                                            value={lesson.title}
+                                            onChange={(newVal) => {
+                                                const updatedLessons = [...lessons()];
+                                                updatedLessons[lessonIdx] = { ...lesson, title: newVal };
+                                                setLessons(updatedLessons);
+                                                persist(updatedLessons);
+                                            }}
+                                        />
+
+                                        <EditableText
+                                            tag="h5"
+                                            value={lesson.description || ''}
+                                            onChange={(newVal) => {
+                                                const updatedLessons = [...lessons()];
+                                                updatedLessons[lessonIdx] = { ...lesson, description: newVal };
+                                                setLessons(updatedLessons);
+                                                persist(updatedLessons);
+                                            }}
+                                        />
                                     </header>
+
                                     <div class="cards">
                                         {lesson.cards.map((card, cardIdx) => (
                                             <div class="card-holder" >
