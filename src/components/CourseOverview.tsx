@@ -2,10 +2,16 @@ import { createSignal, onMount, Show } from "solid-js";
 import Card from "./Card";
 import { type Lesson } from "./Lesson";
 import EditCardModal from "./EditCardModal";
+import { type IAnyCard } from "./cards";
+import { type CourseMetadata } from "../global-state/course";
 import './CourseOverview.css';
-import { IAnyCard } from "./cards";
 
-export default function CourseOverview(props: { lessons: Lesson[] }) {
+export interface ICourseOverviewProps {
+    courseMetadata: CourseMetadata;
+    lessons: Lesson[];
+}
+
+export default function CourseOverview(props: ICourseOverviewProps) {
     const [open, setOpen] = createSignal(false);
     const [lessons, setLessons] = createSignal<Lesson[]>(props.lessons);
     const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
@@ -105,10 +111,20 @@ export default function CourseOverview(props: { lessons: Lesson[] }) {
         persist(data);
     };
 
+    // createEffect(() => {
+    // if (isOpen()) {
+    // const handleKeys = (e: KeyboardEvent) => {
+    // };
+    // 
+    // window.addEventListener('keydown', handleKeys);
+    // onCleanup(() => window.removeEventListener('keydown', handleKeys));
+    // }
+    // });
+
     return (
         <>
             <button class="course-overview-button" onClick={toggle}>
-                <small>Show All Cards For This Course</small>
+                <small>Show All Cards For This Course, <q>{props.courseMetadata.courseTitle}</q></small>
             </button>
 
             <Show when={open()}>

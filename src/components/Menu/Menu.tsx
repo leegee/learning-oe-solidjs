@@ -28,6 +28,7 @@ const Menu = (props: MenuProps) => {
     const setLocalSelectedCourse = (courseIndex: number) => {
         setLocalCourseIndex(courseIndex);
         courseStore.setSelectedCourse(courseIndex);
+        setCourseIndex(courseIndex);
     }
 
     const closeMenu = () => {
@@ -56,17 +57,9 @@ const Menu = (props: MenuProps) => {
                 } if (e.key === 'Escape') {
                     setIsOpen(false);
                 } else if (e.key === 'ArrowDown') {
-                    setLocalCourseIndex(prev => {
-                        const newValue = Math.min(prev + 1, config.lessons.length - 1);
-                        setCourseIndex(newValue);
-                        return newValue;
-                    });
+                    setLocalSelectedCourse(Math.min(localCourseIndex() + 1, config.lessons.length - 1));
                 } else if (e.key === 'ArrowUp') {
-                    setLocalCourseIndex(prev => {
-                        const newValue = Math.max(prev - 1, 0);
-                        setCourseIndex(newValue);
-                        return newValue;
-                    });
+                    setLocalSelectedCourse(Math.max(localCourseIndex() - 1, 0));
                 }
             };
 
@@ -107,9 +100,12 @@ const Menu = (props: MenuProps) => {
                         <li>
                             <ResetCourseButtonComponent />
                         </li>
-                        <li>
-                            <CourseOverview lessons={courseStore.store.lessons} />
-                        </li>
+
+                        {!courseStore.store.loading
+                            && <li>
+                                <CourseOverview lessons={courseStore.store.lessons} courseMetadata={courseStore.store.courseMetadata!} />
+                            </li>
+                        }
                     </nav>
 
                     <footer>

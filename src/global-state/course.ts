@@ -42,7 +42,10 @@ export const courseStore = createRoot(() => {
     createEffect(async () => {
         const index = store.selectedCourseIndex;
 
-        if (index === -1) return;
+        if (index === -1) {
+            return;
+        }
+
         if (index >= appConfig.lessons.length) {
             console.warn("Course index out of range");
             return;
