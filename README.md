@@ -40,7 +40,7 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## TODO
 
-* Counts.
+Now this includes an editor, I ought to introduce a router and views.
 
 ## Thanks:
 
