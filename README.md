@@ -12,7 +12,7 @@ Configurable quiz cards for language learning or other quizes
     1. match vocabulary
     1. translate a sentence
     1.  create a sentance from a list of words
-* Easy to create card-based quiz lessons - [JSON](lessons.json) with [JSON Scheme](./lessons.schema.json)
+* Easy to create card-based quiz lessons - WYSIWYG editor, [JSON](lessons.json) format with [JSON Scheme](./lessons.schema.json)
 * Easy to create localisation and configuration in [JSON](app.config.json)
 * Easy dev and builds with Vite and Typescript
 
