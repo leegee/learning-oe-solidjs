@@ -1,35 +1,43 @@
-// EditableText
-import { JSX } from "solid-js";
+import { createEffect } from "solid-js";
 
 interface EditableTextProps {
     value: string;
     placeholder?: string;
     onChange: (newValue: string) => void;
-    tag?: keyof JSX.IntrinsicElements; // e.g., "h2", "h4", "h5"
     class?: string;
 }
 
-export default function EditableText(props: EditableTextProps) {
-    const Tag = props.tag || "span";
+export default function EditableText(
+    props: EditableTextProps
+) {
+    let el: HTMLElement;
 
     const sanitize = (text: string) => text.replace(/[\r\n]+/g, "").trim();
 
+    createEffect(() => {
+        if (el && document.activeElement !== el) {
+            el.innerText = props.value;
+        }
+    });
+
     return (
-        <Tag
+        <span
+            ref={(e: HTMLElement) => (el = e)}
             contentEditable
+            aria-placeholder={props.placeholder}
             class={`${props.class ?? ""} ${props.value.trim() === "" ? "placeholder" : ""}`}
-            onKeyDown={(e) => {
+            onKeyDown={(e: KeyboardEvent) => {
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    e.currentTarget.blur();
+                    (e.currentTarget as HTMLElement).blur();
                 }
             }}
             onBlur={(e) => {
-                const newText = sanitize(e.currentTarget.innerText);
-                props.onChange(newText);
+                const newText = sanitize((e.currentTarget as HTMLElement).innerText);
+                if (newText !== props.value) {
+                    props.onChange(newText);
+                }
             }}
-        >
-            {props.value}
-        </Tag>
+        />
     );
 }

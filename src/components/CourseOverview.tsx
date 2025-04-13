@@ -1,4 +1,4 @@
-import { createEffect, createSignal, on, onMount, Show } from "solid-js";
+import { createEffect, createSignal, on, Show } from "solid-js";
 import Card from "./Card";
 import { type Lesson } from "./Lesson";
 import EditCardModal from "./EditCardModal";
@@ -121,10 +121,6 @@ export default function CourseOverview(props: ICourseOverviewProps) {
     // }
     // });
 
-    function sanitize(text: string) {
-        return text.replace(/[\r\n]+/g, "").trim();
-    }
-
     return (
         <>
             <button class="course-overview-button" onClick={toggle}> 🖊️ </button>
@@ -135,12 +131,12 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                         <header>
                             <div>
                                 <h2>Course Overview:&nbsp;
-                                    <EditableText
-                                        tag="q"
-                                        value={courseTitle()}
-                                        onChange={(newVal) => setCourseTitle(newVal)}
-                                    />
-
+                                    <q>
+                                        <EditableText
+                                            value={courseTitle()}
+                                            onChange={(newVal) => setCourseTitle(newVal)}
+                                        />
+                                    </q>
                                 </h2>
                                 <h3>All Lessons and Cards</h3>
                             </div>
@@ -152,27 +148,29 @@ export default function CourseOverview(props: ICourseOverviewProps) {
                                 <section>
 
                                     <header>
-                                        <EditableText
-                                            tag="h4"
-                                            value={lesson.title}
-                                            onChange={(newVal) => {
-                                                const updatedLessons = [...lessons()];
-                                                updatedLessons[lessonIdx] = { ...lesson, title: newVal };
-                                                setLessons(updatedLessons);
-                                                persist(updatedLessons);
-                                            }}
-                                        />
+                                        <h3>
+                                            <EditableText
+                                                value={lesson.title}
+                                                onChange={(newVal) => {
+                                                    const updatedLessons = [...lessons()];
+                                                    updatedLessons[lessonIdx] = { ...lesson, title: newVal };
+                                                    setLessons(updatedLessons);
+                                                    persist(updatedLessons);
+                                                }}
+                                            />
+                                        </h3>
 
-                                        <EditableText
-                                            tag="h5"
-                                            value={lesson.description || ''}
-                                            onChange={(newVal) => {
-                                                const updatedLessons = [...lessons()];
-                                                updatedLessons[lessonIdx] = { ...lesson, description: newVal };
-                                                setLessons(updatedLessons);
-                                                persist(updatedLessons);
-                                            }}
-                                        />
+                                        <h4>
+                                            <EditableText
+                                                value={lesson.description || ''}
+                                                onChange={(newVal) => {
+                                                    const updatedLessons = [...lessons()];
+                                                    updatedLessons[lessonIdx] = { ...lesson, description: newVal };
+                                                    setLessons(updatedLessons);
+                                                    persist(updatedLessons);
+                                                }}
+                                            />
+                                        </h4>
                                     </header>
 
                                     <div class="cards">
