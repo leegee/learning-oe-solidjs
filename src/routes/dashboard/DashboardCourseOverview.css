@@ -1,6 +1,6 @@
 /* CourseOverview.css */
 .modal-bg {
-    background-color: red;
+    background-color: var(--oe-clr-bg);
     ;
 }
 
