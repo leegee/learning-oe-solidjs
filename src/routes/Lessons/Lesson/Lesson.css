@@ -25,13 +25,14 @@
     font-style: normal;
 }
 
-.lesson h2 .close-button {
+.lesson .close-button {
     float: right;
     text-align: center;
-    font-size: 2em;
+    font-size: 1.8em;
     padding: 1pt 4pt;
     border-radius: 50%;
     margin: 0;
+    margin-right: -0.3em;
     border: none;
     width: 1em;
     height: 1em;
@@ -40,11 +41,11 @@
     justify-content: center;
 }
 
-.lesson h2 .close-button:hover {
+.lesson .close-button:hover {
     background-color: var(--oe-clr-fg);
     color: var(--oe-clr-bg);
 }
 
-.lesson h2 .close-button::after {
+.lesson .close-button::after {
     content: '×';
 }
