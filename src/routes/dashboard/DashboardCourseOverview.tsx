@@ -1,255 +1,173 @@
-import { createEffect, createSignal, on, Show } from "solid-js";
-import Card from "../Lessons/Card";
-import { type Lesson } from "../Lessons/Lesson";
-import EditCardModal from "./details/EditCardModal";
-import { type IAnyCard } from "../../components/cards";
-import { type CourseMetadata } from "../../global-state/course";
+import { createEffect, createSignal, Show } from "solid-js";
+import { courseStore } from "../../global-state/course";
 import EditableText from "./details/Editor/EditableText";
-import './DashboardCourseOverview.css';
+import Card from "../Lessons/Card";
+import EditCardModal from "./details/EditCardModal";
+import { Lesson } from "../Lessons/Lesson";
 
-export interface ICourseOverviewProps {
-    courseMetadata: CourseMetadata;
-    lessons: Lesson[];
-}
-
-export default function DashboardCourseOverview(props: ICourseOverviewProps) {
-    const [isOpen, setOpen] = createSignal(false);
-    const [lessons, setLessons] = createSignal<Lesson[]>([]);
-    const [, setCourseMetadata] = createSignal<CourseMetadata>({} as CourseMetadata);
-    const [courseTitle, setCourseTitle] = createSignal<string>('');
+export default function DashboardCourseOverview() {
     const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
-    const EDITING_LESSON_STORAGE_KEY = 'oe-lesson-editing';
+    const [lessons, setLessons] = createSignal<Lesson[]>([]);
+    const [courseTitle, setCourseTitle] = createSignal("");
+    const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
-    const toggle = (e: MouseEvent) => {
-        e.stopPropagation();
-        setOpen(!isOpen());
-    };
+    createEffect(() => {
+        const { store } = courseStore;
+        const { lessons, courseMetadata } = store;
 
-    createEffect(
-        on(
-            () => [props.lessons, props.courseMetadata] as [Lesson[], CourseMetadata],
-            ([lessons, metadata]: [Lesson[], CourseMetadata]) => {
-                if (metadata) {
-                    setCourseMetadata(metadata);
-                    setCourseTitle(metadata.courseTitle);
-                    setLessons(lessons);
-                    console.log('---set lessons', lessons);
-                }
-            }
-        )
-    );
+        if (courseMetadata) {
+            setLessons(lessons);
+            setCourseTitle(courseMetadata.courseTitle);
+            console.log("---set lessons", lessons);
+        }
+    });
 
-    const persist = (data: Lesson[]) => {
-        console.log('persist', data);
+    const persist = (data: any) => {
         localStorage.setItem(EDITING_LESSON_STORAGE_KEY, JSON.stringify(data));
     };
 
+    const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
+        const updatedLessons = [...lessons()];
+        const lesson = updatedLessons[lessonIdx];
+        const card = lesson.cards[cardIdx];
+
+        const newCardIdx = cardIdx + direction;
+        if (newCardIdx >= 0 && newCardIdx < lesson.cards.length) {
+            lesson.cards.splice(cardIdx, 1);
+            lesson.cards.splice(newCardIdx, 0, card);
+            setLessons(updatedLessons);
+            persist(updatedLessons);
+        }
+    };
+
+    const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
+        const updatedLessons = [...lessons()];
+        const lesson = updatedLessons[lessonIdx];
+        const card = lesson.cards[cardIdx];
+
+        const newLessonIdx = lessonIdx + direction;
+        if (newLessonIdx >= 0 && newLessonIdx < updatedLessons.length) {
+            lesson.cards.splice(cardIdx, 1);
+            updatedLessons[newLessonIdx].cards.push(card);
+            setLessons(updatedLessons);
+            persist(updatedLessons);
+        }
+    };
+
     const cancelEditing = (e: Event) => {
-        e.stopPropagation();
+        e.preventDefault();
         setEditingCardInfo(null);
-    }
-
-    const moveCard = (lessonIdx: number, cardIdx: number, direction: 1 | -1) => {
-        const currentLessons = [...lessons()];
-        const sourceLesson = currentLessons[lessonIdx];
-        const cardToMove = sourceLesson.cards[cardIdx];
-
-        const targetCardIdx = cardIdx + direction;
-
-        if (targetCardIdx >= 0 && targetCardIdx < sourceLesson.cards.length) {
-            // Intra-lesson move
-            const updatedCards = [...sourceLesson.cards];
-            [updatedCards[cardIdx], updatedCards[targetCardIdx]] = [updatedCards[targetCardIdx], updatedCards[cardIdx]];
-            currentLessons[lessonIdx] = { ...sourceLesson, cards: updatedCards };
-        } else {
-            // Inter-lesson move
-            const targetLessonIdx = lessonIdx + direction;
-            if (targetLessonIdx < 0 || targetLessonIdx >= currentLessons.length) return;
-
-            const targetLesson = currentLessons[targetLessonIdx];
-            const sourceCards = [...sourceLesson.cards];
-            const targetCards = [...targetLesson.cards];
-
-            sourceCards.splice(cardIdx, 1);
-
-            if (direction === 1) {
-                targetCards.unshift(cardToMove); // insert at beginning
-            } else {
-                targetCards.push(cardToMove); // insert at end
-            }
-
-            currentLessons[lessonIdx] = { ...sourceLesson, cards: sourceCards };
-            currentLessons[targetLessonIdx] = { ...targetLesson, cards: targetCards };
-        }
-
-        setLessons(currentLessons);
-        persist(currentLessons);
     };
-
-    const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: 1 | -1) => {
-        const data = [...lessons()];
-        const sourceLesson = data[lessonIdx];
-        const targetLessonIdx = lessonIdx + direction;
-
-        if (targetLessonIdx < 0 || targetLessonIdx >= data.length || !sourceLesson.cards[cardIdx]) return;
-
-        const card = sourceLesson.cards[cardIdx];
-        const newSourceCards = [...sourceLesson.cards];
-        newSourceCards.splice(cardIdx, 1);
-
-        const targetLesson = data[targetLessonIdx];
-        const newTargetCards = [...targetLesson.cards];
-
-        if (direction === 1) {
-            newTargetCards.unshift(card);
-        } else {
-            newTargetCards.push(card);
-        }
-
-        data[lessonIdx] = { ...sourceLesson, cards: newSourceCards };
-        data[targetLessonIdx] = { ...targetLesson, cards: newTargetCards };
-
-        setLessons(data);
-        persist(data);
-    };
-
-    // createEffect(() => {
-    // if (isOpen()) {
-    // const handleKeys = (e: KeyboardEvent) => {
-    // };
-    // 
-    // window.addEventListener('keydown', handleKeys);
-    // onCleanup(() => window.removeEventListener('keydown', handleKeys));
-    // }
-    // });
 
     return (
         <>
-            <button class="course-overview-button" onClick={toggle}> 🖊️ </button>
+            <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+                <header>
+                    <h2>
+                        Course Overview:&nbsp;
+                        <q>
+                            <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
+                        </q>
+                    </h2>
+                    <h3>All Lessons and Cards</h3>
+                    <nav class="lesson-pager">
+                        {lessons().map((lesson, idx) => (
+                            <a role="button" class="pager-link button" href={`#lesson-${idx}`}>
+                                {idx + 1} {lesson.title}
+                            </a>
+                        ))}
+                    </nav>
+                </header>
 
-            <Show when={isOpen()}>
-                <aside class="modal-bg">
-                    <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-                        <header>
-                            <div>
-                                <h2>Course Overview:&nbsp;
-                                    <q>
-                                        <EditableText
-                                            value={courseTitle()}
-                                            onChange={(newVal) => setCourseTitle(newVal)}
-                                        />
-                                    </q>
-                                </h2>
-                                <h3>All Lessons and Cards</h3>
-                                <nav class="lesson-pager">
-                                    {lessons().map((lesson, idx) => (
-                                        <a role='button' class='pager-link button' href={`#lesson-${idx}`}>
-                                            {idx + 1} {lesson.title}
-                                        </a>
-                                    ))}
-                                </nav>
+                <div class="lessons">
+                    {lessons().map((lesson, idx) => (
+                        <section id={`lesson-${idx}`}>
+                            <header>
+                                <h3>
+                                    <EditableText
+                                        value={lesson.title}
+                                        onChange={(newVal) => {
+                                            const updatedLessons = [...lessons()];
+                                            updatedLessons[idx] = { ...lesson, title: newVal };
+                                            setLessons(updatedLessons);
+                                            persist(updatedLessons);
+                                        }}
+                                    />
+                                </h3>
 
-                            </div>
-                            <button onClick={toggle}>✕</button>
-                        </header>
+                                <h4>
+                                    <EditableText
+                                        value={lesson.description || ""}
+                                        onChange={(newVal) => {
+                                            const updatedLessons = [...lessons()];
+                                            updatedLessons[idx] = { ...lesson, description: newVal };
+                                            setLessons(updatedLessons);
+                                            persist(updatedLessons);
+                                        }}
+                                    />
+                                </h4>
+                            </header>
 
-                        <div class="lessons">
-                            {lessons().map((lesson, idx) => (
-                                <section id={`lesson-${idx}`}>
-                                    {/* <a href={`#lesson-${idx}`} /> */}
+                            <div class="cards">
+                                {lesson.cards.map((card, cardIdx) => (
+                                    <div class="card-holder">
+                                        <div class="vertical-controls top-controls">
+                                            <button
+                                                title="Move up to the previous lessons"
+                                                disabled={idx === 0}
+                                                onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
+                                            >
+                                                ↑
+                                            </button>
+                                        </div>
 
-                                    <header>
-                                        <h3>
-                                            <EditableText
-                                                value={lesson.title}
-                                                onChange={(newVal) => {
-                                                    const updatedLessons = [...lessons()];
-                                                    updatedLessons[idx] = { ...lesson, title: newVal };
-                                                    setLessons(updatedLessons);
-                                                    persist(updatedLessons);
+                                        <div class="horizontal-controls">
+                                            <button
+                                                title="Swap with the card on the left"
+                                                disabled={cardIdx === 0}
+                                                onClick={() => moveCard(idx, cardIdx, -1)}
+                                            >
+                                                ←
+                                            </button>
+
+                                            <Card
+                                                card={card}
+                                                lesson={lesson}
+                                                ondblclick={() => {
+                                                    setEditingCardInfo({ lessonIdx: idx, cardIdx });
                                                 }}
                                             />
-                                        </h3>
 
-                                        <h4>
-                                            <EditableText
-                                                value={lesson.description || ''}
-                                                onChange={(newVal) => {
-                                                    const updatedLessons = [...lessons()];
-                                                    updatedLessons[idx] = { ...lesson, description: newVal };
-                                                    setLessons(updatedLessons);
-                                                    persist(updatedLessons);
-                                                }}
-                                            />
-                                        </h4>
-                                    </header>
+                                            <button
+                                                title="Swap with the card to the right"
+                                                disabled={cardIdx === lesson.cards.length - 1}
+                                                onClick={() => moveCard(idx, cardIdx, 1)}
+                                            >
+                                                →
+                                            </button>
+                                        </div>
 
-                                    <div class="cards">
-                                        {lesson.cards.map((card, cardIdx) => (
-                                            <div class="card-holder" >
-                                                <div class="vertical-controls top-controls">
-                                                    <button
-                                                        title="Move up to the previous lessons"
-                                                        disabled={idx === 0}
-                                                        onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
-                                                    >
-                                                        ↑
-                                                    </button>
-                                                </div>
-
-                                                <div class="horizontal-controls">
-                                                    <button
-                                                        title="Swap with the card on the left"
-                                                        disabled={cardIdx === 0}
-                                                        onClick={() => moveCard(idx, cardIdx, -1)}
-                                                    >
-                                                        ←
-                                                    </button>
-
-                                                    <Card
-                                                        card={card}
-                                                        lesson={lesson}
-                                                        ondblclick={() => {
-                                                            setEditingCardInfo({ lessonIdx: idx, cardIdx });
-                                                        }}
-                                                    />
-
-                                                    <button
-                                                        title="Swap with the card to the right"
-                                                        disabled={cardIdx === lesson.cards.length - 1}
-                                                        onClick={() => moveCard(idx, cardIdx, 1)}
-                                                    >
-                                                        →
-                                                    </button>
-                                                </div>
-
-                                                <div class="vertical-controls bottom-controls">
-                                                    <button
-                                                        title="Move to the next lesson"
-                                                        onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
-                                                        disabled={idx === lessons().length - 1}
-                                                    >
-                                                        ↓
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        ))}
+                                        <div class="vertical-controls bottom-controls">
+                                            <button
+                                                title="Move to the next lesson"
+                                                onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
+                                                disabled={idx === lessons().length - 1}
+                                            >
+                                                ↓
+                                            </button>
+                                        </div>
                                     </div>
-                                </section>
-                            ))}
-                        </div>
-                    </article>
-                </aside>
-            </Show>
+                                ))}
+                            </div>
+                        </section>
+                    ))}
+                </div>
+            </article>
 
             <Show when={editingCardInfo()}>
                 <EditCardModal
-                    card={lessons()[
-                        editingCardInfo()!.lessonIdx
-                    ].cards[
-                        editingCardInfo()!.cardIdx
-                    ]}
-                    onSave={(updatedCard: IAnyCard) => {
+                    card={lessons()[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx]}
+                    onSave={(updatedCard: any) => {
                         const data = [...lessons()];
                         data[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx] = updatedCard;
                         setLessons(data);

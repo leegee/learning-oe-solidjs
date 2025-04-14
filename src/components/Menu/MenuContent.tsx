@@ -3,14 +3,17 @@ import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/Config";
-import { t } from "i18next";
 import ResetCourseButtonComponent from "../../routes/Lessons/ResetCourseButton";
 import TitleComponent from "./Title";
-import DashboardCourseOverview from "../../routes/dashboard";
 import './Menu.css';
+import { useNavigate } from "@solidjs/router";
+import CourseOverviewButton from "../../routes/dashboard/CourseOverviewButton";
+import { useI18n } from "../../contexts/I18nProvider";
 
 
 const MenuContent = () => {
+    const { t } = useI18n();
+    const navigate = useNavigate();
     const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
@@ -26,6 +29,7 @@ const MenuContent = () => {
             setSelectedCourse(courseIndex);
             return courseIndex;
         });
+        navigate('/lesson');
     };
 
     createEffect(() => {
@@ -59,24 +63,22 @@ const MenuContent = () => {
         <aside aria-roledescription="Toggle menu" class="menu-container">
             <div class={`hamburger-menu`}>
                 <section class='card'>
-                    <div class="close-menu-button">✕</div>
                     <TitleComponent title={config.appTitle} />
+
                     {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
-                    <nav class="nav-selected-with-highlight">
+                    <nav class="course-menu">
                         {config.lessons.map((course, index) => (
                             <li tabIndex={index + 1} class={localCourseIndex() === index ? 'selected' : ''}>
                                 <button onClick={() => setLocalSelectedCourse(index)}>
                                     {course.title}
                                 </button>
+
                                 {localCourseIndex() === index &&
                                     store.selectedCourseIndex === index &&
                                     store.courseMetadata &&
                                     !store.loading && (
-                                        <DashboardCourseOverview
-                                            lessons={store.lessons}
-                                            courseMetadata={store.courseMetadata}
-                                        />
+                                        <CourseOverviewButton />
                                     )}
                             </li>
                         ))}

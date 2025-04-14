@@ -1,6 +1,6 @@
-import { createSignal, createEffect } from 'solid-js';
-import { t } from '../../lib/i18n';
 import './ActionButton.css';
+import { createSignal, createEffect } from 'solid-js';
+import { useI18n } from '../../contexts/I18nProvider';
 
 interface ButtonProps {
     isCorrect: boolean | null; // null=not yet answered
@@ -10,7 +10,7 @@ interface ButtonProps {
 }
 
 const ActionButton = (props: ButtonProps) => {
-    // Track if the answer has been checked or not
+    const { t } = useI18n();
     const [hasChecked, setHasChecked] = createSignal(false);
 
     createEffect(() => {

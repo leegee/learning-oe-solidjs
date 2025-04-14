@@ -1,11 +1,11 @@
+import './VocabMatch.css';
 import { createSignal, createEffect, For } from 'solid-js';
 import { useConfigContext } from '../../../contexts/Config';
-import { t } from '../../../lib/i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../../ActionButton/ActionButton.tsx';
-import './VocabMatch.css';
+import { useI18n } from '../../../contexts/I18nProvider.tsx';
 
 export interface IVocabMatchCard extends IBaseCard {
     class: 'vocab';
@@ -33,6 +33,7 @@ interface ITableRow {
 
 
 const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
+    const { t } = useI18n();
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]);
     const [tableData, setTableData] = createSignal<ITableRow[]>([]);

@@ -1,6 +1,6 @@
+import './Lesson.css';
 import { createSignal, onCleanup, createMemo } from 'solid-js';
 import { useConfirm } from "../../../contexts/Confirm";
-import { t } from '../../../lib/i18n';
 import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
 import {
@@ -11,7 +11,7 @@ import {
     type IWritingBlocksCard,
     type IWritingCard
 } from '../../../components/cards';
-import './Lesson.css';
+import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface Lesson {
     title: string;
@@ -27,6 +27,7 @@ export interface ILessonProps {
 }
 
 const LessonComponent = (props: ILessonProps) => {
+    const { t } = useI18n();
     const { showConfirm } = useConfirm();
     const [lessonStack, setLessonStack] = createSignal(props.lesson.cards);
     const currentCard = createMemo(() => lessonStack()[0] ?? null);

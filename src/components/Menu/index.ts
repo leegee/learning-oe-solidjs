@@ -1,2 +1,2 @@
-export * from './MenuToggle';
-export { default } from './MenuToggle';
+export * from './MenuToggleButton';
+export { default } from './MenuToggleButton';

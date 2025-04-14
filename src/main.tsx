@@ -1,9 +1,8 @@
+import "./global-css/index.css";
 import { createRoot } from 'solid-js';
 import { render } from "solid-js/web";
-import App from "./App";
 import { type Config, loadConfig } from './lib/config';
-import "./lib/i18n";
-import "./global-css/index.css";
+import App from "./App";
 
 const initializeAppConfig = async () => {
   try {

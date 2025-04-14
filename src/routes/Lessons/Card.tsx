@@ -1,7 +1,5 @@
 import { Switch, Match, JSX } from "solid-js";
-import { t } from "../../lib/i18n";
 import {
-    type IBaseCard,
     type IBlanksCard,
     type IDynamicVocabCard,
     type IMultipleChoiceCard,
@@ -18,6 +16,7 @@ import {
 } from '../../components/cards';
 
 import { type Lesson } from "./Lesson";
+import { useI18n } from "../../contexts/I18nProvider";
 
 type Props = {
     card: IAnyCard | null;
@@ -29,6 +28,7 @@ type Props = {
 };
 
 export default function Card(props: Props) {
+    const { t } = useI18n();
     return (
         <div ondblclick={props.ondblclick}>
             <Switch fallback={<p>Unknown lesson card...</p>}>

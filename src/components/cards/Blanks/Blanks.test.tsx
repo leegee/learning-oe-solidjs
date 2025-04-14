@@ -1,11 +1,7 @@
 import { screen, fireEvent, waitFor } from 'solid-testing-library';
 import BlanksCardComponent, { IBlanksCardProps } from './Blanks';
-import { t } from '../../../lib/i18n.ts';
 import { renderTestElement } from '../../../../jest.setup.tsx';
-
-jest.mock("../../../lib/i18n", () => ({
-    t: (key: string) => key,
-}));
+import { MockT as t } from '../../../../jest.setup.tsx';
 
 describe('BlanksCardComponent', () => {
     let props: IBlanksCardProps;

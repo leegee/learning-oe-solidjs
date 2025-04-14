@@ -1,7 +1,7 @@
-import { JSX } from 'solid-js';
-import { t } from '../../../lib/i18n';
-import ResetCourseButtonComponent from '../ResetCourseButton';
 import './CompletedAllLessons.css';
+import { JSX } from 'solid-js';
+import ResetCourseButtonComponent from '../ResetCourseButton';
+import { useI18n } from '../../../contexts/I18nProvider';
 
 interface CompletedAllLessonsProps {
     totalLessons: number;
@@ -9,6 +9,7 @@ interface CompletedAllLessonsProps {
 }
 
 const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
+    const { t } = useI18n();
     // todo 
     return (
         <>

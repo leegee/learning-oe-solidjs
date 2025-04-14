@@ -18,10 +18,6 @@ jest.mock('../../../components/cards', () => ({
     BlanksCardComponent: jest.fn(),
 }));
 
-jest.mock('../../../lib/i18n', () => ({
-    t: jest.fn().mockImplementation((key: string) => key),
-}));
-
 describe('LessonComponent', () => {
     const lesson: Lesson = {
         title: 'Test Lesson',

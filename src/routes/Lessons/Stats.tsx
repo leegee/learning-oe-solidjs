@@ -1,9 +1,10 @@
-import { createSignal, createEffect } from 'solid-js';
-import { t } from '../../lib/i18n';
-import * as state from "../../global-state/lessons";
 import './Stats.css';
+import { createSignal, createEffect } from 'solid-js';
+import * as state from "../../global-state/lessons";
+import { useI18n } from '../../contexts/I18nProvider';
 
 const Stats = () => {
+    const { t } = useI18n();
     const [totalCorrectAnswers, setTotalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());
     const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnswers());
     const [totalQuestionsAnswered, setTotalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());

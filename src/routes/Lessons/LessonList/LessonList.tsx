@@ -1,5 +1,4 @@
 import { For } from 'solid-js';
-// import { t } from '../../lib/i18n';
 import { type CourseMetadata, type LessonSummary } from "../../../global-state/course";
 import './LessonList.css';
 

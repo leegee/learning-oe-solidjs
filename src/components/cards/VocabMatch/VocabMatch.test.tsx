@@ -3,10 +3,6 @@ import { shuffleArray } from '../../../lib/shuffle-array';
 import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
 import { renderTestElement } from '../../../../jest.setup';
 
-jest.mock('../../../lib/i18n', () => ({
-    t: jest.fn().mockImplementation((key: string) => key),
-}));
-
 jest.mock('../../../lib/shuffle-array.ts', () => ({
     shuffleArray: jest.fn(),
 }));

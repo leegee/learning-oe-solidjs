@@ -1,12 +1,12 @@
 import { For } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 
-import { t } from 'i18next';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import { type IBaseCard } from '../BaseCard.type';
 import ActionButton from '../../ActionButton';
 import './MultipleChoice.css';
+import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface IMultipleChoiceCard extends IBaseCard {
     class: 'multiple-choice';
@@ -22,6 +22,7 @@ export interface IMultipleChoiceCardProps {
 }
 
 const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
+    const { t } = useI18n();
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
     const [hasChecked, setHasChecked] = createSignal<boolean>(false);

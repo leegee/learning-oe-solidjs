@@ -7,8 +7,8 @@ interface IConfigContext {
 }
 
 interface IConfigProviderProps {
-    children: JSX.Element;
     config: Config;
+    children: JSX.Element;
 }
 
 const ConfigContext = createContext<IConfigContext | undefined>(undefined);

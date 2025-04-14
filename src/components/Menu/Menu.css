@@ -1,8 +1,3 @@
-:root {
-    --oe-hamburber-right-padding: 0;
-}
-
-.close-menu-button,
 .hamburger-button {
     border: none;
     cursor: pointer;
@@ -12,16 +7,14 @@
     font-weight: normal;
     opacity: 66%;
     color: var(--oe-clr-fg);
-}
-
-.hamburger-button {
-    margin-right: var(--oe-hamburber-right-padding);
-}
-
-.close-menu-button {
-    position: absolute;
-    top: -2pt;
-    right: var(--oe-hamburber-right-padding);
+    border-radius: 50%;
+    min-width: 1em;
+    min-height: 1em;
+    max-width: 1em;
+    max-height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .close-menu-button:hover,
@@ -68,7 +61,7 @@
     margin-bottom: 2em;
 }
 
-.hamburger-menu>nav {
+.course-menu {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -78,19 +71,19 @@
     width: 100%;
 }
 
-.hamburger-menu>nav li {
+.course-menu li {
     list-style: none;
     margin: 0.3em 0;
 }
 
-.nav-selected-with-highlight li {
+.course-menu li {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.nav-selected-with-highlight>li>button {
+.course-menu li button {
     font-size: 1.2em;
     line-height: 200%;
     font-weight: 100;
@@ -107,34 +100,33 @@
     justify-content: center;
 }
 
-.nav-selected-with-highlight>li>button:hover {
+.course-menu li button:hover {
     border: 0;
     outline: 0;
 }
 
 /* 
-.nav-selected-with-highlight>li.selected {
+.course-menu>li.selected {
     font-weight: 100 !important;
 }
 
-.nav-selected-with-highlight>li.selected>button {
+.course-menu>li.selected>button {
     font-weight: 100 !important;
 } */
 
-.nav-selected-with-highlight>li.selected>button:first-of-type:before {
+.course-menu>li.selected>button:first-of-type:before {
     content: '▶ ';
     margin-left: -1em;
     opacity: 50%;
 }
 
-.nav-selected-with-highlight+li button:disabled {
+.course-menu+li button:disabled {
     background-color: var(--oe-clr-card-bg) !important;
 }
 
 .hamburger-menu .reset-course {
     margin-top: 2em;
 }
-
 
 .hamburger-menu footer {
     margin-top: 1em;

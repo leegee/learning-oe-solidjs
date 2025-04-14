@@ -1,10 +1,10 @@
+import './Header.css';
 import { Show } from "solid-js";
 import { useConfigContext } from "../../contexts/Config";
-import { t } from "../../lib/i18n";
-import Menu from "../Menu/MenuToggle";
+import Menu from "../Menu/MenuToggleButton";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
 import { type CourseMetadata } from "../../global-state/course";
-import './Header.css';
+import { useI18n } from "../../contexts/I18nProvider";
 
 interface HeaderProps {
     hide: boolean;
@@ -13,6 +13,8 @@ interface HeaderProps {
 
 
 const Header = (props: HeaderProps) => {
+    const { t } = useI18n();
+
     if (props.hide) {
         return null;
     }

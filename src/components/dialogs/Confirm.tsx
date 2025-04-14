@@ -1,6 +1,6 @@
-import { createEffect, onCleanup } from 'solid-js';
-import { t } from '../../lib/i18n';
 import './Confirm.css';
+import { createEffect, onCleanup } from 'solid-js';
+import { useI18n } from '../../contexts/I18nProvider';
 
 interface ConfirmDialogProps {
     isOpen: boolean;
@@ -10,6 +10,8 @@ interface ConfirmDialogProps {
 }
 
 const ConfirmDialog = (props: ConfirmDialogProps) => {
+    const { t } = useI18n();
+
     // Handle key events when dialog is open
     createEffect(() => {
         if (props.isOpen) {

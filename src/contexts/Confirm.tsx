@@ -1,15 +1,16 @@
-import { createContext, useContext, createSignal, type JSX } from "solid-js";
-import { type TFunction } from "i18next";
 import "./Confirm.css";
+import { createContext, useContext, createSignal, type JSX, Show } from "solid-js";
+import { useI18n } from "./I18nProvider";
 
 const ConfirmContext = createContext<{ showConfirm: (message: string, action: () => void) => void }>();
 
 interface IConfirmProviderProps {
-    t: TFunction;
     children: JSX.Element;
 }
 
 export const ConfirmProvider = (props: IConfirmProviderProps) => {
+    const { t } = useI18n();
+
     const [isOpen, setIsOpen] = createSignal(false);
     const [confirmAction, setConfirmAction] = createSignal<() => void>(() => void (0));
     const [message, setMessage] = createSignal("");
@@ -32,15 +33,17 @@ export const ConfirmProvider = (props: IConfirmProviderProps) => {
     return (
         <ConfirmContext.Provider value={{ showConfirm }}>
             {props.children}
-            <div class="modal-bg" style={{ display: isOpen() ? "flex" : "none" }}>
-                <dialog class="confirm-dialog" open={isOpen()}>
-                    <h3>{message()}</h3>
-                    <footer>
-                        <button class="cancel-button" onClick={cancel}>{props.t('no')}</button>
-                        <button class="next-button" onClick={confirm}>{props.t('yes')}</button>
-                    </footer>
-                </dialog>
-            </div>
+            <Show when={isOpen()}>
+                <div class="modal-bg" style={{ display: isOpen() ? "flex" : "none" }}>
+                    <dialog class="confirm-dialog" open={isOpen()}>
+                        <h3>{message()}</h3>
+                        <footer>
+                            <button class="cancel-button" onClick={cancel}>{t('no')}</button>
+                            <button class="next-button" onClick={confirm}>{t('yes')}</button>
+                        </footer>
+                    </dialog>
+                </div>
+            </Show>
         </ConfirmContext.Provider>
     );
 };

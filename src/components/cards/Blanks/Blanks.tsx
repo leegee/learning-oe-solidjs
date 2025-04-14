@@ -1,10 +1,10 @@
+import './Blanks.css';
 import { createSignal, createEffect, type JSX } from 'solid-js';
-import { t } from '../../../lib/i18n';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import { type IBaseCard } from '../../cards/';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
-import './Blanks.css';
+import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface IBooleanWord {
     [word: string]: boolean
@@ -24,6 +24,7 @@ export interface IBlanksCardProps {
 }
 
 const BlanksCardComponent = (props: IBlanksCardProps) => {
+    const { t } = useI18n();
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);

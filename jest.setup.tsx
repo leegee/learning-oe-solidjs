@@ -6,6 +6,7 @@ import { type JSX } from 'solid-js';
 import { render } from 'solid-testing-library';
 import { ConfigProvider } from './src/contexts/Config';
 import { ConfirmProvider } from "./src/contexts/Confirm";
+import { MockI18nProvider } from "./src/tests/MockI18nContext";
 
 export const MockConfig = {
     defaultLanguage: 'en',
@@ -25,21 +26,18 @@ export const MockConfig = {
 
 export const MockT: TFunction = ((key: string) => key) as TFunction;
 
-interface RenderTestElement {
-    children?: JSX.Element;
-    <T extends object>(Component: (props: T & JSX.IntrinsicAttributes) => JSX.Element, props: T, mockConfig?: typeof MockConfig): void;
-}
-
-export const renderTestElement: RenderTestElement = function <T extends object>(
+export const renderTestElement = <T extends object>(
     Component: (props: T & JSX.IntrinsicAttributes) => JSX.Element,
     props: T,
     mockConfig: Config = MockConfig
-) {
+) => {
     render(() => (
-        <ConfigProvider config={mockConfig}>
-            <ConfirmProvider t={MockT}>
-                <Component {...props} />
-            </ConfirmProvider>
-        </ConfigProvider>
+        <MockI18nProvider>
+            <ConfigProvider config={mockConfig}>
+                <ConfirmProvider>
+                    <Component {...props} />
+                </ConfirmProvider>
+            </ConfigProvider>
+        </MockI18nProvider>
     ));
 };

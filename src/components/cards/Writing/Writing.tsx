@@ -1,10 +1,10 @@
+import './Writing.css';
 import { createSignal, createEffect, createMemo } from 'solid-js';
-import { t } from '../../../lib/i18n.ts';
 import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
-import './Writing.css';
+import { useI18n } from '../../../contexts/I18nProvider.tsx';
 
 export interface IWritingCard extends IBaseCard {
     class: 'writing';
@@ -23,6 +23,7 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingCardComponent = (props: IWritingCardProps) => {
+    const { t } = useI18n();
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [userInput, setUserInput] = createSignal<string>('');
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);

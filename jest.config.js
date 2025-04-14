@@ -12,10 +12,10 @@ export default {
 
     reporters: [
         'default',
-        ['jest-stare', {
-            resultDir: 'test-results',
-            reportTitle: 'Jest Test Report',
-            darkMode: true,
-        }],
+        // ['jest-stare', {
+        //     resultDir: 'test-results',
+        //     reportTitle: 'Jest Test Report',
+        //     darkMode: true,
+        // }],
     ],
 };

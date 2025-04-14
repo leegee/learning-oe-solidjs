@@ -1,11 +1,13 @@
 /* ResetAllButton */
 
 import { createMemo } from "solid-js";
-import { t } from "../../lib/i18n";
 import { resetCourse, getTotalQuestionsAnswered } from "../../global-state/lessons";
 import { useConfirm } from "../../contexts/Confirm";
+import { useI18n } from "../../contexts/I18nProvider";
 
 export const ResetCourseButtonComponent = () => {
+    const { t } = useI18n();
+
     const { showConfirm } = useConfirm();
     const totalAnswered = createMemo(() => getTotalQuestionsAnswered());
 

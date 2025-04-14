@@ -3,10 +3,6 @@ import { renderTestElement } from '../../../../jest.setup.tsx';
 
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
 
-jest.mock("../../../lib/i18n", () => ({
-    t: (key: string) => key,
-}));
-
 describe('WritingCardComponent', () => {
     let mockOnCorrect: jest.Mock;
     let mockOnIncorrect: jest.Mock;

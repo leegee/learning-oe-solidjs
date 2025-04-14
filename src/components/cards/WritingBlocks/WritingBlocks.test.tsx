@@ -2,10 +2,6 @@ import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from "../../../../jest.setup";
 import WritingBlocksCardComponent, { type IWritingBlocksCard, type IWritingBlocksCardProps } from "./WritingBlocks";
 
-jest.mock("../../../lib/i18n", () => ({
-    t: (key: string) => key,
-}));
-
 describe("WritingBlocksCardComponent", () => {
     let mockOnCorrect: jest.Mock;
     let mockOnIncorrect: jest.Mock;

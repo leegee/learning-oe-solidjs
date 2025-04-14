@@ -1,6 +1,6 @@
-import { t } from '../../lib/i18n';
-import { enterFullscreen } from '../../lib/fullscreen';
 import './LessonIntro.css';
+import { useI18n } from '../../contexts/I18nProvider';
+import { enterFullscreen } from '../../lib/fullscreen';
 
 interface LessonIntroProps {
     title: string;
@@ -10,6 +10,8 @@ interface LessonIntroProps {
 }
 
 const LessonIntro = (props: LessonIntroProps) => {
+    const { t } = useI18n();
+
     const handleClick = () => {
         enterFullscreen();
         props.onLessonStart();
