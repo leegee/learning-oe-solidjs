@@ -91,7 +91,7 @@ button:not([disabled]):hover {
 button.correct[disabled],
 button.incorrect[disabled] {
     opacity: 0.6;
-    filter: brightness(0.7);
+    filter: brightness(80%);
 }
 
 button[disabled]:hover {
@@ -100,9 +100,13 @@ button[disabled]:hover {
 
 button.selected {
     border-color: var(--oe-clr-fg);
-    background-color: #6665;
     filter: brightness(160%);
-    border-color: cyan;
+    border-color: var(--oe-clr-highlight);
+}
+
+button.selected[disabled] {
+    filter: brightness(70%);
+    opacity: 80%;
 }
 
 h2 {
