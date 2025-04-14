@@ -17,12 +17,11 @@ export default function DashboardCourseOverview() {
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
-
-    const courseIdx = Number(params.courseId);
+    const [courseIdx, setCourseIdx] = createSignal<number>(Number(params.courseIdx));
 
     createEffect(() => {
-        if (courseIdx) {
-            courseStore.setSelectedCourse(courseIdx);
+        if (courseIdx()) {
+            courseStore.setSelectedCourse(courseIdx());
         }
 
         const { lessons, courseMetadata } = courseStore.store;
@@ -143,7 +142,7 @@ export default function DashboardCourseOverview() {
                                             tabindex={-1}
                                             card={card}
                                             lesson={lesson}
-                                            ondblclick={() => navigate(`/editor/${courseIdx}/${idx}/${cardIdx}`)}
+                                            ondblclick={() => navigate(`/editor/${courseIdx()}/${idx}/${cardIdx}`)}
                                         />
 
                                         <button

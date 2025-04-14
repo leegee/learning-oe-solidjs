@@ -1,7 +1,7 @@
 import { createMemo } from 'solid-js';
 import VocabMatchCardComponent, { type IVocabMatchCard } from '../VocabMatch/VocabMatch';
 import { type IBaseCard } from '../BaseCard.type';
-import { type Lesson } from '../../../routes/Lessons/Lesson';
+import { type Lesson } from '../../../routes/lessons/Lesson';
 
 export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';

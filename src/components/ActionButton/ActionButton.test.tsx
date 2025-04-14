@@ -1,10 +1,6 @@
 import { render, screen } from "solid-testing-library";
 import ActionButton from "./ActionButton";
 
-jest.mock("../../lib/i18n", () => ({
-    t: (key: string) => key,
-}));
-
 describe("ActionButton Component", () => {
     test("renders with 'check' text when isCorrect is null", () => {
         render(() => (

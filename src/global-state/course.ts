@@ -4,7 +4,7 @@ import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import { loadConfig } from "../lib/config";
 import { getCourseIndex, setCourseIndex } from "./lessons";
-import { type Lesson } from "../routes/Lessons/Lesson";
+import { type Lesson } from "../routes/lessons/Lesson";
 
 const LESSONS_DIR = "../../lessons";
 const LESSONS_JSON = import.meta.glob("../../lessons/*.json");

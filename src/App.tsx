@@ -1,11 +1,11 @@
 import './App.css';
 import { JSX } from "solid-js";
-import { Route, Router, useParams } from "@solidjs/router";
+import { Route, Router } from "@solidjs/router";
 import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
 import { courseStore } from "./global-state/course";
 import { I18nProvider } from "./contexts/I18nProvider";
-import CourseComponent from "./routes/Lessons/Course";
+import CourseComponent from "./routes/lessons/Course";
 import Header from "./components/Header";
 import { type Config } from "./lib/config";
 import DashboardCourseOverview from "./routes/dashboard";

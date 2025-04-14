@@ -3,7 +3,7 @@ import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/Config";
-import ResetCourseButtonComponent from "../../routes/Lessons/ResetCourseButton";
+import ResetCourseButtonComponent from "../../routes/lessons/ResetCourseButton";
 import TitleComponent from "./Title";
 import './Menu.css';
 import { useNavigate } from "@solidjs/router";
