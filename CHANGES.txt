@@ -1,6 +1,14 @@
 CHANGE LOG
 ==========
 
+2025-04-13 0.2.0
+
+New routing finished?
+
+2025-04-10
+
+Refactoring in prep for routing
+
 2025-04-06
 
 Visual consitency
