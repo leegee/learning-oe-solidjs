@@ -28,12 +28,10 @@ interface II18nProviderProps {
 export const I18nProvider = (props: II18nProviderProps) => {
     const [language, setLanguage] = createSignal(i18n.language);
     const [ready, setReady] = createSignal(false);
-    const resolvedChildren = children(() => props.children); // 👈 this is key
+    const resolvedChildren = children(() => props.children);
 
     createEffect(() => {
         (async () => {
-            console.log("i18nProvider loading config");
-
             const resources = Object.fromEntries(
                 Object.entries(props.config.i18n.availableLanguages).map(
                     ([lang, translations]) => [lang, { translation: translations }]
@@ -51,11 +49,9 @@ export const I18nProvider = (props: II18nProviderProps) => {
 
             i18n.on("languageChanged", (lng) => {
                 setLanguage(lng);
-                console.debug("i18nProvider set language");
             });
 
             setReady(true);
-            console.log("i18nProvider done i18n.init");
         })();
     });
 
@@ -75,6 +71,5 @@ export const useI18n = () => {
     if (!context) {
         throw new Error("useI18n must be used within I18nProvider");
     }
-    console.log("i18nProvider used");
     return context;
 };

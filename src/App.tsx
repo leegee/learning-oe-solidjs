@@ -18,7 +18,6 @@ export interface IAppProps {
 
 const App = (props: IAppProps) => {
   const baseRoute = useAppPath();
-  console.info('App baseRoute', baseRoute);
 
   interface ILayoutProps {
     children?: JSX.Element;
