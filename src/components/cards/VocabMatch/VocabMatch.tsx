@@ -1,5 +1,5 @@
 import './VocabMatch.css';
-import { createSignal, createEffect, For } from 'solid-js';
+import { createSignal, createEffect, For, Show } from 'solid-js';
 import { useConfigContext } from '../../../contexts/Config';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
@@ -174,14 +174,16 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                 </table>
             </section>
 
-            <footer class="vocab-match-footer">
-                <ActionButton
-                    isCorrect={isComplete()}
-                    isInputPresent={isComplete()}
-                    onCheckAnswer={handleComplete}
-                    onComplete={handleComplete}
-                />
-            </footer>
+            <Show when={isComplete()}>
+                <footer class="vocab-match-footer">
+                    <ActionButton
+                        isCorrect={isComplete() === false ? null : true}
+                        isInputPresent={isComplete()}
+                        onCheckAnswer={handleComplete}
+                        onComplete={handleComplete}
+                    />
+                </footer>
+            </Show>
         </>
     );
 };

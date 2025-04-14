@@ -13,7 +13,7 @@ import {
 } from "../../../components/cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
-import VocabText from "./Editor/VocabText";
+import VocabText from "./Editor/VocabMatch";
 
 interface EditCardModalProps {
     card: IAnyCard | null;
