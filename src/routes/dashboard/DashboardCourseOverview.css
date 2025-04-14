@@ -1,54 +1,52 @@
 /* CourseOverview.css */
-.modal-bg {
-    background-color: var(--oe-clr-bg);
-    ;
-}
 
-.course-overview-button {
-    font-size: 1.2em;
-    max-width: 2em;
-    max-height: 2em;
-    border-radius: 50%;
-    overflow: hidden;
-    color: var(--oe-clr-primary-fg2);
-    margin-right: -2em;
-}
-
-.course-overview {
-    position: relative;
-    padding: 4em;
-    overflow: auto;
-}
-
-.course-overview header {
+.course-overview>header {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin: 1em;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 0.3em 0;
     padding: 0.3em 0.6em;
 }
 
-.course-overview header h2 {
-    font-size: 200%;
-    font-weight: 100 !important;
-    font-size: 1em;
-    padding-bottom: 0.1em;
-}
-
-.course-overview header h3 {
-    font-size: 1em;
+.course-overview>header h2 {
     font-weight: 300;
 }
 
-nav.lesson-pager {
+.course-overview>header h2,
+.course-overview>header h3 {
+    font-size: 1.2em;
+}
+
+.course-overview>header h3 {
+    font-weight: 100;
+}
+
+.course-overview>section header {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 1em;
+}
+
+.course-overview>section>h4 {
+    height: 100%;
+    padding-right: 1em;
+}
+
+.course-overview>h4,
+.course-overview>h5 {
+    font-weight: normal;
+    font-weight: 200 !important;
+    font-weight: normal;
+}
+
+.course-overview>nav.lesson-pager {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.6em;
 }
 
-.lesson-pager .pager-link {
+.course-overview .lesson-pager .pager-link {
     font-size: 1rem;
     text-decoration: none;
     font-weight: 200;
@@ -56,27 +54,17 @@ nav.lesson-pager {
     padding: 4pt;
 }
 
-.lesson-pager .pager-link:hover {
+.course-overview .lesson-pager .pager-link:hover {
     outline: 1pt solid var(--oe-clr-border);
 }
 
-.course-overview section header {
+.course-overview .cards {
+    overflow: auto;
     display: flex;
-    align-items: center;
-    gap: 0.6em;
-}
-
-.course-overview section header h4 {
-    border-right: 1pt solid #555;
-    height: 100%;
-    padding-right: 1em;
-}
-
-.course-overview section header h4,
-.course-overview section header h5 {
-    font-weight: normal;
-    font-weight: 200 !important;
-    font-weight: normal;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: clamp(80em, 90vw, 80em);
 }
 
 .card-holder {
@@ -93,29 +81,6 @@ nav.lesson-pager {
     text-align: center;
 }
 
-.hamburger-menu li .course-overview header button {
-    width: auto;
-    display: flex;
-    ;
-}
-
-.course-overview .cards {
-    overflow: auto;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: clamp(80em, 90vw, 80em);
-}
-
-.hamburger-menu nav li .course-menu button:before {
-    /* content: ''; */
-}
-
-.hamburger-menu nav li.selected .course-overview button:before {
-    opacity: inherit;
-}
-
 
 .card-holder {
     border: 1pt solid var(--oe-clr-border);
@@ -125,7 +90,7 @@ nav.lesson-pager {
     display: inline-flex;
 }
 
-.hamburger-menu .card-holder .card {
+.course-overview .card-holder .card {
     font-size: 50%;
     min-width: 20em;
     max-width: 20em;
@@ -136,7 +101,7 @@ nav.lesson-pager {
     margin: 0;
 }
 
-.hamburger-menu .card-holder .card * {
+.card-holder .card * {
     pointer-events: none;
     background-color: unset;
     color: black;
@@ -193,8 +158,8 @@ nav.lesson-pager {
 
 .card-holder #action-button,
 .card-holder .card .letter-buttons button,
-.hamburger-menu .card footer:not(.modal-actions),
-.hamburger-menu .card footer.vocab-match-footer,
+.course-overview .card footer:not(.modal-actions),
+.course-overview .card footer.vocab-match-footer,
 .card-holder .next-button,
 .card-holder .correct-next-button,
 .card-holder .incorrect-next-button {
@@ -240,45 +205,41 @@ nav.lesson-pager {
     opacity: 0.5;
 }
 
-.course-overview .card-holder {
-    position: relative;
-}
-
-.course-overview .vertical-controls {
+.card-holder .vertical-controls {
     position: relative;
     width: 100%;
 }
 
-.course-overview .top-controls {
+.card-holder .top-controls {
     top: 0;
 }
 
-.course-overview .vertical-controls button,
-.course-overview .horizontal-controls button {
+.card-holder .vertical-controls button,
+.card-holder .horizontal-controls button {
     border: none;
     background-color: none !important;
 }
 
-.course-overview .horizontal-controls {
+.card-holder .horizontal-controls {
     display: flex;
     width: 100%;
     align-items: center;
 }
 
-.course-overview .vertical-controls button,
-.course-overview .horizontal-controls button {
+.card-holder .vertical-controls button,
+.card-holder .horizontal-controls button {
     color: transparent;
     width: 100%;
     text-align: center;
     padding: 1em;
 }
 
-.course-overview .vertical-controls button:hover,
-.course-overview .horizontal-controls button:hover {
+.card-holder .vertical-controls button:hover,
+.card-holder .horizontal-controls button:hover {
     outline: 0;
 }
 
-.course-overview .card-holder:hover .vertical-controls>button:not([disabled]),
-.course-overview .card-holder:hover .horizontal-controls>button:not([disabled]) {
+.card-holder .card-holder:hover .vertical-controls>button:not([disabled]),
+.card-holder .card-holder:hover .horizontal-controls>button:not([disabled]) {
     color: var(--oe-clr-fg);
 }
