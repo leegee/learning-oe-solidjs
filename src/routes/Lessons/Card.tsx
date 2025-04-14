@@ -1,5 +1,5 @@
 import { Switch, Match, JSX } from "solid-js";
-import { t } from "../i18n";
+import { t } from "../../lib/i18n";
 import {
     type IBaseCard,
     type IBlanksCard,
@@ -15,7 +15,7 @@ import {
     VocabMatchCardComponent,
     WritingBlocksCardComponent,
     WritingCardComponent
-} from './cards';
+} from '../../components/cards';
 
 import { type Lesson } from "./Lesson";
 

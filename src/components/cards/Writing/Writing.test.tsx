@@ -3,7 +3,7 @@ import { renderTestElement } from '../../../../jest.setup.tsx';
 
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
 
-jest.mock("../../../i18n", () => ({
+jest.mock("../../../lib/i18n", () => ({
     t: (key: string) => key,
 }));
 

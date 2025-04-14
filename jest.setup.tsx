@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 
-import { type Config } from "./src/config";
+import { type Config } from "./src/lib/config";
 import { type TFunction } from "i18next";
 import { type JSX } from 'solid-js';
 import { render } from 'solid-testing-library';

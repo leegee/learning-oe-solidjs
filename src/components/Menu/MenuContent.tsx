@@ -1,23 +1,20 @@
+// components/Menu/Menu.tsx
 import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
-
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
-const { store, setSelectedCourse } = courseStore;
 import { useConfigContext } from "../../contexts/Config";
 import { t } from "i18next";
-import ResetCourseButtonComponent from "../ResetCourseButton";
+import ResetCourseButtonComponent from "../../routes/Lessons/ResetCourseButton";
 import TitleComponent from "./Title";
-import CourseOverview from "../CourseOverview";
+import DashboardCourseOverview from "../../routes/dashboard";
 import './Menu.css';
 
-interface MenuProps {
-    title: string;
-}
 
-const Menu = (props: MenuProps) => {
+const MenuContent = () => {
     const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
+    const { store, setSelectedCourse } = courseStore;
     const selectedCourseIndex = () => store.selectedCourseIndex;
 
     onMount(() => {
@@ -25,28 +22,14 @@ const Menu = (props: MenuProps) => {
     });
 
     const setLocalSelectedCourse = (courseIndex: number) => {
-        setLocalCourseIndex(_ => {
-            setSelectedCourse(courseIndex); // includes setCourseIndex(courseIndex);
+        setLocalCourseIndex(() => {
+            setSelectedCourse(courseIndex);
             return courseIndex;
         });
     };
 
-    const closeMenu = () => {
-        if (selectedCourseIndex() > -1) {
-            setIsOpen(false);
-        }
-    };
-
-    const toggleMenu = () => {
-        if (selectedCourseIndex() > -1) {
-            setIsOpen(prev => !prev);
-        }
-    };
-
     createEffect(() => {
-        if (selectedCourseIndex() === -1) {
-            setIsOpen(true);
-        }
+        if (selectedCourseIndex() === -1) setIsOpen(true);
     });
 
     createEffect(() => {
@@ -74,17 +57,10 @@ const Menu = (props: MenuProps) => {
 
     return (
         <aside aria-roledescription="Toggle menu" class="menu-container">
-            <button class="hamburger-button" onClick={toggleMenu}>
-                <span class="hamburger-icon">☰</span>
-            </button>
-
-            <div class={`hamburger-menu ${isOpen() ? "open" : ""}`} onClick={closeMenu}>
+            <div class={`hamburger-menu`}>
                 <section class='card'>
-
                     <div class="close-menu-button">✕</div>
-
-                    <TitleComponent title={props.title} />
-
+                    <TitleComponent title={config.appTitle} />
                     {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                     <nav class="nav-selected-with-highlight">
@@ -93,16 +69,15 @@ const Menu = (props: MenuProps) => {
                                 <button onClick={() => setLocalSelectedCourse(index)}>
                                     {course.title}
                                 </button>
-
-                                {localCourseIndex() === index
-                                    && store.selectedCourseIndex === index
-                                    && store.courseMetadata
-                                    && !store.loading
-                                    && <CourseOverview
-                                        lessons={store.lessons}
-                                        courseMetadata={store.courseMetadata}
-                                    />}
-
+                                {localCourseIndex() === index &&
+                                    store.selectedCourseIndex === index &&
+                                    store.courseMetadata &&
+                                    !store.loading && (
+                                        <DashboardCourseOverview
+                                            lessons={store.lessons}
+                                            courseMetadata={store.courseMetadata}
+                                        />
+                                    )}
                             </li>
                         ))}
 
@@ -120,4 +95,4 @@ const Menu = (props: MenuProps) => {
     );
 };
 
-export default Menu;
+export default MenuContent;

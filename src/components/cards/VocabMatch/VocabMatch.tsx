@@ -1,6 +1,6 @@
 import { createSignal, createEffect, For } from 'solid-js';
 import { useConfigContext } from '../../../contexts/Config';
-import { t } from '../../../i18n.ts';
+import { t } from '../../../lib/i18n.ts';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';

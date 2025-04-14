@@ -1,156 +1,55 @@
-import { createSignal, createMemo, createEffect } from "solid-js";
-
-import * as state from "./global-state/lessons";
+import { JSX } from "solid-js";
+import { Route, Router } from "@solidjs/router";
+import packageJson from '../package.json';
 import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
 import { courseStore } from "./global-state/course";
-import { type Config } from "./config";
-import LessonList from "./components/LessonList";
+import { t } from "./lib/i18n";
+import CourseComponent from "./routes/Lessons/Course";
 import Header from "./components/Header";
-import HomeScreen from "./components/Home";
-import LessonIntro from "./components/LessonIntro";
-import LessonComponent from "./components/Lesson";
-import LessonCompleted from "./components/LessonCompleted";
-import CompletedAllLessons from "./components/CompletedAllLessons";
-import Stats from "./components/Stats";
-import { t } from "./i18n";
-
-import "./App.css";
-
-enum LessonState {
-  Home,           // Viewing the home screen
-  Intro,          // Lesson intro screen before questions start
-  InProgress,     // Actively answering lesson questions
-  Completed,      // Lesson completed summary screen
-  CourseFinished, // All lessons are completed
-}
+import { type Config } from "./lib/config";
+import DashboardCourseOverview from "./routes/dashboard";
+import MenuContent from "./components/Menu/MenuContent";
+import './App.css';
 
 interface IAppProps {
   config: Config;
 }
 
 const App = (props: IAppProps) => {
-  const initialLessonIndex = state.getCurrentLessonIndex();
+  const homepage = packageJson.homepage || "/";
+  const baseRoute = homepage ? (new URL(homepage)).pathname.replace(/\/?$/, '/') : '/';
 
-  const [currentLessonIndex, setCurrentLessonIndex] = createSignal(initialLessonIndex);
-  const [lessonTime, setLessonTime] = createSignal<number>(0);
-  const [lessonState, setLessonState] = createSignal(LessonState.Home);
-  const currentLesson = createMemo(() => courseStore.store.lessons[currentLessonIndex()]);
+  interface ILayoutProps {
+    children?: JSX.Element;
+  }
 
-  const showLessonIntro = (lessonIndex: number) => {
-    setCurrentLessonIndex(lessonIndex);
-    state.setCurrentLessonIndex(lessonIndex);
-    setLessonState(LessonState.Intro);
-  };
-
-  const beginQuestions = () => {
-    state.resetLesson(currentLessonIndex());
-    setLessonTime(Date.now());
-    setLessonState(LessonState.InProgress);
-  };
-
-  const completeLesson = () => {
-    setLessonState(LessonState.Completed);
-    setLessonTime((prev) => Math.floor((Date.now() - prev) / 1000));
-  };
-
-  const lessonComplete = () => {
-    if (currentLessonIndex() < courseStore.store.lessons.length - 1) {
-      showLessonIntro(currentLessonIndex() + 1);
-      goHome();
-    } else {
-      setLessonState(LessonState.CourseFinished);
-    }
-  };
-
-  const goHome = () => setLessonState(LessonState.Home);
-
-  const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-    // console.debug(`onAsnwer for ${currentLessonIndex()} / ${cardIndex} = ${incorrectAnswer || 'incorrect'}`);
-    state.saveAnswer(currentLessonIndex(), cardIndex, incorrectAnswer || '');
-  };
-
-  // Watch for changes in the course
-  createEffect(() => {
-    if (!courseStore.store.loading) {
-      const isCourseFinished = initialLessonIndex >= courseStore.store.lessons.length;
-      setLessonState(isCourseFinished ? LessonState.CourseFinished : LessonState.Home);
-    }
-  });
-
-  const renderContent = () => {
-    switch (lessonState()) {
-      case LessonState.Home:
-        return (
-          <HomeScreen>
-            <Stats />
-            <LessonList
-              courseMetadata={courseStore.store.courseMetadata!}
-              currentLessonIndex={currentLessonIndex()}
-              lessons={courseStore.lessonTitles2Indicies()}
-              onLessonSelected={showLessonIntro}
-            />
-          </HomeScreen>
-        );
-
-      case LessonState.Intro:
-        return (
-          <LessonIntro
-            title={currentLesson().title}
-            description={currentLesson().description}
-            index={currentLessonIndex()}
-            onLessonStart={beginQuestions}
-          />
-        );
-
-      case LessonState.InProgress:
-        return (
-          <LessonComponent
-            lesson={currentLesson()}
-            onCancel={goHome}
-            onAnswer={onAnswer}
-            onLessonComplete={completeLesson}
-          />
-        );
-
-      case LessonState.Completed:
-        return (
-          <LessonCompleted
-            onNext={lessonComplete}
-            durationInSeconds={lessonTime() ?? -1}
-          />
-        );
-
-      case LessonState.CourseFinished:
-        return (
-          <CompletedAllLessons totalLessons={courseStore.store.lessons.length}>
-            {/* <Stats /> */}
-          </CompletedAllLessons>
-        );
-
-      default:
-        return <div>Error: Unknown lesson state</div>;
-    }
-  };
-
-  return (
+  const Layout = (layoutProps: ILayoutProps) => (
     <ConfigProvider config={props.config}>
       <ConfirmProvider t={t}>
-        <main
-          id="main"
-          class={[lessonState() === LessonState.InProgress ? "lesson-active" : "", lessonState() === LessonState.Home ? "home-active" : ""]
-            .filter(Boolean)
-            .join(" ")}
-        >
+        <main id="main">
           <Header
             courseMetadata={courseStore.store.courseMetadata!}
-            isLessonActive={lessonState() === LessonState.InProgress}
+            hide={false}
           />
-
-          {!courseStore.store.loading && renderContent()}
+          {layoutProps.children}
         </main>
       </ConfirmProvider>
     </ConfigProvider>
+  );
+
+  return (
+    <Router base={baseRoute} root={Layout}>
+      <Route path="/dashboard" component={() => (
+        <DashboardCourseOverview
+          courseMetadata={courseStore.store.courseMetadata!}
+          lessons={courseStore.store.lessons!}
+        />
+      )} />
+      <Route path="/menu" component={() => <MenuContent />} />
+      <Route path="*" component={CourseComponent} />
+    </Router>
+
   );
 };
 

@@ -3,7 +3,7 @@ import { shuffleArray } from '../../../lib/shuffle-array';
 import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
 import { renderTestElement } from '../../../../jest.setup';
 
-jest.mock('../../../i18n', () => ({
+jest.mock('../../../lib/i18n', () => ({
     t: jest.fn().mockImplementation((key: string) => key),
 }));
 

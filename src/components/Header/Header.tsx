@@ -1,19 +1,19 @@
 import { Show } from "solid-js";
 import { useConfigContext } from "../../contexts/Config";
-import { t } from "../../i18n";
-import Menu from "../Menu";
+import { t } from "../../lib/i18n";
+import Menu from "../Menu/MenuToggle";
 import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
 import { type CourseMetadata } from "../../global-state/course";
 import './Header.css';
 
 interface HeaderProps {
-    isLessonActive: boolean;
+    hide: boolean;
     courseMetadata: CourseMetadata;
 }
 
 
 const Header = (props: HeaderProps) => {
-    if (props.isLessonActive) {
+    if (props.hide) {
         return null;
     }
     const { config } = useConfigContext();
@@ -36,10 +36,10 @@ const Header = (props: HeaderProps) => {
 
             <div class="header-text">
                 <h1 lang={config.targetLanguage}>
-                    <Show when={props.isLessonActive}>
+                    <Show when={props.hide}>
                         {props.courseMetadata.courseTitle}
                     </Show>
-                    <Show when={!props.isLessonActive}>
+                    <Show when={!props.hide}>
                         {config.appTitle}
                     </Show>
                 </h1>

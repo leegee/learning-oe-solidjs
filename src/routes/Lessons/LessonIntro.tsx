@@ -1,5 +1,5 @@
-import { t } from '../i18n';
-import { enterFullscreen } from '../lib/fullscreen';
+import { t } from '../../lib/i18n';
+import { enterFullscreen } from '../../lib/fullscreen';
 import './LessonIntro.css';
 
 interface LessonIntroProps {

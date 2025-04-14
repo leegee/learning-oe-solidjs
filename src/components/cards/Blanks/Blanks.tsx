@@ -1,5 +1,5 @@
 import { createSignal, createEffect, type JSX } from 'solid-js';
-import { t } from '../../../i18n';
+import { t } from '../../../lib/i18n';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import { type IBaseCard } from '../../cards/';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';

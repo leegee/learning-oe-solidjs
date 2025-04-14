@@ -1,6 +1,6 @@
 import { createSignal, createEffect } from 'solid-js';
-import { t } from '../i18n';
-import * as state from "../global-state/lessons";
+import { t } from '../../lib/i18n';
+import * as state from "../../global-state/lessons";
 import './Stats.css';
 
 const Stats = () => {

@@ -1,5 +1,5 @@
 import { createContext, useContext, JSX } from 'solid-js';
-import { type Config } from '../config';
+import { type Config } from '../lib/config';
 
 interface IConfigContext {
     config: Config;

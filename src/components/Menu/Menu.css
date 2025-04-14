@@ -1,5 +1,5 @@
 :root {
-    --oe-hamburber-right-padding: 8pt;
+    --oe-hamburber-right-padding: 0;
 }
 
 .close-menu-button,
@@ -34,33 +34,16 @@
 /* .hamburger-icon {} */
 
 .hamburger-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    margin: 0;
-    padding: 0;
     color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-bg);
-    border: 1pt solid var(--oe-clr-border);
-    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
     gap: 1em;
 }
 
-.hamburger-menu.open {
-    display: flex;
-}
-
 .hamburger-menu .card {
-    position: relative;
     min-width: calc(var(--oe-max-width) - 2em);
-    padding: 0.6em;
-    margin: 1em;
     background-color: var(--oe-clr-modal-bg);
     border: 1pt solid var(--oe-clr-border);
     display: flex;

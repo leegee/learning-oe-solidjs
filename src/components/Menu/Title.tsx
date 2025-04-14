@@ -1,4 +1,4 @@
-import { createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, createEffect, onMount } from "solid-js";
 import './Title.css';
 
 interface ITitleComponentProps {
@@ -7,22 +7,25 @@ interface ITitleComponentProps {
 
 const TitleComponent = (props: ITitleComponentProps) => {
     const [visible, setVisible] = createSignal(false);
-    let elementRef!: HTMLHeadingElement;
+    let elementRef: HTMLHeadingElement | undefined;
 
-    onMount(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting) {
-                    setVisible(true);
-                    observer.unobserve(elementRef);
-                }
-            },
-            { threshold: 0.1 }
-        );
+    // Create effect to observe the element when it's available
+    createEffect(() => {
+        if (elementRef) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting) {
+                        setVisible(true);
+                        // Stop observing after intersection
+                        observer.unobserve(elementRef);
+                    }
+                },
+                { threshold: 0.1 }
+            );
 
-        observer.observe(elementRef);
-
-        onCleanup(() => observer.disconnect());
+            observer.observe(elementRef);
+            onCleanup(() => observer.disconnect());
+        }
     });
 
     return (
@@ -33,9 +36,7 @@ const TitleComponent = (props: ITitleComponentProps) => {
         >
             {props.title}
         </h1>
-    )
-
-}
-
+    );
+};
 
 export default TitleComponent;

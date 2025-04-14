@@ -5,15 +5,12 @@ import {
     IAnyCard,
     IBlanksCard,
     IMultipleChoiceCard,
-    IDynamicVocabCard,
-    IWritingCard,
     IAnyCardWithAnswer,
     IBooleanWord,
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
-    WritingBlocksCardComponent,
-} from "./cards";
+} from "../../../components/cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
 import VocabText from "./Editor/VocabText";

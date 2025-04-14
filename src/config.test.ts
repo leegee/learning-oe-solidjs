@@ -30,7 +30,7 @@ describe('Config file tests', () => {
             animationShakeMs: 200,
         }));
 
-        const { loadConfig } = await import('./config');
+        const { loadConfig } = await import('./lib/config');
         const appConfig = await loadConfig();
 
         expect(appConfig.targetLanguage).toBe('fr');
@@ -55,7 +55,7 @@ describe('Config file tests', () => {
 
         it('should throw an error if the default config file failed to load', async () => {
             jest.doMock('./default.config.json', () => { throw new Error('Mocked load failure'); }, { virtual: true });
-            const { loadConfig } = await import('./config');
+            const { loadConfig } = await import('./lib/config');
             await expect(loadConfig()).rejects.toThrow('Default config file did not properly load');
             expect(logSpy).not.toHaveBeenCalled();
         });
@@ -74,7 +74,7 @@ describe('Config file tests', () => {
                 },
                 animationShakeMs: 300,
             }), { virtual: true });
-            const { loadConfig } = await import('./config');
+            const { loadConfig } = await import('./lib/config');
             await expect(loadConfig()).rejects.toThrow('Config file "app.config.json" did not properly load');
             expect(logSpy).not.toHaveBeenCalled();
         });
@@ -88,7 +88,7 @@ describe('Config file tests', () => {
                 targetLanguage: 'iv',
                 defaultLanguage: 'iv',
             }), { virtual: true });
-            const { loadConfig } = await import('./config');
+            const { loadConfig } = await import('./lib/config');
             await expect(loadConfig()).rejects.toThrow('Invalid configuration file JSON.');
             expect(logSpy).toHaveBeenCalled();
         });

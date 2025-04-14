@@ -2,9 +2,9 @@ import { createStore } from "solid-js/store";
 import { createEffect, createRoot } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
-import { loadConfig } from "../config";
+import { loadConfig } from "../lib/config";
 import { getCourseIndex, setCourseIndex } from "./lessons";
-import { type Lesson } from "../components/Lesson";
+import { type Lesson } from "../routes/Lessons/Lesson";
 
 const LESSONS_DIR = "../../lessons";
 const LESSONS_JSON = import.meta.glob("../../lessons/*.json");

@@ -1,6 +1,6 @@
 import { JSX } from 'solid-js';
-import { t } from '../i18n';
-import ResetCourseButtonComponent from './ResetCourseButton';
+import { t } from '../../../lib/i18n';
+import ResetCourseButtonComponent from '../ResetCourseButton';
 import './CompletedAllLessons.css';
 
 interface CompletedAllLessonsProps {

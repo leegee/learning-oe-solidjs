@@ -1,22 +1,22 @@
 import { createEffect, createSignal, on, Show } from "solid-js";
-import Card from "./Card";
-import { type Lesson } from "./Lesson";
-import EditCardModal from "./EditCardModal";
-import { type IAnyCard } from "./cards";
-import { type CourseMetadata } from "../global-state/course";
-import EditableText from "./Editor/EditableText";
-import './CourseOverview.css';
+import Card from "../Lessons/Card";
+import { type Lesson } from "../Lessons/Lesson";
+import EditCardModal from "./details/EditCardModal";
+import { type IAnyCard } from "../../components/cards";
+import { type CourseMetadata } from "../../global-state/course";
+import EditableText from "./details/Editor/EditableText";
+import './DashboardCourseOverview.css';
 
 export interface ICourseOverviewProps {
     courseMetadata: CourseMetadata;
     lessons: Lesson[];
 }
 
-export default function CourseOverview(props: ICourseOverviewProps) {
+export default function DashboardCourseOverview(props: ICourseOverviewProps) {
     const [isOpen, setOpen] = createSignal(false);
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
-    const [courseMetadata, setCourseMetadata] = createSignal<CourseMetadata>({} as CourseMetadata);
-    const [courseTitle, setCourseTitle] = createSignal<string>(props.courseMetadata.courseTitle);
+    const [, setCourseMetadata] = createSignal<CourseMetadata>({} as CourseMetadata);
+    const [courseTitle, setCourseTitle] = createSignal<string>('');
     const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
     const EDITING_LESSON_STORAGE_KEY = 'oe-lesson-editing';
 
@@ -29,10 +29,12 @@ export default function CourseOverview(props: ICourseOverviewProps) {
         on(
             () => [props.lessons, props.courseMetadata] as [Lesson[], CourseMetadata],
             ([lessons, metadata]: [Lesson[], CourseMetadata]) => {
-                setCourseMetadata(metadata);
-                setCourseTitle(metadata.courseTitle);
-                setLessons(lessons);
-                console.log('---set lessons', lessons);
+                if (metadata) {
+                    setCourseMetadata(metadata);
+                    setCourseTitle(metadata.courseTitle);
+                    setLessons(lessons);
+                    console.log('---set lessons', lessons);
+                }
             }
         )
     );

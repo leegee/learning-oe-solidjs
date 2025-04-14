@@ -1,6 +1,7 @@
 main header {
     transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
     margin-bottom: 0.3em;
+    width: 100%;
 }
 
 main header .header-text {

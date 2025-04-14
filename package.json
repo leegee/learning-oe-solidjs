@@ -17,10 +17,12 @@
   },
   "dependencies": {
     "@solid-primitives/i18n": "^2.2.0",
+    "@solidjs/router": "^0.15.3",
     "@thisbeyond/solid-dnd": "^0.7.5",
     "ajv": "^8.17.1",
     "dexie": "^4.0.11",
     "i18next": "^24.2.2",
+    "solid-app-router": "^0.4.2",
     "solid-js": "^1.9.5"
   },
   "devDependencies": {
@@ -47,6 +49,7 @@
     "jest-transform-stub": "^2.0.0",
     "jsdom": "^26.0.0",
     "json5-jest": "^2.0.0",
+    "solid-refresh": "^0.7.5",
     "solid-testing-library": "^0.5.1",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",

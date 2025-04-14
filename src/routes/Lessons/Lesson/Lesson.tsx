@@ -1,7 +1,7 @@
 import { createSignal, onCleanup, createMemo } from 'solid-js';
-import { useConfirm } from "../../contexts/Confirm";
-import { t } from '../../i18n';
-import { exitFullscreen } from '../../lib/fullscreen';
+import { useConfirm } from "../../../contexts/Confirm";
+import { t } from '../../../lib/i18n';
+import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
 import {
     type IBlanksCard,
@@ -10,7 +10,7 @@ import {
     type IVocabMatchCard,
     type IWritingBlocksCard,
     type IWritingCard
-} from '../cards';
+} from '../../../components/cards';
 import './Lesson.css';
 
 export interface Lesson {

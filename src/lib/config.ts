@@ -62,13 +62,13 @@ export const loadConfig = async (): Promise<Config> => {
     configPromise = (async () => {
         let defaultConfig, appConfigRaw;
         try {
-            defaultConfig = (await import('./default.config.json')).default;
+            defaultConfig = (await import('../default.config.json')).default;
         } catch (err) {
             throw new Error('Default config file did not properly load');
         }
 
         try {
-            appConfigRaw = (await import('../app.config.json')).default;
+            appConfigRaw = (await import('../../app.config.json')).default;
         } catch (err) {
             throw new Error('Config file "app.config.json" did not properly load');
         }

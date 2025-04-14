@@ -2,7 +2,7 @@ import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import MultipleChoiceComponent, { type IMultipleChoiceCard, type IMultipleChoiceCardProps } from "./MultipleChoice";
 import { renderTestElement } from "../../../../jest.setup";
 
-jest.mock("../../../i18n", () => ({
+jest.mock("../../../lib/i18n", () => ({
     t: (key: string) => key,
 }));
 
