@@ -21,6 +21,7 @@ import { useI18n } from "../../contexts/I18nProvider";
 type Props = {
     card: IAnyCard | null;
     lesson: Lesson;
+    tabindex?: number;
     onComplete?: () => void;
     onCorrect?: () => void;
     onIncorrect?: () => void;
@@ -30,7 +31,10 @@ type Props = {
 export default function Card(props: Props) {
     const { t } = useI18n();
     return (
-        <div ondblclick={props.ondblclick}>
+        <div
+            tabindex={props.tabindex || undefined}
+            ondblclick={props.ondblclick}
+        >
             <Switch fallback={<p>Unknown lesson card...</p>}>
                 <Match when={!props.card}>
                     <p>{t("lesson_complete")}</p>
@@ -91,6 +95,6 @@ export default function Card(props: Props) {
                     />
                 </Match>
             </Switch>
-        </div>
+        </div >
     );
 }

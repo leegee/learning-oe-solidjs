@@ -94,7 +94,7 @@ const EditCardModal = (props: EditCardModalProps) => {
         if (answer && isAnyCardWithAnswer(props.card!)) {
             setAnswer(answer);
         }
-        // If there is an answer that doesn't match the answerOptions, remove it
+        // TODO If there is an answer that doesn't match the answerOptions, remove it
     }
 
     if (!props.card) {
@@ -102,73 +102,71 @@ const EditCardModal = (props: EditCardModalProps) => {
     }
 
     return (
-        <aside class="modal-bg">
-            <div class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
-                <section>
-                    <h2>Edit Card</h2>
+        <aside class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
+            <section>
+                <h2>Edit Card</h2>
 
-                    {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
+                {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
 
-                    {question()
-                        && <section class='question'>
-                            <TextInput
-                                multiline={true}
-                                label={`Question`}
-                                value={question() ?? ''}
-                                onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
-                                placeholder="Option: enter a question"
-                            />
-                        </section>
-                    }
-
-                    {(props.card! as IAnyCardWithAnswer).answer
-                        && props.card.class !== 'writing-blocks'
-                        && props.card.class !== 'multiple-choice'
-                        && <TextInput
-                            label={`Answer`}
-                            value={(props.card as IAnyCardWithAnswer).answer}
-                            onInput={(e: InputEvent) => setAnswer((e.target as HTMLInputElement).value) as string}
-                            placeholder="Enter answer"
+                {question()
+                    && <section class='question'>
+                        <TextInput
+                            multiline={true}
+                            label={`Question`}
+                            value={question() ?? ''}
+                            onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
+                            placeholder="Option: enter a question"
                         />
-                    }
+                    </section>
+                }
 
-                    {"words" in props.card
-                        && <BooleanText
-                            list={words()}
-                            onUpdate={(...args) => onUpdate(setWords, ...args)}
-                        />
-                    }
+                {(props.card! as IAnyCardWithAnswer).answer
+                    && props.card.class !== 'writing-blocks'
+                    && props.card.class !== 'multiple-choice'
+                    && <TextInput
+                        label={`Answer`}
+                        value={(props.card as IAnyCardWithAnswer).answer}
+                        onInput={(e: InputEvent) => setAnswer((e.target as HTMLInputElement).value) as string}
+                        placeholder="Enter answer"
+                    />
+                }
 
-                    {"answers" in props.card
-                        && <AnswerText
-                            answer={answer()}
-                            list={answers()}
-                            onUpdate={(...args) => onUpdate(setAnswers, ...args)}
-                        />
-                    }
+                {"words" in props.card
+                    && <BooleanText
+                        list={words()}
+                        onUpdate={(...args) => onUpdate(setWords, ...args)}
+                    />
+                }
 
-                    {"options" in props.card
-                        && <AnswerText
-                            answer={answer()}
-                            list={options()}
-                            onUpdate={(...args) => onUpdate(setOptions, ...args)}
-                        />
-                    }
+                {"answers" in props.card
+                    && <AnswerText
+                        answer={answer()}
+                        list={answers()}
+                        onUpdate={(...args) => onUpdate(setAnswers, ...args)}
+                    />
+                }
 
-                    {"vocab" in props.card
-                        && <VocabText
-                            list={vocab()}
-                            onUpdate={(...args) => onUpdate(setVocab, ...args)}
-                        />
-                    }
+                {"options" in props.card
+                    && <AnswerText
+                        answer={answer()}
+                        list={options()}
+                        onUpdate={(...args) => onUpdate(setOptions, ...args)}
+                    />
+                }
 
-                </section>
+                {"vocab" in props.card
+                    && <VocabText
+                        list={vocab()}
+                        onUpdate={(...args) => onUpdate(setVocab, ...args)}
+                    />
+                }
 
-                <footer class="modal-actions">
-                    <button onClick={handleSave}>Save</button>
-                    <button onClick={props.onCancel}>Cancel</button>
-                </footer>
-            </div>
+            </section>
+
+            <footer class="modal-actions">
+                <button onClick={handleSave}>Save</button>
+                <button onClick={props.onCancel}>Cancel</button>
+            </footer>
         </aside>
     );
 };

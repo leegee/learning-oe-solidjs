@@ -1,6 +1,6 @@
 import './App.css';
 import { JSX } from "solid-js";
-import { Route, Router } from "@solidjs/router";
+import { Route, Router, useParams } from "@solidjs/router";
 import { ConfigProvider } from "./contexts/Config";
 import { ConfirmProvider } from "./contexts/Confirm";
 import { courseStore } from "./global-state/course";
@@ -11,6 +11,7 @@ import { type Config } from "./lib/config";
 import DashboardCourseOverview from "./routes/dashboard";
 import MenuContent from "./components/Menu/MenuContent";
 import { useAppPath } from "./lib/use-app-path";
+import Editor from './routes/dashboard/Editor';
 
 export interface IAppProps {
   config: Config;
@@ -41,12 +42,15 @@ const App = (props: IAppProps) => {
 
   return (
     <Router base={baseRoute} root={Layout} >
-      <Route path="/dashboard" component={() => (
-        <DashboardCourseOverview />
-      )} />
+      <Route path="/dashboard">
+        <Route path="" component={() => <DashboardCourseOverview />} />
+        <Route path=":courseIdx" component={() => <DashboardCourseOverview />} />
+      </Route>
+      <Route path="editor/:lessonIdx/:cardIdx" component={() => <Editor />} />
+
       <Route path="/lesson" component={() => <CourseComponent />} />
       <Route path="/menu" component={() => <MenuContent />} />
-      <Route path="/" component={() => <CourseComponent />} />
+      <Route path="/" component={() => <MenuContent />} />
       <Route path="*" component={() => <h1>Unknown Route</h1>} />
     </Router >
   );

@@ -1,19 +1,31 @@
-import { createEffect, createSignal, Show } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
 import EditableText from "./details/Editor/EditableText";
 import Card from "../Lessons/Card";
-import EditCardModal from "./details/EditCardModal";
 import { Lesson } from "../Lessons/Lesson";
+import { useNavigate, useParams } from "@solidjs/router";
+import './DashboardCourseOverview.css';
+
+const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
+
+export const persist = (data: any) => {
+    localStorage.setItem(EDITING_LESSON_STORAGE_KEY, JSON.stringify(data));
+};
 
 export default function DashboardCourseOverview() {
-    const [editingCardInfo, setEditingCardInfo] = createSignal<{ lessonIdx: number; cardIdx: number } | null>(null);
+    const navigate = useNavigate();
+    const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
-    const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
+
+    const courseIdx = Number(params.courseId);
 
     createEffect(() => {
-        const { store } = courseStore;
-        const { lessons, courseMetadata } = store;
+        if (courseIdx) {
+            courseStore.setSelectedCourse(courseIdx);
+        }
+
+        const { lessons, courseMetadata } = courseStore.store;
 
         if (courseMetadata) {
             setLessons(lessons);
@@ -21,10 +33,6 @@ export default function DashboardCourseOverview() {
             console.log("---set lessons", lessons);
         }
     });
-
-    const persist = (data: any) => {
-        localStorage.setItem(EDITING_LESSON_STORAGE_KEY, JSON.stringify(data));
-    };
 
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
         const updatedLessons = [...lessons()];
@@ -54,129 +62,114 @@ export default function DashboardCourseOverview() {
         }
     };
 
-    const cancelEditing = (e: Event) => {
-        e.preventDefault();
-        setEditingCardInfo(null);
-    };
-
     return (
-        <>
-            <article class="course-overview" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-                <header>
-                    <h2>
-                        Course Overview:&nbsp;
-                        <q>
-                            <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
-                        </q>
-                    </h2>
-                    <h3>All Lessons and Cards</h3>
+        <article class="course-overview" role="dialog" aria-modal="true">
+            <header>
+                <h2>
+                    Course Overview:&nbsp;
+                    <q>
+                        <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
+                    </q>
+                </h2>
+                <h3>All Lessons and Cards</h3>
+
+                {lessons().length > 1 &&
                     <nav class="lesson-pager">
                         {lessons().map((lesson, idx) => (
-                            <a role="button" class="pager-link button" href={`#lesson-${idx}`}>
+                            <button
+                                class="pager-link button"
+                                onClick={() => navigate(`#lesson-${idx}`)}
+                                aria-label={`Go to lesson ${idx + 1}: ${lesson.title}`}
+                            >
                                 {idx + 1} {lesson.title}
-                            </a>
+                            </button>
                         ))}
                     </nav>
-                </header>
+                }
+            </header>
 
-                <div class="lessons">
-                    {lessons().map((lesson, idx) => (
-                        <section id={`lesson-${idx}`}>
-                            <header>
-                                <h3>
-                                    <EditableText
-                                        value={lesson.title}
-                                        onChange={(newVal) => {
-                                            const updatedLessons = [...lessons()];
-                                            updatedLessons[idx] = { ...lesson, title: newVal };
-                                            setLessons(updatedLessons);
-                                            persist(updatedLessons);
-                                        }}
-                                    />
-                                </h3>
+            <div class="lessons">
+                {lessons().map((lesson, idx) => (
+                    <section id={`lesson-${idx}`}>
+                        <header>
+                            <h3>
+                                <EditableText
+                                    value={lesson.title}
+                                    onChange={(newVal) => {
+                                        const updatedLessons = [...lessons()];
+                                        updatedLessons[idx] = { ...lesson, title: newVal };
+                                        setLessons(updatedLessons);
+                                        persist(updatedLessons);
+                                    }}
+                                />
+                            </h3>
 
-                                <h4>
-                                    <EditableText
-                                        value={lesson.description || ""}
-                                        onChange={(newVal) => {
-                                            const updatedLessons = [...lessons()];
-                                            updatedLessons[idx] = { ...lesson, description: newVal };
-                                            setLessons(updatedLessons);
-                                            persist(updatedLessons);
-                                        }}
-                                    />
-                                </h4>
-                            </header>
+                            <h4>
+                                <EditableText
+                                    value={lesson.description || ""}
+                                    onChange={(newVal) => {
+                                        const updatedLessons = [...lessons()];
+                                        updatedLessons[idx] = { ...lesson, description: newVal };
+                                        setLessons(updatedLessons);
+                                        persist(updatedLessons);
+                                    }}
+                                />
+                            </h4>
+                        </header>
 
-                            <div class="cards">
-                                {lesson.cards.map((card, cardIdx) => (
-                                    <div class="card-holder">
-                                        <div class="vertical-controls top-controls">
-                                            <button
-                                                title="Move up to the previous lessons"
-                                                disabled={idx === 0}
-                                                onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
-                                            >
-                                                ↑
-                                            </button>
-                                        </div>
-
-                                        <div class="horizontal-controls">
-                                            <button
-                                                title="Swap with the card on the left"
-                                                disabled={cardIdx === 0}
-                                                onClick={() => moveCard(idx, cardIdx, -1)}
-                                            >
-                                                ←
-                                            </button>
-
-                                            <Card
-                                                card={card}
-                                                lesson={lesson}
-                                                ondblclick={() => {
-                                                    setEditingCardInfo({ lessonIdx: idx, cardIdx });
-                                                }}
-                                            />
-
-                                            <button
-                                                title="Swap with the card to the right"
-                                                disabled={cardIdx === lesson.cards.length - 1}
-                                                onClick={() => moveCard(idx, cardIdx, 1)}
-                                            >
-                                                →
-                                            </button>
-                                        </div>
-
-                                        <div class="vertical-controls bottom-controls">
-                                            <button
-                                                title="Move to the next lesson"
-                                                onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
-                                                disabled={idx === lessons().length - 1}
-                                            >
-                                                ↓
-                                            </button>
-                                        </div>
+                        <div class="cards">
+                            {lesson.cards.map((card, cardIdx) => (
+                                <div class="card-holder">
+                                    <div class="vertical-controls top-controls">
+                                        <button
+                                            title="Move up to the previous lessons"
+                                            disabled={idx === 0}
+                                            onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
+                                        >
+                                            ↑
+                                        </button>
                                     </div>
-                                ))}
-                            </div>
-                        </section>
-                    ))}
-                </div>
-            </article>
 
-            <Show when={editingCardInfo()}>
-                <EditCardModal
-                    card={lessons()[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx]}
-                    onSave={(updatedCard: any) => {
-                        const data = [...lessons()];
-                        data[editingCardInfo()!.lessonIdx].cards[editingCardInfo()!.cardIdx] = updatedCard;
-                        setLessons(data);
-                        persist(data);
-                        setEditingCardInfo(null);
-                    }}
-                    onCancel={(e: Event) => cancelEditing(e)}
-                />
-            </Show>
-        </>
+                                    <div class="horizontal-controls">
+                                        <button
+                                            title="Swap with the card on the left"
+                                            disabled={cardIdx === 0}
+                                            onClick={() => moveCard(idx, cardIdx, -1)}
+                                        >
+                                            ←
+                                        </button>
+
+                                        <Card
+                                            tabindex={-1}
+                                            card={card}
+                                            lesson={lesson}
+                                            ondblclick={() => navigate(`/editor/${courseIdx}/${idx}/${cardIdx}`)}
+                                        />
+
+                                        <button
+                                            title="Swap with the card to the right"
+                                            disabled={cardIdx === lesson.cards.length - 1}
+                                            onClick={() => moveCard(idx, cardIdx, 1)}
+                                        >
+                                            →
+                                        </button>
+                                    </div>
+
+                                    <div class="vertical-controls bottom-controls">
+                                        <button
+                                            title="Move to the next lesson"
+                                            onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
+                                            disabled={idx === lessons().length - 1}
+                                        >
+                                            ↓
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                ))}
+            </div>
+        </article>
     );
 }
