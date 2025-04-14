@@ -57,8 +57,8 @@ const App = (props: IAppProps) => {
         <Route path="finished" component={CourseFinishedScreen} />
       </Route>
 
-      <Route path="/menu" component={() => <MenuContent />} />
-      <Route path="/" component={() => <MenuContent />} />
+      <Route path="/menu" component={MenuContent} />
+      <Route path="/" component={MenuContent} />
       <Route path="*" component={() => <h1>Unknown Route</h1>} />
     </Router >
   );

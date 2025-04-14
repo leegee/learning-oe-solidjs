@@ -1,4 +1,4 @@
-import { createMemo } from "solid-js";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonIntro from "./LessonIntro";
 import * as state from "../../global-state/lessons";
@@ -8,23 +8,43 @@ const LessonIntroScreen = () => {
     const params = useParams();
     const navigate = useNavigate();
 
-    const courseIndex = createMemo(() => Number(params.courseIdx));
-    const lessonIndex = createMemo(() => Number(params.lessonIdx));
+    const [courseIdx, setCourseIdx] = createSignal(Number(-1));
+    const [lessonIdx, setLessonIdx] = createSignal(Number(-1));
 
-    const lesson = createMemo(() => courseStore.store.lessons[lessonIndex()]);
+    // React to changes in the route parameters
+    createEffect(() => {
+        const newcourseIdx = Number(params.courseIdx);
+        if (newcourseIdx !== courseIdx()) {
+            setCourseIdx(newcourseIdx);
+            state.setCourseIndex(newcourseIdx);
+        }
+
+        const newLessonIdx = Number(params.courseIdx);
+        if (newLessonIdx !== lessonIdx()) {
+            setCourseIdx(newLessonIdx);
+            setLessonIdx(newLessonIdx);
+            state.setCurrentLessonIndex(newLessonIdx);
+        }
+    });
+
+    const lesson = createMemo(() => courseStore.store.lessons[lessonIdx()]);
 
     const startLesson = () => {
-        state.resetLesson(lessonIndex());
-        navigate(`/course/${courseIndex()}/${lessonIndex()}/in-progress`);
+        state.resetLesson(lessonIdx());
+        navigate(`/course/${courseIdx()}/${lessonIdx()}/in-progress`);
     };
 
     return (
-        <LessonIntro
-            title={lesson()?.title}
-            description={lesson()?.description}
-            index={lessonIndex()}
-            onLessonStart={startLesson}
-        />
+        <Show when={lesson()} fallback={<div>Loading Lesson Data...</div>}>
+            {(l) => (
+                <LessonIntro
+                    title={lesson()?.title}
+                    description={lesson()?.description}
+                    index={lessonIdx()}
+                    onLessonStart={startLesson}
+                />
+            )}
+        </Show>
     );
 };
 
