@@ -53,11 +53,3 @@ const App = (props: IAppProps) => {
 };
 
 export default App;
-
-// export default () => {
-//   return (
-//     <Router>
-//       <Route path="*" component={() => <div>Inside router</div>} />
-//     </Router>
-//   );
-// };
