@@ -1,4 +1,4 @@
-import './Menu.css';
+import './MenuToggleButton.css';
 import { useLocation, useNavigate } from "@solidjs/router";
 import { createSignal } from "solid-js";
 import { useAppPath } from '../../lib/use-app-path';

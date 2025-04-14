@@ -21,10 +21,18 @@
     font-weight: 100;
 }
 
-.course-overview>section header {
+.course-overview section header {
     flex-direction: row;
     align-items: baseline;
     gap: 1em;
+    border: 1pt solid var(--oe-clr-border);
+    padding: 1em;
+
+}
+
+.course-overview section header h3 {
+    font-weight: 300;
+    font-size: 120%;
 }
 
 .course-overview>section>h4 {
@@ -47,15 +55,22 @@
 }
 
 .course-overview .lesson-pager .pager-link {
-    font-size: 1rem;
+    font-size: 0.6em;
     text-decoration: none;
-    font-weight: 200;
+    font-weight: 100 !important;
+    font-variant: small-caps;
+    text-transform: uppercase;
+    opacity: 66%;
     display: inline-block;
-    padding: 4pt;
+    padding: 2pt 2em;
+    margin: 1pt;
+    border: none;
+    outline: 1pt solid var(--oe-clr-border);
 }
 
 .course-overview .lesson-pager .pager-link:hover {
-    outline: 1pt solid var(--oe-clr-border);
+    outline: 1pt solid var(--oe-clr-highlight);
+    opacity: 100%;
 }
 
 .course-overview .cards {
@@ -227,7 +242,7 @@
 }
 
 .card-holder .vertical-controls button,
-.card-holder .horizontal-controls button {
+.card-holder .horizontal-controls>button {
     color: transparent;
     width: 100%;
     text-align: center;
@@ -239,7 +254,7 @@
     outline: 0;
 }
 
-.card-holder .card-holder:hover .vertical-controls>button:not([disabled]),
-.card-holder .card-holder:hover .horizontal-controls>button:not([disabled]) {
+.card-holder:hover .vertical-controls>button:not([disabled]),
+.card-holder:hover .horizontal-controls>button:not([disabled]) {
     color: var(--oe-clr-fg);
 }

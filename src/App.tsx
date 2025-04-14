@@ -46,8 +46,8 @@ const App = (props: IAppProps) => {
         <Route path="" component={() => <DashboardCourseOverview />} />
         <Route path=":courseIdx" component={() => <DashboardCourseOverview />} />
       </Route>
-      <Route path="editor/:lessonIdx/:cardIdx" component={() => <Editor />} />
 
+      <Route path="editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <Editor />} />
       <Route path="/lesson" component={() => <CourseComponent />} />
       <Route path="/menu" component={() => <MenuContent />} />
       <Route path="/" component={() => <MenuContent />} />

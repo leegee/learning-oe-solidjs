@@ -1,11 +1,11 @@
 // components/Menu/Menu.tsx
+import './Menu.css';
 import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/Config";
 import ResetCourseButtonComponent from "../../routes/lessons/ResetCourseButton";
 import TitleComponent from "./Title";
-import './Menu.css';
 import { useNavigate } from "@solidjs/router";
 import CourseOverviewButton from "../../routes/dashboard/CourseOverviewButton";
 import { useI18n } from "../../contexts/I18nProvider";
@@ -60,39 +60,38 @@ const MenuContent = () => {
     });
 
     return (
-        <aside aria-roledescription="Toggle menu" class="menu-container">
-            <div class={`hamburger-menu`}>
-                <section class='card'>
-                    <TitleComponent title={config.appTitle} />
+        <aside aria-roledescription="Toggle menu" class="hamburger-menu">
+            <section class='card'>
 
-                    {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
+                <TitleComponent title={config.appTitle} />
 
-                    <nav class="course-menu">
-                        {config.lessons.map((course, index) => (
-                            <li tabIndex={index + 1} class={localCourseIndex() === index ? 'selected' : ''}>
-                                <button onClick={() => setLocalSelectedCourse(index)}>
-                                    {course.title}
-                                </button>
+                {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
-                                {localCourseIndex() === index &&
-                                    store.selectedCourseIndex === index &&
-                                    store.courseMetadata &&
-                                    !store.loading && (
-                                        <CourseOverviewButton />
-                                    )}
-                            </li>
-                        ))}
+                <nav class="course-menu">
+                    {config.lessons.map((course, index) => (
+                        <li tabIndex={index + 1} class={localCourseIndex() === index ? 'selected' : ''}>
+                            <button onClick={() => setLocalSelectedCourse(index)}>
+                                {course.title}
+                            </button>
 
-                        <li tabIndex={config.lessons.length + 1}>
-                            <ResetCourseButtonComponent />
+                            {localCourseIndex() === index &&
+                                store.selectedCourseIndex === index &&
+                                store.courseMetadata &&
+                                !store.loading && (
+                                    <CourseOverviewButton />
+                                )}
                         </li>
-                    </nav>
+                    ))}
 
-                    <footer>
-                        <small>Version {packageJson.version}</small>
-                    </footer>
-                </section>
-            </div>
+                    <li tabIndex={config.lessons.length + 1}>
+                        <ResetCourseButtonComponent />
+                    </li>
+                </nav>
+
+                <footer>
+                    <small>Version {packageJson.version}</small>
+                </footer>
+            </section>
         </aside>
     );
 };

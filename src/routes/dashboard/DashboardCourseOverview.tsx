@@ -1,10 +1,11 @@
+import './DashboardCourseOverview.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
 import EditableText from "./details/Editor/EditableText";
-import Card from "../Lessons/Card";
-import { Lesson } from "../Lessons/Lesson";
+import Card from "../lessons/Card";
+import { Lesson } from "../lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
-import './DashboardCourseOverview.css';
+import { useI18n } from "../../contexts/I18nProvider";
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -13,6 +14,7 @@ export const persist = (data: any) => {
 };
 
 export default function DashboardCourseOverview() {
+    const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
@@ -29,7 +31,6 @@ export default function DashboardCourseOverview() {
         if (courseMetadata) {
             setLessons(lessons);
             setCourseTitle(courseMetadata.courseTitle);
-            console.log("---set lessons", lessons);
         }
     });
 
@@ -65,7 +66,7 @@ export default function DashboardCourseOverview() {
         <article class="course-overview" role="dialog" aria-modal="true">
             <header>
                 <h2>
-                    Course Overview:&nbsp;
+                    {t('course')}:
                     <q>
                         <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
                     </q>
@@ -76,7 +77,7 @@ export default function DashboardCourseOverview() {
                     <nav class="lesson-pager">
                         {lessons().map((lesson, idx) => (
                             <button
-                                class="pager-link button"
+                                class="pager-link"
                                 onClick={() => navigate(`#lesson-${idx}`)}
                                 aria-label={`Go to lesson ${idx + 1}: ${lesson.title}`}
                             >

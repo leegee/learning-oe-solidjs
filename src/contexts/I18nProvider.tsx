@@ -32,6 +32,7 @@ export const I18nProvider = (props: II18nProviderProps) => {
 
     createEffect(() => {
         (async () => {
+            console.log('Load props.config.i18n.availableLanguages', props.config.i18n.availableLanguages);
             const resources = Object.fromEntries(
                 Object.entries(props.config.i18n.availableLanguages).map(
                     ([lang, translations]) => [lang, { translation: translations }]
@@ -46,6 +47,7 @@ export const I18nProvider = (props: II18nProviderProps) => {
             });
 
             setLanguage(i18n.language);
+            console.log("i18n language:", i18n.language);
 
             i18n.on("languageChanged", (lng) => {
                 setLanguage(lng);
@@ -55,7 +57,9 @@ export const I18nProvider = (props: II18nProviderProps) => {
         })();
     });
 
-    const t = i18n.t;
+    const t = (key: string, args?: any): string => {
+        return String(i18n.t(key, args));
+    };
 
     return (
         <I18nContext.Provider value={{ t, language, setLanguage }}>
