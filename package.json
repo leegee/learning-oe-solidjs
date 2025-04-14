@@ -22,7 +22,6 @@
     "ajv": "^8.17.1",
     "dexie": "^4.0.11",
     "i18next": "^24.2.2",
-    "solid-app-router": "^0.4.2",
     "solid-js": "^1.9.5"
   },
   "devDependencies": {
