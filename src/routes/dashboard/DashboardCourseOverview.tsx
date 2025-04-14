@@ -81,7 +81,7 @@ export default function DashboardCourseOverview() {
                                 onClick={() => navigate(`#lesson-${idx}`)}
                                 aria-label={`Go to lesson ${idx + 1}: ${lesson.title}`}
                             >
-                                {idx + 1} {lesson.title}
+                                {idx + 1}: {lesson.title}
                             </button>
                         ))}
                     </nav>
@@ -92,7 +92,7 @@ export default function DashboardCourseOverview() {
                 {lessons().map((lesson, idx) => (
                     <section id={`lesson-${idx}`}>
                         <header>
-                            <h3>
+                            <h3> {idx + 1}: &nbsp;
                                 <EditableText
                                     value={lesson.title}
                                     onChange={(newVal) => {

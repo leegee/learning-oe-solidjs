@@ -4,8 +4,9 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 0.3em 0;
-    padding: 0.3em 0.6em;
+    margin: 1.2em 0 0.6em;
+    padding: 0.8em 0.6em 0.3em;
+    border: 1pt solid var(--oe-clr-border);
 }
 
 .course-overview>header h2 {
@@ -47,10 +48,11 @@
     font-weight: normal;
 }
 
-.course-overview>nav.lesson-pager {
+.course-overview .lesson-pager {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: space-between;
     gap: 0.6em;
 }
 
@@ -62,7 +64,7 @@
     text-transform: uppercase;
     opacity: 66%;
     display: inline-block;
-    padding: 2pt 2em;
+    padding: 0.3em 0.6em;
     margin: 1pt;
     border: none;
     outline: 1pt solid var(--oe-clr-border);
