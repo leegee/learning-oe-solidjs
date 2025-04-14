@@ -36,7 +36,7 @@ const Editor = () => {
 
 
     if (!lessons || lessonIdx === -1 || cardIdx === -1) {
-        return <div>Loading... {courseIdx} {lessonIdx} {cardIdx}</div>;
+        return <div>Loading editor... {courseIdx} {lessonIdx} {cardIdx}</div>;
     }
 
     return (

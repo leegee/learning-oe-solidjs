@@ -53,7 +53,6 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
             setAreButtonsDisabled(false);
         } else {
             setAreButtonsDisabled(true);
-
             if (selectedOption() === props.card.answer) {
                 setIsCorrect(true);
                 props.onCorrect();

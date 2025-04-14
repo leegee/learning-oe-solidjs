@@ -11,6 +11,8 @@ interface LessonIntroProps {
 
 const LessonIntro = (props: LessonIntroProps) => {
     const { t } = useI18n();
+    console.log("t('type_in') =", t('type_in'));
+
 
     const handleClick = () => {
         enterFullscreen();
@@ -30,7 +32,9 @@ const LessonIntro = (props: LessonIntroProps) => {
             </article >
 
             <footer class="lesson-intro-footer">
-                <button class='next-button' onClick={handleClick}>{t('begin')}</button>
+                <button class='next-button' onClick={handleClick}>
+                    {t('begin')}
+                </button>
             </footer>
         </>
     );

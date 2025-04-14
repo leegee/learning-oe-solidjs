@@ -1,13 +1,13 @@
-import "./global-css/index.css";
+import './global-css/index.css';
 import { createRoot } from 'solid-js';
 import { render } from "solid-js/web";
 import { type Config, loadConfig } from './lib/config';
 import App from "./App";
+import { setupI18n } from './contexts/I18nProvider';
 
-const initializeAppConfig = async () => {
+const initializeAppConfig = async (): Promise<Config | null> => {
   try {
-    const config = await loadConfig();
-    return config;
+    return await loadConfig();
   } catch (error) {
     console.error("Error loading configuration:", error);
     return null;
@@ -20,9 +20,11 @@ const startApp = async () => {
     throw new Error("Failed to load config. App will not start.");
   }
 
-  const root = document.getElementById("root");
+  await setupI18n(appConfig);
 
   const jsx = <App config={appConfig as Config} />;
+
+  const root = document.getElementById("root");
 
   if (root) {
     root.innerHTML = '';
@@ -30,7 +32,6 @@ const startApp = async () => {
   } else {
     createRoot(() => jsx);
   }
-
 };
 
-startApp(); 
+await startApp(); 

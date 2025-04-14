@@ -1,22 +1,23 @@
 import './Lesson.css';
-import { createSignal, onCleanup, createMemo } from 'solid-js';
+import { createSignal, onCleanup, createMemo, createEffect } from 'solid-js';
 import { useConfirm } from "../../../contexts/Confirm";
 import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
 import {
-    type IBlanksCard,
-    type IDynamicVocabCard,
-    type IMultipleChoiceCard,
-    type IVocabMatchCard,
-    type IWritingBlocksCard,
-    type IWritingCard
+    type IAnyCard,
+    // type IBlanksCard,
+    // type IDynamicVocabCard,
+    // type IMultipleChoiceCard,
+    // type IVocabMatchCard,
+    // type IWritingBlocksCard,
+    // type IWritingCard
 } from '../../../components/cards';
 import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface Lesson {
     title: string;
     description?: string;
-    cards: (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
+    cards: IAnyCard[] // (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
 };
 
 export interface ILessonProps {
@@ -29,9 +30,15 @@ export interface ILessonProps {
 const LessonComponent = (props: ILessonProps) => {
     const { t } = useI18n();
     const { showConfirm } = useConfirm();
-    const [lessonStack, setLessonStack] = createSignal(props.lesson.cards);
-    const currentCard = createMemo(() => lessonStack()[0] ?? null);
+    const [lessonStack, setLessonStack] = createSignal<IAnyCard[]>([]);
+    const currentCard = createMemo(() => (lessonStack() && lessonStack()[0]) ?? null);
     let correctlyAnswered: null | boolean = null;
+
+    createEffect(() => {
+        if (props.lesson && props.lesson.cards) {
+            setLessonStack(props.lesson.cards);
+        }
+    })
 
     const leaveIfConfirmed = () => {
         showConfirm(t('confirm_leave_lesson'), () => {
@@ -60,7 +67,6 @@ const LessonComponent = (props: ILessonProps) => {
         window.removeEventListener('beforeunload', handleBeforeUnload);
     });
 
-
     const goToNextQuestionCard = () => {
         if (correctlyAnswered) {
             // Remove the first card
@@ -87,6 +93,10 @@ const LessonComponent = (props: ILessonProps) => {
         const currentCardIndex = props.lesson.cards.indexOf(lessonStack()[0]);
         props.onAnswer(currentCardIndex);
     };
+
+    if (!props.lesson || !props.lesson.cards) {
+        return 'Loading lesson cards...';
+    }
 
     return (
         <article class="lesson">

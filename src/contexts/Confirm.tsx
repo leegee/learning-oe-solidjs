@@ -1,6 +1,5 @@
 import "./Confirm.css";
 import { createContext, useContext, createSignal, type JSX, Show } from "solid-js";
-import { useI18n } from "./I18nProvider";
 
 const ConfirmContext = createContext<{ showConfirm: (message: string, action: () => void) => void }>();
 
@@ -9,8 +8,6 @@ interface IConfirmProviderProps {
 }
 
 export const ConfirmProvider = (props: IConfirmProviderProps) => {
-    const { t } = useI18n();
-
     const [isOpen, setIsOpen] = createSignal(false);
     const [confirmAction, setConfirmAction] = createSignal<() => void>(() => void (0));
     const [message, setMessage] = createSignal("");
@@ -38,8 +35,12 @@ export const ConfirmProvider = (props: IConfirmProviderProps) => {
                     <dialog class="confirm-dialog" open={isOpen()}>
                         <h3>{message()}</h3>
                         <footer>
-                            <button class="cancel-button" onClick={cancel}>{t('no')}</button>
-                            <button class="next-button" onClick={confirm}>{t('yes')}</button>
+                            <button class="cancel-button" onClick={cancel}>
+                                ✕
+                            </button>
+                            <button class="next-button" onClick={confirm}>
+                                ✔
+                            </button>
                         </footer>
                     </dialog>
                 </div>

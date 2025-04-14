@@ -1,5 +1,5 @@
+import './HomeScreen.css';
 import { JSX } from 'solid-js';
-import './Home.css';
 
 interface HomeScreenProps {
     children: JSX.Element;

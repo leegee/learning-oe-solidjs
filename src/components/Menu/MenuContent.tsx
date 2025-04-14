@@ -29,7 +29,7 @@ const MenuContent = () => {
             setSelectedCourse(courseIndex);
             return courseIndex;
         });
-        navigate('/lesson');
+        navigate('/course/' + courseIndex);
     };
 
     createEffect(() => {
