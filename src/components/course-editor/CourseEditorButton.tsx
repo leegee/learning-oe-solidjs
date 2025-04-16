@@ -1,4 +1,4 @@
-import './CourseOverviewButton.css';
+import './CourseEditorButton.css';
 import { useLocation, useNavigate } from "@solidjs/router";
 
 const CourseOverviewButton = () => {

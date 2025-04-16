@@ -13,7 +13,7 @@ import {
     VocabMatchCardComponent,
     WritingBlocksCardComponent,
     WritingCardComponent
-} from '../../components/cards';
+} from '../cards';
 
 import { type Lesson } from "./Lesson";
 import { useI18n } from "../../contexts/I18nProvider";

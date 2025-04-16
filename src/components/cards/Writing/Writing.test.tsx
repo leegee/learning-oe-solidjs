@@ -1,7 +1,7 @@
 import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from '../../../../jest.setup.tsx';
 
-import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing';
+import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing.tsx';
 
 describe('WritingCardComponent', () => {
     let mockOnCorrect: jest.Mock;

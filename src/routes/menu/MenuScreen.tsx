@@ -1,17 +1,16 @@
-// components/Menu/Menu.tsx
-import './Menu.css';
+import './MenuScreen.css';
 import { createSignal, createEffect, onCleanup, onMount } from "solid-js";
 import packageJson from '../../../package.json';
 import { courseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/Config";
-import ResetCourseButtonComponent from "../ResetCourseButton";
-import TitleComponent from "./Title";
+import ResetCourseButtonComponent from "../../components/ResetCourseButton";
+import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
-import CourseOverviewButton from "../../routes/dashboard/CourseOverviewButton";
+import CourseOverviewButton from "../../components/course-editor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 
 
-const MenuContent = () => {
+const MenuScreen = () => {
     const { t } = useI18n();
     const navigate = useNavigate();
     const { config } = useConfigContext();
@@ -96,4 +95,4 @@ const MenuContent = () => {
     );
 };
 
-export default MenuContent;
+export default MenuScreen;

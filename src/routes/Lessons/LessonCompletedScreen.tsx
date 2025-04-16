@@ -1,6 +1,6 @@
 import { useParams, useNavigate, useSearchParams } from "@solidjs/router";
 import { createMemo } from "solid-js";
-import LessonCompleted from "./LessonCompleted";
+import LessonCompleted from "../../components/Lessons/LessonCompleted";
 import { courseStore } from "../../global-state/course";
 
 const LessonCompletedScreen = () => {

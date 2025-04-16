@@ -1,5 +1,5 @@
 import { useParams } from "@solidjs/router";
-import CompletedAllLessons from "./CompletedAllLessons";
+import CompletedAllLessons from "../../components/Lessons/CompletedAllLessons";
 import { courseStore } from "../../global-state/course";
 
 const CourseFinishedScreen = () => {

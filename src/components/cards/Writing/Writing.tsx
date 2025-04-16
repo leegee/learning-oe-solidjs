@@ -1,8 +1,8 @@
 import './Writing.css';
 import { createSignal, createEffect, createMemo } from 'solid-js';
-import { type IBaseCard } from '../BaseCard.type';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
-import ActionButton from '../../ActionButton';
+import { type IBaseCard } from '../BaseCard.type.ts';
+import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import ActionButton from '../../ActionButton/index.ts';
 import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
 import { useI18n } from '../../../contexts/I18nProvider.tsx';
 

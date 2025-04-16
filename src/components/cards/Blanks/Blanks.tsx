@@ -1,7 +1,7 @@
 import './Blanks.css';
 import { createSignal, createEffect, type JSX } from 'solid-js';
 import { shuffleArray } from '../../../lib/shuffle-array';
-import { type IBaseCard } from '../../cards/';
+import { type IBaseCard } from '..';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import { useI18n } from '../../../contexts/I18nProvider';

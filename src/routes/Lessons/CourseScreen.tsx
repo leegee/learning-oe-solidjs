@@ -1,10 +1,10 @@
 import { children, JSX } from "solid-js";
 
-interface ICourseComponentProps {
+interface ICourseScreenProps {
     children?: JSX.Element;
 }
 
-const CourseComponent = (props: ICourseComponentProps) => {
+const CourseScreen = (props: ICourseScreenProps) => {
     const resolvedChildren = children(() => props.children);
 
     return (
@@ -14,4 +14,4 @@ const CourseComponent = (props: ICourseComponentProps) => {
     );
 };
 
-export default CourseComponent;
+export default CourseScreen;

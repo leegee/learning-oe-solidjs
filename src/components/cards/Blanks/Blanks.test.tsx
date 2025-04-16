@@ -1,5 +1,5 @@
 import { screen, fireEvent, waitFor } from 'solid-testing-library';
-import BlanksCardComponent, { IBlanksCardProps } from './Blanks';
+import BlanksCardComponent, { IBlanksCardProps } from './Blanks.tsx';
 import { renderTestElement } from '../../../../jest.setup.tsx';
 import { MockT as t } from '../../../../jest.setup.tsx';
 

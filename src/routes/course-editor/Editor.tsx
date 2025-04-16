@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "@solidjs/router";
 import EditCardModal from "./details/EditCardModal";
 import { createEffect, createSignal, onCleanup } from "solid-js";
-import { Lesson } from "../lessons/Lesson";
+import { Lesson } from "../../components/Lessons/Lesson";
 import { courseStore } from "../../global-state/course";
-import { persist } from "./DashboardCourseOverview";
+import { persist } from "../../components/course-editor/CourseEditor";
 import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 
 const Editor = () => {

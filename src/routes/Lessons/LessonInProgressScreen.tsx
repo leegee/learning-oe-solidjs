@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, Show } from "solid-js";
-import LessonComponent, { Lesson } from "./Lesson";
+import LessonComponent, { Lesson } from "../../components/Lessons/Lesson";
 import * as state from "../../global-state/lessons";
 import { courseStore } from "../../global-state/course";
 

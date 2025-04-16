@@ -1,8 +1,8 @@
 import { createSignal, createEffect } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
-import LessonList from "./LessonList";
+import LessonList from "../../components/Lessons/LessonList";
 import HomeScreen from "./HomeScreen";
-import Stats from "./Stats";
+import Stats from "../../components/Stats";
 import * as state from "../../global-state/lessons";
 
 const CourseHome = () => {

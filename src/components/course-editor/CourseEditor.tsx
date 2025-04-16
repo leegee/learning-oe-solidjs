@@ -1,9 +1,9 @@
-import './DashboardCourseOverview.css';
+import './CourseEditor.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
-import EditableText from "./details/Editor/EditableText";
-import Card from "../lessons/Card";
-import { Lesson } from "../lessons/Lesson";
+import EditableText from "../../routes/course-editor/details/Editor/EditableText";
+import Card from "../Lessons/Card";
+import { Lesson } from "../Lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 
@@ -66,7 +66,7 @@ export default function DashboardCourseOverview() {
         <article class="course-overview" role="dialog" aria-modal="true">
             <header>
                 <h2>
-                    {t('course')}:
+                    {t('course')}:&nbsp;
                     <q>
                         <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
                     </q>

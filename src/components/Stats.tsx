@@ -1,7 +1,7 @@
 import './Stats.css';
 import { createSignal, createEffect } from 'solid-js';
-import * as state from "../../global-state/lessons";
-import { useI18n } from '../../contexts/I18nProvider';
+import * as state from "../global-state/lessons";
+import { useI18n } from '../contexts/I18nProvider';
 
 const Stats = () => {
     const { t } = useI18n();

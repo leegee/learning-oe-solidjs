@@ -7,16 +7,16 @@ import { ConfirmProvider } from "./contexts/Confirm";
 import { I18nProvider } from "./contexts/I18nProvider";
 import { type Config } from "./lib/config";
 import { useAppPath } from "./lib/use-app-path";
-import CourseComponent from "./routes/lessons/Course";
+import CourseScreen from "./routes/lessons/CourseScreen";
 import CourseFinishedScreen from "./routes/lessons/CourseFinishedScreen";
-import CourseHome from './routes/lessons/CourseHome';
-import DashboardCourseOverview from "./routes/dashboard";
-import Editor from './routes/dashboard/Editor';
+import CourseHomeScreen from './routes/lessons/CourseHomeScreen';
+import DashboardCourseOverview from "./components/course-editor";
+import Editor from './routes/course-editor/Editor';
 import Header from "./components/Header";
 import LessonCompletedScreen from "./routes/lessons/LessonCompletedScreen";
 import LessonInProgressScreen from './routes/lessons/LessonInProgressScreen';
 import LessonIntroScreen from './routes/lessons/LessonIntroScreen';
-import MenuContent from "./components/Menu/MenuContent";
+import MenuScreen from "./routes/menu/MenuScreen";
 
 export interface IAppProps {
   config: Config;
@@ -48,8 +48,8 @@ const App = (props: IAppProps) => {
 
       <Route path="editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <Editor />} />
 
-      <Route path="/course/:courseIdx" component={CourseComponent}>
-        <Route path="/" component={CourseHome} />
+      <Route path="/course/:courseIdx" component={CourseScreen}>
+        <Route path="/" component={CourseHomeScreen} />
         <Route path=":lessonIdx" component={LessonIntroScreen} />
         <Route path=":lessonIdx/intro" component={LessonIntroScreen} />
         <Route path=":lessonIdx/in-progress" component={LessonInProgressScreen} />
@@ -57,8 +57,8 @@ const App = (props: IAppProps) => {
         <Route path="finished" component={CourseFinishedScreen} />
       </Route>
 
-      <Route path="/menu" component={MenuContent} />
-      <Route path="/" component={MenuContent} />
+      <Route path="/menu" component={MenuScreen} />
+      <Route path="/" component={MenuScreen} />
       <Route path="*" component={() => <h1>Unknown Route</h1>} />
     </Router >
   );
