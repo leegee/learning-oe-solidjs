@@ -1,25 +1,18 @@
 import './CourseEditorButton.css';
-import { useLocation, useNavigate } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 
-const CourseOverviewButton = () => {
-    const location = useLocation();
+export interface ICourseEditorButtonProps {
+    courseIdx: number;
+}
+
+const CourseEditorButton = (props: ICourseEditorButtonProps) => {
     const navigate = useNavigate();
 
-    const isDashboardOpen = () => location.pathname.includes("/dashboard");
-
-    const handleNavigation = () => {
-        if (isDashboardOpen()) {
-            navigate('/');
-        } else {
-            navigate('/dashboard');
-        }
-    };
-
     return (
-        <button class="course-overview-button" onClick={handleNavigation}>
-            {isDashboardOpen() ? "" : "🖊️"}
+        <button class="course-editor-button" onClick={() => navigate('/dashboard/' + props.courseIdx)}>
+            🖊️
         </button>
     );
 };
 
-export default CourseOverviewButton;
+export default CourseEditorButton;
