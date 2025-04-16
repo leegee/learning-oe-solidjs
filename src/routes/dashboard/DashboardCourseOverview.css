@@ -1,10 +1,12 @@
 /* CourseOverview.css */
 
+.course-overview {}
+
 .course-overview>header {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 1.2em 0 0.6em;
+    margin: 1em 0;
     padding: 0.8em 0.6em 0.3em;
     border: 1pt solid var(--oe-clr-border);
 }
@@ -28,6 +30,7 @@
     gap: 1em;
     border: 1pt solid var(--oe-clr-border);
     padding: 1em;
+    margin: 1em 0;
 
 }
 
@@ -39,6 +42,17 @@
 .course-overview>section>h4 {
     height: 100%;
     padding-right: 1em;
+}
+
+.course-overview .lessons {
+    width: var(--oe-editor-max-width);
+    max-width: var(--oe-editor-max-width);
+    margin-left: calc((var(--oe-editor-max-width) - var(--oe-max-width)) / 2 * -1);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .course-overview>h4,
@@ -79,32 +93,27 @@
     overflow: auto;
     display: flex;
     flex-direction: row;
-    justify-content: center;
     flex-wrap: wrap;
-    max-width: clamp(80em, 90vw, 80em);
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 1em;
 }
 
 .card-holder {
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
-    align-items: center;
     align-items: stretch;
     justify-content: space-between;
+    border: 1pt solid var(--oe-clr-border);
+    height: 20em;
+    overflow: hidden;
 }
 
 .card-holder .card h2,
 .card-holder .card h3 {
     font-size: 160%;
     text-align: center;
-}
-
-
-.card-holder {
-    border: 1pt solid var(--oe-clr-border);
-    height: 20em;
-    margin: 1vw;
-    overflow: hidden;
-    display: inline-flex;
 }
 
 .course-overview .card-holder .card {

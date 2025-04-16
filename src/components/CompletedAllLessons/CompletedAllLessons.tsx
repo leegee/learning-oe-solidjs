@@ -1,7 +1,7 @@
 import './CompletedAllLessons.css';
 import { JSX } from 'solid-js';
 import { useI18n } from '../../contexts/I18nProvider';
-import ResetCourseButtonComponent from "../../routes/lessons/ResetCourseButton";
+import ResetCourseButtonComponent from "../ResetCourseButton";
 
 interface CompletedAllLessonsProps {
     totalLessons: number;

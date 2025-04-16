@@ -1,15 +1,16 @@
 import './Header.css';
 import { useConfigContext } from "../../contexts/Config";
 import MenuTogglebutton from "../Menu/MenuToggleButton";
-import { getCurrentLessonIndex, getTotalTakenLessons } from "../../global-state/lessons";
+import * as state from "../../global-state/lessons";
 import { useI18n } from "../../contexts/I18nProvider";
 
 const Header = () => {
     const { t } = useI18n();
     const { config } = useConfigContext();
 
-    const lessonIndex = getCurrentLessonIndex();
-    const totalLessons = getTotalTakenLessons();
+    // todo stats
+    const lessonIndex = state.getTotalCorrectAnswers();
+    const totalLessons = state.getTotalQuestionsAnswered();
 
     return (
 

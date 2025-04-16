@@ -1,7 +1,8 @@
 // lib/formatDuration.ts
-import { type TFunction } from "i18next";
 
-export const formatDuration = (t: TFunction, durationInSeconds: number,): string => {
+import { type Ii18nT } from "../contexts/I18nProvider";
+
+export const formatDuration = (t: Ii18nT, durationInSeconds: number,): string => {
     const hours = Math.floor(durationInSeconds / 3600);
     const minutes = Math.floor((durationInSeconds % 3600) / 60);
     const seconds = durationInSeconds % 60;

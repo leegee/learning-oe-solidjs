@@ -2,6 +2,8 @@ import { children, createContext, createEffect, createSignal, type JSX, useConte
 import i18n from "i18next";
 import { type Config } from "../lib/config";
 
+export type Ii18nT = typeof i18n.t;
+
 interface II18nProviderProps {
     children: JSX.Element;
 }
@@ -35,17 +37,17 @@ export const setupI18n = async (config: Config) => {
 
 
 export const I18nProvider = (props: II18nProviderProps) => {
+    const resolvedChildren = children(() => props.children);
     const [language, setLanguage] = createSignal(i18n.language);
     const [ready, setReady] = createSignal(false);
-    const resolvedChildren = children(() => props.children);
+    // const t: typeof i18n.t = (...args: Parameters<typeof i18n.t>) => i18n.t(...args);
+    const t = i18n.t;
 
     createEffect(() => {
         setLanguage(i18n.language);
         i18n.on("languageChanged", setLanguage);
         setReady(true);
     });
-
-    const t: typeof i18n.t = (...args: Parameters<typeof i18n.t>) => i18n.t(...args);
 
     if (!ready()) {
         return <div>Loading i18n...</div>;

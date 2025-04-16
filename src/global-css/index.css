@@ -20,7 +20,8 @@
     --oe-fade-timing: ease-in-out;
     --fade-delay: 0s;
 
-    --oe-max-width: 40rem;
+    --oe-max-width: 55rem;
+    --oe-editor-max-width: 55rem;
 }
 
 :root,
