@@ -1,10 +1,3 @@
-/* CourseOverviewButton.css */
-
-/* .course-editor {
-    max-width: var(--oe-editor-max-width);
-    width: clamp(0px, var(--oe-editor-max-width), 100vw);
-} */
-
 .course-editor-button {
     font-size: 1.2em;
     max-width: 2em;

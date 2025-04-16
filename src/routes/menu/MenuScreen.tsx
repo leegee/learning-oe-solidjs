@@ -6,7 +6,7 @@ import { useConfigContext } from "../../contexts/Config";
 import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
-import CourseOverviewButton from "../../components/course-editor/CourseEditorButton";
+import CourseEditorButton from "../../components/course-editor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 
 
@@ -67,17 +67,17 @@ const MenuScreen = () => {
                 {selectedCourseIndex() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                 <nav class="course-menu">
-                    {config.lessons.map((course, index) => (
-                        <li tabIndex={index + 1} class={localCourseIndex() === index ? 'selected' : ''}>
-                            <button onClick={() => setLocalSelectedCourse(index)}>
+                    {config.lessons.map((course, courseIdx) => (
+                        <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
+                            <button onClick={() => setLocalSelectedCourse(courseIdx)}>
                                 {course.title}
                             </button>
 
-                            {localCourseIndex() === index &&
-                                store.selectedCourseIndex === index &&
+                            {localCourseIndex() === courseIdx &&
+                                store.selectedCourseIndex === courseIdx &&
                                 store.courseMetadata &&
                                 !store.loading && (
-                                    <CourseOverviewButton />
+                                    <CourseEditorButton courseIdx={courseIdx} />
                                 )}
                         </li>
                     ))}

@@ -1,11 +1,13 @@
 import './CourseEditor.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
+import { setCourseIndex } from "../../global-state/lessons";
 import EditableText from "../../routes/course-editor/details/Editor/EditableText";
 import Card from "../Lessons/Card";
 import { Lesson } from "../Lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
+import { useConfirm } from '../../contexts/Confirm';
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -14,16 +16,20 @@ export const persist = (data: any) => {
 };
 
 export default function DashboardCourseOverview() {
+    const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
-    const [courseIdx, setCourseIdx] = createSignal<number>(Number(params.courseIdx));
+    const [courseIdx, setCourseIdx] = createSignal<number>(-1);
 
     createEffect(() => {
-        if (courseIdx()) {
-            courseStore.setSelectedCourse(courseIdx());
+        if (params.courseIdx) {
+            const courseIndex = Number(params.courseIdx) || 0;
+            setCourseIndex(courseIndex);
+            setCourseIdx(courseIndex);
+            courseStore.setSelectedCourse(courseIndex);
         }
 
         const { lessons, courseMetadata } = courseStore.store;
@@ -63,7 +69,7 @@ export default function DashboardCourseOverview() {
     };
 
     return (
-        <article class="course-overview" role="dialog" aria-modal="true">
+        <article class="course-editor" role="dialog" aria-modal="true">
             <header>
                 <h2>
                     {t('course')}:&nbsp;
@@ -89,15 +95,15 @@ export default function DashboardCourseOverview() {
             </header>
 
             <div class="lessons">
-                {lessons().map((lesson, idx) => (
-                    <section id={`lesson-${idx}`}>
+                {lessons().map((lesson, lessonIdx) => (
+                    <section id={`lesson-${lessonIdx}`}>
                         <header>
-                            <h3> {idx + 1}: &nbsp;
+                            <h3> {lessonIdx + 1}: &nbsp;
                                 <EditableText
                                     value={lesson.title}
                                     onChange={(newVal) => {
                                         const updatedLessons = [...lessons()];
-                                        updatedLessons[idx] = { ...lesson, title: newVal };
+                                        updatedLessons[lessonIdx] = { ...lesson, title: newVal };
                                         setLessons(updatedLessons);
                                         persist(updatedLessons);
                                     }}
@@ -109,7 +115,7 @@ export default function DashboardCourseOverview() {
                                     value={lesson.description || ""}
                                     onChange={(newVal) => {
                                         const updatedLessons = [...lessons()];
-                                        updatedLessons[idx] = { ...lesson, description: newVal };
+                                        updatedLessons[lessonIdx] = { ...lesson, description: newVal };
                                         setLessons(updatedLessons);
                                         persist(updatedLessons);
                                     }}
@@ -123,8 +129,8 @@ export default function DashboardCourseOverview() {
                                     <div class="vertical-controls top-controls">
                                         <button
                                             title="Move up to the previous lessons"
-                                            disabled={idx === 0}
-                                            onClick={() => moveCardBetweenLessons(idx, cardIdx, -1)}
+                                            disabled={lessonIdx === 0}
+                                            onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
                                         >
                                             ↑
                                         </button>
@@ -134,22 +140,51 @@ export default function DashboardCourseOverview() {
                                         <button
                                             title="Swap with the card on the left"
                                             disabled={cardIdx === 0}
-                                            onClick={() => moveCard(idx, cardIdx, -1)}
+                                            onClick={() => moveCard(lessonIdx, cardIdx, -1)}
                                         >
                                             ←
                                         </button>
 
-                                        <Card
+                                        {/* <Card
                                             tabindex={-1}
                                             card={card}
                                             lesson={lesson}
                                             ondblclick={() => navigate(`/editor/${courseIdx()}/${idx}/${cardIdx}`)}
-                                        />
+                                        /> */}
+
+                                        <div class="card-overlay-wrapper">
+                                            <Card
+                                                tabindex={-1}
+                                                card={card}
+                                                lesson={lesson}
+                                                ondblclick={() => navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)}
+                                            />
+
+                                            <div class="card-overlay">
+                                                <button title="Delete"
+                                                    class='control small-control'
+                                                    onClick={() => showConfirm(
+                                                        t('confirm_delete_card'), () => {
+                                                            const updatedLessons = [...lessons()];
+                                                            updatedLessons[lessonIdx].cards.splice(cardIdx, 1);
+                                                            setLessons(updatedLessons);
+                                                            persist(updatedLessons);
+                                                        }
+                                                    )}>🗑</button>
+
+                                                <button title="Edit"
+                                                    class='control'
+                                                    onClick={() => navigate(
+                                                        `/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`
+                                                    )}>✎</button>
+
+                                            </div>
+                                        </div>
 
                                         <button
                                             title="Swap with the card to the right"
                                             disabled={cardIdx === lesson.cards.length - 1}
-                                            onClick={() => moveCard(idx, cardIdx, 1)}
+                                            onClick={() => moveCard(lessonIdx, cardIdx, 1)}
                                         >
                                             →
                                         </button>
@@ -158,8 +193,8 @@ export default function DashboardCourseOverview() {
                                     <div class="vertical-controls bottom-controls">
                                         <button
                                             title="Move to the next lesson"
-                                            onClick={() => moveCardBetweenLessons(idx, cardIdx, 1)}
-                                            disabled={idx === lessons().length - 1}
+                                            onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
+                                            disabled={lessonIdx === lessons().length - 1}
                                         >
                                             ↓
                                         </button>
@@ -170,6 +205,6 @@ export default function DashboardCourseOverview() {
                     </section>
                 ))}
             </div>
-        </article>
+        </article >
     );
 }
