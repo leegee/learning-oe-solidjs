@@ -66,6 +66,7 @@
                 "lesson_completed_counts": "You answered {{questionCount}} questions, and made {{incorrectAnswerCount}} mistakes - in {{duration}}",
                 "lose_progress": "Are you sure you want to lose {{totalAnswered}} answers?",
                 "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
+                "confirm_delete_card": "Really delete this card?",
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             },
             "ang": {
@@ -111,6 +112,7 @@
                 "lesson_completed_counts": "You answered {{questionCount}} questions and made {{mistakeCount}} mistakes - in {{duration}}",
                 "lose_progress": "Are you sure you want to lose {{totalAnswered}} answers?",
                 "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
+                "confirm_delete_card": "Really delete this card?",
                 "confirm_leave_app": "Are you sure you want to leave this app?"
             }
         }
