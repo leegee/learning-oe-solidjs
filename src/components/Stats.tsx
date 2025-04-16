@@ -1,21 +1,12 @@
 import './Stats.css';
-import { createSignal, createEffect } from 'solid-js';
-import * as state from "../global-state/lessons";
+import { useLessonStore } from "../global-state/lessons";
 import { useI18n } from '../contexts/I18nProvider';
 
 const Stats = () => {
     const { t } = useI18n();
-    const [totalCorrectAnswers, setTotalCorrectAnswers] = createSignal<number>(state.getTotalCorrectAnswers());
-    const [totalIncorrectAnswers, setTotalIncorrectAnswers] = createSignal<number>(state.getTotalIncorrectAnswers());
-    const [totalQuestionsAnswered, setTotalQuestionsAnswered] = createSignal<number>(state.getTotalQuestionsAnswered());
+    const lessonStore = useLessonStore();
 
-    createEffect(() => {
-        setTotalCorrectAnswers(state.getTotalCorrectAnswers());
-        setTotalIncorrectAnswers(state.getTotalIncorrectAnswers());
-        setTotalQuestionsAnswered(state.getTotalQuestionsAnswered());
-    });
-
-    if (!totalQuestionsAnswered()) {
+    if (!lessonStore.getTotalQuestionsAnswered()) {
         return '';
     }
 
@@ -30,7 +21,7 @@ const Stats = () => {
                             {t('correct_answer_count_alt')}
                         </th>
                         <td class='correct-answers-value'>
-                            {totalCorrectAnswers()}
+                            {lessonStore.getTotalCorrectAnswers()}
                         </td>
                     </tr>
 
@@ -39,7 +30,7 @@ const Stats = () => {
                             {t('incorrect_answer_count_alt')}
                         </th>
                         <td class='incorrect-answers-value'>
-                            {totalIncorrectAnswers()}
+                            {lessonStore.getTotalQuestionsAnswered()}
                         </td>
                     </tr>
 
@@ -48,7 +39,7 @@ const Stats = () => {
                             {t('questions_answered_count_alt')}
                         </th>
                         <td class='questions-answered-value'>
-                            {totalQuestionsAnswered()}
+                            {lessonStore.getTotalQuestionsAnswered()}
                         </td>
                     </tr>
                 </tbody>

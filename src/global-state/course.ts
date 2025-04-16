@@ -97,10 +97,19 @@ export const courseStore = createRoot(() => {
         }));
     }
 
+    function reset() {
+        localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(getCourseIdx()));
+        localStorage.removeItem(storageKeys.ANSWERS(getCourseIdx()));
+        localStorage.removeItem(storageKeys.COURSE_INDEX);
+        // setCurrentLessonIndex(-1);
+        // TODO iterate over all courses and remove
+    }
+
     return {
         store,
         getCourseIdx,
         setCourseIdx,
         lessonTitles2Indicies,
+        reset
     };
 });

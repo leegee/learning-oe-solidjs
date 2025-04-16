@@ -8,6 +8,15 @@ import { ConfigProvider } from './src/contexts/Config';
 import { ConfirmProvider } from "./src/contexts/Confirm";
 import { MockI18nProvider } from "./src/tests/MockI18nContext";
 
+export const MockT: TFunction = ((key: string, _options?: any) => {
+    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx')
+    return key;
+}) as TFunction;
+
+jest.mock('i18next', () => ({
+    useI18n: () => ({ t: MockT }),
+}));
+
 export const MockConfig = {
     defaultLanguage: 'en',
     targetLanguage: 'ang',
@@ -24,14 +33,12 @@ export const MockConfig = {
     },
 };
 
-export const MockT: TFunction = ((key: string) => key) as TFunction;
-
 export const renderTestElement = <T extends object>(
     Component: (props: T & JSX.IntrinsicAttributes) => JSX.Element,
     props: T,
     mockConfig: Config = MockConfig
-) => {
-    render(() => (
+): ReturnType<typeof render> => {
+    return render(() => (
         <MockI18nProvider>
             <ConfigProvider config={mockConfig}>
                 <ConfirmProvider>

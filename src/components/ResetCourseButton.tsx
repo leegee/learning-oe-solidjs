@@ -1,18 +1,19 @@
 /* ResetAllButton */
 
 import { createMemo } from "solid-js";
-import { resetCourse, getTotalQuestionsAnswered } from "../global-state/lessons";
+import { useLessonStore } from "../global-state/lessons";
 import { useConfirm } from "../contexts/Confirm";
 import { useI18n } from "../contexts/I18nProvider";
+import { courseStore } from "../global-state/course";
 
 export const ResetCourseButtonComponent = () => {
     const { t } = useI18n();
-
+    const lessonStore = useLessonStore();
     const { showConfirm } = useConfirm();
-    const totalAnswered = createMemo(() => getTotalQuestionsAnswered());
+    const totalAnswered = createMemo(() => lessonStore.getTotalQuestionsAnswered());
 
     const onConfirmed = () => {
-        resetCourse();
+        courseStore.reset();
         window.location.reload();
     }
 

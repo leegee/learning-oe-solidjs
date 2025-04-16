@@ -1,8 +1,6 @@
 import { createContext, JSX } from "solid-js";
 import { useContext } from "solid-js";
-import { type TFunction } from "i18next";
-
-export const MockT: TFunction = ((key: string) => key) as TFunction;
+import { MockT } from "../../jest.setup";
 
 const MockI18nContext = createContext({
     t: MockT,

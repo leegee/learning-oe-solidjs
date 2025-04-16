@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import LessonComponent, { Lesson } from "../../components/Lessons/Lesson";
-import * as state from "../../global-state/lessons";
 import { courseStore } from "../../global-state/course";
+import { useLessonStore } from "../../global-state/lessons";
 
 const LessonInProgressScreen = () => {
     const params = useParams();
     const navigate = useNavigate();
-
+    const lessonStore = useLessonStore();
     const courseIndex = createMemo(() => Number(params.courseIdx));
     const lessonIndex = createMemo(() => Number(params.lessonIdx));
     const [lesson, setLesson] = createSignal<Lesson | null>(null);
@@ -24,8 +24,8 @@ const LessonInProgressScreen = () => {
     });
 
     createEffect(() => {
-        state.setCourseIdx(courseIndex());
-        state.setLessonidx(lessonIndex());
+        courseStore.setCourseIdx(courseIndex());
+        lessonStore.updateLessonIdx(lessonIndex());
     });
 
 
@@ -34,7 +34,7 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-        state.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
+        lessonStore.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
     };
 
     const onLessonComplete = () => {

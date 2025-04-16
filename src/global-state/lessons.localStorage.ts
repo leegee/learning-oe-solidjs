@@ -1,4 +1,4 @@
-interface Answers {
+export interface Answers {
     [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
 }
 

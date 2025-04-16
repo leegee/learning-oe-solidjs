@@ -1,7 +1,6 @@
 import { createSignal, Show, For } from "solid-js";
 import "./AddCardButton.css";
-
-const CARD_TYPES = ["note", "vocab", "example", "image"];
+import { CARD_CLASSES } from "../Cards";
 
 export default function AddCardButton(props: {
     onAdd: (cardClass: string) => void;
@@ -16,7 +15,7 @@ export default function AddCardButton(props: {
 
             <Show when={showOptions()}>
                 <div class={'card-class-picker'}>
-                    <For each={CARD_TYPES}>
+                    <For each={CARD_CLASSES}>
                         {(type) => (
                             <button
                                 onClick={() => {

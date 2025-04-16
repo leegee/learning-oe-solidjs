@@ -1,6 +1,6 @@
 import './LessonCompleted.css';
 import { formatDuration } from "../../lib/format-duration";
-import { getLessonIdx, getLessonQuestionsAnsweredIncorrectly, getLessonQuestionCount } from '../../global-state/lessons';
+import { useLessonStore } from '../../global-state/lessons';
 import { exitFullscreen } from '../../lib/fullscreen';
 import { useI18n } from '../../contexts/I18nProvider';
 
@@ -11,9 +11,10 @@ interface LessonCompletedComponentProps {
 
 const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const { t } = useI18n();
-    const idx = getLessonIdx();
-    const incorrectAnswerCount = getLessonQuestionsAnsweredIncorrectly(idx);
-    const questionCount = getLessonQuestionCount(idx);
+    const lessonStore = useLessonStore();
+    const idx = lessonStore.lessonIndex;
+    const incorrectAnswerCount = lessonStore.getLessonQuestionsAnsweredIncorrectly(idx);
+    const questionCount = lessonStore.getLessonQuestionCount(idx);
 
     const handleClick = () => {
         exitFullscreen();
