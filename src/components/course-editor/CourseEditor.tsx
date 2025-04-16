@@ -28,13 +28,36 @@ export default function DashboardCourseOverview() {
         setCourseIndex(courseIndex);
         courseStore.setSelectedCourse(courseIndex);
 
-        const { lessons, courseMetadata } = courseStore.store;
+        const lessons = courseStore.store.lessons;
+        const metadata = courseStore.store.courseMetadata;
 
-        if (courseMetadata) {
+        if (metadata) {
             setLessons(lessons);
-            setCourseTitle(courseMetadata.courseTitle);
+            setCourseTitle(metadata.courseTitle);
         }
     });
+
+    const deleteCard = (lessonIdx: number, cardIdx: number) => {
+        showConfirm(t('confirm_delete_card'), () => {
+            const updated = lessons().map((lesson, i) =>
+                i === lessonIdx
+                    ? {
+                        ...lesson,
+                        cards: lesson.cards.filter((_, j) => j !== cardIdx),
+                    }
+                    : lesson
+            );
+            setLessons(updated);
+            persist(updated);
+        })
+    }
+
+    const updateLesson = (lessonIdx: number, updateFn: (lesson: Lesson) => Lesson) => {
+        const updated = [...lessons()];
+        updated[lessonIdx] = updateFn(updated[lessonIdx]);
+        setLessons(updated);
+        persist(updated);
+    }
 
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
         const updatedLessons = [...lessons()];
@@ -70,7 +93,7 @@ export default function DashboardCourseOverview() {
                 <h2>
                     {t('course')}:&nbsp;
                     <q>
-                        <EditableText value={courseTitle()} onChange={(newVal) => setCourseTitle(newVal)} />
+                        <EditableText value={courseTitle()} onChange={setCourseTitle} />
                     </q>
                 </h2>
                 <h3>All Lessons and Cards</h3>
@@ -94,27 +117,22 @@ export default function DashboardCourseOverview() {
                 {lessons().map((lesson, lessonIdx) => (
                     <section id={`lesson-${lessonIdx}`}>
                         <header>
-                            <h3> {lessonIdx + 1}: &nbsp;
+                            <h3>
+                                {lessonIdx + 1}: &nbsp;
                                 <EditableText
                                     value={lesson.title}
-                                    onChange={(newVal) => {
-                                        const updatedLessons = [...lessons()];
-                                        updatedLessons[lessonIdx] = { ...lesson, title: newVal };
-                                        setLessons(updatedLessons);
-                                        persist(updatedLessons);
-                                    }}
+                                    onChange={(newVal) =>
+                                        updateLesson(lessonIdx, l => ({ ...l, title: newVal }))
+                                    }
                                 />
                             </h3>
 
                             <h4>
                                 <EditableText
                                     value={lesson.description || ""}
-                                    onChange={(newVal) => {
-                                        const updatedLessons = [...lessons()];
-                                        updatedLessons[lessonIdx] = { ...lesson, description: newVal };
-                                        setLessons(updatedLessons);
-                                        persist(updatedLessons);
-                                    }}
+                                    onChange={(newVal) =>
+                                        updateLesson(lessonIdx, l => ({ ...l, description: newVal }))
+                                    }
                                 />
                             </h4>
                         </header>
@@ -124,7 +142,7 @@ export default function DashboardCourseOverview() {
                                 <div class="card-holder">
                                     <div class="vertical-controls top-controls">
                                         <button
-                                            title="Move up to the previous lessons"
+                                            title="Move up to the previous lesson"
                                             disabled={lessonIdx === 0}
                                             onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
                                         >
@@ -141,39 +159,34 @@ export default function DashboardCourseOverview() {
                                             ←
                                         </button>
 
-                                        {/* <Card
-                                            tabindex={-1}
-                                            card={card}
-                                            lesson={lesson}
-                                            ondblclick={() => navigate(`/editor/${courseIdx()}/${idx}/${cardIdx}`)}
-                                        /> */}
-
                                         <div class="card-overlay-wrapper">
                                             <Card
                                                 tabindex={-1}
                                                 card={card}
                                                 lesson={lesson}
-                                                ondblclick={() => navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)}
+                                                ondblclick={() =>
+                                                    navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)
+                                                }
                                             />
 
                                             <div class="card-overlay">
-                                                <button title="Delete"
-                                                    class='control small-control'
-                                                    onClick={() => showConfirm(
-                                                        t('confirm_delete_card'), () => {
-                                                            const updatedLessons = [...lessons()];
-                                                            updatedLessons[lessonIdx].cards.splice(cardIdx, 1);
-                                                            setLessons(updatedLessons);
-                                                            persist(updatedLessons);
-                                                        }
-                                                    )}>🗑</button>
+                                                <button
+                                                    title="Delete"
+                                                    class="control small-control"
+                                                    onClick={() => deleteCard(lessonIdx, cardIdx)}
+                                                >
+                                                    🗑
+                                                </button>
 
-                                                <button title="Edit"
-                                                    class='control'
-                                                    onClick={() => navigate(
-                                                        `/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`
-                                                    )}>✎</button>
-
+                                                <button
+                                                    title="Edit"
+                                                    class="control"
+                                                    onClick={() =>
+                                                        navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)
+                                                    }
+                                                >
+                                                    ✎
+                                                </button>
                                             </div>
                                         </div>
 
@@ -201,6 +214,6 @@ export default function DashboardCourseOverview() {
                     </section>
                 ))}
             </div>
-        </article >
+        </article>
     );
 }
