@@ -1,5 +1,5 @@
 import "@jest/globals";
-
+import { courseStore } from './course';
 import {
     getLessonAnswers,
     getTotalTakenLessons,
@@ -12,17 +12,15 @@ import {
     getLessonQuestionsAnsweredIncorrectly,
     getLessonQuestionsAnsweredCorrectly,
     resetCourse,
-    setCourseIndex,
     storageKeys,
     Current_Course_Index,
-    getCourseIndex,
 } from "./lessons";
 
 describe("state", () => {
     beforeEach(() => {
         localStorage.clear();
         jest.restoreAllMocks();
-        setCourseIndex(1);
+        courseStore.setCourseIdx(1);
     });
 
     describe("saveAnswer", () => {
@@ -231,30 +229,30 @@ describe("state", () => {
             jest.restoreAllMocks();
         });
 
-        describe("getCourseIndex", () => {
+        describe("courseStore.getCourseIdx", () => {
             it("should return -1 if no course index is saved in localStorage", () => {
-                expect(getCourseIndex()).toBe(-1);
+                expect(courseStore.getCourseIdx()).toBe(-1);
             });
 
             it("should return the saved course index from localStorage", () => {
                 localStorage.setItem(storageKeys.COURSE_INDEX, "3");
-                expect(getCourseIndex()).toBe(3);
+                expect(courseStore.getCourseIdx()).toBe(3);
             });
 
             it("should return 0 if saved course index is not a valid number", () => {
                 localStorage.setItem(storageKeys.COURSE_INDEX, "invalid");
-                expect(getCourseIndex()).toBe(0);
+                expect(courseStore.getCourseIdx()).toBe(0);
             });
         });
 
-        describe("setCourseIndex", () => {
+        describe("courseStore.setCourseIdx", () => {
             it("should save the course index in localStorage", () => {
-                setCourseIndex(5);
+                courseStore.setCourseIdx(5);
                 expect(localStorage.getItem(storageKeys.COURSE_INDEX)).toBe("5");
             });
 
             it("should update the global Current_Course_Index value", () => {
-                setCourseIndex(7);
+                courseStore.setCourseIdx(7);
                 expect(Current_Course_Index).toBe(7);
             });
         });

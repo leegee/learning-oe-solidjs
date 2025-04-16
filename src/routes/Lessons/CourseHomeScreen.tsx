@@ -15,7 +15,7 @@ const CourseHome = () => {
         const newCourseIndex = Number(params.courseIdx);
         if (newCourseIndex !== courseIdx()) {
             setCourseIdx(newCourseIndex);
-            state.setCourseIndex(newCourseIndex);
+            state.setCourseIdx(newCourseIndex);
         }
     });
 
@@ -28,7 +28,7 @@ const CourseHome = () => {
             <Stats />
             <LessonList
                 courseIndex={courseIdx()}
-                currentLessonIndex={state.getCurrentLessonIndex()}
+                currentLessonIndex={state.getLessonIdx()}
                 onLessonSelected={onLessonSelected}
             />
         </HomeScreen>

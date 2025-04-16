@@ -1,22 +1,17 @@
+import { courseStore } from "./course";
+import { storageKeys } from "./keys";
+
 interface Answers {
   [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
 }
 
-const STORAGE_PREFIX = 'oe_';
+export let Current_Course_Index: number = courseStore.getCourseIdx();
 
-export const storageKeys = {
-  CURRENT_LESSON_INDEX: (courseId: number) => `${STORAGE_PREFIX}current_lesson_index_${courseId}`,
-  ANSWERS: (courseId: number) => `${STORAGE_PREFIX}answers_${courseId}`,
-  COURSE_INDEX: `${STORAGE_PREFIX}course`,
-};
-
-export let Current_Course_Index: number = getCourseIndex();
-
-export const setCurrentLessonIndex = (lessonIndex: number) => {
+export const setLessonidx = (lessonIndex: number) => {
   localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(Current_Course_Index), String(lessonIndex));
 };
 
-export const getCurrentLessonIndex = () => {
+export const getLessonIdx = () => {
   return JSON.parse(localStorage.getItem(storageKeys.CURRENT_LESSON_INDEX(Current_Course_Index)) || '0');
 };
 
@@ -120,12 +115,3 @@ export const getLessonQuestionsAnsweredCorrectly = (lessonIndex: number): number
   );
 };
 
-export function getCourseIndex() {
-  const savedIndex = localStorage.getItem(storageKeys.COURSE_INDEX);
-  return savedIndex === null ? -1 : isNaN(Number(savedIndex)) ? 0 : parseInt(savedIndex, 10);
-};
-
-export const setCourseIndex = (index: number) => {
-  Current_Course_Index = Number(index);
-  localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
-};

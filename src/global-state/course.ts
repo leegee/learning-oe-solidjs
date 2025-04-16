@@ -1,10 +1,11 @@
 import { createStore } from "solid-js/store";
 import { createEffect, createRoot } from "solid-js";
+
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
-import { loadConfig } from "../lib/config";
-import { getCourseIndex, setCourseIndex } from "./lessons";
 import { type Lesson } from "../components/Lessons/Lesson";
+import { loadConfig } from "../lib/config";
+import { storageKeys } from "./keys";
 
 const LESSONS_DIR = "../../lessons";
 const LESSONS_JSON = import.meta.glob("../../lessons/*.json");
@@ -35,7 +36,7 @@ export interface CourseData extends CourseMetadata {
 export const courseStore = createRoot(() => {
     const [store, setStore] = createStore({
         courseMetadata: null as CourseMetadata | null,
-        selectedCourseIndex: getCourseIndex(),
+        selectedCourseIndex: Number(localStorage.getItem(storageKeys.COURSE_INDEX)),
         lessons: [] as Lesson[],
         loading: false,
     });
@@ -79,10 +80,14 @@ export const courseStore = createRoot(() => {
         }
     });
 
-    function setSelectedCourse(index: number) {
+    function setCourseIdx(index: number) {
         console.info("Selected course", index);
         setStore("selectedCourseIndex", index);
-        setCourseIndex(index);
+        localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
+    }
+
+    function getCourseIdx(): number {
+        return store.selectedCourseIndex;
     }
 
     function lessonTitles2Indicies(): LessonSummary[] {
@@ -94,7 +99,8 @@ export const courseStore = createRoot(() => {
 
     return {
         store,
-        setSelectedCourse,
+        getCourseIdx,
+        setCourseIdx,
         lessonTitles2Indicies,
     };
 });

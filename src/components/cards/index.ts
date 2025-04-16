@@ -35,6 +35,8 @@ export type IAnyCard = IBlanksCard
 
 export interface IAnyCardWithAnswer extends IBaseCard { answer: string };
 
+export const CARD_CLASSES = ['writing-blocks', 'writing', 'vocab', 'multiple-choice', 'dynamic'];
+
 export function isAnyCardWithAnswer(
     card: IAnyCard
 ): card is IAnyCard & { answer: string } {

@@ -1,21 +1,25 @@
-.add-card {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 4pt dotted var(--oe-clr-border);
-    min-width: 7em;
-    max-width: 7em;
-    min-height: 7em;
-    max-height: 7em;
-    border-radius: 50%;
-    font-size: 22pt;
-    line-height: 1em;
-    padding: 0;
-    margin: 0;
-}
+ .add-card {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     border: 4pt dotted var(--oe-clr-border);
+     min-width: 7em;
+     max-width: 7em;
+     min-height: 7em;
+     max-height: 7em;
+     border-radius: 50%;
+     font-size: 22pt;
+     line-height: 1em;
+     padding: 0;
+     margin: 0;
+ }
 
-.add-card:hover {
-    filter: invert(100%);
-}
+ .add-card button:hover {
+     filter: invert(100%);
+ }
 
-.card-class-picker {}
+ .card-class-picker button {
+     font-size: 12pt;
+     font-weight: normal;
+     width: 100%;
+ }

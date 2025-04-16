@@ -11,9 +11,7 @@ export default function AddCardButton(props: {
     return (
         <div class={'add-card'}>
             <Show when={!showOptions()}>
-                <button onClick={() => setShowOptions(true)}>
-                    +
-                </button>
+                <button class={'add-card'} onClick={() => setShowOptions(true)}>➕</button>
             </Show>
 
             <Show when={showOptions()}>

@@ -1,10 +1,9 @@
 import { useNavigate, useParams } from "@solidjs/router";
-import EditCardModal from "../../components/card-editor/EditCardModal";
+import EditCardModal from "../../components/CardEditor/CardEditor";
 import { createEffect, createSignal } from "solid-js";
 import { Lesson } from "../../components/Lessons/Lesson";
 import { courseStore } from "../../global-state/course";
 import { persist } from "../../components/course-editor/CourseEditor";
-import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 
 const Editor = () => {
     const params = useParams();
@@ -17,11 +16,7 @@ const Editor = () => {
     const cardIdx = Number(params.cardIdx ?? -1);
 
     createEffect(() => {
-        if (courseIdx) {
-            setCourseIndex(courseIdx);
-        } else {
-            setCourseIndex(getCourseIndex());
-        }
+        courseStore.setCourseIdx(courseIdx);
         console.log('done courseidx');
     });
 

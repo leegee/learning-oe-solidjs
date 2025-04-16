@@ -24,8 +24,8 @@ const LessonInProgressScreen = () => {
     });
 
     createEffect(() => {
-        state.setCourseIndex(courseIndex());
-        state.setCurrentLessonIndex(lessonIndex());
+        state.setCourseIdx(courseIndex());
+        state.setLessonidx(lessonIndex());
     });
 
 

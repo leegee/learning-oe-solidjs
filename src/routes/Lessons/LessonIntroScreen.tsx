@@ -19,14 +19,14 @@ const LessonIntroScreen = () => {
         const newcourseIdx = Number(params.courseIdx);
         if (newcourseIdx !== courseIdx()) {
             setCourseIdx(newcourseIdx);
-            state.setCourseIndex(newcourseIdx);
+            state.setCourseIdx(newcourseIdx);
         }
 
         const newLessonIdx = Number(params.courseIdx);
         if (newLessonIdx !== lessonIdx()) {
             setCourseIdx(newLessonIdx);
             setLessonIdx(newLessonIdx);
-            state.setCurrentLessonIndex(newLessonIdx);
+            state.setLessonidx(newLessonIdx);
         }
     });
 

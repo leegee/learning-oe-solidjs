@@ -9,14 +9,13 @@ import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/course-editor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 
-
 const MenuScreen = () => {
     const { t } = useI18n();
     const navigate = useNavigate();
     const { config } = useConfigContext();
     const [isOpen, setIsOpen] = createSignal(false);
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
-    const { store, setSelectedCourse } = courseStore;
+    const { store } = courseStore;
     const selectedCourseIndex = () => store.selectedCourseIndex;
 
     onMount(() => {
@@ -25,7 +24,7 @@ const MenuScreen = () => {
 
     const setLocalSelectedCourse = (courseIndex: number) => {
         setLocalCourseIndex(() => {
-            setSelectedCourse(courseIndex);
+            courseStore.setCourseIdx(courseIndex);
             return courseIndex;
         });
         navigate('/course/' + courseIndex);
@@ -55,7 +54,7 @@ const MenuScreen = () => {
     });
 
     createEffect(() => {
-        setSelectedCourse(localCourseIndex());
+        courseStore.setCourseIdx(localCourseIndex());
     });
 
     return (

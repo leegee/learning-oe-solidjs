@@ -1,4 +1,4 @@
-import { IBaseCard } from '../components/cards/BaseCard.type';
+import { IBaseCard } from '../components/Cards/BaseCard.type';
 import { useConfigContext } from '../contexts/Config';
 
 export type setQandALangsReturnType = { q: string, a: string };

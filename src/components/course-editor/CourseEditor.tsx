@@ -1,7 +1,7 @@
 import './CourseEditor.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
-import EditableText from "../card-editor/Editor/EditableText";
+import EditableText from "../CardEditor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import { Lesson } from "../Lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
@@ -22,11 +22,9 @@ export default function CourseEditor() {
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
-    const [courseIdx, setCourseIdx] = createSignal<number>(Number(params.courseIdx) || -1);
 
     createEffect(() => {
-        setCourseIdx(courseIdx());
-        courseStore.setSelectedCourse(courseIdx());
+        courseStore.setCourseIdx(Number(params.courseIdx) || -1);
 
         const lessons = courseStore.store.lessons;
         const metadata = courseStore.store.courseMetadata;
@@ -165,7 +163,7 @@ export default function CourseEditor() {
                                                 card={card}
                                                 lesson={lesson}
                                                 ondblclick={() =>
-                                                    navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)
+                                                    navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
                                                 }
                                             />
 
@@ -182,7 +180,7 @@ export default function CourseEditor() {
                                                     title="Edit"
                                                     class="control"
                                                     onClick={() =>
-                                                        navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)
+                                                        navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
                                                     }
                                                 >
                                                     ✎
@@ -225,7 +223,7 @@ export default function CourseEditor() {
                                     persist(updatedLessons);
 
                                     const newIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                    navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${newIdx}`);
+                                    navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${newIdx}`);
                                 }}
                             />
 

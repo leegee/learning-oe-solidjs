@@ -10,7 +10,7 @@ export const storageKeys = {
     COURSE_INDEX: `${STORAGE_PREFIX}course`,
 };
 
-export let Current_Course_Index: number = getCourseIndex();
+export let Current_Course_Index: number = getCourseIdx();
 
 export const setCurrentLessonIndex = (lessonIndex: number) => {
     localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(Current_Course_Index), String(lessonIndex));
@@ -120,12 +120,12 @@ export const getLessonQuestionsAnsweredCorrectly = (lessonIndex: number): number
     );
 };
 
-export function getCourseIndex() {
+export function getCourseIdx() {
     const savedIndex = localStorage.getItem(storageKeys.COURSE_INDEX);
     return savedIndex === null ? -1 : isNaN(Number(savedIndex)) ? 0 : parseInt(savedIndex, 10);
 };
 
-export const setCourseIndex = (index: number) => {
+export const setCourseIdx = (index: number) => {
     Current_Course_Index = Number(index);
     localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
 };

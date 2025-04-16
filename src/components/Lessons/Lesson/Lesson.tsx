@@ -11,7 +11,7 @@ import {
     // type IVocabMatchCard,
     // type IWritingBlocksCard,
     // type IWritingCard
-} from '../../cards';
+} from '../../Cards';
 import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface Lesson {

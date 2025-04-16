@@ -1,6 +1,6 @@
+import './CardEditor.css';
 import { createSignal, createEffect } from "solid-js";
 import TextInput from "./Editor/TextInput";
-import './EditCardModal.css';
 import {
     IAnyCard,
     IBlanksCard,
@@ -10,7 +10,7 @@ import {
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
-} from "../cards";
+} from "../Cards";
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
 import VocabText from "./Editor/VocabMatch";
