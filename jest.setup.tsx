@@ -7,14 +7,19 @@ import { render } from 'solid-testing-library';
 import { ConfigProvider } from './src/contexts/Config';
 import { ConfirmProvider } from "./src/contexts/Confirm";
 import { MockI18nProvider } from "./src/tests/MockI18nContext";
+import i18n from "i18next";
 
-export const MockT: TFunction = ((key: string, _options?: any) => {
+export const MockT: typeof i18n.t = ((key: string, _options?: any) => {
     console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx')
     return key;
 }) as TFunction;
 
 jest.mock('i18next', () => ({
-    useI18n: () => ({ t: MockT }),
+    t: ((key: string) => key),
+    use: () => ({ init: () => { } }),
+    init: () => { },
+    changeLanguage: () => Promise.resolve(),
+    useI18n: () => ({ t: ((key: string) => key) }),
 }));
 
 export const MockConfig = {
