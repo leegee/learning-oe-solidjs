@@ -16,8 +16,6 @@ const MenuToggle = () => {
 
     const toggleMenu = () => {
         if (isMenuOpen()) {
-            // Use path without base
-            console.log('lastNonMenuPath()', lastNonMenuPath())
             navigate(lastNonMenuPath());
         } else {
             setLastNonMenuPath(getPathWithoutBase());
