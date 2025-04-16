@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "@solidjs/router";
-import EditCardModal from "./details/EditCardModal";
+import EditCardModal from "../../components/card-editor/EditCardModal";
 import { createEffect, createSignal, onCleanup } from "solid-js";
 import { Lesson } from "../../components/Lessons/Lesson";
 import { courseStore } from "../../global-state/course";

@@ -1,5 +1,5 @@
 import { createSignal, createEffect } from "solid-js";
-import TextInput from "../../../components/card-editor/Editor/TextInput";
+import TextInput from "./Editor/TextInput";
 import './EditCardModal.css';
 import {
     IAnyCard,
@@ -10,10 +10,10 @@ import {
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
-} from "../../../components/cards";
-import BooleanText from "../../../components/card-editor/Editor/BooleanText";
-import AnswerText from "../../../components/card-editor/Editor/AnswerText";
-import VocabText from "../../../components/card-editor/Editor/VocabMatch";
+} from "../cards";
+import BooleanText from "./Editor/BooleanText";
+import AnswerText from "./Editor/AnswerText";
+import VocabText from "./Editor/VocabMatch";
 
 interface EditCardModalProps {
     card: IAnyCard | null;

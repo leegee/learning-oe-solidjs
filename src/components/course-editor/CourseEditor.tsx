@@ -1,8 +1,8 @@
 import './CourseEditor.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
-import { setCourseIndex } from "../../global-state/lessons";
-import EditableText from "../../routes/course-editor/details/Editor/EditableText";
+import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
+import EditableText from "../card-editor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import { Lesson } from "../Lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
@@ -22,15 +22,11 @@ export default function DashboardCourseOverview() {
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
-    const [courseIdx, setCourseIdx] = createSignal<number>(-1);
 
     createEffect(() => {
-        if (params.courseIdx) {
-            const courseIndex = Number(params.courseIdx) || 0;
-            setCourseIndex(courseIndex);
-            setCourseIdx(courseIndex);
-            courseStore.setSelectedCourse(courseIndex);
-        }
+        const courseIndex = Number(params.courseIdx) || 0;
+        setCourseIndex(courseIndex);
+        courseStore.setSelectedCourse(courseIndex);
 
         const { lessons, courseMetadata } = courseStore.store;
 
@@ -157,7 +153,7 @@ export default function DashboardCourseOverview() {
                                                 tabindex={-1}
                                                 card={card}
                                                 lesson={lesson}
-                                                ondblclick={() => navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)}
+                                                ondblclick={() => navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`)}
                                             />
 
                                             <div class="card-overlay">
@@ -175,7 +171,7 @@ export default function DashboardCourseOverview() {
                                                 <button title="Edit"
                                                     class='control'
                                                     onClick={() => navigate(
-                                                        `/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`
+                                                        `/editor/${getCourseIndex()}/${lessonIdx}/${cardIdx}`
                                                     )}>✎</button>
 
                                             </div>
