@@ -10,7 +10,6 @@ import { MockI18nProvider } from "./src/tests/MockI18nContext";
 import i18n from "i18next";
 
 export const MockT: typeof i18n.t = ((key: string, _options?: any) => {
-    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxx')
     return key;
 }) as TFunction;
 
