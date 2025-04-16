@@ -15,7 +15,7 @@ export const persist = (data: any) => {
     localStorage.setItem(EDITING_LESSON_STORAGE_KEY, JSON.stringify(data));
 };
 
-export default function DashboardCourseOverview() {
+export default function CourseEditor() {
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();

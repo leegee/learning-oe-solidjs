@@ -9,7 +9,7 @@ const CourseEditorButton = (props: ICourseEditorButtonProps) => {
     const navigate = useNavigate();
 
     return (
-        <button class="course-editor-button" onClick={() => navigate('/dashboard/' + props.courseIdx)}>
+        <button class="course-editor-button" onClick={() => navigate('/editor/' + props.courseIdx)}>
             🖊️
         </button>
     );

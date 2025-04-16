@@ -1,6 +1,8 @@
 /* CourseOverview.css */
 
-/* .course-editor {} */
+.course-editor {
+    --oe-ctrl-button-padding: 4pt;
+}
 
 .course-editor>header {
     display: flex;
@@ -105,7 +107,7 @@
     align-items: stretch;
     justify-content: space-between;
     border: 1pt solid var(--oe-clr-border);
-    height: 20em;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -256,7 +258,7 @@
     color: transparent;
     width: 100%;
     text-align: center;
-    padding: 1em;
+    padding: var(--oe-ctrl-button-padding);
 }
 
 .card-holder .vertical-controls button:hover,
@@ -284,6 +286,8 @@
     gap: 1rem;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    filter: invert(100%);
+    mix-blend-mode: overlay;
 }
 
 .card-overlay-wrapper:hover .card-overlay,
@@ -300,7 +304,7 @@
     align-items: center;
     background-color: var(--oe-clr-card-bg);
     color: var(--oe-clr-card-fg);
-    opacity: 0.3;
+    opacity: 0.8;
 }
 
 .card-overlay button:hover {

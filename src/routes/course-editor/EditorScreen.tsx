@@ -33,13 +33,9 @@ const Editor = () => {
         }
     });
 
-    {
-        const validLesson = lessons()[lessonIdx];
-        const validCard = validLesson?.cards?.[cardIdx];
 
-        if (!validLesson || !validCard) {
-            return <div>Loading editor...</div>;
-        }
+    if (!lessons || lessonIdx === -1 || cardIdx === -1) {
+        return <div>Loading editor... {courseIdx} {lessonIdx} {cardIdx}</div>;
     }
 
     return (
@@ -48,13 +44,13 @@ const Editor = () => {
                 <EditCardModal
                     card={lessons()[lessonIdx]?.cards[cardIdx]}
                     onSave={(updatedCard: any) => {
-                        const data = [...lessons()]; // Make a copy of lessons
-                        data[lessonIdx].cards[cardIdx] = updatedCard; // Update specific card
-                        setLessons(data); // Update the lessons signal
-                        persist(data); // Persist the updated data
-                        navigate(-1); // Go back after saving
+                        const data = [...lessons()];
+                        data[lessonIdx].cards[cardIdx] = updatedCard;
+                        setLessons(data);
+                        persist(data);
+                        navigate(-1);
                     }}
-                    onCancel={() => navigate(`/dashboard/${courseIdx}`)} // Navigate to dashboard
+                    onCancel={() => navigate(`/editor/${courseIdx}`)}
                 />
             )}
         </article>

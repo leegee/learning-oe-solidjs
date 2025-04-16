@@ -10,7 +10,7 @@ import { useAppPath } from "./lib/use-app-path";
 import CourseScreen from "./routes/lessons/CourseScreen";
 import CourseFinishedScreen from "./routes/lessons/CourseFinishedScreen";
 import CourseHomeScreen from './routes/lessons/CourseHomeScreen';
-import DashboardCourseOverview from "./components/course-editor";
+import CourseEditor from "./components/course-editor";
 import Editor from './routes/course-editor/EditorScreen';
 import Header from "./components/Header";
 import LessonCompletedScreen from "./routes/lessons/LessonCompletedScreen";
@@ -44,9 +44,9 @@ const App = (props: IAppProps) => {
 
   return (
     <Router base={baseRoute} root={Layout} >
-      <Route path="/dashboard/:courseIdx?" component={() => <DashboardCourseOverview />} />
 
-      <Route path="editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <Editor />} />
+      <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <Editor />} />
+      <Route path="/editor/:courseIdx?" component={() => <CourseEditor />} />
 
       <Route path="/course/:courseIdx" component={CourseScreen}>
         <Route path="/" component={CourseHomeScreen} />
