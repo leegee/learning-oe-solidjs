@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "@solidjs/router";
 import EditCardModal from "../../components/card-editor/EditCardModal";
-import { createEffect, createSignal, onCleanup } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { Lesson } from "../../components/Lessons/Lesson";
 import { courseStore } from "../../global-state/course";
 import { persist } from "../../components/course-editor/CourseEditor";
@@ -12,16 +12,15 @@ const Editor = () => {
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
 
     // Directly get courseIdx from params
-    const courseIdx = Number(params.courseIdx);
-    const lessonIdx = Number(params.lessonIdx);
-    const cardIdx = Number(params.cardIdx);
+    const courseIdx = Number(params.courseIdx ?? -1);
+    const lessonIdx = Number(params.lessonIdx ?? -1);
+    const cardIdx = Number(params.cardIdx ?? -1);
 
-    // Set courseIdx in global state when courseIdx changes
     createEffect(() => {
         if (courseIdx) {
             setCourseIndex(courseIdx);
         } else {
-            setCourseIndex(getCourseIndex()); // Fallback to stored courseIdx
+            setCourseIndex(getCourseIndex());
         }
         console.log('done courseidx');
     });
@@ -34,9 +33,13 @@ const Editor = () => {
         }
     });
 
+    {
+        const validLesson = lessons()[lessonIdx];
+        const validCard = validLesson?.cards?.[cardIdx];
 
-    if (!lessons || lessonIdx === -1 || cardIdx === -1) {
-        return <div>Loading editor... {courseIdx} {lessonIdx} {cardIdx}</div>;
+        if (!validLesson || !validCard) {
+            return <div>Loading editor...</div>;
+        }
     }
 
     return (
