@@ -1,13 +1,13 @@
 import './CourseEditor.css';
 import { createEffect, createSignal } from "solid-js";
 import { courseStore } from "../../global-state/course";
-import { getCourseIndex, setCourseIndex } from "../../global-state/lessons";
 import EditableText from "../card-editor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import { Lesson } from "../Lessons/Lesson";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/Confirm';
+import AddCardButton from './AddCardButton';
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -22,11 +22,11 @@ export default function CourseEditor() {
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
+    const [courseIdx, setCourseIdx] = createSignal<number>(Number(params.courseIdx) || -1);
 
     createEffect(() => {
-        const courseIndex = Number(params.courseIdx) || 0;
-        setCourseIndex(courseIndex);
-        courseStore.setSelectedCourse(courseIndex);
+        setCourseIdx(courseIdx());
+        courseStore.setSelectedCourse(courseIdx());
 
         const lessons = courseStore.store.lessons;
         const metadata = courseStore.store.courseMetadata;
@@ -210,6 +210,25 @@ export default function CourseEditor() {
                                     </div>
                                 </div>
                             ))}
+
+                            <AddCardButton
+                                onAdd={(type) => {
+                                    const updatedLessons = [...lessons()];
+                                    const newCard = {
+                                        id: crypto.randomUUID(),
+                                        front: "",
+                                        back: "",
+                                        class: type,
+                                    };
+                                    updatedLessons[lessonIdx].cards.push(newCard);
+                                    setLessons(updatedLessons);
+                                    persist(updatedLessons);
+
+                                    const newIdx = updatedLessons[lessonIdx].cards.length - 1;
+                                    navigate(`/editor/${getCourseIndex()}/${lessonIdx}/${newIdx}`);
+                                }}
+                            />
+
                         </div>
                     </section>
                 ))}
