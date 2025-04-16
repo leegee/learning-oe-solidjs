@@ -6,7 +6,7 @@ import { useConfigContext } from "../../contexts/Config";
 import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
-import CourseEditorButton from "../../components/course-editor/CourseEditorButton";
+import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 
 const MenuScreen = () => {

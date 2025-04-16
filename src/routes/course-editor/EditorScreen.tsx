@@ -3,7 +3,7 @@ import EditCardModal from "../../components/CardEditor/CardEditor";
 import { createEffect, createSignal } from "solid-js";
 import { Lesson } from "../../components/Lessons/Lesson";
 import { courseStore } from "../../global-state/course";
-import { persist } from "../../components/course-editor/CourseEditor";
+import { persist } from "../../components/CourseEditor/CourseEditor";
 
 const Editor = () => {
     const params = useParams();

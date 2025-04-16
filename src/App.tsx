@@ -10,7 +10,7 @@ import { useAppPath } from "./lib/use-app-path";
 import CourseScreen from "./routes/lessons/CourseScreen";
 import CourseFinishedScreen from "./routes/lessons/CourseFinishedScreen";
 import CourseHomeScreen from './routes/lessons/CourseHomeScreen';
-import CourseEditor from "./components/course-editor";
+import CourseEditor from "./components/CourseEditor";
 import Editor from './routes/course-editor/EditorScreen';
 import Header from "./components/Header";
 import LessonCompletedScreen from "./routes/lessons/LessonCompletedScreen";
