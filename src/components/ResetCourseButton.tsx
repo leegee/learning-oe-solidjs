@@ -4,9 +4,10 @@ import { createMemo } from "solid-js";
 import { useLessonStore } from "../global-state/lessons";
 import { useConfirm } from "../contexts/Confirm";
 import { useI18n } from "../contexts/I18nProvider";
-import { courseStore } from "../global-state/course";
+import { useCourseStore } from "../global-state/course";
 
 export const ResetCourseButtonComponent = () => {
+    const courseStore = useCourseStore();
     const { t } = useI18n();
     const lessonStore = useLessonStore();
     const { showConfirm } = useConfirm();

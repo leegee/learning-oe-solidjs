@@ -1,16 +1,11 @@
 import { createStore } from "solid-js/store";
-import { createEffect, createRoot } from "solid-js";
-
+import { createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import { type Lesson } from "../components/Lessons/Lesson";
 import { loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
-
-const LESSONS_DIR = "../../lessons";
-const LESSONS_JSON = import.meta.glob("../../lessons/*.json");
-
-const appConfig = await loadConfig();
+import { LESSONS_JSON } from "../config/lesson-loader";
 
 export type LessonSummary = {
     title: string;
@@ -33,32 +28,61 @@ export interface CourseData extends CourseMetadata {
     lessons: Lesson[];
 }
 
-export const courseStore = createRoot(() => {
-    const [store, setStore] = createStore({
+export interface ICourseStore {
+    store: {
+        courseMetadata: CourseMetadata | null;
+        selectedCourseIndex: number;
+        lessons: Lesson[];
+        loading: boolean;
+    };
+    setCourseIdx: (index: number) => void;
+    getCourseIdx: () => number;
+    lessonTitles2Indicies: () => LessonSummary[];
+    reset: () => void;
+}
+
+let courseStoreInstance: ICourseStore;
+
+export const useCourseStore = async (): Promise<ICourseStore> => {
+    if (!courseStoreInstance) {
+        courseStoreInstance = await makeCourseStore();
+    }
+    return Promise.resolve(courseStoreInstance);
+}
+
+export const makeCourseStore = () => {
+    const [state, setState] = createStore({
         courseMetadata: null as CourseMetadata | null,
-        selectedCourseIndex: Number(localStorage.getItem(storageKeys.COURSE_INDEX)),
+        selectedCourseIndex: Number(localStorage.getItem(storageKeys.COURSE_INDEX)) || 0,
         lessons: [] as Lesson[],
         loading: false,
     });
 
+    // Load course config once
+    let appConfigPromise: Promise<Awaited<ReturnType<typeof loadConfig>>> | null = null;
+    const getAppConfig = () => {
+        if (!appConfigPromise) appConfigPromise = loadConfig();
+        return appConfigPromise;
+    };
+
+    // Load the course data
     createEffect(async () => {
-        const index = store.selectedCourseIndex;
+        const index = state.selectedCourseIndex;
+        const config = await getAppConfig();
 
-        if (index === -1) {
+        if (index === -1 || index >= config.lessons.length) {
+            console.warn("Invalid course index:", index);
             return;
         }
 
-        if (index >= appConfig.lessons.length) {
-            console.warn("Course index out of range");
-            return;
-        }
+        const { fileBasename } = config.lessons[index];
+        const filePath = `../../lessons/${fileBasename}.json`;
 
-        console.info("-----------Loading course:", appConfig.lessons[index].fileBasename);
-        setStore("loading", true);
+        console.info("-----------Loading course:", fileBasename);
+        setState("loading", true);
 
         try {
-            const filePath = `${LESSONS_DIR}/${appConfig.lessons[index].fileBasename}.json`;
-            const module = await LESSONS_JSON[filePath]();
+            const module = await LESSONS_JSON()[filePath]();
             const courseData = (module as { default: CourseData }).default;
 
             const ajv = new Ajv();
@@ -70,46 +94,45 @@ export const courseStore = createRoot(() => {
                 throw new TypeError("Invalid JSON");
             }
 
-            setStore({
+            setState({
                 lessons: courseData.lessons,
-                courseMetadata: { ...courseData } as CourseMetadata,
+                courseMetadata: { ...courseData },
                 loading: false,
             });
         } catch (error) {
             console.error("Error loading lessons:", error);
+            setState("loading", false);
         }
     });
 
-    function setCourseIdx(index: number) {
+    // Public API
+    const setCourseIdx = (index: number) => {
         console.info("Selected course", index);
-        setStore("selectedCourseIndex", index);
+        setState("selectedCourseIndex", index);
         localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
-    }
+    };
 
-    function getCourseIdx(): number {
-        return store.selectedCourseIndex;
-    }
+    const getCourseIdx = () => state.selectedCourseIndex;
 
-    function lessonTitles2Indicies(): LessonSummary[] {
-        return store.lessons.map((lesson, lessonIndex) => ({
+    const lessonTitles2Indicies = (): LessonSummary[] => {
+        return state.lessons.map((lesson, lessonIndex) => ({
             title: lesson.title,
             index: lessonIndex,
         }));
-    }
+    };
 
-    function reset() {
-        localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(getCourseIdx()));
-        localStorage.removeItem(storageKeys.ANSWERS(getCourseIdx()));
+    const reset = () => {
+        const idx = getCourseIdx();
+        localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
+        localStorage.removeItem(storageKeys.ANSWERS(idx));
         localStorage.removeItem(storageKeys.COURSE_INDEX);
-        // setCurrentLessonIndex(-1);
-        // TODO iterate over all courses and remove
-    }
+    };
 
     return {
-        store,
-        getCourseIdx,
+        store: state,
         setCourseIdx,
+        getCourseIdx,
         lessonTitles2Indicies,
-        reset
+        reset,
     };
-});
+};

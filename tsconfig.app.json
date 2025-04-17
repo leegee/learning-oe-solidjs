@@ -4,19 +4,18 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": [
-      "ES2020",
+      "ESNext",
       "DOM",
       "DOM.Iterable"
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
     "moduleDetection": "force",
     "noEmit": true,
-    /* solid */
+    /* Use react-jsx for solid */
     "jsx": "react-jsx",
     "jsxImportSource": "solid-js",
     "types": [

@@ -7,10 +7,9 @@ interface EditableTextProps {
     class?: string;
 }
 
-export default function EditableText(
-    props: EditableTextProps
-) {
+export default function EditableText(props: EditableTextProps) {
     let el: HTMLElement;
+    let originalValue = props.value;
 
     const sanitize = (text: string) => text.replace(/[\r\n]+/g, "").trim();
 
@@ -26,10 +25,20 @@ export default function EditableText(
             contentEditable
             aria-placeholder={props.placeholder}
             class={`${props.class ?? ""} ${props.value.trim() === "" ? "placeholder" : ""}`}
+            onFocus={() => {
+                originalValue = props.value;
+            }}
             onKeyDown={(e: KeyboardEvent) => {
+                const target = e.currentTarget as HTMLElement;
                 if (e.key === "Enter") {
                     e.preventDefault();
-                    (e.currentTarget as HTMLElement).blur();
+                    e.stopPropagation();
+                    target.blur();
+                } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    target.innerText = originalValue;
+                    target.blur(); // triggers onBlur, but since value is unchanged, no `onChange` fires
                 }
             }}
             onBlur={(e) => {

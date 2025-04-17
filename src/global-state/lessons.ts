@@ -1,13 +1,23 @@
 import { createStore } from 'solid-js/store';
-import { courseStore } from "./course";
+import { useCourseStore, type ICourseStore } from "./course";
 import { storageKeys } from "./keys";
+import { createEffect, createResource } from 'solid-js';
 
-// Store state shape
 interface Answers {
-  [lessonIndex: number]: string[][]; // Structure of answers (lesson index -> card answers)
+  [lessonIndex: number]: string[][]; //  (lesson index -> card answers)
 }
 
-let Current_Course_Index: number = courseStore.getCourseIdx();
+const [courseStore] = createResource<ICourseStore>(useCourseStore);
+
+const store = courseStore();
+
+let Current_Course_Index: number;
+
+createEffect(() => {
+  if (store) {
+    Current_Course_Index = store.getCourseIdx();
+  }
+})
 
 const loadFromLocalStorage = (): Answers => {
   try {
@@ -27,18 +37,15 @@ const saveToLocalStorage = (answers: Answers): void => {
   }
 };
 
-// Hook to manage lesson store
 export const useLessonStore = () => {
-  // Initialize the store with the lesson index from localStorage
   const [state, setState] = createStore({
-    lessonIndex: getLessonIdx(), // Initializes lessonIndex from localStorage
-    answers: loadFromLocalStorage(), // Load answers from localStorage
+    lessonIndex: getLessonIdx(),
+    answers: loadFromLocalStorage(),
   });
 
-  // Update lessonIndex in state and localStorage
   const updateLessonIdx = (newLessonIndex: number) => {
-    setState('lessonIndex', newLessonIndex);  // Update state
-    setLessonidx(newLessonIndex); // Update localStorage as well
+    setState('lessonIndex', newLessonIndex);
+    setLessonidx(newLessonIndex);
   };
 
   // Save an answer to the store and localStorage
@@ -53,8 +60,8 @@ export const useLessonStore = () => {
     }
 
     updatedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
-    setState('answers', updatedAnswers); // Update store state
-    saveToLocalStorage(updatedAnswers); // Save to localStorage
+    setState('answers', updatedAnswers);
+    saveToLocalStorage(updatedAnswers);
   };
 
   // Get answers for a specific lesson
@@ -135,3 +142,4 @@ const getLessonIdx = () => {
 const setLessonidx = (lessonIndex: number) => {
   localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(Current_Course_Index), String(lessonIndex));
 };
+

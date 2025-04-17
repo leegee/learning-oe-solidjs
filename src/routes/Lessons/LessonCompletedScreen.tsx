@@ -1,9 +1,10 @@
 import { useParams, useNavigate, useSearchParams } from "@solidjs/router";
-import { createMemo } from "solid-js";
+import { createMemo, createResource, Show } from "solid-js";
 import LessonCompleted from "../../components/Lessons/LessonCompleted";
-import { courseStore } from "../../global-state/course";
+import { useCourseStore } from "../../global-state/course";
 
 const LessonCompletedScreen = () => {
+    const [courseStore] = createResource(useCourseStore);
     const params = useParams();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -15,7 +16,12 @@ const LessonCompletedScreen = () => {
     const nextLessonIndex = createMemo(() => lessonIndex() + 1);
 
     const onNext = () => {
-        if (nextLessonIndex() < courseStore.store.lessons.length) {
+        const store = courseStore();
+        if (!store) {
+            return;
+        }
+
+        if (nextLessonIndex() < store.store.lessons.length) {
             navigate(`/course/${courseIndex()}/${nextLessonIndex()}/intro`);
         } else {
             navigate(`/course/${courseIndex()}/finished`);
@@ -23,10 +29,12 @@ const LessonCompletedScreen = () => {
     };
 
     return (
-        <LessonCompleted
-            onNext={onNext}
-            durationInSeconds={duration()}
-        />
+        <Show when={courseStore()}>
+            <LessonCompleted
+                onNext={onNext}
+                durationInSeconds={duration()}
+            />
+        </Show>
     );
 };
 

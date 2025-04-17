@@ -1,33 +1,33 @@
 import { useParams, useNavigate } from "@solidjs/router";
-import { createEffect, createMemo, createSignal, Show } from "solid-js";
+import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
 import LessonComponent, { Lesson } from "../../components/Lessons/Lesson";
-import { courseStore } from "../../global-state/course";
+import { useCourseStore } from "../../global-state/course";
 import { useLessonStore } from "../../global-state/lessons";
 
 const LessonInProgressScreen = () => {
+    const [courseStore] = createResource(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
     const lessonStore = useLessonStore();
+
     const courseIndex = createMemo(() => Number(params.courseIdx));
     const lessonIndex = createMemo(() => Number(params.lessonIdx));
+
     const [lesson, setLesson] = createSignal<Lesson | null>(null);
     const [startTime, setStartTime] = createSignal(Date.now());
 
+    // Set course/lesson index and load lesson once courseStore is loaded
     createEffect(() => {
-        const lessons = courseStore.store.lessons;
-        const idx = lessonIndex();
-        const lesson = lessons?.[idx];
-        if (lesson) {
-            setLesson(lesson);
+        const store = courseStore();
+        const courseIdx = courseIndex();
+        const lessonIdx = lessonIndex();
+        if (store && store.store.lessons && store.store.lessons[lessonIdx]) {
+            store.setCourseIdx(courseIdx);
+            lessonStore.updateLessonIdx(lessonIdx);
+            setLesson(store.store.lessons[lessonIdx]);
             setStartTime(Date.now());
         }
     });
-
-    createEffect(() => {
-        courseStore.setCourseIdx(courseIndex());
-        lessonStore.updateLessonIdx(lessonIndex());
-    });
-
 
     const onCancel = () => {
         navigate(`/course/${courseIndex()}`);

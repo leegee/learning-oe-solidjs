@@ -1,23 +1,15 @@
 import "@jest/globals";
-import { courseStore } from './course';
-import {
-    getLessonAnswers,
-    getTotalTakenLessons,
-    getTotalQuestionsAnswered,
-    resetLesson,
-    saveAnswer,
-    getTotalCorrectAnswers,
-    getTotalIncorrectAnswers,
-    getLessonQuestionCount,
-    getLessonQuestionsAnsweredIncorrectly,
-    getLessonQuestionsAnsweredCorrectly,
-    resetCourse,
-    storageKeys,
-    Current_Course_Index,
-} from "./lessons";
+import { useCourseStore } from './course';
+import { useLessonStore } from "./lessons";
+import { storageKeys } from "./keys";
+
+let lessonStore: ReturnType<typeof useLessonStore>;
+let courseStore: ReturnType<typeof useCourseStore>;
 
 describe("state", () => {
     beforeEach(() => {
+        lessonStore = useLessonStore();
+        courseStore = useCourseStore();
         localStorage.clear();
         jest.restoreAllMocks();
         courseStore.setCourseIdx(1);
@@ -25,43 +17,43 @@ describe("state", () => {
 
     describe("saveAnswer", () => {
         it("should save an incorrect answer for a lesson card", () => {
-            saveAnswer(1, 0, "incorrect1");
-            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || "{}");
+            lessonStore.saveAnswer(1, 0, "incorrect1");
+            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["incorrect1"]] });
         });
 
         it("should append multiple incorrect answers to the same card", () => {
-            saveAnswer(1, 0, "wrong1");
-            saveAnswer(1, 0, "wrong2");
-            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || "{}");
+            lessonStore.saveAnswer(1, 0, "wrong1");
+            lessonStore.saveAnswer(1, 0, "wrong2");
+            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["wrong1", "wrong2"]] });
         });
 
         it("should initialize arrays when saving to a new lesson index", () => {
-            saveAnswer(2, 3, "mistake");
-            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || "{}");
+            lessonStore.saveAnswer(2, 3, "mistake");
+            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 2: [[], [], [], ["mistake"]] });
         });
 
         it("should not break when saving an empty string as an answer", () => {
-            saveAnswer(1, 0, "");
-            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || "{}");
+            lessonStore.saveAnswer(1, 0, "");
+            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [[""]] });
         });
 
         it("should preserve existing data when adding new answers", () => {
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify({ 1: [["existing"]] }));
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify({ 1: [["existing"]] }));
 
-            saveAnswer(1, 0, "new");
+            lessonStore.saveAnswer(1, 0, "new");
 
-            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || "{}");
+            const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["existing", "new"]] });
         });
     });
 
     describe("getLessonAnswers", () => {
         it("should return an empty array if no answers exist for the lesson", () => {
-            expect(getLessonAnswers(2)).toEqual([]);
+            expect(lessonStore.getLessonAnswers(2)).toEqual([]);
         });
 
         it("should return the stored answers for a given lesson index", () => {
@@ -71,22 +63,22 @@ describe("state", () => {
                 3: [["extra"]],
             };
             localStorage.setItem(
-                storageKeys.ANSWERS(Current_Course_Index),
+                storageKeys.ANSWERS(courseStore.getCourseIdx()),
                 JSON.stringify(mockData)
             );
-            expect(getLessonAnswers(2)).toEqual(mockData[2]);
+            expect(lessonStore.getLessonAnswers(2)).toEqual(mockData[2]);
         });
 
         it("should return an empty array if localStorage contains invalid JSON", () => {
             const consoleErrorMock = jest.spyOn(console, 'error').mockImplementation(() => { });
             jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue('mock invalid json');
-            expect(getLessonAnswers(2)).toEqual([]);
+            expect(lessonStore.getLessonAnswers(2)).toEqual([]);
             consoleErrorMock.mockRestore();
         });
 
         it("should return an empty array if localStorage has no 'oe_answers' key", () => {
             jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue(null);
-            expect(getLessonAnswers(2)).toEqual([]);
+            expect(lessonStore.getLessonAnswers(2)).toEqual([]);
         });
     });
 
@@ -97,21 +89,21 @@ describe("state", () => {
                 2: [["wrong1"], ["wrong2"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
 
-            resetLesson(2);
+            lessonStore.resetLesson(2);
 
-            const savedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index)) || '{}');
+            const savedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || '{}');
             expect(savedAnswers[2]).toEqual([]);
 
-            expect(getLessonAnswers(2)).toEqual([]); // Check if the data is removed
+            expect(lessonStore.getLessonAnswers(2)).toEqual([]); // Check if the data is removed
         });
 
         it("should do nothing if the lesson index doesn't exist", () => {
             jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue("{}");
             const setItemSpy = jest.spyOn(global.Storage.prototype, "setItem").mockImplementation(() => { });
 
-            resetLesson(5); // Non-existent lesson
+            lessonStore.resetLesson(5); // Non-existent lesson
 
             expect(setItemSpy).not.toHaveBeenCalled();
         });
@@ -124,9 +116,9 @@ describe("state", () => {
                 2: [["wrong1"], ["wrong2"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
 
-            const count = getTotalTakenLessons();
+            const count = lessonStore.getTotalTakenLessons();
             expect(count).toEqual(3);
         });
     });
@@ -138,8 +130,8 @@ describe("state", () => {
                 2: [["wrong1"], ["wrong2"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getTotalQuestionsAnswered();
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getTotalQuestionsAnswered();
             expect(count).toEqual(5);
         });
     });
@@ -152,8 +144,8 @@ describe("state", () => {
                 3: [["extra"]],
                 4: [[""]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getTotalCorrectAnswers();
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getTotalCorrectAnswers();
             expect(count).toEqual(3);
         });
     });
@@ -165,8 +157,8 @@ describe("state", () => {
                 2: [[""], ["wrong2"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getTotalIncorrectAnswers();
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getTotalIncorrectAnswers();
             expect(count).toEqual(3);
         });
     });
@@ -178,8 +170,8 @@ describe("state", () => {
                 2: [[""], ["wrong2"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getLessonQuestionCount(2);
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getLessonQuestionCount(2);
             expect(count).toEqual(2);
         });
     });
@@ -191,8 +183,8 @@ describe("state", () => {
                 2: [[""], ["wrong2"], ["wrong3"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getLessonQuestionsAnsweredIncorrectly(2);
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getLessonQuestionsAnsweredIncorrectly(2);
             expect(count).toEqual(2);
         });
     });
@@ -204,8 +196,8 @@ describe("state", () => {
                 2: [[""], ["wrong2"], ["wrong3"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            const count = getLessonQuestionsAnsweredCorrectly(2);
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            const count = lessonStore.getLessonQuestionsAnsweredCorrectly(2);
             expect(count).toEqual(1);
         });
     });
@@ -217,9 +209,9 @@ describe("state", () => {
                 2: [[""], ["wrong2"], ["wrong3"]],
                 3: [["extra"]],
             };
-            localStorage.setItem(storageKeys.ANSWERS(Current_Course_Index), JSON.stringify(mockData));
-            resetCourse();
-            expect(localStorage.getItem(storageKeys.ANSWERS(Current_Course_Index))).toBe(null);
+            localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
+            courseStore.reset();
+            expect(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx()))).toBe(null);
         });
     });
 
@@ -229,7 +221,7 @@ describe("state", () => {
             jest.restoreAllMocks();
         });
 
-        describe("courseStore.getCourseIdx", () => {
+        describe("courseStore.getCourseIdx()", () => {
             it("should return -1 if no course index is saved in localStorage", () => {
                 expect(courseStore.getCourseIdx()).toBe(-1);
             });
@@ -251,9 +243,9 @@ describe("state", () => {
                 expect(localStorage.getItem(storageKeys.COURSE_INDEX)).toBe("5");
             });
 
-            it("should update the global Current_Course_Index value", () => {
+            it("should update the global courseStore.getCourseIdx() value", () => {
                 courseStore.setCourseIdx(7);
-                expect(Current_Course_Index).toBe(7);
+                expect(courseStore.getCourseIdx()).toBe(7);
             });
         });
 

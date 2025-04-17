@@ -1,15 +1,24 @@
-import { useParams } from "@solidjs/router";
+// import { useParams } from "@solidjs/router";
+import { createResource } from "solid-js";
 import CompletedAllLessons from "../../components/Lessons/CompletedAllLessons";
-import { courseStore } from "../../global-state/course";
+import { useCourseStore } from "../../global-state/course";
 
 const CourseFinishedScreen = () => {
-    const params = useParams();
-    const courseIndex = Number(params.courseIdx);
+    // const params = useParams();
+    // const courseIndex = Number(params.courseIdx);
+
+    const [courseStore] = createResource(() => useCourseStore());
+
+    if (courseStore.loading) {
+        return <div>Loading...</div>;
+    }
 
     return (
-        <CompletedAllLessons totalLessons={courseStore.store.lessons.length}>
-            {/* Add course-specific stats if you like */}
-        </CompletedAllLessons>
+        <div>
+            <CompletedAllLessons totalLessons={courseStore()?.store.lessons.length || 0}>
+                {/* Add course-specific stats  */}
+            </CompletedAllLessons>
+        </div>
     );
 };
 

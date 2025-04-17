@@ -1,6 +1,6 @@
 import './CourseEditor.css';
-import { createEffect, createSignal } from "solid-js";
-import { courseStore } from "../../global-state/course";
+import { createEffect, createResource, createSignal } from "solid-js";
+import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import EditableText from "../CardEditor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import { Lesson } from "../Lessons/Lesson";
@@ -8,6 +8,8 @@ import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/Confirm';
 import AddCardButton from './AddCardButton';
+import { useLessonStore } from '../../global-state/lessons';
+import { IAnyCard } from '../Cards';
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -16,6 +18,9 @@ export const persist = (data: any) => {
 };
 
 export default function CourseEditor() {
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const [lessonStore] = createResource(useLessonStore);
+
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();
@@ -24,45 +29,40 @@ export default function CourseEditor() {
     const [courseTitle, setCourseTitle] = createSignal("");
 
     createEffect(() => {
-        courseStore.setCourseIdx(Number(params.courseIdx) || -1);
+        const cStore = courseStore();
+        const lStore = lessonStore();
+        if (!cStore || !lStore) return;
 
-        const lessons = courseStore.store.lessons;
-        const metadata = courseStore.store.courseMetadata;
-
-        if (metadata) {
-            setLessons(lessons);
-            setCourseTitle(metadata.courseTitle);
-        }
+        cStore.setCourseIdx(Number(params.courseIdx) || -1);
+        setLessons(cStore.store.lessons);
+        setCourseTitle(cStore.store.courseMetadata?.courseTitle ?? "");
     });
 
     const deleteCard = (lessonIdx: number, cardIdx: number) => {
         showConfirm(t('confirm_delete_card'), () => {
             const updated = lessons().map((lesson, i) =>
                 i === lessonIdx
-                    ? {
-                        ...lesson,
-                        cards: lesson.cards.filter((_, j) => j !== cardIdx),
-                    }
+                    ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
                     : lesson
             );
             setLessons(updated);
             persist(updated);
-        })
-    }
+        });
+    };
 
     const updateLesson = (lessonIdx: number, updateFn: (lesson: Lesson) => Lesson) => {
         const updated = [...lessons()];
         updated[lessonIdx] = updateFn(updated[lessonIdx]);
         setLessons(updated);
         persist(updated);
-    }
+    };
 
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
         const updatedLessons = [...lessons()];
         const lesson = updatedLessons[lessonIdx];
         const card = lesson.cards[cardIdx];
-
         const newCardIdx = cardIdx + direction;
+
         if (newCardIdx >= 0 && newCardIdx < lesson.cards.length) {
             lesson.cards.splice(cardIdx, 1);
             lesson.cards.splice(newCardIdx, 0, card);
@@ -75,8 +75,8 @@ export default function CourseEditor() {
         const updatedLessons = [...lessons()];
         const lesson = updatedLessons[lessonIdx];
         const card = lesson.cards[cardIdx];
-
         const newLessonIdx = lessonIdx + direction;
+
         if (newLessonIdx >= 0 && newLessonIdx < updatedLessons.length) {
             lesson.cards.splice(cardIdx, 1);
             updatedLessons[newLessonIdx].cards.push(card);
@@ -127,7 +127,7 @@ export default function CourseEditor() {
 
                             <h4>
                                 <EditableText
-                                    value={lesson.description || ""}
+                                    value={lesson.description ?? ""}
                                     onChange={(newVal) =>
                                         updateLesson(lessonIdx, l => ({ ...l, description: newVal }))
                                     }
@@ -158,12 +158,13 @@ export default function CourseEditor() {
                                         </button>
 
                                         <div class="card-overlay-wrapper">
+
                                             <Card
                                                 tabindex={-1}
                                                 card={card}
                                                 lesson={lesson}
                                                 ondblclick={() =>
-                                                    navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
+                                                    navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
                                                 }
                                             />
 
@@ -180,7 +181,7 @@ export default function CourseEditor() {
                                                     title="Edit"
                                                     class="control"
                                                     onClick={() =>
-                                                        navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
+                                                        navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
                                                     }
                                                 >
                                                     ✎
@@ -210,23 +211,21 @@ export default function CourseEditor() {
                             ))}
 
                             <AddCardButton
-                                onAdd={(type) => {
+                                onAdd={(klass) => {
                                     const updatedLessons = [...lessons()];
                                     const newCard = {
-                                        id: crypto.randomUUID(),
-                                        front: "",
-                                        back: "",
-                                        class: type,
-                                    };
+                                        class: klass,
+                                        question: 'Question',
+                                        qlang: 'default'
+                                    } as IAnyCard;
                                     updatedLessons[lessonIdx].cards.push(newCard);
                                     setLessons(updatedLessons);
                                     persist(updatedLessons);
 
                                     const newIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                    navigate(`/editor/${courseStore.getCourseIdx()}/${lessonIdx}/${newIdx}`);
+                                    navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${newIdx}`);
                                 }}
                             />
-
                         </div>
                     </section>
                 ))}
