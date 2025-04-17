@@ -31,7 +31,7 @@ export interface CourseData extends CourseMetadata {
 export interface ICourseStore {
     store: {
         courseMetadata: CourseMetadata | null;
-        selectedCourseIndex: number;
+        courseIdx: number;
         lessons: Lesson[];
         loading: boolean;
     };
@@ -53,7 +53,7 @@ export const useCourseStore = async (): Promise<ICourseStore> => {
 export const makeCourseStore = () => {
     const [state, setState] = createStore({
         courseMetadata: null as CourseMetadata | null,
-        selectedCourseIndex: Number(localStorage.getItem(storageKeys.COURSE_INDEX)) || 0,
+        courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX)) || 0,
         lessons: [] as Lesson[],
         loading: false,
     });
@@ -67,7 +67,7 @@ export const makeCourseStore = () => {
 
     // Load the course data
     createEffect(async () => {
-        const index = state.selectedCourseIndex;
+        const index = state.courseIdx;
         const config = await getAppConfig();
 
         if (index === -1 || index >= config.lessons.length) {
@@ -105,14 +105,13 @@ export const makeCourseStore = () => {
         }
     });
 
-    // Public API
     const setCourseIdx = (index: number) => {
         console.info("Selected course", index);
-        setState("selectedCourseIndex", index);
+        setState("courseIdx", index);
         localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
     };
 
-    const getCourseIdx = () => state.selectedCourseIndex;
+    const getCourseIdx = () => state.courseIdx;
 
     const lessonTitles2Indicies = (): LessonSummary[] => {
         return state.lessons.map((lesson, lessonIndex) => ({

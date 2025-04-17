@@ -21,7 +21,7 @@ const MenuScreen = () => {
     createEffect(() => {
         const store = courseStore();
         if (store) {
-            setLocalCourseIndex(store.store.selectedCourseIndex);
+            setLocalCourseIndex(store.getCourseIdx());
         }
     });
 
@@ -46,7 +46,7 @@ const MenuScreen = () => {
             <section class='card'>
                 <TitleComponent title={config.appTitle} />
 
-                {courseStore() && courseStore()!.store.selectedCourseIndex === -1 && <h3>{t('choose_a_course')}</h3>}
+                {courseStore() && courseStore()!.getCourseIdx() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                 <nav class="course-menu">
                     {config.lessons.map((course, courseIdx) => (
@@ -56,7 +56,7 @@ const MenuScreen = () => {
                             </button>
 
                             {localCourseIndex() === courseIdx &&
-                                courseStore()?.store.selectedCourseIndex === courseIdx &&
+                                courseStore()?.getCourseIdx() === courseIdx &&
                                 courseStore()?.store.courseMetadata &&
                                 !courseStore()?.store.loading && (
                                     <CourseEditorButton courseIdx={courseIdx} />

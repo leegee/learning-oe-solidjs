@@ -1,10 +1,12 @@
+import './LessonList.css';
 import { createResource, For, Show } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
-import './LessonList.css';
+import { Lesson } from '../Lesson';
 
 interface LessonListProps {
     currentLessonIndex: number;
     courseIndex: number;
+    lessons: Lesson[];
     onLessonSelected: (lessonIndex: number) => void;
 }
 
@@ -17,16 +19,14 @@ const LessonList = (props: LessonListProps) => {
 
     return (
         <Show when={!courseStore.loading} fallback={<div>Loading lesson list...</div>}>
-            {/* Now store is guaranteed to be loaded */}
             <Show when={courseStore()?.store?.courseMetadata} fallback={<div>Loading course data...</div>}>
                 {(metadata) => {
-                    const lessons = courseStore()?.store?.lessons;
 
                     return (
                         <section class="card lesson-list">
                             <h2>{metadata().courseTitle}</h2>
                             <ol>
-                                <For each={lessons}>
+                                <For each={props.lessons}>
                                     {(lesson, index) => (
                                         <li>
                                             <button

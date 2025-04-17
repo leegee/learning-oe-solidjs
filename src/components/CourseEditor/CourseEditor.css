@@ -8,6 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
     margin: 1em 0;
     padding: 0.8em 0.6em 0.3em;
     border: 1pt solid var(--oe-clr-border);
@@ -45,9 +46,9 @@
 }
 
 .course-editor .lessons {
-    width: var(--oe-editor-max-width);
-    max-width: var(--oe-editor-max-width);
-    margin-left: calc((var(--oe-editor-max-width) - var(--oe-max-width)) / 2 * -1);
+    width: var(--oe-max-width);
+    max-width: var(--oe-max-width);
+    margin-left: calc((var(--oe-max-width) - var(--oe-max-width)) / 2 * -1);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

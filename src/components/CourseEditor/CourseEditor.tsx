@@ -1,5 +1,5 @@
 import './CourseEditor.css';
-import { createEffect, createResource, createSignal } from "solid-js";
+import { createEffect, createResource, createSignal, onCleanup } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import EditableText from "../CardEditor/Editor/EditableText";
 import Card from "../Lessons/Card";
@@ -27,6 +27,13 @@ export default function CourseEditor() {
     const params = useParams();
     const [lessons, setLessons] = createSignal<Lesson[]>([]);
     const [courseTitle, setCourseTitle] = createSignal("");
+
+    createEffect(() => {
+        document.body.classList.add("editing-card");
+        onCleanup(() => {
+            document.body.classList.remove("editing-card");
+        });
+    });
 
     createEffect(() => {
         const cStore = courseStore();

@@ -20,8 +20,7 @@
     --oe-fade-timing: ease-in-out;
     --fade-delay: 0s;
 
-    --oe-max-width: 55rem;
-    --oe-editor-max-width: 55rem;
+    --oe-max-width: 40rem;
 }
 
 :root,
@@ -36,6 +35,10 @@ body,
     font-family: 'Work Sans';
     color: var(--oe-clr-fg);
     background-color: var(--oe-clr-bg);
+}
+
+body.editing-card {
+    --oe-max-width: 55rem;
 }
 
 * {

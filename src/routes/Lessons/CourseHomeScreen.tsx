@@ -1,4 +1,9 @@
-import { createSignal, createEffect, createResource, Show } from "solid-js";
+import {
+    createSignal,
+    createEffect,
+    createResource,
+    Show,
+} from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import HomeScreen from "./HomeScreen";
@@ -7,24 +12,28 @@ import { useLessonStore } from "../../global-state/lessons";
 import { useCourseStore } from "../../global-state/course";
 
 const CourseHome = () => {
-    const params = useParams();
-    const navigate = useNavigate();
-
     const [lessonStore] = createResource(useLessonStore);
     const [courseStore] = createResource(useCourseStore);
 
-    const [courseIdx, setCourseIdx] = createSignal(-1);
+    const params = useParams();
+    const navigate = useNavigate();
 
+    const [courseIdx, setCourseIdx] = createSignal(Number(params.courseIdx));
+
+    // Update courseIdx if route changes
+    createEffect(() => {
+        const newIdx = Number(params.courseIdx);
+        if (!Number.isNaN(newIdx) && newIdx !== courseIdx()) {
+            setCourseIdx(newIdx);
+        }
+    });
+
+    // When courseStore is loaded or courseIdx changes, update store
     createEffect(() => {
         const cStore = courseStore();
-        if (!cStore) {
-            return;
-        }
-
-        const newCourseIndex = Number(params.courseIdx);
-        if (newCourseIndex !== cStore.store.selectedCourseIndex) {
-            cStore.setCourseIdx(newCourseIndex);
-            setCourseIdx(newCourseIndex);
+        const idx = courseIdx();
+        if (cStore && idx !== cStore.getCourseIdx()) {
+            cStore.setCourseIdx(idx);
         }
     });
 
@@ -34,16 +43,17 @@ const CourseHome = () => {
 
     return (
         <HomeScreen>
-            <Show when={courseStore() && lessonStore()}>
+            <Show
+                when={courseStore() && lessonStore()}
+                fallback={<div>Loading lessons ...</div>}
+            >
                 <Stats />
                 <LessonList
+                    lessons={courseStore()?.store.lessons || []}
                     courseIndex={courseIdx()}
                     currentLessonIndex={lessonStore()?.lessonIndex ?? 0}
                     onLessonSelected={onLessonSelected}
                 />
-            </Show>
-            <Show when={!courseStore() || !lessonStore()}>
-                <div>Loading lessons ...</div>
             </Show>
         </HomeScreen>
     );
