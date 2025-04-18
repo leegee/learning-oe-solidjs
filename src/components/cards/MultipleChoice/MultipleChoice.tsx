@@ -10,7 +10,7 @@ import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface IMultipleChoiceCard extends IBaseCard {
     class: 'multiple-choice';
-    answers: string[];
+    answers: string[]; // TODO BooleanWord[] would be better
     answer: string;
 };
 

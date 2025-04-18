@@ -127,7 +127,7 @@ const CardEditor = (props: EditCardModalProps) => {
                             }
 
                             {(card()! as IAnyCardWithAnswer).answer
-                                && card().class !== 'writing-blocks'
+                                && card().class !== 'writing-blocks' // because the answer is the same as the question
                                 && card().class !== 'multiple-choice'
                                 && <TextInput
                                     label={`Answer`}
