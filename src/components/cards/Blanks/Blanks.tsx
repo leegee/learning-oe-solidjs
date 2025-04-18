@@ -1,7 +1,7 @@
 import './Blanks.css';
 import { createSignal, createEffect, type JSX } from 'solid-js';
 import { shuffleArray } from '../../../lib/shuffle-array';
-import { type IBaseCard } from '..';
+import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import { useI18n } from '../../../contexts/I18nProvider';
@@ -15,6 +15,13 @@ export interface IBlanksCard extends IBaseCard {
     question: string;
     words: IBooleanWord[]
 }
+
+export const defaultCard: IBlanksCard = {
+    class: 'blanks',
+    question: '',
+    qlang: 'default',
+    words: [],
+};
 
 export interface IBlanksCardProps {
     card: IBlanksCard;

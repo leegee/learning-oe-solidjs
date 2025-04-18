@@ -9,7 +9,7 @@ import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/Confirm';
 import AddCardButton from './AddCardButton';
 import { useLessonStore } from '../../global-state/lessons';
-import { IAnyCard } from '../Cards';
+import { createDefaultCard } from '../Cards';
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -127,7 +127,7 @@ export default function CourseEditor() {
                                 <EditableText
                                     value={lesson.title}
                                     onChange={(newVal) =>
-                                        updateLesson(lessonIdx, l => ({ ...l, title: newVal }))
+                                        updateLesson(lessonIdx, lesson => ({ ...lesson, title: newVal }))
                                     }
                                 />
                             </h3>
@@ -136,7 +136,7 @@ export default function CourseEditor() {
                                 <EditableText
                                     value={lesson.description ?? ""}
                                     onChange={(newVal) =>
-                                        updateLesson(lessonIdx, l => ({ ...l, description: newVal }))
+                                        updateLesson(lessonIdx, lesson => ({ ...lesson, description: newVal }))
                                     }
                                 />
                             </h4>
@@ -219,18 +219,15 @@ export default function CourseEditor() {
 
                             <AddCardButton
                                 onAdd={(klass) => {
-                                    const updatedLessons = [...lessons()];
-                                    const newCard = {
-                                        class: klass,
-                                        question: 'Question',
-                                        qlang: 'default'
-                                    } as IAnyCard;
-                                    updatedLessons[lessonIdx].cards.push(newCard);
-                                    setLessons(updatedLessons);
+                                    const newCard = createDefaultCard(klass);
+                                    const updatedLessons = lessons().map(lesson => ({
+                                        ...lesson,
+                                        cards: [...lesson.cards, newCard]
+                                    }));
                                     persist(updatedLessons);
-
-                                    const newIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                    navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${newIdx}`);
+                                    setLessons(updatedLessons);
+                                    // const newIdx = updatedLessons[lessonIdx].cards.length - 1;
+                                    // navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${newIdx}`);
                                 }}
                             />
                         </div>

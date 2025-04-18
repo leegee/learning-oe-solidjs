@@ -19,6 +19,12 @@ export interface IVocabMatchCardProps {
     onComplete: () => void;
 }
 
+export const defaultCard: IVocabMatchCard = {
+    class: 'vocab',
+    qlang: 'default',
+    vocab: {}
+};
+
 interface ITableRow {
     leftWord: string;
     rightWord: string;

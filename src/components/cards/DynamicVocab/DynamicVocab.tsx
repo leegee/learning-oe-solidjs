@@ -7,6 +7,11 @@ export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
 };
 
+export const defaultCard: IDynamicVocabCard = {
+    class: 'dynamic-vocab',
+    qlang: 'default',
+};
+
 interface IDynamicVocabCardProps {
     card: IDynamicVocabCard;
     lesson: Lesson;

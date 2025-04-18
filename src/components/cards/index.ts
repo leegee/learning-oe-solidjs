@@ -6,25 +6,32 @@ import { IVocabMatchCard } from './VocabMatch/VocabMatch';
 import { IWritingCard } from './Writing/Writing';
 import { IWritingBlocksCard } from './WritingBlocks/WritingBlocks';
 
-export * from './BaseCard.type';
-export * from './MultipleChoice/MultipleChoice';
-export * from './VocabMatch/VocabMatch';
-export * from './Blanks/Blanks';
-export * from './Writing/Writing';
-export * from './WritingBlocks/WritingBlocks';
-export * from './DynamicVocab/DynamicVocab';
-
 export { default as MultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
-
 export { default as VocabMatchCardComponent } from './VocabMatch/VocabMatch';
-
 export { default as BlanksCardComponent } from './Blanks/Blanks';
-
 export { default as WritingCardComponent } from './Writing/Writing';
-
 export { default as WritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
-
 export { default as DynamicVocabComponent } from './DynamicVocab/DynamicVocab';
+
+import { defaultCard as defaultCardMultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
+import { defaultCard as defaultCardVocabMatchCardComponent } from './VocabMatch/VocabMatch';
+import { defaultCard as defaultCardBlanksCardComponent } from './Blanks/Blanks';
+import { defaultCard as defaultCardWritingCardComponent } from './Writing/Writing';
+import { defaultCard as defaultCardWritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
+import { defaultCard as defaultCardDynamicVocabComponent } from './DynamicVocab/DynamicVocab';
+
+const defaultCardMap: Record<CardClass, IAnyCard> = {
+    'multiple-choice': defaultCardMultipleChoiceComponent,
+    'vocab': defaultCardVocabMatchCardComponent,
+    'blanks': defaultCardBlanksCardComponent,
+    'writing': defaultCardWritingCardComponent,
+    'writing-blocks': defaultCardWritingBlocksCardComponent,
+    'dynamic-vocab': defaultCardDynamicVocabComponent,
+};
+
+export const createDefaultCard = (klass: CardClass): IAnyCard => {
+    return structuredClone(defaultCardMap[klass]);
+}
 
 export type IAnyCard = IBlanksCard
     | IDynamicVocabCard

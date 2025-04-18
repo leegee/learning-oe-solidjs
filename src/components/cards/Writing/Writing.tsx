@@ -11,6 +11,12 @@ export interface IWritingCard extends IBaseCard {
     answer: string;
 };
 
+export const defaultCard: IWritingCard = {
+    class: 'writing',
+    qlang: 'default',
+    answer: ''
+};
+
 export interface IWritingCardProps {
     card: IWritingCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;

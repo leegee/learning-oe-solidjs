@@ -14,6 +14,14 @@ export interface IMultipleChoiceCard extends IBaseCard {
     answer: string;
 };
 
+export const defaultCard: IMultipleChoiceCard = {
+    class: 'multiple-choice',
+    question: '',
+    qlang: 'default',
+    answers: [],
+    answer: ''
+};
+
 export interface IMultipleChoiceCardProps {
     card: IMultipleChoiceCard;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
