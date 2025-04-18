@@ -16,10 +16,10 @@ export interface IMultipleChoiceCard extends IBaseCard {
 
 export const defaultCard: IMultipleChoiceCard = {
     class: 'multiple-choice',
-    question: '',
+    question: 'A Question',
     qlang: 'default',
-    answers: [],
-    answer: ''
+    answers: ['An answer', 'Another answer'],
+    answer: 'An answer'
 };
 
 export interface IMultipleChoiceCardProps {

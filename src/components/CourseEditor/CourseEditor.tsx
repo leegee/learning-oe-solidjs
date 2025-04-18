@@ -1,15 +1,15 @@
 import './CourseEditor.css';
 import { createEffect, createResource, createSignal, onCleanup } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import EditableText from "../CardEditor/Editor/EditableText";
-import Card from "../Lessons/Card";
-import { Lesson } from "../Lessons/Lesson";
+import { useLessonStore } from '../../global-state/lessons';
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/Confirm';
-import AddCardButton from './AddCardButton';
-import { useLessonStore } from '../../global-state/lessons';
 import { createDefaultCard } from '../Cards';
+import { Lesson } from "../Lessons/Lesson";
+import EditableText from "../CardEditor/Editor/EditableText";
+import Card from "../Lessons/Card";
+import AddCardButton from './AddCardButton';
 
 const EDITING_LESSON_STORAGE_KEY = "oe-lesson-editing";
 
@@ -226,8 +226,8 @@ export default function CourseEditor() {
                                     }));
                                     persist(updatedLessons);
                                     setLessons(updatedLessons);
-                                    // const newIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                    // navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${newIdx}`);
+                                    const newIdx = updatedLessons[lessonIdx].cards.length - 1;
+                                    navigate(`/editor/${courseStore()?.getCourseIdx()}/${lessonIdx}/${newIdx}`);
                                 }}
                             />
                         </div>

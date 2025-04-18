@@ -3,21 +3,13 @@ import { createSignal, onCleanup, createMemo, createEffect } from 'solid-js';
 import { useConfirm } from "../../../contexts/Confirm";
 import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
-import {
-    type IAnyCard,
-    // type IBlanksCard,
-    // type IDynamicVocabCard,
-    // type IMultipleChoiceCard,
-    // type IVocabMatchCard,
-    // type IWritingBlocksCard,
-    // type IWritingCard
-} from '../../Cards';
+import { type IAnyCard } from '../../Cards';
 import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface Lesson {
     title: string;
     description?: string;
-    cards: IAnyCard[] // (IWritingCard | IWritingBlocksCard | IVocabMatchCard | IBlanksCard | IMultipleChoiceCard | IDynamicVocabCard)[];
+    cards: IAnyCard[]
 };
 
 export interface ILessonProps {
