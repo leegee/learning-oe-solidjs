@@ -68,22 +68,19 @@
                 "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
                 "confirm_delete_card": "Really delete this card?",
                 "confirm_leave_app": "Are you sure you want to leave this app?",
-                "multiple-choice": "Multiple Choce",
-                "vocab": "Vocabularly Pairing",
-                "blanks": "Complete the Blanks",
-                "writing": "Write",
-                "writing-blocks": "Writing Blocks",
-                "dynamic-vocab": "Dynamic Vocabulary"
+                "card-class.multiple-choice": "Multiple Choce",
+                "card-class.vocab": "Vocabularly Pairing",
+                "card-class.blanks": "Complete the Blanks",
+                "card-class.writing": "Writing",
+                "card-class.writing-blocks": "Writing Blocks",
+                "card-class.dynamic-vocab": "Dynamic Vocabulary"
             },
             "ang": {
-                "course": "Course",
                 "reset_course": "Styrtan Ara",
-                "choose_a_course": "Please select a course from the list",
                 "lessons": "lāran",
                 "all_lessons": "Lār",
                 "back": "Hweorfan",
                 "begin": "Beginnan",
-                "cancel_lesson": "Cancel Lesson",
                 "continue": "Forþian",
                 "next": "Næsta",
                 "check": "sceawian",
@@ -114,18 +111,7 @@
                 "lesson_progress": "lār",
                 "total_lessons_completed": "lāra completed",
                 "total_questions_answered": "Andswaru geendod",
-                "total_incorrect_answers": "Forscyran",
-                "lesson_completed_counts": "You answered {{questionCount}} questions and made {{mistakeCount}} mistakes - in {{duration}}",
-                "lose_progress": "Are you sure you want to lose {{totalAnswered}} answers?",
-                "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
-                "confirm_delete_card": "Really delete this card?",
-                "confirm_leave_app": "Are you sure you want to leave this app?",
-                "multiple-choice": "Multiple Choce",
-                "vocab": "Vocabularly Pairing",
-                "blanks": "Complete the Blanks",
-                "writing": "Write",
-                "writing-blocks": "Writing Blocks",
-                "dynamic-vocab": "Dynamic Vocabulary"
+                "total_incorrect_answers": "Forscyran"
             }
         }
     }

@@ -24,10 +24,8 @@ const MenuToggle = () => {
     };
 
     return (
-        <button class="hamburger-button" onClick={toggleMenu} aria-label="Toggle menu">
-            <span class="hamburger-icon">
-                {isMenuOpen() ? "✕" : "☰"}
-            </span>
+        <button class="hamburger-button large-icon-button" onClick={toggleMenu} aria-label="Toggle menu">
+            {isMenuOpen() ? "✕" : "☰"}
         </button>
     );
 };

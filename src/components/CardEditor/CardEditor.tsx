@@ -108,7 +108,9 @@ const CardEditor = (props: EditCardModalProps) => {
                 return (
                     <aside class="card-editor card" onClick={(e: Event) => e.stopPropagation()}>
                         <section>
-                            <h2>Editing {t(props.card?.class as string)} Card</h2>
+                            <h2>Editing {t('card-class.' + props.card?.class as string)} Card
+                                <button title={t('cacnel')} onClick={props.onCancel} class="close-editor large-icon-button">✕</button>
+                            </h2>
 
                             {/* <pre>{JSON.stringify(card(), null, 4)}</pre> */}
 

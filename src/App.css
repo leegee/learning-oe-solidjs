@@ -113,41 +113,27 @@ h3.question::after {
 }
 
 
-.modal-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--oe-clr-modal-bg);
+.large-icon-button {
+    cursor: pointer;
+    font-size: 150%;
+    font-weight: 100;
+    opacity: 66%;
+    color: var(--oe-clr-fg);
+    border-radius: 50%;
+    min-width: 1em;
+    min-height: 1em;
+    max-width: 1em;
+    max-height: 1em;
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    z-index: 1000;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-content: center;
-}
-
-.modal-bg * {
-    z-index: 1001;
-}
-
-.modal-bg h2 {
-    margin-bottom: 1em !important;
-}
-
-button.icon {
-    width: 1em !important;
-    height: 1em !important;
-    min-height: 1em !important;
-    max-height: 1em !important;
-    max-width: 1em !important;
-    min-width: 1em !important;
-    display: flex !important;
     align-items: center;
     justify-content: center;
-    padding: 0 !important;
-    margin: 0 !important;
-    line-height: normal;
+    padding: 0.8em;
+    margin: 0;
+    border: none;
+}
+
+.large-icon-button:hover {
+    outline: none !important;
+    font-weight: bolder;
+    opacity: 90%;
 }

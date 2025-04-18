@@ -1,31 +1,6 @@
 .hamburger-button {
-    border: none;
     z-index: 9000;
-    cursor: pointer;
-    font-size: 150%;
-    font-weight: normal;
-    opacity: 66%;
-    color: var(--oe-clr-fg);
-    border-radius: 50%;
-    min-width: 1em;
-    min-height: 1em;
-    max-width: 1em;
-    max-height: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.8em;
-    margin: 0;
     position: fixed;
     top: 0.5em;
     right: calc(50vw - (var(--oe-max-width) / 2));
 }
-
-.close-menu-button:hover,
-.hamburger-button:hover {
-    outline: none !important;
-    font-weight: bolder;
-    opacity: 100%;
-}
-
-/* .hamburger-icon {} */
