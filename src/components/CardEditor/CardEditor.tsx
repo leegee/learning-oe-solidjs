@@ -15,6 +15,7 @@ import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
 import VocabText from "./Editor/VocabMatch";
 import { IBooleanWord } from '../Cards/Blanks/Blanks';
+import { useI18n } from '../../contexts/I18nProvider';
 
 interface EditCardModalProps {
     card: IAnyCard | null;
@@ -23,6 +24,7 @@ interface EditCardModalProps {
 }
 
 const CardEditor = (props: EditCardModalProps) => {
+    const { t } = useI18n();
     const [answers, setAnswers] = createSignal<string[]>([]);
     const [answer, setAnswer] = createSignal<string>("");
     const [question, setQuestion] = createSignal<string>("");
@@ -104,9 +106,9 @@ const CardEditor = (props: EditCardModalProps) => {
             {(card) => {
 
                 return (
-                    <aside class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
+                    <aside class="card-editor card" onClick={(e: Event) => e.stopPropagation()}>
                         <section>
-                            <h2>Edit Card</h2>
+                            <h2>Editing {t(props.card?.class as string)} Card</h2>
 
                             {/* <pre>{JSON.stringify(card(), null, 4)}</pre> */}
 

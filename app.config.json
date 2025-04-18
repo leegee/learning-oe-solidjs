@@ -67,7 +67,13 @@
                 "lose_progress": "Are you sure you want to lose {{totalAnswered}} answers?",
                 "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
                 "confirm_delete_card": "Really delete this card?",
-                "confirm_leave_app": "Are you sure you want to leave this app?"
+                "confirm_leave_app": "Are you sure you want to leave this app?",
+                "multiple-choice": "Multiple Choce",
+                "vocab": "Vocabularly Pairing",
+                "blanks": "Complete the Blanks",
+                "writing": "Write",
+                "writing-blocks": "Writing Blocks",
+                "dynamic-vocab": "Dynamic Vocabulary"
             },
             "ang": {
                 "course": "Course",
@@ -113,7 +119,13 @@
                 "lose_progress": "Are you sure you want to lose {{totalAnswered}} answers?",
                 "confirm_leave_lesson": "Are you sure you want to leave this lesson?",
                 "confirm_delete_card": "Really delete this card?",
-                "confirm_leave_app": "Are you sure you want to leave this app?"
+                "confirm_leave_app": "Are you sure you want to leave this app?",
+                "multiple-choice": "Multiple Choce",
+                "vocab": "Vocabularly Pairing",
+                "blanks": "Complete the Blanks",
+                "writing": "Write",
+                "writing-blocks": "Writing Blocks",
+                "dynamic-vocab": "Dynamic Vocabulary"
             }
         }
     }

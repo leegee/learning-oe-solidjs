@@ -1,4 +1,4 @@
-.edit-card-modal {
+.card-editor {
     background: var(--oe-clr-card-bg);
     color: var(--oe-clr-card-fg);
     padding: 1em;
@@ -12,72 +12,82 @@
     flex-direction: column;
 }
 
-.edit-card-modal.card section {
+.card-editor.card section {
     width: 100%;
 }
 
-.edit-card-modal section.question {
+.card-editor section.question {
     margin-bottom: 1em;
     font-size: 166%;
 }
 
-.edit-card-modal h2,
-.edit-card-modal h3 {
+.card-editor h2,
+.card-editor h3 {
     padding: 0.6em;
     margin-bottom: 0.3em !important;
     border: 0.3pt solid var(--oe-clr-border);
 }
 
-.edit-card-modal h3 {
+.card-editor h2 {
+    font-size: 1.2em;
+    opacity: 0.6;
+}
+
+.card-editor h3 {
     border: none;
     padding: 0.3em 0;
     margin-top: 1em;
     font-size: 120%;
 }
 
-.edit-card-modal footer.modal-actions {
+.card-editor footer.modal-actions {
     padding: 1em;
     border: 0.3pt dotted var(--oe-clr-border);
 }
 
-.edit-card-modal footer.modal-actions button {
+.card-editor footer.modal-actions button {
     line-height: 200%;
     width: 100%;
     border: none;
 }
 
-.edit-card-modal footer.modal-actions button:before {
+.card-editor footer.modal-actions button:before {
     content: '';
 }
 
 
-.edit-card-modal footer.modal-actions button:nth-of-type(1) {
+.card-editor footer.modal-actions button:nth-of-type(1) {
     border-bottom: 1pt solid var(--oe-clr-border) !important;
 }
 
-.edit-card-modal footer.modal-actions button:hover {
+.card-editor footer.modal-actions button:hover {
     color: var(--oe-clr-primary-fg);
     border-bottom: 1pt solid var(--oe-clr-fg) !important;
     background: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
 }
 
-
-.edit-card-modal textarea {
-    width: 100%;
-    min-height: 4em;
-    margin-top: 0.3em;
-    font-size: 1.2em;
-}
-
-.edit-card-modal textarea,
-.edit-card-modal input {
-    border: 1pt dotted var(--oe-clr-border);
+.card-editor textarea,
+.card-editor input {
+    border: 1pt dotted transparent;
     color: var(--oe-clr-card-fg);
     padding: 0.3em;
     font-family: Junicode;
-    font-size: 1em;
     line-height: 133%;
+}
+
+.card-editor input {
+    font-size: 1em;
+    border-color: var(--oe-clr-border);
+    border-radius: 0;
+}
+
+.card-editor textarea {
+    border-color: var(--oe-clr-border);
+    width: 100%;
+    min-height: 4em;
+    margin-top: 0.3em;
+    font-size: 14pt;
 }
 
 .actions {
@@ -97,11 +107,11 @@
     border: 1pt solid var(--oe-clr-border);
 }
 
-.edit-card-modal.multiple-choice .answer-section {
+.card-editor.multiple-choice .answer-section {
     display: none;
 }
 
-.edit-card-modal .option-item {
+.card-editor .option-item {
     display: flex;
     gap: 1em;
     width: 100%;
