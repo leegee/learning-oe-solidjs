@@ -1,6 +1,6 @@
-import './Lesson.css';
+import './LessonComponent.css';
 import { createSignal, onCleanup, createMemo, createEffect } from 'solid-js';
-import { useConfirm } from "../../../contexts/Confirm";
+import { useConfirm } from "../../../contexts/ConfirmProvider";
 import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
 import { type IAnyCard } from '../../Cards';

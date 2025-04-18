@@ -2,7 +2,7 @@
 
 import { createMemo } from "solid-js";
 import { useLessonStore } from "../global-state/lessons";
-import { useConfirm } from "../contexts/Confirm";
+import { useConfirm } from "../contexts/ConfirmProvider";
 import { useI18n } from "../contexts/I18nProvider";
 import { useCourseStore } from "../global-state/course";
 

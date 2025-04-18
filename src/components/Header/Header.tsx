@@ -1,5 +1,5 @@
 import './Header.css';
-import { useConfigContext } from "../../contexts/Config";
+import { useConfigContext } from "../../contexts/ConfigProvider";
 import MenuTogglebutton from "../Menu/MenuToggleButton";
 import { useLessonStore } from "../../global-state/lessons";
 import { useI18n } from "../../contexts/I18nProvider";

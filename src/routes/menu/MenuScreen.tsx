@@ -2,7 +2,7 @@ import './MenuScreen.css';
 import { createSignal, createEffect, createResource } from "solid-js";
 import packageJson from '../../../package.json';
 import { type ICourseStore, useCourseStore } from "../../global-state/course";
-import { useConfigContext } from "../../contexts/Config";
+import { useConfigContext } from "../../contexts/ConfigProvider";
 import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";

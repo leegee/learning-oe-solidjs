@@ -1,7 +1,7 @@
 import { screen, fireEvent, waitFor } from 'solid-testing-library';
 import { renderTestElement } from '../../../../jest.setup';
-import LessonComponent, { type Lesson } from './Lesson';
-import { IMultipleChoiceCard } from '../../Cards';
+import LessonComponent, { type Lesson } from './LessonComponent';
+import { IMultipleChoiceCard } from '../../Cards/MultipleChoice/MultipleChoice';
 
 jest.mock('../../../components/cards', () => ({
     MultipleChoiceComponent: (props: any) => (

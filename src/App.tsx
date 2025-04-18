@@ -2,8 +2,8 @@ import './App.css';
 import { JSX } from "solid-js";
 import { Route, Router } from "@solidjs/router";
 
-import { ConfigProvider } from "./contexts/Config";
-import { ConfirmProvider } from "./contexts/Confirm";
+import { ConfigProvider } from "./contexts/ConfigProvider";
+import { ConfirmProvider } from "./contexts/ConfirmProvider";
 import { I18nProvider } from "./contexts/I18nProvider";
 import { type Config } from "./lib/config";
 import { useAppPath } from "./lib/use-app-path";
@@ -11,8 +11,8 @@ import CourseScreen from "./routes/lessons/CourseScreen";
 import CourseFinishedScreen from "./routes/lessons/CourseFinishedScreen";
 import CourseHomeScreen from './routes/lessons/CourseHomeScreen';
 import CourseEditor from "./components/CourseEditor";
-import Editor from './routes/course-editor/EditorScreen';
-import Header from "./components/Header";
+import EditorScreen from './routes/course-editor/EditorScreen';
+import HeaderComponent from "./components/Header";
 import LessonCompletedScreen from "./routes/lessons/LessonCompletedScreen";
 import LessonInProgressScreen from './routes/lessons/LessonInProgressScreen';
 import LessonIntroScreen from './routes/lessons/LessonIntroScreen';
@@ -34,7 +34,7 @@ const App = (props: IAppProps) => {
       <ConfigProvider config={props.config}>
         <ConfirmProvider>
           <main id="main">
-            <Header />
+            <HeaderComponent />
             {layoutProps.children}
           </main>
         </ConfirmProvider>
@@ -45,7 +45,7 @@ const App = (props: IAppProps) => {
   return (
     <Router base={baseRoute} root={Layout} >
 
-      <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <Editor />} />
+      <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <EditorScreen />} />
       <Route path="/editor/:courseIdx?" component={() => <CourseEditor />} />
 
       <Route path="/course/:courseIdx" component={CourseScreen}>

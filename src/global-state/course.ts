@@ -37,6 +37,8 @@ export interface ICourseStore {
     };
     setCourseIdx: (index: number) => void;
     getCourseIdx: () => number;
+    lessons: () => Lesson[];
+    setLessons: (updated: Lesson[]) => void;
     lessonTitles2Indicies: () => LessonSummary[];
     reset: () => void;
 }
@@ -127,10 +129,19 @@ export const makeCourseStore = () => {
         localStorage.removeItem(storageKeys.COURSE_INDEX);
     };
 
+    const lessons = (): Lesson[] => state.lessons;
+
+    const setLessons = (updated: Lesson[]) => {
+        setState("lessons", updated);
+        localStorage.setItem(storageKeys.EDITING_LESSON, JSON.stringify(state.lessons));
+    };
+
     return {
         store: state,
         setCourseIdx,
         getCourseIdx,
+        lessons,
+        setLessons,
         lessonTitles2Indicies,
         reset,
     };

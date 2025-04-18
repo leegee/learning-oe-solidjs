@@ -6,6 +6,12 @@ import { IVocabMatchCard } from './VocabMatch/VocabMatch';
 import { IWritingCard } from './Writing/Writing';
 import { IWritingBlocksCard } from './WritingBlocks/WritingBlocks';
 
+export type {
+    IBaseCard, IBlanksCard, IDynamicVocabCard,
+    IMultipleChoiceCard, IVocabMatchCard, IWritingCard,
+    IWritingBlocksCard
+};
+
 export { default as MultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
 export { default as VocabMatchCardComponent } from './VocabMatch/VocabMatch';
 export { default as BlanksCardComponent } from './Blanks/Blanks';

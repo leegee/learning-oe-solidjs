@@ -1,4 +1,4 @@
-import "./Confirm.css";
+import "./ConfirmProvider.css";
 import { createContext, useContext, createSignal, type JSX, Show } from "solid-js";
 
 const ConfirmContext = createContext<{ showConfirm: (message: string, action: () => void) => void }>();

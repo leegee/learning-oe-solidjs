@@ -1,2 +1,2 @@
-export * from './Lesson';
-export { default } from './Lesson';
+export * from './LessonComponent';
+export { default } from './LessonComponent';

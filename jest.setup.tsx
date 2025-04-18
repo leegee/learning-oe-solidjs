@@ -7,8 +7,8 @@ import { type Config } from "./src/lib/config";
 import { type TFunction } from "i18next";
 import { type JSX } from 'solid-js';
 import { render } from 'solid-testing-library';
-import { ConfigProvider } from './src/contexts/Config';
-import { ConfirmProvider } from "./src/contexts/Confirm";
+import { ConfigProvider } from './src/contexts/ConfigProvider';
+import { ConfirmProvider } from "./src/contexts/ConfirmProvider";
 import { MockI18nProvider } from "./src/tests/MockI18nContext";
 import i18n from "i18next";
 

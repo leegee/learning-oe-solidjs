@@ -1,6 +1,6 @@
 import './VocabMatch.css';
 import { createSignal, createEffect, For, Show } from 'solid-js';
-import { useConfigContext } from '../../../contexts/Config.tsx';
+import { useConfigContext } from '../../../contexts/ConfigProvider.tsx';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';

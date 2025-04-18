@@ -1,19 +1,20 @@
 import './CardEditor.css';
-import { createSignal, createEffect } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
 import TextInput from "./Editor/TextInput";
 import {
     IAnyCard,
     IBlanksCard,
     IMultipleChoiceCard,
     IAnyCardWithAnswer,
-    IBooleanWord,
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
-} from "../Cards";
+} from "../Cards/index";
+
 import BooleanText from "./Editor/BooleanText";
 import AnswerText from "./Editor/AnswerText";
 import VocabText from "./Editor/VocabMatch";
+import { IBooleanWord } from '../Cards/Blanks/Blanks';
 
 interface EditCardModalProps {
     card: IAnyCard | null;
@@ -21,13 +22,14 @@ interface EditCardModalProps {
     onCancel: (e: Event) => void;
 }
 
-const EditCardModal = (props: EditCardModalProps) => {
-    const [words, setWords] = createSignal<IBooleanWord[]>([]);
-    const [options, setOptions] = createSignal<string[]>([]);
+const CardEditor = (props: EditCardModalProps) => {
     const [answers, setAnswers] = createSignal<string[]>([]);
     const [answer, setAnswer] = createSignal<string>("");
     const [question, setQuestion] = createSignal<string>("");
     const [vocab, setVocab] = createSignal<{ [key: string]: string }>({});
+    const [options, setOptions] = createSignal<string[]>([]);
+    const [words, setWords] = createSignal<IBooleanWord[]>([]);
+
 
     createEffect(() => {
         if (!props.card) {
@@ -94,81 +96,84 @@ const EditCardModal = (props: EditCardModalProps) => {
         if (answer && isAnyCardWithAnswer(props.card!)) {
             setAnswer(answer);
         }
-        // TODO If there is an answer that doesn't match the answerOptions, remove it
-    }
-
-    if (!props.card) {
-        return 'No card';
+        // TODO If there is an answer that doesn't match the answerOptions, remove it?
     }
 
     return (
-        <aside class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
-            <section>
-                <h2>Edit Card</h2>
+        <Show when={props.card} fallback={<p>Loadding card...</p>}>
+            {(card) => {
 
-                {/* <pre>{JSON.stringify(props.card, null, 4)}</pre> */}
+                return (
+                    <aside class="edit-card-modal card" onClick={(e: Event) => e.stopPropagation()}>
+                        <section>
+                            <h2>Edit Card</h2>
 
-                {question()
-                    && <section class='question'>
-                        <TextInput
-                            multiline={true}
-                            label={`Question`}
-                            value={question() ?? ''}
-                            onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
-                            placeholder="Option: enter a question"
-                        />
-                    </section>
-                }
+                            {/* <pre>{JSON.stringify(card(), null, 4)}</pre> */}
 
-                {(props.card! as IAnyCardWithAnswer).answer
-                    && props.card.class !== 'writing-blocks'
-                    && props.card.class !== 'multiple-choice'
-                    && <TextInput
-                        label={`Answer`}
-                        value={(props.card as IAnyCardWithAnswer).answer}
-                        onInput={(e: InputEvent) => setAnswer((e.target as HTMLInputElement).value) as string}
-                        placeholder="Enter answer"
-                    />
-                }
+                            {question()
+                                && <section class='question'>
+                                    <TextInput
+                                        multiline={true}
+                                        label={`Question`}
+                                        value={question() ?? ''}
+                                        onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
+                                        placeholder="Option: enter a question"
+                                    />
+                                </section>
+                            }
 
-                {"words" in props.card
-                    && <BooleanText
-                        list={words()}
-                        onUpdate={(...args) => onUpdate(setWords, ...args)}
-                    />
-                }
+                            {(card()! as IAnyCardWithAnswer).answer
+                                && card().class !== 'writing-blocks'
+                                && card().class !== 'multiple-choice'
+                                && <TextInput
+                                    label={`Answer`}
+                                    value={(card() as IAnyCardWithAnswer).answer}
+                                    onInput={(e: InputEvent) => setAnswer((e.target as HTMLInputElement).value) as string}
+                                    placeholder="Enter answer"
+                                />
+                            }
 
-                {"answers" in props.card
-                    && <AnswerText
-                        answer={answer()}
-                        list={answers()}
-                        onUpdate={(...args) => onUpdate(setAnswers, ...args)}
-                    />
-                }
+                            {"words" in card()
+                                && <BooleanText
+                                    list={words()}
+                                    onUpdate={(...args) => onUpdate(setWords, ...args)}
+                                />
+                            }
 
-                {"options" in props.card
-                    && <AnswerText
-                        answer={answer()}
-                        list={options()}
-                        onUpdate={(...args) => onUpdate(setOptions, ...args)}
-                    />
-                }
+                            {"answers" in card()
+                                && <AnswerText
+                                    answer={answer()}
+                                    list={answers()}
+                                    onUpdate={(...args) => onUpdate(setAnswers, ...args)}
+                                />
+                            }
 
-                {"vocab" in props.card
-                    && <VocabText
-                        list={vocab()}
-                        onUpdate={(...args) => onUpdate(setVocab, ...args)}
-                    />
-                }
+                            {"options" in card()
+                                && <AnswerText
+                                    answer={answer()}
+                                    list={options()}
+                                    onUpdate={(...args) => onUpdate(setOptions, ...args)}
+                                />
+                            }
 
-            </section>
+                            {"vocab" in card()
+                                && <VocabText
+                                    list={vocab()}
+                                    onUpdate={(...args) => onUpdate(setVocab, ...args)}
+                                />
+                            }
 
-            <footer class="modal-actions">
-                <button onClick={handleSave}>Save</button>
-                <button onClick={props.onCancel}>Cancel</button>
-            </footer>
-        </aside>
+                        </section>
+
+                        <footer class="modal-actions">
+                            <button onClick={handleSave}>Save</button>
+                            <button onClick={props.onCancel}>Cancel</button>
+                        </footer>
+                    </aside>
+                )
+            }}
+        </Show>
     );
 };
 
-export default EditCardModal;
+export default CardEditor;
