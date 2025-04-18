@@ -117,6 +117,12 @@
     border: 1pt solid var(--oe-clr-border);
 }
 
+.card-holder .card button.vocab-match {
+    border: 1pt solid var(--oe-clr-modal-bg);
+    overflow: hidden;
+    height: 2em !important;
+}
+
 .card-editor.multiple-choice .answer-section {
     display: none;
 }

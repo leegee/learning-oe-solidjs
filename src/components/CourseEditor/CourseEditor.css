@@ -147,14 +147,6 @@
     border: 1pt solid var(--oe-clr-bg);
 }
 
-.card-holder h2,
-.card-holder h3,
-.card-holder h4,
-.card-holder textarea::placeholder {
-    color: var(--oe-clr-bg);
-    background-color: unset;
-}
-
 .card-holder .card input {
     border: 1pt solid var(--oe-clr-bg);
 }
@@ -170,18 +162,21 @@
     margin-bottom: 1em;
 }
 
+.card-holder .card .vocab-match {
+    font-size: 12pt;
+    line-height: 18pt;
+}
+
 .card-holder .card .vocab-match.left-word {
     float: right;
     width: 100%;
     height: 2em;
-    color: silver;
 }
 
 .card-holder .card .vocab-match.right-word {
     float: left;
     width: 100%;
     height: 2em;
-    color: silver;
 }
 
 .card-holder #action-button,
