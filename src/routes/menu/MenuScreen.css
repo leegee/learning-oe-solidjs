@@ -22,7 +22,7 @@
     opacity: 50%;
     font-family: "Junicode";
     width: unset;
-    font-size: calc(100vw / 12);
+    font-size: calc(100vw / 19);
 }
 
 .hamburger-menu h2 {

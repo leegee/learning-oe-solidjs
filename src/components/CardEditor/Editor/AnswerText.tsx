@@ -55,14 +55,14 @@ export default function AnswerText(props: AnswerTextProps) {
 
                     <button
                         onClick={() => handleCheckmarkClick(word)}
-                        class={`checkmark ${props.answer === word ? 'selected' : ''}`}
+                        class={`large-icon-button checkmark ${props.answer === word ? 'selected' : ''}`}
                         title="Select as the correct answer"
                     >
-                        {props.answer === word ? '✔' : '◯'}
+                        {props.answer === word ? '✔' : '⭘'}
                     </button>
 
                     <button
-                        class='remove-button'
+                        class='large-icon-button'
                         type="button"
                         onClick={() => handleRemoveClick(index)}
                         title="Remove this answer"
@@ -82,6 +82,7 @@ export default function AnswerText(props: AnswerTextProps) {
 
                 <button
                     type="button"
+                    class="large-icon-button"
                     onClick={handleAddClick}
                     title="Add this entry"
                 >

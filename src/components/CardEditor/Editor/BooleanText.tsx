@@ -60,7 +60,7 @@ export default function BooleanText(props: BooleanTextProps) {
                             title="Click to mark as correct answer"
                             onClick={() => handleCorrectToggle(index)}
                         >
-                            {isCorrect ? '✔' : '◯'}
+                            {isCorrect ? '✔' : '⭘'}
                         </button>
 
                         <button type="button" onClick={() => handleRemoveClick(index)} title="Remove this answer">
@@ -81,6 +81,7 @@ export default function BooleanText(props: BooleanTextProps) {
                 <button
                     type="button"
                     onClick={handleAddClick}
+                    class="large-icon-button"
                     title="Add this entry"
                 >➕</button>
             </div>

@@ -174,8 +174,8 @@ const CardEditor = (props: EditCardModalProps) => {
                         </section>
 
                         <footer class="modal-actions">
-                            <button onClick={handleSave}>Save</button>
                             <button onClick={props.onCancel}>Cancel</button>
+                            <button onClick={handleSave}>Save</button>
                         </footer>
                     </aside>
                 )

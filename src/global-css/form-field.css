@@ -30,26 +30,32 @@
     border-width: 0;
 }
 
-.checkmark {
-    font-size: 1.2em;
-    padding: 0;
-    opacity: 50%;
-    font-weight: 100;
+
+.large-icon-button {
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 150%;
+    font-weight: 100;
+    opacity: 66%;
+    color: var(--oe-clr-fg);
     border-radius: 50%;
-    width: 1.4em;
-    height: 1.4em;
-    min-height: 1.4em;
-    max-height: 1.4em;
-    max-width: 1.4em;
-    min-width: 1.4em;
+    min-width: 1em;
+    min-height: 1em;
+    max-width: 1em;
+    max-height: 1em;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0.8em;
+    margin: 0;
+    border: none;
 }
 
-.checkmark.selected {
+.large-icon-button:hover {
+    outline: none !important;
+    font-weight: bolder;
+    opacity: 90%;
+}
+
+.large-icon-button.selected {
     color: green;
-    opacity: 100%;
 }
