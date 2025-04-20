@@ -101,8 +101,12 @@ const CardEditor = (props: EditCardModalProps) => {
         // TODO If there is an answer that doesn't match the answerOptions, remove it?
     }
 
+    createEffect(() => {
+        console.log("CardEditor props.card", props.card);
+    })
+
     return (
-        <Show when={props.card} fallback={<p>Loadding card...</p>}>
+        <Show when={props.card} fallback={<p>Loading card...</p>}>
             {(card) => {
 
                 return (

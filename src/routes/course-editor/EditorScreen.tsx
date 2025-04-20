@@ -30,28 +30,32 @@ const Editor = () => {
     // Current card derived from lessons, once ready
     const currentCard = createMemo(() => {
         const lIdx = lessonIdx();
-        const cIdx = cardIdx();
+        if (typeof lessonIdx === 'undefined' || !lessons().length) {
+            return;
+        }
+
         const lesson = lessons()[lIdx];
 
         if (!lesson || !Array.isArray(lesson.cards)) {
-            console.log("Invalid lesson:", lIdx, lesson);
+            console.warn("Invalid lesson:", lIdx, lesson);
             return null;
+        }
+
+        const cIdx = cardIdx();
+
+        if (cardIdx() >= lesson.cards.length) {
+            console.warn('cardId is >= lesson.cards length');
+            return;
         }
 
         return lesson.cards[cIdx] ?? null;
     });
 
-    createEffect(() => {
-        console.log("Lessons length:", lessons().length);
-        console.log("lessonIdx:", lessonIdx(), "cardIdx:", cardIdx());
-        console.log("Current card:", currentCard());
-    });
-
     const canRenderEditor = createMemo(() =>
         lessons().length > 0 &&
         lessonIdx() >= 0 &&
-        cardIdx() >= 0 &&
-        !!currentCard()
+        cardIdx() >= 0
+        && currentCard() !== null
     );
 
     const handleSave = (updatedCard: IAnyCard) => {
@@ -75,11 +79,12 @@ const Editor = () => {
 
     return (
         <Show
-            when={canRenderEditor()}
+            when={canRenderEditor() && currentCard()}
             fallback={
                 <div>
                     <p>Loading editor...</p>
                     <p>
+                        card: {JSON.stringify(currentCard(), null, 2)},
                         lessons: {lessons().length}, courseIdx: {courseIdx()}, lessonIdx: {lessonIdx()}, cardIdx: {cardIdx()}
                     </p>
                 </div>
@@ -87,7 +92,7 @@ const Editor = () => {
         >
             <article>
                 <CardEditor
-                    card={currentCard()}
+                    card={currentCard()!}
                     onSave={handleSave}
                     onCancel={() => navigate(`/editor/${courseIdx()}`)}
                 />

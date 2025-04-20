@@ -22,8 +22,8 @@ const startApp = async () => {
   }
 
   await Promise.allSettled([
-    setupI18n(appConfig),
     useCourseStore(),
+    setupI18n(appConfig),
   ]);
 
   const jsx = <App config={appConfig as Config} />;
