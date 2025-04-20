@@ -7,16 +7,21 @@ interface Answers {
   [lessonIndex: number]: string[][]; // (lesson index -> card answers)
 }
 
-const [courseStore] = createResource<ICourseStore>(useCourseStore);
+const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+
 const [currentCourseIndex, setCurrentCourseIndex] = createSignal<number>(0);
 
 createEffect(() => {
   const store = courseStore();
-  if (store) {
-    const idx = store.getCourseIdx();
-    setCurrentCourseIndex(idx);
-    console.trace('CourseStore loaded', idx);
+
+  if (!store || typeof store.getCourseIdx !== 'function') {
+    console.warn('Invalid courseStore:', store);
+    return;
   }
+
+  const idx = store.getCourseIdx();
+  setCurrentCourseIndex(idx);
+  console.trace('CourseStore loaded', idx);
 });
 
 const loadFromLocalStorage = (courseIndex: number): Answers => {

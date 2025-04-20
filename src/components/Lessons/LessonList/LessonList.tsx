@@ -11,7 +11,7 @@ interface LessonListProps {
 }
 
 const LessonList = (props: LessonListProps) => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
 
     const onLessonSelectedLocal = (lessonIndex: number) => {
         props.onLessonSelected(lessonIndex);

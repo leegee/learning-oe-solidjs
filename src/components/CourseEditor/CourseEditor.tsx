@@ -11,7 +11,8 @@ import Card from "../Lessons/Card";
 import AddCardButton from './AddCardButton';
 
 export default function CourseEditor() {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();

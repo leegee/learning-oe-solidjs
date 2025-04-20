@@ -11,7 +11,8 @@ import { useI18n } from "../../contexts/I18nProvider";
 
 
 const MenuScreen = () => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+
     const { t } = useI18n();
     const navigate = useNavigate();
     const { config } = useConfigContext();

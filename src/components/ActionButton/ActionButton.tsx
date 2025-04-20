@@ -34,7 +34,6 @@ const ActionButton = (props: ButtonProps) => {
         if (props.isCorrect !== null
             && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')
         ) {
-            console.log('action button captured enter key');
             handleClick();
         }
     };

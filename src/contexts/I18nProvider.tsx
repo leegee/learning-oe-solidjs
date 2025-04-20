@@ -17,8 +17,6 @@ const DefaultContext = {
 const I18nContext = createContext<typeof DefaultContext>(DefaultContext);
 
 export const setupI18n = async (config: Config) => {
-    console.log('i18n setupi18n enter')
-
     const resources = Object.fromEntries(
         Object.entries(config.i18n.availableLanguages).map(
             ([lang, translations]) => [lang, { translation: translations }]
@@ -31,8 +29,6 @@ export const setupI18n = async (config: Config) => {
         fallbackLng: config.defaultLanguage,
         interpolation: { escapeValue: false },
     });
-
-    console.log('i18n setupi18n leave')
 };
 
 

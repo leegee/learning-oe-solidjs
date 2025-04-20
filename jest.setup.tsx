@@ -30,7 +30,7 @@ lessonFiles.forEach((filename) => {
     const filePath = path.join(__dirname, 'lessons', filename);
     const fileData = fs.readFileSync(filePath, 'utf-8');
     mockedLessonsJson[`../../lessons/${filename}`] = () => {
-        console.log(JSON.parse(fileData));
+        console.log('mockedLessonsJson', JSON.parse(fileData));
         return Promise.resolve({ default: JSON.parse(fileData) })
     };
 });
@@ -46,6 +46,18 @@ jest.mock('i18next', () => ({
     changeLanguage: () => Promise.resolve(),
     useI18n: () => ({ t: ((key: string) => key) }),
 }));
+
+jest.mock('solid-js', () => {
+    const actual = jest.requireActual('solid-js');
+    return {
+        ...actual,
+        createResource: (_source: any) => {
+            const result = _source();
+            return [() => result, { refetching: false, mutate: () => { } }];
+        }
+    };
+});
+
 
 export const MockConfig = {
     defaultLanguage: 'en',

@@ -1,17 +1,19 @@
 import "@jest/globals";
-import { useCourseStore } from './course';
+import { useCourseStore, type ICourseStore } from './course';
 import { useLessonStore } from "./lessons";
 import { storageKeys } from "./keys";
+import { createResource } from "solid-js";
 
 let lessonStore: ReturnType<typeof useLessonStore>;
-let courseStore: ReturnType<typeof useCourseStore>;
+let courseStore: ICourseStore;
 
 describe("state", () => {
-    beforeEach(() => {
-        lessonStore = useLessonStore();
-        courseStore = useCourseStore();
-        localStorage.clear();
+    beforeEach(async () => {
         jest.restoreAllMocks();
+        lessonStore = useLessonStore();
+        const [getCourseStore] = createResource<ICourseStore>(useCourseStore);
+        courseStore = await getCourseStore()!;
+        localStorage.clear();
         courseStore.setCourseIdx(1);
     });
 

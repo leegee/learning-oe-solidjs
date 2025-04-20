@@ -4,7 +4,7 @@ Configurable quiz cards for language learning or other quizes
 
 ## Features
 
-* Purely client side
+* Purely client-side
 * A SolidJS prototype without any third-party dependencies
 * Several types of quiz lessons:
     1. multiple choice
@@ -40,8 +40,12 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## TODO
 
-Now this includes an editor, I ought to introduce a router and views.
+Save & Load custom lessons
 
 ## Thanks:
 
 * The [Junicode](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
+
+Notes: 
+
+`courseStore = createResource<ICourseStore>(useCourseStore, { initialValue: staticCourseStore });`
