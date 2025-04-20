@@ -5,6 +5,7 @@ import { type Config, loadConfig } from './lib/config';
 import App from "./App";
 import { setupI18n } from './contexts/I18nProvider';
 import { useCourseStore } from './global-state/course';
+import { useLessonStore } from './global-state/lessons';
 
 const initializeAppConfig = async (): Promise<Config | null> => {
   try {
@@ -23,6 +24,7 @@ const startApp = async () => {
 
   await Promise.allSettled([
     useCourseStore(),
+    useLessonStore(),
     setupI18n(appConfig),
   ]);
 

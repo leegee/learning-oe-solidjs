@@ -11,7 +11,7 @@ describe("state", () => {
     beforeEach(async () => {
         jest.restoreAllMocks();
         lessonStore = useLessonStore();
-        const [getCourseStore] = createResource<ICourseStore>(useCourseStore);
+        const [getCourseStore] = createResource<ICourseStore>(() => useCourseStore());
         courseStore = await getCourseStore()!;
         localStorage.clear();
         courseStore.setCourseIdx(1);

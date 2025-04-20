@@ -1,28 +1,13 @@
 import { createStore } from 'solid-js/store';
 import { useCourseStore, type ICourseStore } from './course';
 import { storageKeys } from './keys';
-import { createEffect, createResource, createSignal } from 'solid-js';
+import { createResource } from 'solid-js';
 
 interface Answers {
   [lessonIndex: number]: string[][]; // (lesson index -> card answers)
 }
 
 const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
-
-const [currentCourseIndex, setCurrentCourseIndex] = createSignal<number>(0);
-
-createEffect(() => {
-  const store = courseStore();
-
-  if (!store || typeof store.getCourseIdx !== 'function') {
-    console.warn('Invalid courseStore:', store);
-    return;
-  }
-
-  const idx = store.getCourseIdx();
-  setCurrentCourseIndex(idx);
-  console.trace('CourseStore loaded', idx);
-});
 
 const loadFromLocalStorage = (courseIndex: number): Answers => {
   try {
@@ -53,7 +38,9 @@ const setLessonIdx = (courseIndex: number, lessonIndex: number): void => {
 };
 
 export const useLessonStore = () => {
-  const courseIndex = currentCourseIndex();
+  const store = courseStore();
+  if (!store) return;
+  const courseIndex = store.getCourseIdx();
 
   const [state, setState] = createStore({
     lessonIndex: getLessonIdx(courseIndex),
