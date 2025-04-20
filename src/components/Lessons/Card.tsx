@@ -1,4 +1,6 @@
 import { Switch, Match, JSX } from "solid-js";
+import { type Lesson } from "./Lesson";
+import { useI18n } from "../../contexts/I18nProvider";
 import {
     type IBlanksCard,
     type IDynamicVocabCard,
@@ -15,10 +17,7 @@ import {
     WritingCardComponent
 } from '../Cards';
 
-import { type Lesson } from "./Lesson";
-import { useI18n } from "../../contexts/I18nProvider";
-
-type Props = {
+type ICardProps = {
     card: IAnyCard | null;
     lesson: Lesson;
     tabindex?: number;
@@ -28,7 +27,7 @@ type Props = {
     ondblclick?: JSX.EventHandlerUnion<HTMLDivElement, MouseEvent>;
 };
 
-export default function Card(props: Props) {
+export default function Card(props: ICardProps) {
     const { t } = useI18n();
     return (
         <div
