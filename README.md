@@ -1,6 +1,8 @@
 # Quiz Lessons: learn Old English or anything
 
-Configurable quiz cards for language learning or other quizes
+Configurable quiz cards for language learning or other quizes. 
+
+Create and share quizes and language lessons.
 
 ## Features
 
