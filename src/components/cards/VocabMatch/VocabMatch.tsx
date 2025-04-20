@@ -22,7 +22,9 @@ export interface IVocabMatchCardProps {
 export const defaultCard: IVocabMatchCard = {
     class: 'vocab',
     qlang: 'default',
-    vocab: {}
+    vocab: {
+        "word": "ord",
+    }
 };
 
 interface ITableRow {

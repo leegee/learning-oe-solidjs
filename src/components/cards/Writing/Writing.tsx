@@ -14,7 +14,8 @@ export interface IWritingCard extends IBaseCard {
 export const defaultCard: IWritingCard = {
     class: 'writing',
     qlang: 'default',
-    answer: ''
+    question: 'Question',
+    answer: 'Answer'
 };
 
 export interface IWritingCardProps {

@@ -18,9 +18,9 @@ export interface IBlanksCard extends IBaseCard {
 
 export const defaultCard: IBlanksCard = {
     class: 'blanks',
-    question: '',
+    question: 'Question',
     qlang: 'default',
-    words: [],
+    words: [{ 'answer': true, 'other': false }],
 };
 
 export interface IBlanksCardProps {
