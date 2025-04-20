@@ -27,7 +27,7 @@ export default function CourseEditor() {
 
     createEffect(() => {
         if (courseStore.loading) return;
-        courseStore()!.setCourseIdx(Number(params.courseIdx) || -1);
+        courseStore()!.setCourseIdx(Number(params.courseIdx) ?? -1);
         courseStore()!.setLessons(courseStore()!.store.lessons);
         setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
     });
