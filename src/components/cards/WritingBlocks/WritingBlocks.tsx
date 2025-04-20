@@ -6,6 +6,7 @@ import ActionButton from '../../ActionButton';
 import './WritingBlocks.css';
 
 export interface IWritingBlocksCard extends IBaseCard {
+    question: string;
     class: 'writing-blocks';
     answer: string;
     options: string[];
@@ -14,8 +15,9 @@ export interface IWritingBlocksCard extends IBaseCard {
 export const defaultCard: IWritingBlocksCard = {
     class: 'writing-blocks',
     qlang: 'default',
-    answer: '',
-    options: []
+    question: 'Question',
+    answer: 'Answer',
+    options: ['Answer', 'Another']
 };
 
 export interface IWritingBlocksCardProps {

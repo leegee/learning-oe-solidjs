@@ -119,7 +119,7 @@ const CardEditor = (props: EditCardModalProps) => {
                                     <TextInput
                                         multiline={true}
                                         label={`Question`}
-                                        value={question() ?? ''}
+                                        value={question() ?? 'Question'}
                                         onInput={(e) => setQuestion((e.target as HTMLInputElement).value)}
                                         placeholder="Option: enter a question"
                                     />
