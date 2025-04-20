@@ -1,13 +1,13 @@
 import { createSignal } from 'solid-js';
 import TextInput from './TextInput';
-import './BooleanText.css';
+import './SelectList.css';
 
-interface BooleanTextProps {
+interface ISelectListProps {
     list: { [key: string]: boolean }[];
     onUpdate: (updatedList: { [key: string]: boolean }[]) => void;
 }
 
-export default function BooleanText(props: BooleanTextProps) {
+export default function SelectList(props: ISelectListProps) {
     const [newWord, setNewWord] = createSignal('');
     const [newIsTrue, setNewIsTrue] = createSignal(false);
 

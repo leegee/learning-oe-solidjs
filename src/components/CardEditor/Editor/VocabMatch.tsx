@@ -1,6 +1,6 @@
 import { createMemo, createSignal } from 'solid-js';
 import TextInput from './TextInput';
-import './BooleanText.css'; // Reuse styles from BooleanText
+import './SelectList.css';
 
 interface VocabTextProps {
     list: { [key: string]: string };

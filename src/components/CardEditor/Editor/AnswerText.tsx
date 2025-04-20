@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js';
 import TextInput from './TextInput';
-import './BooleanText';
+import './SelectList';
 import './AnswerText.css';
 
 interface AnswerTextProps {

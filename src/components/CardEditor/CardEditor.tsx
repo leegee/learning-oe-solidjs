@@ -11,7 +11,7 @@ import {
     isAnyCardWithAnswer,
 } from "../Cards/index";
 
-import BooleanText from "./Editor/BooleanText";
+import SelectList from "./Editor/SelectList";
 import AnswerText from "./Editor/AnswerText";
 import VocabText from "./Editor/VocabMatch";
 import { IBooleanWord } from '../Cards/Blanks/Blanks';
@@ -142,7 +142,7 @@ const CardEditor = (props: EditCardModalProps) => {
                             }
 
                             {"words" in card()
-                                && <BooleanText
+                                && <SelectList
                                     list={words()}
                                     onUpdate={(...args) => onUpdate(setWords, ...args)}
                                 />
