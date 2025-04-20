@@ -1,5 +1,5 @@
-import { createSignal, Show, For } from "solid-js";
 import "./AddCardButton.css";
+import { createSignal, Show, For } from "solid-js";
 import { CARD_CLASSES } from "../Cards";
 
 export default function AddCardButton(props: {
@@ -15,6 +15,7 @@ export default function AddCardButton(props: {
 
             <Show when={showOptions()}>
                 <div class={'card-class-picker'}>
+                    <button class='delete-button' onClick={() => setShowOptions(false)}>✕</button>
                     <For each={CARD_CLASSES}>
                         {(type) => (
                             <button
@@ -27,7 +28,6 @@ export default function AddCardButton(props: {
                             </button>
                         )}
                     </For>
-                    <button onClick={() => setShowOptions(false)}>Cancel</button>
                 </div>
             </Show>
         </div>

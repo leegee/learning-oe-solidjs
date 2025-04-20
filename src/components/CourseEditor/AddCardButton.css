@@ -15,11 +15,15 @@
  }
 
  .add-card button:hover {
-     filter: invert(100%);
+     background-color: var(--oe-clr-highlight);
  }
 
  .card-class-picker button {
      font-size: 12pt;
      font-weight: normal;
      width: 100%;
+ }
+
+ .card-class-picker .delete-button {
+     text-align: right;
  }
