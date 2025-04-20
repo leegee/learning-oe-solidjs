@@ -87,6 +87,11 @@ button:not([disabled]):hover {
     outline: 1px solid var(--oe-clr-fg);
 }
 
+footer button {
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
+
 /* button:disabled:not(.correct):not(.incorrect) {
     background-color: #333;
     color: #666;

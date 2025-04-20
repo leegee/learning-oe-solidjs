@@ -71,7 +71,6 @@
 }
 
 .card-editor footer.modal-actions button:hover {
-    color: var(--oe-clr-primary-fg);
     border-bottom: 1pt solid var(--oe-clr-fg) !important;
     background: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
