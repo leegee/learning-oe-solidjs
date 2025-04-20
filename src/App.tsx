@@ -7,15 +7,15 @@ import { ConfirmProvider } from "./contexts/ConfirmProvider";
 import { I18nProvider } from "./contexts/I18nProvider";
 import { type Config } from "./lib/config";
 import { useAppPath } from "./lib/use-app-path";
-import CourseScreen from "./routes/lessons/CourseScreen";
-import CourseFinishedScreen from "./routes/lessons/CourseFinishedScreen";
-import CourseHomeScreen from './routes/lessons/CourseHomeScreen';
+import CourseScreen from "./routes/course/CourseScreen";
+import CourseFinishedScreen from "./routes/course/CourseFinishedScreen";
+import CourseHomeScreen from './routes/course/CourseHomeScreen';
 import CourseEditor from "./components/CourseEditor";
-import EditorScreen from './routes/course-editor/EditorScreen';
+import CardEditorScreen from './routes/card/CardEditorScreen';
 import HeaderComponent from "./components/Header";
-import LessonCompletedScreen from "./routes/lessons/LessonCompletedScreen";
-import LessonInProgressScreen from './routes/lessons/LessonInProgressScreen';
-import LessonIntroScreen from './routes/lessons/LessonIntroScreen';
+import LessonCompletedScreen from "./routes/course/LessonCompletedScreen";
+import LessonInProgressScreen from './routes/course/LessonInProgressScreen';
+import LessonIntroScreen from './routes/course/LessonIntroScreen';
 import MenuScreen from "./routes/menu/MenuScreen";
 
 export interface IAppProps {
@@ -45,7 +45,7 @@ const App = (props: IAppProps) => {
   return (
     <Router base={baseRoute} root={Layout} >
 
-      <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <EditorScreen />} />
+      <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={() => <CardEditorScreen />} />
       <Route path="/editor/:courseIdx?" component={() => <CourseEditor />} />
 
       <Route path="/course/:courseIdx" component={CourseScreen}>
