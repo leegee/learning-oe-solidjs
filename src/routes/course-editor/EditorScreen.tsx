@@ -14,13 +14,6 @@ const Editor = () => {
     const lessonIdx = () => Number(params.lessonIdx ?? -1);
     const cardIdx = () => Number(params.cardIdx ?? -1);
 
-    // Sync course index into global store once it's ready
-    createEffect(() => {
-        const cStore = courseStore();
-        if (!cStore) return;
-        cStore.setCourseIdx(courseIdx());
-    });
-
     // Lessons derived from the resolved course store
     const lessons = createMemo(() => {
         const cStore = courseStore();
@@ -45,6 +38,9 @@ const Editor = () => {
 
         if (cardIdx() >= lesson.cards.length) {
             console.warn('cardId is >= lesson.cards length');
+            // Back out of editing cards that don't exist that can occur when user quits editing 
+            // and browser auto-opens that tab when restarting
+            navigate('/course/' + courseIdx());
             return;
         }
 
@@ -57,6 +53,14 @@ const Editor = () => {
         cardIdx() >= 0
         && currentCard() !== null
     );
+
+
+    // Sync course index into global store once it's ready
+    createEffect(() => {
+        const cStore = courseStore();
+        if (!cStore) return;
+        cStore.setCourseIdx(courseIdx());
+    });
 
     const handleSave = (updatedCard: IAnyCard) => {
         const cStore = courseStore();
@@ -80,15 +84,7 @@ const Editor = () => {
     return (
         <Show
             when={canRenderEditor() && currentCard()}
-            fallback={
-                <div>
-                    <p>Loading editor...</p>
-                    <p>
-                        card: {JSON.stringify(currentCard(), null, 2)},
-                        lessons: {lessons().length}, courseIdx: {courseIdx()}, lessonIdx: {lessonIdx()}, cardIdx: {cardIdx()}
-                    </p>
-                </div>
-            }
+            fallback={<p>Loading editor...</p>}
         >
             <article>
                 <CardEditor
