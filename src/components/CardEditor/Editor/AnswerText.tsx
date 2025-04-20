@@ -1,51 +1,54 @@
-import { createSignal } from 'solid-js';
+import { createSignal, createEffect } from 'solid-js';
 import TextInput from './TextInput';
-import './SelectList';
-import './AnswerText.css';
+import './SelectList.css';
 
 interface AnswerTextProps {
-    list: string[];  // List of strings
-    answer: string;  // Correct answer (string)
-    onUpdate: (updatedList: string[], updatedAnswer?: string) => void;  // Callback to update the parent component
+    list: string[];
+    answer: string;
+    onUpdate: (updatedList: string[], updatedAnswer?: string) => void;
 }
 
 export default function AnswerText(props: AnswerTextProps) {
     const [newWord, setNewWord] = createSignal('');
+    const [localList, setLocalList] = createSignal<string[]>([]);
+
+    createEffect(() => {
+        setLocalList([...props.list]);
+    });
 
     const handleAnswersChange = (index: number, newValue: string) => {
-        const updated = [...props.list];
+        const updated = [...localList()];
         updated[index] = newValue;
-        props.onUpdate(updated, newValue);
+        setLocalList(updated);
+        props.onUpdate(updated, props.answer);
     };
 
     const handleRemoveClick = (index: number) => {
-        const updated = [...props.list];
+        const updated = [...localList()];
         updated.splice(index, 1);
-        props.onUpdate(updated);
+        setLocalList(updated);
+        props.onUpdate(updated, props.answer);
     };
 
     const handleAddClick = () => {
-        if (!newWord()) {
-            return;
-        }
-        const updated = [...props.list, newWord()];
-        props.onUpdate(updated);
+        const word = newWord().trim();
+        if (!word) return;
+
+        const updated = [...localList(), word];
+        setLocalList(updated);
         setNewWord('');
+        props.onUpdate(updated, props.answer);
     };
 
-    // Handle toggling the correct answer status
     const handleCheckmarkClick = (word: string) => {
-        if (props.answer === word) {
-            props.onUpdate(props.list, '');
-        } else {
-            props.onUpdate(props.list, word);
-        }
+        const newAnswer = props.answer === word ? '' : word;
+        props.onUpdate(localList(), newAnswer);
     };
 
     return (
         <section class="answer-text answer-list">
-            {props.list.map((word, index) => (
-                <div class="answer-row" >
+            {localList().map((word, index) => (
+                <div class="answer-row">
                     <TextInput
                         label={`Option ${index + 1}`}
                         value={word}

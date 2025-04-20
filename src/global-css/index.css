@@ -92,6 +92,35 @@ footer button {
     padding-right: 0.6em;
 }
 
+.large-icon-button {
+    cursor: pointer;
+    font-size: 150%;
+    font-weight: 100;
+    opacity: 66%;
+    color: var(--oe-clr-fg);
+    border-radius: 50%;
+    min-width: 1em;
+    min-height: 1em;
+    max-width: 1em;
+    max-height: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8em;
+    margin: 0;
+    border: none;
+}
+
+.large-icon-button:hover {
+    outline: none !important;
+    font-weight: bolder;
+    opacity: 90%;
+}
+
+.large-icon-button.selected {
+    color: green;
+}
+
 /* button:disabled:not(.correct):not(.incorrect) {
     background-color: #333;
     color: #666;
