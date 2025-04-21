@@ -6,7 +6,6 @@ import {
 } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
-import HomeScreen from "./HomeScreen";
 import Stats from "../../components/Stats";
 import { useLessonStore } from "../../global-state/lessons";
 import { useCourseStore } from "../../global-state/course";
@@ -42,11 +41,11 @@ const CourseHome = () => {
     };
 
     return (
-        <HomeScreen>
-            <Show
-                when={courseStore() && lessonStore()}
-                fallback={<div>Loading lessons ...</div>}
-            >
+        <Show
+            when={courseStore() && lessonStore()}
+            fallback={<div>Loading lessons ...</div>}
+        >
+            <article id="home">
                 <Stats />
                 <LessonList
                     lessons={courseStore()?.store.lessons || []}
@@ -54,8 +53,8 @@ const CourseHome = () => {
                     currentLessonIndex={lessonStore()?.lessonIndex ?? 0}
                     onLessonSelected={onLessonSelected}
                 />
-            </Show>
-        </HomeScreen>
+            </article>
+        </Show>
     );
 };
 

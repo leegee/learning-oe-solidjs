@@ -7,10 +7,10 @@ import {
     Show,
 } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
-import { useLessonStore } from "../../global-state/lessons";
-import { useCourseStore } from "../../global-state/course";
-import { enterFullscreen } from "../../lib/fullscreen";
-import { useI18n } from "../../contexts/I18nProvider";
+import { useLessonStore } from "../../../global-state/lessons";
+import { useCourseStore } from "../../../global-state/course";
+import { enterFullscreen } from "../../../lib/fullscreen";
+import { useI18n } from "../../../contexts/I18nProvider";
 
 const LessonIntroScreen = () => {
     const [courseStore] = createResource(useCourseStore);
@@ -23,21 +23,21 @@ const LessonIntroScreen = () => {
     const [lessonIdx, setLessonIdx] = createSignal(Number(-1));
 
     createEffect(() => {
-        const store = courseStore();
-        if (!store) {
+        const cStore = courseStore();
+        if (!cStore) {
             return;
         }
 
         const newCourseIdx = Number(params.courseIdx);
         if (newCourseIdx !== courseIdx()) {
             setCourseIdx(newCourseIdx);
-            store.setCourseIdx(newCourseIdx);
+            cStore.setCourseIdx(newCourseIdx);
         }
 
         const newLessonIdx = Number(params.lessonIdx);
         if (newLessonIdx !== lessonIdx()) {
             setLessonIdx(newLessonIdx);
-            lessonStore.updateLessonIdx(newLessonIdx);
+            lessonStore!.updateLessonIdx(newLessonIdx);
         }
     });
 
@@ -51,7 +51,7 @@ const LessonIntroScreen = () => {
 
     const handleClick = () => {
         enterFullscreen();
-        lessonStore.resetLesson(lessonIdx());
+        lessonStore!.resetLesson(lessonIdx());
         navigate(`/course/${courseIdx()}/${lessonIdx()}/in-progress`);
     };
 

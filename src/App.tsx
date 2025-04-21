@@ -13,9 +13,9 @@ import CourseHomeScreen from './views/course/CourseHomeScreen';
 import CourseEditor from "./components/CourseEditor";
 import CardEditorScreen from './views/card/CardEditorScreen';
 import HeaderComponent from "./components/Header";
-import LessonCompletedScreen from "./views/course/LessonCompletedScreen";
-import LessonInProgressScreen from './views/course/LessonInProgressScreen';
-import LessonIntroScreen from './views/course/LessonIntroScreen';
+import LessonCompletedScreen from "./views/course/lesson/LessonCompletedScreen";
+import LessonInProgressScreen from './views/course/lesson/LessonInProgressScreen';
+import LessonIntroScreen from './views/course/lesson/LessonIntroScreen';
 import MenuScreen from "./views/menu/MenuScreen";
 
 export interface IAppProps {

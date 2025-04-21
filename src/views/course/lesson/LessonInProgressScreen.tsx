@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
-import LessonComponent, { Lesson } from "../../components/Lessons/Lesson";
-import { useCourseStore } from "../../global-state/course";
-import { useLessonStore } from "../../global-state/lessons";
+import LessonComponent, { Lesson } from "../../../components/Lessons/Lesson";
+import { useCourseStore } from "../../../global-state/course";
+import { useLessonStore } from "../../../global-state/lessons";
 
 const LessonInProgressScreen = () => {
     const [courseStore] = createResource(useCourseStore);
@@ -23,7 +23,7 @@ const LessonInProgressScreen = () => {
         const lessonIdx = lessonIndex();
         if (store && store.store.lessons && store.store.lessons[lessonIdx]) {
             store.setCourseIdx(courseIdx);
-            lessonStore.updateLessonIdx(lessonIdx);
+            lessonStore!.updateLessonIdx(lessonIdx);
             setLesson(store.store.lessons[lessonIdx]);
             setStartTime(Date.now());
         }
@@ -34,7 +34,7 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-        lessonStore.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
+        lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
     };
 
     const onLessonComplete = () => {

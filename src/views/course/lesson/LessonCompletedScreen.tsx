@@ -1,7 +1,7 @@
 import { useParams, useNavigate, useSearchParams } from "@solidjs/router";
 import { createMemo, createResource, Show } from "solid-js";
-import LessonCompleted from "../../components/Lessons/LessonCompleted";
-import { useCourseStore } from "../../global-state/course";
+import LessonCompleted from "../../../components/Lessons/LessonCompleted";
+import { useCourseStore } from "../../../global-state/course";
 
 const LessonCompletedScreen = () => {
     const [courseStore] = createResource(useCourseStore);
