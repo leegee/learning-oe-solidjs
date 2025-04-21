@@ -59,7 +59,7 @@ const App = (props: IAppProps) => {
 
       <Route path="/menu" component={MenuScreen} />
       <Route path="/" component={MenuScreen} />
-      <Route path="*" component={() => <h1>Unknown Route</h1>} />
+      <Route path="*" component={() => <h1>The specified resource in unavailable.</h1>} />
     </Router >
   );
 };
