@@ -1,17 +1,18 @@
 import { children, JSX } from "solid-js";
 
-interface ICourseScreenProps {
+interface ICourseRootScreenProps {
     children?: JSX.Element;
 }
 
-const CourseScreen = (props: ICourseScreenProps) => {
+const CourseRootScreen = (props: ICourseRootScreenProps) => {
     const resolvedChildren = children(() => props.children);
 
     return (
         <article id="main">
+            {/* Here we hold all the children for our route, /course/:courseIdx/* */}
             {resolvedChildren()}
         </article>
     );
 };
 
-export default CourseScreen;
+export default CourseRootScreen;

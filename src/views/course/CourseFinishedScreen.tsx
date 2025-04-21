@@ -1,7 +1,7 @@
 // import { useParams } from "@solidjs/router";
 import { createResource } from "solid-js";
-import CompletedAllLessons from "../../components/Lessons/CompletedAllLessons";
 import { useCourseStore } from "../../global-state/course";
+import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 
 const CourseFinishedScreen = () => {
     // const params = useParams();
@@ -14,11 +14,9 @@ const CourseFinishedScreen = () => {
     }
 
     return (
-        <div>
-            <CompletedAllLessons totalLessons={courseStore()?.store.lessons.length || 0}>
-                {/* Add course-specific stats  */}
-            </CompletedAllLessons>
-        </div>
+        <section>
+            <ResetCourseButtonComponent />
+        </section>
     );
 };
 
