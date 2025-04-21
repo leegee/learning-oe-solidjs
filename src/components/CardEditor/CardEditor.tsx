@@ -9,7 +9,7 @@ import {
     IWritingBlocksCard,
     IVocabMatchCard,
     isAnyCardWithAnswer,
-} from "../Cards/index";
+} from "../Cards";
 
 import SelectList from "./Editor/SelectList";
 import AnswerText from "./Editor/AnswerText";

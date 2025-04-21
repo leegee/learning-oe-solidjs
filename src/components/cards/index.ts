@@ -7,6 +7,7 @@ import { IWritingCard } from './Writing/Writing';
 import { IWritingBlocksCard } from './WritingBlocks/WritingBlocks';
 
 export type {
+    IAnyCard, IAnyCardWithAnswer,
     IBaseCard, IBlanksCard, IDynamicVocabCard,
     IMultipleChoiceCard, IVocabMatchCard, IWritingCard,
     IWritingBlocksCard
@@ -25,6 +26,7 @@ import { defaultCard as defaultCardBlanksCardComponent } from './Blanks/Blanks';
 import { defaultCard as defaultCardWritingCardComponent } from './Writing/Writing';
 import { defaultCard as defaultCardWritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
 import { defaultCard as defaultCardDynamicVocabComponent } from './DynamicVocab/DynamicVocab';
+import { IAnyCard, IAnyCardWithAnswer } from './AnyCard.type';
 
 const defaultCardMap: Record<CardClass, IAnyCard> = {
     'multiple-choice': defaultCardMultipleChoiceComponent,
@@ -39,14 +41,6 @@ export const createDefaultCard = (klass: CardClass): IAnyCard => {
     return structuredClone(defaultCardMap[klass]);
 }
 
-export type IAnyCard = IBlanksCard
-    | IDynamicVocabCard
-    | IMultipleChoiceCard
-    | IVocabMatchCard
-    | IWritingBlocksCard
-    | IWritingCard;
-
-export interface IAnyCardWithAnswer extends IBaseCard { answer: string };
 
 export const CARD_CLASSES = ['writing-blocks', 'writing', 'vocab', 'multiple-choice', 'dynamic'];
 
