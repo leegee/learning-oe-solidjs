@@ -9,7 +9,6 @@ import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 
-
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
 

@@ -14,7 +14,7 @@ const Header = () => {
     const totalLessons = lessonStore!.getTotalQuestionsAnswered();
 
     return (
-        <header>
+        <header class='header-component'>
             <aside class="header-progress">
                 <progress
                     class="course-progress"

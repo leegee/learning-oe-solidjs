@@ -1,6 +1,6 @@
 import './MenuToggleButton.css';
 import { useLocation, useNavigate } from "@solidjs/router";
-import { createSignal } from "solid-js";
+import { createEffect, createSignal } from "solid-js";
 import { useAppPath } from '../../lib/use-app-path';
 
 const MenuToggle = () => {
@@ -22,6 +22,14 @@ const MenuToggle = () => {
             navigate("/menu");
         }
     };
+
+    createEffect(() => {
+        if (isMenuOpen()) {
+            document.body.classList.add("menu-shown");
+        } else {
+            document.body.classList.remove("menu-shown");
+        }
+    });
 
     return (
         <button class="hamburger-button large-icon-button" onClick={toggleMenu} aria-label="Toggle menu">

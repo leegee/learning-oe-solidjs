@@ -1,10 +1,12 @@
-main header {
-    transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
-    margin-bottom: 0.3em;
-    width: 100%;
+.header-component {
+    transition: all 1s;
 }
 
-main header .header-text {
+body.menu-shown .header-component {
+    opacity: 0;
+}
+
+.header-component .header-text {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
@@ -12,8 +14,8 @@ main header .header-text {
     width: 100%;
 }
 
-main header .header-text h1,
-main header .header-text h2 {
+.header-component .header-text h1,
+.header-component .header-text h2 {
     margin: 0;
     font-weight: normal;
     width: 100%;
@@ -24,15 +26,15 @@ main header .header-text h2 {
     font-style: normal;
 }
 
-main header .header-text h1 {
+.header-component .header-text h1 {
     align-items: baseline
 }
 
-main header .header-text h2 {
+.header-component .header-text h2 {
     align-items: center;
 }
 
-main header h1 {
+.header-component h1 {
     font-size: 21em;
     display: flex;
     align-items: center;
@@ -67,11 +69,11 @@ main.lesson-active progress {
 }
 
 @media (max-width: 1024px) {
-    /* main header h2 {
+    /* .header-component h2 {
         display: none;
     } */
 
-    main header .stats {
+    .header-component .stats {
         font-size: 1.2em;
     }
 }
