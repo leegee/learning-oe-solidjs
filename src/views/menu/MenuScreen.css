@@ -109,7 +109,8 @@
 } */
 
 .course-menu>li.selected>button:first-of-type:before {
-    content: '▶ ';
+    content: '▶';
+    margin-right: 1em;
     margin-left: -1em;
     opacity: 50%;
 }
