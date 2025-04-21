@@ -10,8 +10,8 @@ const Header = () => {
     const lessonStore = useLessonStore();
 
     // todo stats
-    const lessonIndex = lessonStore.getTotalCorrectAnswers();
-    const totalLessons = lessonStore.getTotalQuestionsAnswered();
+    const lessonIndex = lessonStore!.getTotalCorrectAnswers();
+    const totalLessons = lessonStore!.getTotalQuestionsAnswered();
 
     return (
         <header>
