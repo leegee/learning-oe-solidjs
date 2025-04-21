@@ -1,6 +1,6 @@
 // src/Routes.tsx
 import { type JSX } from "solid-js";
-import { Route } from "@solidjs/router";
+import { Navigate, Route } from "@solidjs/router";
 import CourseScreen from "./views/course/CourseScreen";
 import CourseFinishedScreen from "./views/course/CourseFinishedScreen";
 import CourseHomeScreen from "./views/course/CourseHomeScreen";
@@ -26,7 +26,7 @@ export const Routes = (): JSX.Element => (
         </Route>
 
         <Route path="/menu" component={MenuScreen} />
-        <Route path="/" component={MenuScreen} />
+        <Route path="/" component={() => <Navigate href="/menu" />} />
         <Route path="*" component={() => <h1>The specified resource is unavailable.</h1>} />
     </>
 );
