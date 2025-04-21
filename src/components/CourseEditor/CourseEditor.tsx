@@ -50,31 +50,59 @@ export default function CourseEditor() {
         courseStore()!.setLessons(updated);
     };
 
+    const cloneLesson = (lesson: Lesson) => ({
+        ...lesson,
+        cards: [...lesson.cards],
+    });
+
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
-        const updatedLessons = [...courseStore()!.lessons()];
-        const lesson = updatedLessons[lessonIdx];
-        const card = lesson.cards[cardIdx];
+        const originalLessons = courseStore()!.lessons();
+        const updatedLessons = [...originalLessons];
+
+        const lesson = cloneLesson(updatedLessons[lessonIdx]);
+        const cards = [...lesson.cards];
         const newCardIdx = cardIdx + direction;
 
-        if (newCardIdx >= 0 && newCardIdx < lesson.cards.length) {
-            lesson.cards.splice(cardIdx, 1);
-            lesson.cards.splice(newCardIdx, 0, card);
-            courseStore()!.setLessons(updatedLessons);
-        }
+        if (newCardIdx < 0 || newCardIdx >= cards.length) return;
+
+        const [movedCard] = cards.splice(cardIdx, 1);
+        cards.splice(newCardIdx, 0, movedCard);
+
+        lesson.cards = cards;
+        updatedLessons[lessonIdx] = lesson;
+        courseStore()!.setLessons(updatedLessons);
     };
 
     const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
-        const updatedLessons = [...courseStore()!.lessons()];
-        const lesson = updatedLessons[lessonIdx];
-        const card = lesson.cards[cardIdx];
+        const originalLessons = courseStore()!.lessons();
         const newLessonIdx = lessonIdx + direction;
 
-        if (newLessonIdx >= 0 && newLessonIdx < updatedLessons.length) {
-            lesson.cards.splice(cardIdx, 1);
-            updatedLessons[newLessonIdx].cards.push(card);
-            courseStore()!.setLessons(updatedLessons);
-        }
+        if (
+            newLessonIdx < 0 ||
+            newLessonIdx >= originalLessons.length ||
+            cardIdx < 0 ||
+            cardIdx >= originalLessons[lessonIdx].cards.length
+        ) return;
+
+        const updatedLessons = [...originalLessons];
+        const fromLesson = cloneLesson(updatedLessons[lessonIdx]);
+        const toLesson = cloneLesson(updatedLessons[newLessonIdx]);
+
+        const fromCards = [...fromLesson.cards];
+        const toCards = [...toLesson.cards];
+
+        const [movedCard] = fromCards.splice(cardIdx, 1);
+        toCards.push(movedCard);
+
+        fromLesson.cards = fromCards;
+        toLesson.cards = toCards;
+
+        updatedLessons[lessonIdx] = fromLesson;
+        updatedLessons[newLessonIdx] = toLesson;
+
+        courseStore()!.setLessons(updatedLessons);
     };
+
 
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>

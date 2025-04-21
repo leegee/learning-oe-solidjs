@@ -21,7 +21,7 @@
 }
 
 .course-editor>header h3 {
-    font-weight: 100;
+    font-weight: 200;
     margin-bottom: 1em;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .course-editor .lesson-pager .pager-link {
-    font-size: 0.6em;
+    font-size: 0.8em;
     text-decoration: none;
     font-weight: 100 !important;
     font-variant: small-caps;
