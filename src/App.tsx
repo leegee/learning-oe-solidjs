@@ -7,16 +7,16 @@ import { ConfirmProvider } from "./contexts/ConfirmProvider";
 import { I18nProvider } from "./contexts/I18nProvider";
 import { type Config } from "./lib/config";
 import { useAppPath } from "./lib/use-app-path";
-import CourseScreen from "./routes/course/CourseScreen";
-import CourseFinishedScreen from "./routes/course/CourseFinishedScreen";
-import CourseHomeScreen from './routes/course/CourseHomeScreen';
+import CourseScreen from "./views/course/CourseScreen";
+import CourseFinishedScreen from "./views/course/CourseFinishedScreen";
+import CourseHomeScreen from './views/course/CourseHomeScreen';
 import CourseEditor from "./components/CourseEditor";
-import CardEditorScreen from './routes/card/CardEditorScreen';
+import CardEditorScreen from './views/card/CardEditorScreen';
 import HeaderComponent from "./components/Header";
-import LessonCompletedScreen from "./routes/course/LessonCompletedScreen";
-import LessonInProgressScreen from './routes/course/LessonInProgressScreen';
-import LessonIntroScreen from './routes/course/LessonIntroScreen';
-import MenuScreen from "./routes/menu/MenuScreen";
+import LessonCompletedScreen from "./views/course/LessonCompletedScreen";
+import LessonInProgressScreen from './views/course/LessonInProgressScreen';
+import LessonIntroScreen from './views/course/LessonIntroScreen';
+import MenuScreen from "./views/menu/MenuScreen";
 
 export interface IAppProps {
   config: Config;
