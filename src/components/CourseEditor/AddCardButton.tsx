@@ -8,9 +8,9 @@ export default function AddCardButton(props: {
     const [showOptions, setShowOptions] = createSignal(false);
 
     return (
-        <div class={'add-card'}>
+        <div class={'add-card'} >
             <Show when={!showOptions()}>
-                <button class={'add-card'} onClick={() => setShowOptions(true)}>➕</button>
+                <button class={'add-card'} onClick={() => setShowOptions(true)} title='Add a new card to this lesson'>➕</button>
             </Show>
 
             <Show when={showOptions()}>

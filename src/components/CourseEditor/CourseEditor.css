@@ -189,9 +189,14 @@
     display: none;
 }
 
+.card-holder .card button {
+    font-size: 150%;
+}
+
 .card-holder .card button.multiple-choice-button {
-    margin: 0.25em;
-    padding: 0.25em;
+    margin-right: 0.3em;
+    padding: 0.3em;
+    border: 1px solid var(--oe-clr-bg);
 }
 
 .card-holder .card:hover {
@@ -237,10 +242,10 @@
     top: 0;
 }
 
-.card-holder .vertical-controls button,
-.card-holder .horizontal-controls button {
+.card-holder .vertical-controls>button,
+.card-holder .horizontal-controls>button {
     border: none;
-    background-color: none !important;
+    background-color: none;
 }
 
 .card-holder .horizontal-controls {
@@ -249,7 +254,7 @@
     align-items: center;
 }
 
-.card-holder .vertical-controls button,
+.card-holder .vertical-controls>button,
 .card-holder .horizontal-controls>button {
     color: transparent;
     width: 100%;
@@ -257,8 +262,8 @@
     padding: var(--oe-ctrl-button-padding);
 }
 
-.card-holder .vertical-controls button:hover,
-.card-holder .horizontal-controls button:hover {
+.card-holder .vertical-controls>button:hover,
+.card-holder .horizontal-controls>button:hover {
     outline: 0;
 }
 

@@ -15,7 +15,8 @@
  }
 
  .add-card button:hover {
-     background-color: var(--oe-clr-highlight);
+     background-color: var(--oe-clr-fg);
+     opacity: 0.3;
  }
 
  .card-class-picker button {
