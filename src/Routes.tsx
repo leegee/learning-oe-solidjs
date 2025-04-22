@@ -16,6 +16,7 @@ export const Routes = (): JSX.Element => (
         <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
         <Route path="/editor/:courseIdx?" component={CourseEditor} />
 
+
         <Route path="/course/:courseIdx" component={CourseRootScreen}>
             <Route path="/" component={CourseHomeScreen} />
             <Route path=":lessonIdx" component={LessonIntroScreen} />
@@ -25,6 +26,8 @@ export const Routes = (): JSX.Element => (
             <Route path="finished" component={CompletedAllLessons} />
         </Route>
 
+        <Route path="/editor" component={() => <Navigate href="/menu" />} />
+        <Route path="/course" component={() => <Navigate href="/menu" />} />
         <Route path="/menu" component={MenuScreen} />
         <Route path="/" component={() => <Navigate href="/menu" />} />
         <Route path="*" component={() => <h1>The specified resource is unavailable.</h1>} />
