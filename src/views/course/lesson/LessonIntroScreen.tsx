@@ -12,12 +12,16 @@ import { useCourseStore } from "../../../global-state/course";
 import { enterFullscreen } from "../../../lib/fullscreen";
 import { useI18n } from "../../../contexts/I18nProvider";
 
-const LessonIntroScreen = () => {
+export interface ILessonIntroScreenProps {
+    courseIdx: number;
+}
+
+const LessonIntroScreen = (props: ILessonIntroScreenProps) => {
     const [courseStore] = createResource(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
     const { t } = useI18n();
-    const lessonStore = useLessonStore();
+    const lessonStore = useLessonStore(props.courseIdx);
 
     const [courseIdx, setCourseIdx] = createSignal(Number(-1));
     const [lessonIdx, setLessonIdx] = createSignal(Number(-1));

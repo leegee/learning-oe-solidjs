@@ -10,7 +10,7 @@ let courseStore: ICourseStore;
 describe("state", () => {
     beforeEach(async () => {
         jest.restoreAllMocks();
-        lessonStore = useLessonStore();
+        lessonStore = useLessonStore(0);
         const [getCourseStore] = createResource<ICourseStore>(() => useCourseStore());
         courseStore = await getCourseStore()!;
         localStorage.clear();
@@ -19,26 +19,26 @@ describe("state", () => {
 
     describe("saveAnswer", () => {
         it("should save an incorrect answer for a lesson card", () => {
-            lessonStore!.saveAnswer(1, 0, "incorrect1");
+            lessonStore!.saveAnswer(1, 1, 0, "incorrect1");
             const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore!.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["incorrect1"]] });
         });
 
         it("should append multiple incorrect answers to the same card", () => {
-            lessonStore!.saveAnswer(1, 0, "wrong1");
-            lessonStore!.saveAnswer(1, 0, "wrong2");
+            lessonStore!.saveAnswer(1, 1, 0, "wrong1");
+            lessonStore!.saveAnswer(1, 1, 0, "wrong2");
             const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["wrong1", "wrong2"]] });
         });
 
         it("should initialize arrays when saving to a new lesson index", () => {
-            lessonStore!.saveAnswer(2, 3, "mistake");
+            lessonStore!.saveAnswer(1, 2, 3, "mistake");
             const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 2: [[], [], [], ["mistake"]] });
         });
 
         it("should not break when saving an empty string as an answer", () => {
-            lessonStore!.saveAnswer(1, 0, "");
+            lessonStore!.saveAnswer(1, 1, 0, "");
             const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [[""]] });
         });
@@ -46,7 +46,7 @@ describe("state", () => {
         it("should preserve existing data when adding new answers", () => {
             localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify({ 1: [["existing"]] }));
 
-            lessonStore!.saveAnswer(1, 0, "new");
+            lessonStore!.saveAnswer(1, 1, 0, "new");
 
             const storedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || "{}");
             expect(storedAnswers).toEqual({ 1: [["existing", "new"]] });

@@ -21,12 +21,17 @@ const startApp = async () => {
   if (!appConfig) {
     throw new Error("Failed to load config. App will not start.");
   }
-
-  await Promise.allSettled([
+  const [courseResult, _] = await Promise.allSettled([
     useCourseStore(),
-    useLessonStore(),
     setupI18n(appConfig),
   ]);
+
+  if (courseResult.status === 'fulfilled') {
+    useLessonStore(courseResult.value.getCourseIdx());
+  } else {
+    console.error('Failed to load course store:', courseResult.reason);
+  }
+
 
   const jsx = <App config={appConfig as Config} />;
 

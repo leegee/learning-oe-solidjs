@@ -6,13 +6,14 @@ import { type Lesson } from "../components/Lessons/Lesson";
 import { loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/lesson-loader";
+import { useConfigContext } from "../contexts/ConfigProvider";
 
-export type LessonSummary = {
+export type ILessonSummary = {
     title: string;
     index: number;
 };
 
-export interface CourseMetadata {
+export interface ICourseMetadata {
     courseTitle: string;
     description?: string;
     language: string;
@@ -24,13 +25,13 @@ export interface CourseMetadata {
     lessons: Lesson[];
 }
 
-export interface CourseData extends CourseMetadata {
+export interface ICourseData extends ICourseMetadata {
     lessons: Lesson[];
 }
 
 export interface ICourseStore {
     store: {
-        courseMetadata: CourseMetadata | null;
+        courseMetadata: ICourseMetadata | null;
         courseIdx: number;
         lessons: Lesson[];
         loading: boolean;
@@ -39,11 +40,16 @@ export interface ICourseStore {
     getCourseIdx: () => number;
     lessons: () => Lesson[];
     setLessons: (updated: Lesson[]) => void;
-    lessonTitles2Indicies: () => LessonSummary[];
+    lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
 }
 
 let courseStoreInstance: ICourseStore;
+
+export const courseTitlesInIndexOrder = (): string[] => {
+    const { config } = useConfigContext();
+    return [...config.courses.map((course) => course.title)];
+}
 
 export const useCourseStore = async (): Promise<ICourseStore> => {
     if (!courseStoreInstance) {
@@ -54,7 +60,7 @@ export const useCourseStore = async (): Promise<ICourseStore> => {
 
 export const makeCourseStore = () => {
     const [state, setState] = createStore({
-        courseMetadata: null as CourseMetadata | null,
+        courseMetadata: null as ICourseMetadata | null,
         courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX)) || 0,
         lessons: [] as Lesson[],
         loading: false,
@@ -66,6 +72,10 @@ export const makeCourseStore = () => {
         if (!appConfigPromise) appConfigPromise = loadConfig();
         return appConfigPromise;
     };
+
+    const setCourse = ({ lessons, courseMetadata }: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => {
+        setState({ lessons, courseMetadata });
+    }
 
     // Load the course data
     createEffect(async () => {
@@ -89,7 +99,7 @@ export const makeCourseStore = () => {
                 throw new Error('Lesson not found: ' + filePath);
             }
             const module = await lessons[filePath]();
-            const courseData = (module as { default: CourseData }).default;
+            const courseData = (module as { default: ICourseData }).default;
 
             const ajv = new Ajv();
             const validate = ajv.compile(courseLessonsSchema);
@@ -100,11 +110,11 @@ export const makeCourseStore = () => {
                 throw new TypeError("Invalid JSON");
             }
 
-            setState({
+            setCourse({
                 lessons: courseData.lessons,
                 courseMetadata: { ...courseData },
-                loading: false,
             });
+            setState({ loading: false });
         }
 
         catch (error) {
@@ -121,7 +131,7 @@ export const makeCourseStore = () => {
 
     const getCourseIdx = () => state.courseIdx;
 
-    const lessonTitles2Indicies = (): LessonSummary[] => {
+    const lessonTitles2Indicies = (): ILessonSummary[] => {
         return state.lessons.map((lesson, lessonIndex) => ({
             title: lesson.title,
             index: lessonIndex,
@@ -144,6 +154,7 @@ export const makeCourseStore = () => {
 
     return {
         store: state,
+        setCourse,
         setCourseIdx,
         getCourseIdx,
         lessons,

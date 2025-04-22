@@ -46,7 +46,7 @@ const CourseHome = () => {
             fallback={<div>Loading lessons ...</div>}
         >
             <article id="home">
-                <Stats />
+                <Stats courseIdx={courseIdx} />
                 <LessonList
                     lessons={courseStore()?.store.lessons || []}
                     courseIndex={courseIdx()}

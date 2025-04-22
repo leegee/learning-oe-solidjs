@@ -22,16 +22,16 @@ const App = (props: IAppProps) => {
   }
 
   const AppLayout = (layoutProps: ILayoutProps) => (
-    <I18nProvider>
-      <ConfigProvider config={props.config}>
+    <ConfigProvider config={props.config}>
+      <I18nProvider>
         <ConfirmProvider>
           <main id="main">
             <HeaderComponent />
             {layoutProps.children}
           </main>
         </ConfirmProvider>
-      </ConfigProvider>
-    </I18nProvider>
+      </I18nProvider>
+    </ConfigProvider>
   );
 
   return (

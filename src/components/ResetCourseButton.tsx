@@ -12,7 +12,7 @@ export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentPro
     const { t } = useI18n();
     const { showConfirm } = useConfirm();
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
-    const lessonStore = useLessonStore();
+    const lessonStore = useLessonStore(props.courseIdx);
     const totalAnswered = createMemo(() => lessonStore!.getTotalQuestionsAnswered());
 
     const onConfirmed = () => {

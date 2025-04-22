@@ -1,7 +1,7 @@
 import './MenuScreen.css';
 import { createSignal, createEffect, createResource } from "solid-js";
 import packageJson from '../../../package.json';
-import { type ICourseStore, useCourseStore } from "../../global-state/course";
+import { courseTitlesInIndexOrder, type ICourseStore, useCourseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/ConfigProvider";
 import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
@@ -9,6 +9,7 @@ import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
 import CourseSaveButton from '../../components/CourseEditor/CourseSaveModal';
+import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
@@ -50,10 +51,11 @@ const MenuScreen = () => {
                 {courseStore() && courseStore()!.getCourseIdx() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                 <nav class="course-menu">
-                    {config.courses.map((course, courseIdx) => (
+                    {/* {config.courses.map((course, courseIdx) => ( */}
+                    {courseTitlesInIndexOrder().map((courseTitle, courseIdx) => (
                         <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                             <a onClick={() => setLocalSelectedCourse(courseIdx)}>
-                                {course.title}
+                                {courseTitle}
                             </a>
                             <span class='course-action-buttons'>
                                 <CourseSaveButton courseIdx={courseIdx} />
@@ -68,7 +70,7 @@ const MenuScreen = () => {
                             Create a new course
                         </a>
                         <span class='course-action-buttons'>
-                            <CourseEditorButton courseIdx={-1} />
+                            <NewCourseButton />
                         </span>
                     </li>
 

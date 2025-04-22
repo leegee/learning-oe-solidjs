@@ -1,14 +1,11 @@
 import { useNavigate } from "@solidjs/router";
-import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import { createResource } from "solid-js";
+import { courseTitlesInIndexOrder } from "../../global-state/course";
 
 const NewCourseButton = () => {
     const navigate = useNavigate();
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
 
     const handlClick = () => {
-        if (courseStore.loading) return;
-        const courseIdx = courseStore()!.getCourseIdx();
+        const courseIdx = courseTitlesInIndexOrder().length;
         navigate('/editor/' + courseIdx);
     }
 

@@ -2,11 +2,15 @@ import './Stats.css';
 import { useLessonStore } from "../global-state/lessons";
 import { useI18n } from '../contexts/I18nProvider';
 
-const Stats = () => {
-    const { t } = useI18n();
-    const lessonStore = useLessonStore();
+export interface IStatsProps {
+    courseIdx: number;
+}
 
-    if (!lessonStore.getTotalQuestionsAnswered()) {
+const Stats = (props: IStatsProps) => {
+    const { t } = useI18n();
+    const lessonStore = useLessonStore(props.courseIdx);
+
+    if (!lessonStore || !lessonStore.getTotalQuestionsAnswered()) {
         return '';
     }
 
