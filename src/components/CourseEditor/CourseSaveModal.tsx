@@ -51,11 +51,11 @@ const CourseSaveButton = (props: ICourseSaveButtonProps) => {
 
     return (
         <>
-            <button class="icon-download course-save-button" onClick={() => handleSave()} />
+            <button class="icon-download large-icon-button" onClick={() => handleSave()} />
 
             <dialog ref={el => (errorDialogRef = el)} class='dialog-error'>
                 <p>Error saving lessons</p>
-                <button onClick={() => errorDialogRef?.close()}>✕</button>
+                <button class="large-icon-button" onClick={() => errorDialogRef?.close()}>✕</button>
             </dialog>
         </>
     );

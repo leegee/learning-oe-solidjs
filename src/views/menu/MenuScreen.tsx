@@ -55,16 +55,14 @@ const MenuScreen = () => {
                             <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                 {course.title}
                             </a>
-                            <span class='action-buttons'>
+                            <span class='course-action-buttons'>
                                 <CourseEditorButton courseIdx={courseIdx} />
                                 <CourseSaveButton courseIdx={courseIdx} />
+                                <ResetCourseButtonComponent courseIdx={courseIdx} />
                             </span>
                         </li>
                     ))}
 
-                    <li tabIndex={config.lessons.length + 1}>
-                        <ResetCourseButtonComponent />
-                    </li>
                 </nav>
 
                 <footer>

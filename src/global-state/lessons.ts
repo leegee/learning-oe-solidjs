@@ -38,9 +38,9 @@ const setLessonIdx = (courseIndex: number, lessonIndex: number): void => {
 };
 
 export const useLessonStore = () => {
-  const store = courseStore();
-  if (!store) return;
-  const courseIndex = store.getCourseIdx();
+  const cStore = courseStore();
+  if (!cStore) return;
+  const courseIndex = cStore.getCourseIdx();
 
   const [state, setState] = createStore({
     lessonIndex: getLessonIdx(courseIndex),

@@ -40,7 +40,7 @@ export interface ICourseStore {
     lessons: () => Lesson[];
     setLessons: (updated: Lesson[]) => void;
     lessonTitles2Indicies: () => LessonSummary[];
-    reset: () => void;
+    reset: (courseIdx?: number) => void;
 }
 
 let courseStoreInstance: ICourseStore;
@@ -80,11 +80,15 @@ export const makeCourseStore = () => {
         const { fileBasename } = config.lessons[index];
         const filePath = `../../lessons/${fileBasename}.json`;
 
-        console.info("-----------Loading course:", fileBasename);
+        console.info("-----------Loading course:", fileBasename, filePath);
         setState("loading", true);
 
         try {
-            const module = await LESSONS_JSON()[filePath]();
+            const lessons = await LESSONS_JSON();
+            if (!lessons[filePath]) {
+                throw new Error('Lesson not found: ' + filePath);
+            }
+            const module = await lessons[filePath]();
             const courseData = (module as { default: CourseData }).default;
 
             const ajv = new Ajv();
@@ -124,8 +128,8 @@ export const makeCourseStore = () => {
         }));
     };
 
-    const reset = () => {
-        const idx = getCourseIdx();
+    const reset = (courseIdx?: number) => {
+        const idx = courseIdx || getCourseIdx();
         localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
         localStorage.removeItem(storageKeys.ANSWERS(idx));
         localStorage.removeItem(storageKeys.COURSE_INDEX);
