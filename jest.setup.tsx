@@ -15,6 +15,7 @@ import i18n from "i18next";
 const lessonFiles = [
     'test.json',
     'lessons.json',
+    'uk-constitution.json',
 ];
 
 export const MockT: typeof i18n.t = ((key: string, _options?: any) => {
@@ -30,14 +31,22 @@ lessonFiles.forEach((filename) => {
     const filePath = path.join(__dirname, 'lessons', filename);
     const fileData = fs.readFileSync(filePath, 'utf-8');
     mockedLessonsJson[`../../lessons/${filename}`] = () => {
-        console.log('mockedLessonsJson', JSON.parse(fileData));
+        // console.log('With mockedLessonsJson:', JSON.parse(fileData));
         return Promise.resolve({ default: JSON.parse(fileData) })
     };
 });
 
-jest.mock('./src/config/lesson-loader', () => ({
-    LESSONS_JSON: () => mockedLessonsJson,
-}));
+// Mock: export const LESSONS_JSON = () => import.meta.glob("../../lessons/*.json");
+jest.mock('./src/config/lesson-loader', () => {
+    return {
+        LESSONS_JSON: (...args: any[]) => {
+            console.log('Using mocked JSON rv', mockedLessonsJson);
+            console.log('Using args', args);
+            return mockedLessonsJson
+        },
+    };
+});
+
 
 jest.mock('i18next', () => ({
     t: ((key: string) => key),
