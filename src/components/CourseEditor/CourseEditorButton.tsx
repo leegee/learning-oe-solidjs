@@ -9,7 +9,8 @@ const CourseEditorButton = (props: ICourseEditorButtonProps) => {
 
     return (
         <button class="large-icon-button" onClick={() => navigate('/editor/' + props.courseIdx)}>
-            🖊️
+            {/* 🖊️ */}
+            <i class='icon-cog' />
         </button>
     );
 };

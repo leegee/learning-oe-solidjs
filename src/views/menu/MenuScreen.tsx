@@ -56,12 +56,21 @@ const MenuScreen = () => {
                                 {course.title}
                             </a>
                             <span class='course-action-buttons'>
-                                <CourseEditorButton courseIdx={courseIdx} />
                                 <CourseSaveButton courseIdx={courseIdx} />
                                 <ResetCourseButtonComponent courseIdx={courseIdx} />
+                                <CourseEditorButton courseIdx={courseIdx} />
                             </span>
                         </li>
                     ))}
+
+                    <li>
+                        <a onClick={() => { }}>
+                            Create a new course
+                        </a>
+                        <span class='course-action-buttons'>
+                            <CourseEditorButton courseIdx={-1} />
+                        </span>
+                    </li>
 
                 </nav>
 
