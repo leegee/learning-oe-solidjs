@@ -12,12 +12,12 @@ import AddCardButton from './AddCardButton';
 
 export default function CourseEditor() {
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
-
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
     const [courseTitle, setCourseTitle] = createSignal("");
+    const courseIdx = () => Number(params.courseIdx) ?? -1;
 
     createEffect(() => {
         document.body.classList.add("editing-card");
@@ -28,8 +28,8 @@ export default function CourseEditor() {
 
     createEffect(() => {
         if (courseStore.loading) return;
-        courseStore()!.setCourseIdx(Number(params.courseIdx) ?? -1);
-        courseStore()!.setLessons(courseStore()!.store.lessons);
+        courseStore()!.setCourseIdx(courseIdx());
+        courseStore()!.setLessons(courseIdx(), courseStore()!.store.lessons);
         setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
     });
 
@@ -41,14 +41,14 @@ export default function CourseEditor() {
                     ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
                     : lesson
             );
-            courseStore()!.setLessons(updated);
+            courseStore()!.setLessons(courseIdx(), updated);
         });
     };
 
     const updateLesson = (lessonIdx: number, updateFn: (lesson: Lesson) => Lesson) => {
         const updated = [...courseStore()!.lessons()];
         updated[lessonIdx] = updateFn(updated[lessonIdx]);
-        courseStore()!.setLessons(updated);
+        courseStore()!.setLessons(courseIdx(), updated);
     };
 
     const cloneLesson = (lesson: Lesson) => ({
@@ -71,7 +71,7 @@ export default function CourseEditor() {
 
         lesson.cards = cards;
         updatedLessons[lessonIdx] = lesson;
-        courseStore()!.setLessons(updatedLessons);
+        courseStore()!.setLessons(courseIdx(), updatedLessons);
     };
 
     const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
@@ -101,7 +101,7 @@ export default function CourseEditor() {
         updatedLessons[lessonIdx] = fromLesson;
         updatedLessons[newLessonIdx] = toLesson;
 
-        courseStore()!.setLessons(updatedLessons);
+        courseStore()!.setLessons(courseIdx(), updatedLessons);
     };
 
 
@@ -184,7 +184,7 @@ export default function CourseEditor() {
                                                     card={card}
                                                     lesson={lesson}
                                                     ondblclick={() =>
-                                                        navigate(`/editor/${courseStore()!.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
+                                                        navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)
                                                     }
                                                 />
 
@@ -201,7 +201,7 @@ export default function CourseEditor() {
                                                         title="Edit"
                                                         class="control"
                                                         onClick={() =>
-                                                            navigate(`/editor/${courseStore()!.getCourseIdx()}/${lessonIdx}/${cardIdx}`)
+                                                            navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)
                                                         }
                                                     >
                                                         ✎
@@ -239,10 +239,10 @@ export default function CourseEditor() {
                                                 : lesson
                                         );
 
-                                        courseStore()!.setLessons(updatedLessons);
+                                        courseStore()!.setLessons(courseIdx(), updatedLessons);
 
                                         const newCardIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                        navigate(`/editor/${courseStore()!.getCourseIdx()}/${lessonIdx}/${newCardIdx}`);
+                                        navigate(`/editor/${courseIdx()}/${lessonIdx}/${newCardIdx}`);
                                     }}
                                 />
                             </div>

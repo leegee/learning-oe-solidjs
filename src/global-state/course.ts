@@ -39,7 +39,7 @@ export interface ICourseStore {
     setCourseIdx: (index: number) => void;
     getCourseIdx: () => number;
     lessons: () => Lesson[];
-    setLessons: (updated: Lesson[]) => void;
+    setLessons: (courseIdx: number, updatedLessons: Lesson[]) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
 }
@@ -131,7 +131,19 @@ export const makeCourseStore = () => {
 
     const getCourseIdx = () => state.courseIdx;
 
-    const lessonTitles2Indicies = (): ILessonSummary[] => {
+    const lessons = (): Lesson[] => state.lessons;
+
+    const setLessons = (courseIdx: number, updated: Lesson[]) => {
+        setState("lessons", updated);
+        localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
+    };
+
+    const getLessons = (courseIdx: number, updated: Lesson[]) => {
+        asdfasdf
+        localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
+    };
+
+    const CourseTitles2Indicies = (): ILessonSummary[] => {
         return state.lessons.map((lesson, lessonIndex) => ({
             title: lesson.title,
             index: lessonIndex,
@@ -145,13 +157,6 @@ export const makeCourseStore = () => {
         localStorage.removeItem(storageKeys.COURSE_INDEX);
     };
 
-    const lessons = (): Lesson[] => state.lessons;
-
-    const setLessons = (updated: Lesson[]) => {
-        setState("lessons", updated);
-        localStorage.setItem(storageKeys.EDITING_LESSON, JSON.stringify(state.lessons));
-    };
-
     return {
         store: state,
         setCourse,
@@ -159,7 +164,7 @@ export const makeCourseStore = () => {
         getCourseIdx,
         lessons,
         setLessons,
-        lessonTitles2Indicies,
+        lessonTitles2Indicies: CourseTitles2Indicies,
         reset,
     };
 };

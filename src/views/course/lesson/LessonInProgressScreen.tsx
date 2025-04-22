@@ -7,11 +7,10 @@ import { useLessonStore } from "../../../global-state/lessons";
 const LessonInProgressScreen = () => {
     const [courseStore] = createResource(useCourseStore);
     const params = useParams();
+    const courseIndex = createMemo(() => Number(params.courseIdx || -1));
+    const lessonIndex = createMemo(() => Number(params.lessonIdx || -1));
     const navigate = useNavigate();
-    const lessonStore = useLessonStore();
-
-    const courseIndex = createMemo(() => Number(params.courseIdx));
-    const lessonIndex = createMemo(() => Number(params.lessonIdx));
+    const lessonStore = useLessonStore(courseIndex());
 
     const [lesson, setLesson] = createSignal<Lesson | null>(null);
     const [startTime, setStartTime] = createSignal(Date.now());
