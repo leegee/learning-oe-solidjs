@@ -34,6 +34,7 @@ export default function CourseEditor() {
     });
 
     const deleteCard = (lessonIdx: number, cardIdx: number) => {
+        if (courseStore.loading) return;
         showConfirm(t('confirm_delete_card'), () => {
             const updated = (courseStore()!.lessons() as Lesson[]).map((lesson, i) =>
                 i === lessonIdx

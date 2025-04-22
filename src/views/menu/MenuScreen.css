@@ -59,7 +59,8 @@
     list-style-type: none;
     padding: 0;
     margin: 0;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     justify-items: center;
     text-align: left;
     width: 100%;
@@ -68,9 +69,7 @@
 .course-menu li {
     list-style: none;
     margin: 0.3em 0;
-}
-
-.course-menu li {
+    padding: 0.3em 1em;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -83,12 +82,11 @@
     font-weight: 100;
     background-color: var(--oe-clr-card-bg);
     display: block;
-    width: 100%;
     text-decoration: none;
     border: 0;
     text-align: left;
     text-wrap: nowrap;
-    padding: 0.3em 1em;
+    padding: 0.3em 0.3em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -99,22 +97,19 @@
     outline: 0;
 }
 
-/* 
-.course-menu>li.selected {
-    font-weight: 100 !important;
-}
-
-.course-menu>li.selected>button {
-    font-weight: 100 !important;
-} */
 
 .course-menu>li.selected>button:first-of-type:before {
     content: '▶';
-    margin-right: 1em;
+    margin-right: 0.3em;
     margin-left: -1em;
     opacity: 50%;
 }
 
 .course-menu+li button:disabled {
     background-color: var(--oe-clr-card-bg) !important;
+}
+
+.course-menu .action-buttons {
+    margin-left: auto;
+    display: flex;
 }

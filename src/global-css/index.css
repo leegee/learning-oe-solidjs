@@ -8,6 +8,7 @@
     --oe-clr-bg: #001;
     --oe-clr-card-fg: #eee;
     --oe-clr-card-bg: #000027;
+    --oe-clr-modal-fg: #ddde;
     --oe-clr-modal-bg: #000027EE;
     --oe-clr-border: #ddd5;
     --oe-clr-primary-fg: #eee;
@@ -34,8 +35,6 @@ body,
     padding: 0;
     margin: 0;
     font-family: 'Work Sans';
-    color: var(--oe-clr-fg);
-    background-color: var(--oe-clr-bg);
 }
 
 body.editing-card {
@@ -72,6 +71,7 @@ button,
 a {
     color: var(--oe-clr-fg);
     background-color: var(--oe-clr-bg);
+    cursor: pointer;
 }
 
 
@@ -167,4 +167,12 @@ h4 {
     font-weight: 300;
     margin: 0;
     opacity: 60%;
+}
+
+
+dialog:modal {
+    background-color: var(--oe-clr-modal-bg);
+    color: var(--oe-clr-modal-fg);
+    padding: 1em;
+    font-size: 130%;
 }

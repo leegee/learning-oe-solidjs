@@ -1,5 +1,3 @@
-/* ResetAllButton */
-
 import { createMemo, createResource } from "solid-js";
 import { useLessonStore } from "../global-state/lessons";
 import { useConfirm } from "../contexts/ConfirmProvider";

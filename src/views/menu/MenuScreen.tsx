@@ -1,5 +1,5 @@
 import './MenuScreen.css';
-import { createSignal, createEffect, createResource } from "solid-js";
+import { createSignal, createEffect, createResource, Show } from "solid-js";
 import packageJson from '../../../package.json';
 import { type ICourseStore, useCourseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/ConfigProvider";
@@ -8,6 +8,7 @@ import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
+import CourseSaveButton from '../../components/CourseEditor/CourseSaveModal';
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
@@ -51,16 +52,13 @@ const MenuScreen = () => {
                 <nav class="course-menu">
                     {config.lessons.map((course, courseIdx) => (
                         <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
-                            <button onClick={() => setLocalSelectedCourse(courseIdx)}>
+                            <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                 {course.title}
-                            </button>
-
-                            {localCourseIndex() === courseIdx &&
-                                courseStore()?.getCourseIdx() === courseIdx &&
-                                courseStore()?.store.courseMetadata &&
-                                !courseStore()?.store.loading && (
-                                    <CourseEditorButton courseIdx={courseIdx} />
-                                )}
+                            </a>
+                            <span class='action-buttons'>
+                                <CourseEditorButton courseIdx={courseIdx} />
+                                <CourseSaveButton courseIdx={courseIdx} />
+                            </span>
                         </li>
                     ))}
 
@@ -73,7 +71,7 @@ const MenuScreen = () => {
                     <small>Version {packageJson.version}</small>
                 </footer>
             </section>
-        </aside>
+        </aside >
     );
 };
 

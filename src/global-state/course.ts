@@ -101,7 +101,9 @@ export const makeCourseStore = () => {
                 courseMetadata: { ...courseData },
                 loading: false,
             });
-        } catch (error) {
+        }
+
+        catch (error) {
             console.error("Error loading lessons:", error);
             setState("loading", false);
         }

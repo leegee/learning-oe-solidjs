@@ -1,4 +1,3 @@
-import './CourseEditorButton.css';
 import { useNavigate } from "@solidjs/router";
 
 export interface ICourseEditorButtonProps {
@@ -9,7 +8,7 @@ const CourseEditorButton = (props: ICourseEditorButtonProps) => {
     const navigate = useNavigate();
 
     return (
-        <button class="course-editor-button" onClick={() => navigate('/editor/' + props.courseIdx)}>
+        <button class="large-icon-button" onClick={() => navigate('/editor/' + props.courseIdx)}>
             🖊️
         </button>
     );
