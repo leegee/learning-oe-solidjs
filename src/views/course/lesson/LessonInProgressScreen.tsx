@@ -34,7 +34,7 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-        lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
+        lessonStore!.saveAnswer(courseIndex(), lessonIndex(), cardIndex, incorrectAnswer || '');
     };
 
     const onLessonComplete = () => {

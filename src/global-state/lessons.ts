@@ -53,20 +53,21 @@ export const useLessonStore = () => {
   };
 
   const saveAnswer = (
-    lessonIndex: number,
-    cardIndex: number,
+    courseIdx: number,
+    lessonIdx: number,
+    cardIdx: number,
     incorrectAnswer: string = ''
   ): void => {
     const updatedAnswers = { ...state.answers };
-    updatedAnswers[lessonIndex] ??= [];
+    updatedAnswers[lessonIdx] ??= [];
 
-    while (updatedAnswers[lessonIndex].length <= cardIndex) {
-      updatedAnswers[lessonIndex].push([]);
+    while (updatedAnswers[lessonIdx].length <= cardIdx) {
+      updatedAnswers[lessonIdx].push([]);
     }
 
-    updatedAnswers[lessonIndex][cardIndex].push(incorrectAnswer);
+    updatedAnswers[lessonIdx][cardIdx].push(incorrectAnswer);
     setState('answers', updatedAnswers);
-    saveToLocalStorage(courseIndex, updatedAnswers);
+    saveToLocalStorage(courseIdx, updatedAnswers);
   };
 
   const getLessonAnswers = (lessonIndex: number): string[][] => {
