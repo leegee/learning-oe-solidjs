@@ -23,7 +23,7 @@ const LessonInProgressScreen = () => {
         const lessonIdx = lessonIndex();
         if (store && store.store.lessons && store.store.lessons[lessonIdx]) {
             store.setCourseIdx(courseIdx);
-            lessonStore!.updateLessonIdx(lessonIdx);
+            lessonStore!.updateLessonIdx(courseIdx, lessonIdx);
             setLesson(store.store.lessons[lessonIdx]);
             setStartTime(Date.now());
         }

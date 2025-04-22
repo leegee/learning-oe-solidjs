@@ -72,12 +72,12 @@ export const makeCourseStore = () => {
         const index = state.courseIdx;
         const config = await getAppConfig();
 
-        if (index === -1 || index >= config.lessons.length) {
+        if (index === -1 || index >= config.courses.length) {
             console.warn("Invalid course index:", index);
             return;
         }
 
-        const { fileBasename } = config.lessons[index];
+        const { fileBasename } = config.courses[index];
         const filePath = `../../lessons/${fileBasename}.json`;
 
         console.info("-----------Loading course:", fileBasename, filePath);

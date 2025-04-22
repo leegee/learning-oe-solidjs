@@ -1,5 +1,3 @@
-// import i18n from "i18next";
-
 interface AvailableLanguages {
     [language: string]: {
         [key: string]: string;
@@ -13,13 +11,13 @@ interface I18n {
     availableLanguages: AvailableLanguages;
 }
 
-interface LessonConfig {
+interface CourseFileConfig {
     title: string;
     fileBasename: string;
 }
 
 export interface Config {
-    lessons: LessonConfig[];
+    courses: CourseFileConfig[];
     defaultLanguage: string;
     targetLanguage: string;
     uiLanguage?: string;

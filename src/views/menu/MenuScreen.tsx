@@ -1,5 +1,5 @@
 import './MenuScreen.css';
-import { createSignal, createEffect, createResource, Show } from "solid-js";
+import { createSignal, createEffect, createResource } from "solid-js";
 import packageJson from '../../../package.json';
 import { type ICourseStore, useCourseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/ConfigProvider";
@@ -50,7 +50,7 @@ const MenuScreen = () => {
                 {courseStore() && courseStore()!.getCourseIdx() === -1 && <h3>{t('choose_a_course')}</h3>}
 
                 <nav class="course-menu">
-                    {config.lessons.map((course, courseIdx) => (
+                    {config.courses.map((course, courseIdx) => (
                         <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                             <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                 {course.title}

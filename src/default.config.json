@@ -3,10 +3,10 @@
     "targetLanguage": "ang",
     "uiLanguage": "en",
     "animationShakeMs": 333,
-    "lessons": [
+    "courses": [
         {
-            "title": "Old English",
-            "fileBasename": "../lessons.json"
+            "title": "Test",
+            "fileBasename": "test"
         }
     ],
     "appTitle": "Default App Target",

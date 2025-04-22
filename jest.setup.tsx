@@ -72,7 +72,7 @@ export const MockConfig = {
     defaultLanguage: 'en',
     targetLanguage: 'ang',
     appTitle: 'App Title',
-    lessons: [],
+    courses: [],
     animationShakeMs: 0,
     i18n: {
         detectUserLanguage: false,

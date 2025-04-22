@@ -32,12 +32,12 @@ const LessonIntroScreen = () => {
         if (newCourseIdx !== courseIdx()) {
             setCourseIdx(newCourseIdx);
             cStore.setCourseIdx(newCourseIdx);
-        }
 
-        const newLessonIdx = Number(params.lessonIdx);
-        if (newLessonIdx !== lessonIdx()) {
-            setLessonIdx(newLessonIdx);
-            lessonStore!.updateLessonIdx(newLessonIdx);
+            const newLessonIdx = Number(params.lessonIdx);
+            if (newLessonIdx !== lessonIdx()) {
+                setLessonIdx(newLessonIdx);
+                lessonStore!.updateLessonIdx(newCourseIdx, newLessonIdx);
+            }
         }
     });
 

@@ -3,7 +3,7 @@
     "targetLanguage": "ang",
     "uiLanguage": "en",
     "appTitle": "Learning Cards",
-    "lessons": [
+    "courses": [
         {
             "title": "UK Constitutional Law",
             "fileBasename": "uk-constitution"

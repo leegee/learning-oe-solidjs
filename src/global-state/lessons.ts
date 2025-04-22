@@ -47,7 +47,7 @@ export const useLessonStore = () => {
     answers: loadFromLocalStorage(courseIndex),
   });
 
-  const updateLessonIdx = (newLessonIndex: number) => {
+  const updateLessonIdx = (courseIndex: number, newLessonIndex: number) => {
     setState('lessonIndex', newLessonIndex);
     setLessonIdx(courseIndex, newLessonIndex);
   };
