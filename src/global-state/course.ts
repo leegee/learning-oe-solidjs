@@ -139,8 +139,8 @@ export const makeCourseStore = () => {
     };
 
     const getLessons = (courseIdx: number, updated: Lesson[]) => {
-        asdfasdf
-        localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
+        // asdfasdf
+        // localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
