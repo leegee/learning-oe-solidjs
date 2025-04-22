@@ -93,7 +93,7 @@ describe("state", () => {
             };
             localStorage.setItem(storageKeys.ANSWERS(courseStore.getCourseIdx()), JSON.stringify(mockData));
 
-            lessonStore!.resetLesson(2);
+            lessonStore!.resetLesson(courseStore.getCourseIdx(), 2);
 
             const savedAnswers = JSON.parse(localStorage.getItem(storageKeys.ANSWERS(courseStore.getCourseIdx())) || '{}');
             expect(savedAnswers[2]).toEqual([]);
@@ -105,7 +105,7 @@ describe("state", () => {
             jest.spyOn(global.Storage.prototype, "getItem").mockReturnValue("{}");
             const setItemSpy = jest.spyOn(global.Storage.prototype, "setItem").mockImplementation(() => { });
 
-            lessonStore!.resetLesson(5); // Non-existent lesson
+            lessonStore!.resetLesson(courseStore.getCourseIdx(), 5); // Non-existent lesson
 
             expect(setItemSpy).not.toHaveBeenCalled();
         });

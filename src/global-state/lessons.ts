@@ -9,10 +9,10 @@ interface Answers {
 
 const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
 
-const loadFromLocalStorage = (courseIndex: number): Answers => {
+const loadFromLocalStorage = (courseIdx: number): Answers => {
   try {
     const savedAnswers = JSON.parse(
-      localStorage.getItem(storageKeys.ANSWERS(courseIndex)) || '{}'
+      localStorage.getItem(storageKeys.ANSWERS(courseIdx)) || '{}'
     );
     return savedAnswers;
   } catch (error) {
@@ -21,35 +21,36 @@ const loadFromLocalStorage = (courseIndex: number): Answers => {
   }
 };
 
-const saveToLocalStorage = (courseIndex: number, answers: Answers): void => {
+const saveToLocalStorage = (courseIdx: number, answers: Answers): void => {
   try {
-    localStorage.setItem(storageKeys.ANSWERS(courseIndex), JSON.stringify(answers));
+    localStorage.setItem(storageKeys.ANSWERS(courseIdx), JSON.stringify(answers));
   } catch (error) {
     console.error('Error saving to localStorage:', error);
   }
 };
 
-const getLessonIdx = (courseIndex: number): number => {
-  return JSON.parse(localStorage.getItem(storageKeys.CURRENT_LESSON_INDEX(courseIndex)) || '0');
+const getLessonIdx = (courseIdx: number): number => {
+  return JSON.parse(localStorage.getItem(storageKeys.CURRENT_LESSON_INDEX(courseIdx)) || '0');
 };
 
-const setLessonIdx = (courseIndex: number, lessonIndex: number): void => {
-  localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(courseIndex), String(lessonIndex));
+const setLessonIdx = (courseIdx: number, lessonIndex: number): void => {
+  localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(courseIdx), String(lessonIndex));
 };
 
-export const useLessonStore = () => {
+export const useLessonStore = (courseIndex: number) => {
   const cStore = courseStore();
   if (!cStore) return;
-  const courseIndex = cStore.getCourseIdx();
+
+  const courseIdx = courseIndex || cStore.getCourseIdx();
 
   const [state, setState] = createStore({
-    lessonIndex: getLessonIdx(courseIndex),
-    answers: loadFromLocalStorage(courseIndex),
+    lessonIndex: getLessonIdx(courseIdx),
+    answers: loadFromLocalStorage(courseIdx),
   });
 
-  const updateLessonIdx = (courseIndex: number, newLessonIndex: number) => {
+  const updateLessonIdx = (courseIdx: number, newLessonIndex: number) => {
     setState('lessonIndex', newLessonIndex);
-    setLessonIdx(courseIndex, newLessonIndex);
+    setLessonIdx(courseIdx, newLessonIndex);
   };
 
   const saveAnswer = (
@@ -74,11 +75,11 @@ export const useLessonStore = () => {
     return state.answers[lessonIndex] ?? [];
   };
 
-  const resetLesson = (lessonIndex: number): void => {
+  const resetLesson = (courseIdx: number, lessonIndex: number): void => {
     const updatedAnswers = { ...state.answers };
     updatedAnswers[lessonIndex] = [];
     setState('answers', updatedAnswers);
-    saveToLocalStorage(courseIndex, updatedAnswers);
+    saveToLocalStorage(courseIdx, updatedAnswers);
   };
 
   const getTotalTakenLessons = (): number => {

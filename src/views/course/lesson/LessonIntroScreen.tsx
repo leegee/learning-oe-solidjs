@@ -51,7 +51,7 @@ const LessonIntroScreen = () => {
 
     const handleClick = () => {
         enterFullscreen();
-        lessonStore!.resetLesson(lessonIdx());
+        lessonStore!.resetLesson(courseIdx(), lessonIdx());
         navigate(`/course/${courseIdx()}/${lessonIdx()}/in-progress`);
     };
 
