@@ -62,8 +62,8 @@ const MenuScreen = () => {
                                 {courseTitle}
                             </a>
                             <span class='course-action-buttons'>
-                                <CourseSaveButton courseIdx={courseIdx} />
                                 <ResetCourseButtonComponent courseIdx={courseIdx} />
+                                <CourseSaveButton courseIdx={courseIdx} />
                                 <CourseEditorButton courseIdx={courseIdx} />
                             </span>
                         </li>
