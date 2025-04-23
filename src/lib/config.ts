@@ -22,6 +22,7 @@ export interface Config {
     targetLanguage: string;
     uiLanguage?: string;
     appTitle: string;
+    menuTitle?: string;
     i18n: I18n;
     animationShakeMs: number;
 }

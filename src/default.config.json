@@ -10,6 +10,7 @@
         }
     ],
     "appTitle": "Default App Target",
+    "menuTitle": "Default App Subtitle Target",
     "i18n": {
         "detectUserLanguage": false,
         "defaultLanguage": "en",

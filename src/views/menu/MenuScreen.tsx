@@ -50,7 +50,7 @@ const MenuScreen = () => {
     return (
         <aside aria-roledescription="Toggle menu" class="hamburger-menu">
             <section class='card'>
-                <TitleComponent title={config.appTitle} />
+                <TitleComponent title={config.menuTitle || config.appTitle} />
 
                 {courseStore() && courseStore()!.getCourseIdx() === -1 && <h3>{t('choose_a_course')}</h3>}
 
