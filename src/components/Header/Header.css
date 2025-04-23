@@ -3,7 +3,7 @@
 }
 
 body.menu-shown .header-component {
-    opacity: 0;
+    opacity: 80%;
 }
 
 .header-component .header-text {
@@ -56,23 +56,7 @@ body.menu-shown .header-component {
     margin-bottom: 0.2em;
 }
 
-main.lesson-active header {
-    font-size: 0;
-    margin-top: 0;
-    opacity: 0;
-    transition: all var(--oe-fade-duration) var(--oe-fade-timing) var(--oe-fade-delay);
-}
-
-main.lesson-active progress {
-    font-size: 2pt;
-    line-height: 2pt;
-}
-
 @media (max-width: 1024px) {
-    /* .header-component h2 {
-        display: none;
-    } */
-
     .header-component .stats {
         font-size: 1.2em;
     }
