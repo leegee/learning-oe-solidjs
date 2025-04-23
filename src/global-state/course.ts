@@ -4,6 +4,8 @@
 * is cached and returned.
 */
 import { createStore } from "solid-js/store";
+import { makePersisted } from "@solid-primitives/storage";
+
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import { type Lesson } from "../components/Lessons/Lesson";
@@ -38,8 +40,6 @@ const MetadataDefault = {
     tags: [],
 } as ICourseMetadata;
 
-const LessonsDefault: Lesson[] = [];
-
 export interface ICourseData extends ICourseMetadata {
     lessons: Lesson[];
 }
@@ -62,8 +62,11 @@ export interface ICourseStore {
     reset: (courseIdx?: number) => void;
 }
 
+const LessonsDefault: Lesson[] = [];
 let courseStoreInstance: ICourseStore;
 export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
+
+const STORE_NAME = 'oe-courses';
 
 export const useCourseStore = async () => {
     if (!courseStoreInstance) {
@@ -73,12 +76,18 @@ export const useCourseStore = async () => {
 };
 
 const makeCourseStore = async () => {
-    const [state, setState] = createStore({
-        courseMetadata: null as ICourseMetadata | null,
-        courseIdx: Number(),
-        lessons: [] as Lesson[],
-        loading: false,
-    });
+    const [state, setState] = makePersisted(
+        createStore({
+            courseMetadata: null as ICourseMetadata | null,
+            courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX) || 0),
+            lessons: [] as Lesson[],
+            loading: false,
+        }),
+        {
+            name: STORE_NAME,
+            storage: localStorage,
+        }
+    );
 
     // Load course config once
     let appConfigPromise: Promise<Awaited<ReturnType<typeof loadConfig>>> | null = null;
@@ -157,16 +166,15 @@ const makeCourseStore = async () => {
         }
         const actual = isNaN(index) ? 0 : index;
         setState("courseIdx", actual);
-        localStorage.setItem(storageKeys.COURSE_INDEX, actual.toString());
     };
 
     const getCourseIdx = () => state.courseIdx;
 
     const lessons = (): Lesson[] => state.lessons;
 
-    const setLessons = (courseIdx: number, updated: Lesson[]) => {
-        setState("lessons", updated);
-        localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
+    const setLessons = (courseIdx: number, lessons: Lesson[]) => {
+        setState("lessons", lessons);
+        setState("courseIdx", courseIdx);
     };
 
     const initCourse = (courseIdx: number) => {
@@ -193,6 +201,7 @@ const makeCourseStore = async () => {
         localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
         localStorage.removeItem(storageKeys.ANSWERS(idx));
         localStorage.removeItem(storageKeys.COURSE_INDEX);
+        localStorage.removeItem(STORE_NAME);
     };
 
     return {

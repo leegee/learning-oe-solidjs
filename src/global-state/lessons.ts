@@ -1,76 +1,58 @@
 import { createStore } from 'solid-js/store';
-import { storageKeys } from './keys';
+import { makePersisted } from '@solid-primitives/storage';
 
 interface Answers {
   [lessonIndex: number]: string[][]; // (lesson index -> card answers)
 }
 
-const loadFromLocalStorage = (courseIdx: number): Answers => {
-  try {
-    const savedAnswers = JSON.parse(
-      localStorage.getItem(storageKeys.ANSWERS(courseIdx)) || '{}'
-    );
-    return savedAnswers;
-  } catch (error) {
-    console.error('Error loading from localStorage:', error);
-    return {};
-  }
-};
-
-const saveToLocalStorage = (courseIdx: number, answers: Answers): void => {
-  try {
-    localStorage.setItem(storageKeys.ANSWERS(courseIdx), JSON.stringify(answers));
-  } catch (error) {
-    console.error('Error saving to localStorage:', error);
-  }
-};
-
-const getLessonIdx = (courseIdx: number): number => {
-  return JSON.parse(localStorage.getItem(storageKeys.CURRENT_LESSON_INDEX(courseIdx)) || '0');
-};
-
-const setLessonIdx = (courseIdx: number, lessonIndex: number): void => {
-  localStorage.setItem(storageKeys.CURRENT_LESSON_INDEX(courseIdx), String(lessonIndex));
-};
-
 export const useLessonStore = (courseIdx: number) => {
-  const [state, setState] = createStore({
-    lessonIndex: getLessonIdx(courseIdx),
-    answers: loadFromLocalStorage(courseIdx),
-  });
+  const storageName = `lesson-store-${courseIdx}`;
 
-  const updateLessonIdx = (courseIdx: number, newLessonIndex: number) => {
+  const [state, setState] = makePersisted(
+    createStore({
+      lessonIndex: 0,
+      answers: {} as Answers,
+    }),
+    {
+      name: storageName,
+      storage: localStorage,
+    }
+  );
+
+  const updateLessonIdx = (newLessonIndex: number) => {
     setState('lessonIndex', newLessonIndex);
-    setLessonIdx(courseIdx, newLessonIndex);
   };
 
   const saveAnswer = (
-    courseIdx: number,
     lessonIdx: number,
     cardIdx: number,
     incorrectAnswer: string = ''
   ): void => {
-    const updatedAnswers = { ...state.answers };
-    updatedAnswers[lessonIdx] ??= [];
-
-    while (updatedAnswers[lessonIdx].length <= cardIdx) {
-      updatedAnswers[lessonIdx].push([]);
+    if (!state.answers[lessonIdx]) {
+      setState('answers', lessonIdx, []);
     }
 
-    updatedAnswers[lessonIdx][cardIdx].push(incorrectAnswer);
-    setState('answers', updatedAnswers);
-    saveToLocalStorage(courseIdx, updatedAnswers);
+    const cardExists = state.answers[lessonIdx]?.[cardIdx];
+    if (!cardExists) {
+      // Add empty arrays until the desired index exists
+      for (let i = state.answers[lessonIdx].length; i <= cardIdx; i++) {
+        setState('answers', lessonIdx, i, []);
+      }
+    }
+
+    const existingAnswers = state.answers[lessonIdx][cardIdx] ?? [];
+    setState('answers', lessonIdx, cardIdx, [...existingAnswers, incorrectAnswer]);
   };
+
 
   const getLessonAnswers = (lessonIndex: number): string[][] => {
     return state.answers[lessonIndex] ?? [];
   };
 
-  const resetLesson = (courseIdx: number, lessonIndex: number): void => {
+  const resetLesson = (lessonIndex: number): void => {
     const updatedAnswers = { ...state.answers };
     updatedAnswers[lessonIndex] = [];
     setState('answers', updatedAnswers);
-    saveToLocalStorage(courseIdx, updatedAnswers);
   };
 
   const getTotalTakenLessons = (): number => {
@@ -89,7 +71,7 @@ export const useLessonStore = (courseIdx: number) => {
       (total, lessonAnswers) =>
         total +
         lessonAnswers.reduce(
-          (sum: number, cardAnswers: string[]) => sum + cardAnswers.filter((a) => a === '').length,
+          (sum: number, cardAnswers: []) => sum + cardAnswers.filter((a) => a === '').length,
           0
         ),
       0
