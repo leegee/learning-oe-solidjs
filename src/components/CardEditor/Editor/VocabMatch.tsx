@@ -65,7 +65,7 @@ export default function VocabText(props: VocabTextProps) {
                         onClick={() => handleRemoveClick(index)}
                         title="Remove this entry"
                     >
-                        ✕
+                        <span class="utf8-icon-close" />
                     </button>
                 </div>
             ))}
@@ -88,7 +88,7 @@ export default function VocabText(props: VocabTextProps) {
                     onClick={handleAddClick}
                     title="Add this entry"
                 >
-                    ➕
+                    <span class="utf8-icon-add" />
                 </button>
             </div>
         </section>

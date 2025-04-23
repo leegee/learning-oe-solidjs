@@ -60,11 +60,12 @@ export default function SelectList(props: ISelectListProps) {
                             title="Click to mark as correct answer"
                             onClick={() => handleCorrectToggle(index)}
                         >
-                            {isCorrect ? '✔' : '⭘'}
+                            <span class={`utf8-icon-${isCorrect ? "tick" : "not-tick"}`} />
+                            {/* {isCorrect ? '✔' : '⭘'} */}
                         </button>
 
                         <button type="button" onClick={() => handleRemoveClick(index)} title="Remove this answer">
-                            ✕
+                            <span class="utf8-icon-close" />
                         </button>
                     </div>
                 );
@@ -83,7 +84,9 @@ export default function SelectList(props: ISelectListProps) {
                     onClick={handleAddClick}
                     class="large-icon-button"
                     title="Add this entry"
-                >➕</button>
+                >
+                    <span class="utf8-icon-add" />
+                </button>
             </div>
         </section>
     );

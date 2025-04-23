@@ -61,7 +61,8 @@ export default function AnswerText(props: AnswerTextProps) {
                         class={`large-icon-button checkmark ${props.answer === word ? 'selected' : ''}`}
                         title="Select as the correct answer"
                     >
-                        {props.answer === word ? '✔' : '⭘'}
+                        <span class={`utf8-icon-${props.answer === word ? "tick" : "not-tick"}`} />
+                        {/* {props.answer === word ? '✔' : '⭘'} */}
                     </button>
 
                     <button
@@ -70,7 +71,7 @@ export default function AnswerText(props: AnswerTextProps) {
                         onClick={() => handleRemoveClick(index)}
                         title="Remove this answer"
                     >
-                        ✕
+                        <span class="utf8-icon-close" />
                     </button>
                 </div>
             ))}
@@ -89,7 +90,7 @@ export default function AnswerText(props: AnswerTextProps) {
                     onClick={handleAddClick}
                     title="Add this entry"
                 >
-                    ➕
+                    <span class="utf8-icon-add" />
                 </button>
             </div>
         </section>

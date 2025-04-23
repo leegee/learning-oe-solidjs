@@ -25,3 +25,15 @@
     font-weight: 100 900;
     font-style: italic;
 }
+
+@font-face {
+    font-family: 'my-icons';
+    src: url('/fonts/fontello/my-icons.eot?79470962');
+    src: url('/fonts/fontello/my-icons.eot?79470962#iefix') format('embedded-opentype'),
+        url('/fonts/fontello/my-icons.woff2?79470962') format('woff2'),
+        url('/fonts/fontello/my-icons.woff?79470962') format('woff'),
+        url('/fonts/fontello/my-icons.ttf?79470962') format('truetype'),
+        url('/fonts/fontello/my-icons.svg?79470962#my-icons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}

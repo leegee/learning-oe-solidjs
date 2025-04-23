@@ -36,10 +36,10 @@ export const ConfirmProvider = (props: IConfirmProviderProps) => {
                         <h3>{message()}</h3>
                         <footer>
                             <button class="cancel-button" onClick={cancel}>
-                                ✕
+                                <span class="utf8-icon-close" />
                             </button>
                             <button class="next-button" onClick={confirm}>
-                                ✔
+                                <span class="utf8-icon-tick" />
                             </button>
                         </footer>
                     </dialog>

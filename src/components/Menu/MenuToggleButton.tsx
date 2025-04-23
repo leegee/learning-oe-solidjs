@@ -33,7 +33,7 @@ const MenuToggle = () => {
 
     return (
         <button class="hamburger-button large-icon-button" onClick={toggleMenu} aria-label="Toggle menu">
-            {isMenuOpen() ? "✕" : "☰"}
+            <span class={`utf8-icon-${isMenuOpen() ? 'close' : 'menu'}`} />
         </button>
     );
 };

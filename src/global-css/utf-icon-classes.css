@@ -1,0 +1,41 @@
+[class^="utf8-icon-"]:before,
+[class*="utf8-icon-"]:before {
+    font-family: "Work Sans";
+    font-style: normal;
+    font-weight: normal;
+    color: inherit;
+    text-decoration: inherit;
+    width: 1em;
+    text-align: center;
+
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* margin-left: .2em; */
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    font-variant: normal;
+    text-transform: none;
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.utf8-icon-close:before {
+    content: '✕';
+}
+
+.utf8-icon-menu:before {
+    content: '☰';
+}
+
+.utf8-icon-tick:before {
+    content: '✔';
+}
+
+.utf8-icon-add:before {
+    content: '➕';
+}

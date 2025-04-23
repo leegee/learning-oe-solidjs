@@ -1,5 +1,6 @@
-@import './fontello/css/my-icons-embedded.css';
+@import './fontello/css/my-icons';
 @import './fonts.css';
+@import './utf-icon-classes.css';
 @import './animations.css';
 @import './form-field.css';
 
