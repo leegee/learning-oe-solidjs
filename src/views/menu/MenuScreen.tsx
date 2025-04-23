@@ -8,8 +8,9 @@ import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
-import CourseSaveButton from '../../components/CourseEditor/CourseSaveModal';
+import CourseSaveButton from '../../components/CourseEditor/CourseSaveButton';
 import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
+import CourseLoadButton from '../../components/CourseEditor/CourseLoadButton';
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
@@ -73,6 +74,7 @@ const MenuScreen = () => {
                             Create a new course
                         </a>
                         <span class='course-action-buttons'>
+                            <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
                             <NewCourseButton />
                         </span>
                     </li>
