@@ -104,23 +104,20 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
         }
 
         setState("courseIdx", courseIdx);
-        console.debug('# course store effect: signal set courseIdx to', courseIdx);
-
-        console.log('course effect: config.courses', config.courses);
 
         if (courseIdx < 0) {
-            console.warn("# Invalid course index:", courseIdx);
+            console.warn("Invalid course index:", courseIdx);
             throw new Error("Negative course index? " + courseIdx);
         }
         if (courseIdx >= config.courses.length) {
-            console.warn("# Invalid course index:", courseIdx);
+            console.warn("Invalid course index:", courseIdx);
             throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
 
         const { fileBasename } = config.courses[courseIdx];
         const filePath = `../../lessons/${fileBasename}.json`;
 
-        console.info(`# Loading course ${fileBasename} from ${filePath}`);
+        console.info(`Loading course ${fileBasename} from ${filePath}`);
         setState("loading", true);
 
         try {
@@ -152,7 +149,6 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
     });
 
     const setCourseIdx = (index: number) => {
-        console.info("Selected course", index);
         if (isNaN(index)) {
             console.warn('setCourseIdx to NaN? No');
             return;

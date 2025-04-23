@@ -38,7 +38,6 @@ const MenuScreen = () => {
 
     createEffect(() => {
         if (!courseStore.loading) {
-            console.log('--------localCourseIndex()', localCourseIndex());
             if (isNaN(localCourseIndex())) {
                 console.debug('local course index is NaN?');
                 return;
