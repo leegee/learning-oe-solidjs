@@ -1,5 +1,8 @@
 .multiple-choice .options {
     margin-bottom: auto;
+    display: flex;
+    justify-content: center;
+    gap: 0.6em;
 }
 
 .multiple-choice .multiple-choice-button {
