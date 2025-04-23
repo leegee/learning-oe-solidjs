@@ -1,3 +1,8 @@
+/*
+* This is a singleton store. Loading of course data is async, 
+* but this isn't needed on every init as the first instantiation 
+* is cached and returned.
+*/
 import { createStore } from "solid-js/store";
 import { createEffect } from "solid-js";
 import Ajv from "ajv";
@@ -67,7 +72,7 @@ export const useCourseStore = async (getCourseIdxSignal?: () => string | number)
         }
         courseStoreInstance = await makeCourseStore(getCourseIdxSignal);
     }
-    return Promise.resolve(courseStoreInstance);
+    return courseStoreInstance;
 };
 
 export const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
