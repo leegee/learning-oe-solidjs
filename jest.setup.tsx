@@ -38,13 +38,7 @@ lessonFiles.forEach((filename) => {
 
 // Mock: export const LESSONS_JSON = () => import.meta.glob("../../lessons/*.json");
 jest.mock('./src/config/lesson-loader', () => {
-    return {
-        LESSONS_JSON: (...args: any[]) => {
-            console.log('Using mocked JSON rv', mockedLessonsJson);
-            console.log('Using args', args);
-            return mockedLessonsJson
-        },
-    };
+    return { LESSONS_JSON: () => mockedLessonsJson };
 });
 
 
