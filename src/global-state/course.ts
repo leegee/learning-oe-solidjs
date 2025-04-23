@@ -65,20 +65,17 @@ export interface ICourseStore {
 let courseStoreInstance: ICourseStore;
 export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
 
-export const useCourseStore = async (getCourseIdxSignal?: () => string | number): Promise<ICourseStore> => {
+export const useCourseStore = async () => {
     if (!courseStoreInstance) {
-        if (!getCourseIdxSignal) {
-            throw new Error('You called useCourseStore without a courseIdx signal, but the singleton has yet to be assigned an instance!');
-        }
-        courseStoreInstance = await makeCourseStore(getCourseIdxSignal);
+        courseStoreInstance = await makeCourseStore();
     }
     return courseStoreInstance;
 };
 
-const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
+const makeCourseStore = async () => {
     const [state, setState] = createStore({
         courseMetadata: null as ICourseMetadata | null,
-        courseIdx: Number(getCourseIdxSignal()),
+        courseIdx: Number(),
         lessons: [] as Lesson[],
         loading: false,
     });
@@ -103,7 +100,7 @@ const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promi
         }
 
         if (courseIdx >= config.courses.length) {
-            console.warn('Course index out of bounds:', getCourseIdxSignal(), 'vs', config.courses.length);
+            console.warn('Course index out of bounds:', courseIdx, '>=', config.courses.length);
             return;
         }
 

@@ -1,11 +1,12 @@
 import './global-css/index.css';
-import { createRoot, createSignal, createEffect } from 'solid-js';
+import { createRoot } from 'solid-js';
 import { render } from "solid-js/web";
+
 import { type Config, loadConfig } from './lib/config';
-import App from "./App";
 import { setupI18n } from './contexts/I18nProvider';
 import { useCourseStore } from './global-state/course';
 import { useLessonStore } from './global-state/lessons';
+import App from "./App";
 
 // Initialize the app configuration
 const initializeAppConfig = async (): Promise<Config | null> => {
@@ -23,17 +24,8 @@ const startApp = async () => {
     throw new Error("Failed to load config. App will not start.");
   }
 
-  // Create a signal to track the course index
-  const [courseIdx, setCourseIdx] = createSignal(Number(window.location.pathname.split('/')[2]));
-
-  // Effect to update courseIdx when the URL path changes
-  createEffect(() => {
-    const currentCourseIdx = Number(window.location.pathname.split(/\/+/)[3]);
-    setCourseIdx(isNaN(currentCourseIdx) ? 0 : currentCourseIdx);
-  });
-
   const [courseResult, _] = await Promise.allSettled([
-    useCourseStore(courseIdx),
+    useCourseStore(),
     setupI18n(appConfig),
   ]);
 

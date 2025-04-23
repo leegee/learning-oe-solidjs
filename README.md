@@ -47,7 +47,3 @@ Save & Load custom lessons
 ## Thanks:
 
 * The [Junicode](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
-
-Notes: 
-
-`courseStore = createResource<ICourseStore>(useCourseStore, { initialValue: staticCourseStore });`
