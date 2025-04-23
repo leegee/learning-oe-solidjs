@@ -37,9 +37,13 @@ const MenuScreen = () => {
     };
 
     createEffect(() => {
-        const store = courseStore();
-        if (store) {
-            store.setCourseIdx(localCourseIndex());
+        if (!courseStore.loading) {
+            console.log('--------localCourseIndex()', localCourseIndex());
+            if (isNaN(localCourseIndex())) {
+                console.debug('local course index is NaN?');
+                return;
+            }
+            courseStore()!.setCourseIdx(localCourseIndex());
         }
     });
 

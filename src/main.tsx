@@ -29,7 +29,7 @@ const startApp = async () => {
   // Effect to update courseIdx when the URL path changes
   createEffect(() => {
     const currentCourseIdx = Number(window.location.pathname.split(/\/+/)[3]);
-    setCourseIdx(currentCourseIdx);
+    setCourseIdx(isNaN(currentCourseIdx) ? 0 : currentCourseIdx);
   });
 
   const [courseResult, _] = await Promise.allSettled([

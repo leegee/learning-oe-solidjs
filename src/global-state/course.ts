@@ -60,8 +60,11 @@ export interface ICourseStore {
 let courseStoreInstance: ICourseStore;
 export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
 
-export const useCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
+export const useCourseStore = async (getCourseIdxSignal?: () => string | number): Promise<ICourseStore> => {
     if (!courseStoreInstance) {
+        if (!getCourseIdxSignal) {
+            throw new Error('You called useCourseStore without a courseIdx signal, but the singleton has yet to be assigned an instance!');
+        }
         courseStoreInstance = await makeCourseStore(getCourseIdxSignal);
     }
     return Promise.resolve(courseStoreInstance);
@@ -88,14 +91,22 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
 
     // Reactive effect watching external signal
     createEffect(async () => {
-        const courseIdx = Number(getCourseIdxSignal());
-        setState("courseIdx", courseIdx);
-
-        console.debug('# Enter course store effect: signal set courseIdx to', courseIdx);
-
         const config = await getAppConfig();
+        const courseIdx = Number(getCourseIdxSignal());
 
-        console.log('course effect: config', config.courses.length);
+        if (isNaN(courseIdx)) {
+            return; // Not yet configured.
+        }
+
+        if (courseIdx >= config.courses.length) {
+            console.warn('Course index out of bounds:', getCourseIdxSignal(), 'vs', config.courses.length);
+            return;
+        }
+
+        setState("courseIdx", courseIdx);
+        console.debug('# course store effect: signal set courseIdx to', courseIdx);
+
+        console.log('course effect: config.courses', config.courses);
 
         if (courseIdx < 0) {
             console.warn("# Invalid course index:", courseIdx);
@@ -142,8 +153,13 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
 
     const setCourseIdx = (index: number) => {
         console.info("Selected course", index);
-        setState("courseIdx", index);
-        localStorage.setItem(storageKeys.COURSE_INDEX, index.toString());
+        if (isNaN(index)) {
+            console.warn('setCourseIdx to NaN? No');
+            return;
+        }
+        const actual = isNaN(index) ? 0 : index;
+        setState("courseIdx", actual);
+        localStorage.setItem(storageKeys.COURSE_INDEX, actual.toString());
     };
 
     const getCourseIdx = () => state.courseIdx;
