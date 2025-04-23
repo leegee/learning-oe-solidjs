@@ -25,6 +25,16 @@
      width: 100%;
  }
 
+ .card-class-picker button:hover {
+     font-size: 12pt;
+     font-weight: normal;
+     width: 100%;
+     background-color: var(--oe-clr-highlight);
+     color: var(--oe-clr-fg);
+     opacity: 100%;
+     border-color: var(--oe-clr-border);
+ }
+
  .card-class-picker .delete-button {
      text-align: right;
  }

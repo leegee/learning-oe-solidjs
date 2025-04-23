@@ -8,15 +8,13 @@ import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import Stats from "../../components/Stats";
 import { useLessonStore } from "../../global-state/lessons";
-import { useCourseStore } from "../../global-state/course";
+import { useCourseStore, type ICourseStore } from "../../global-state/course";
 
 const CourseHome = () => {
-    const [lessonStore] = createResource(useLessonStore);
-    const [courseStore] = createResource(useCourseStore);
-
+    let lessonStore;
+    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
     const params = useParams();
     const navigate = useNavigate();
-
     const [courseIdx, setCourseIdx] = createSignal(Number(params.courseIdx));
 
     // Update courseIdx if route changes
@@ -29,11 +27,12 @@ const CourseHome = () => {
 
     // When courseStore is loaded or courseIdx changes, update store
     createEffect(() => {
-        const cStore = courseStore();
+        if (courseStore.loading) return;
         const idx = courseIdx();
-        if (cStore && idx !== cStore.getCourseIdx()) {
-            cStore.setCourseIdx(idx);
+        if (courseStore()!.getCourseIdx() !== idx) {
+            courseStore()!.setCourseIdx(idx);
         }
+        lessonStore = useLessonStore(idx);
     });
 
     const onLessonSelected = (lessonIndex: number) => {
@@ -42,15 +41,15 @@ const CourseHome = () => {
 
     return (
         <Show
-            when={courseStore() && lessonStore()}
+            when={!courseStore.loading && lessonStore}
             fallback={<div>Loading lessons ...</div>}
         >
             <article id="home">
-                <Stats courseIdx={courseIdx} />
+                <Stats courseIdx={courseIdx()} />
                 <LessonList
                     lessons={courseStore()?.store.lessons || []}
                     courseIndex={courseIdx()}
-                    currentLessonIndex={lessonStore()?.lessonIndex ?? 0}
+                    currentLessonIndex={lessonStore!.lessonIndex ?? 0}
                     onLessonSelected={onLessonSelected}
                 />
             </article>

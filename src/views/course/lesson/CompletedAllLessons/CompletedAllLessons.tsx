@@ -2,6 +2,7 @@ import './CompletedAllLessons.css';
 import { type JSX } from 'solid-js';
 import { useI18n } from '../../../../contexts/I18nProvider';
 import ResetCourseButtonComponent from '../../../../components/ResetCourseButton';
+import { useParams } from '@solidjs/router';
 
 interface CompletedAllLessonsProps {
     children?: JSX.Element
@@ -9,6 +10,7 @@ interface CompletedAllLessonsProps {
 
 const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
     const { t } = useI18n();
+    const params = useParams();
 
     // todo 
     return (
@@ -19,7 +21,7 @@ const CompletedAllLessons = (props: CompletedAllLessonsProps) => {
                     {/* <p>{t('total_lessons_completed')}: <strong>{props.totalLessons}</strong></p> */}
                 </div>
                 {props.children && props.children}
-                <ResetCourseButtonComponent />
+                <ResetCourseButtonComponent courseIdx={Number(params.courseIdx || -1)} />
             </section>
 
         </>

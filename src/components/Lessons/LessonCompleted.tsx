@@ -1,8 +1,10 @@
 import './LessonCompleted.css';
-import { formatDuration } from "../../lib/format-duration";
-import { useLessonStore } from '../../global-state/lessons';
-import { exitFullscreen } from '../../lib/fullscreen';
+import { useParams } from '@solidjs/router';
+import { TFunction } from 'i18next';
 import { useI18n } from '../../contexts/I18nProvider';
+import { useLessonStore } from '../../global-state/lessons';
+import { formatDuration } from "../../lib/format-duration";
+import { exitFullscreen } from '../../lib/fullscreen';
 
 interface LessonCompletedComponentProps {
     durationInSeconds: number;
@@ -11,10 +13,11 @@ interface LessonCompletedComponentProps {
 
 const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const { t } = useI18n();
-    const lessonStore = useLessonStore();
-    const idx = lessonStore.lessonIndex;
-    const incorrectAnswerCount = lessonStore.getLessonQuestionsAnsweredIncorrectly(idx);
-    const questionCount = lessonStore.getLessonQuestionCount(idx);
+    const params = useParams();
+    const lessonStore = useLessonStore(Number(params.courseIdx || -1));
+    const idx = lessonStore!.lessonIndex;
+    const incorrectAnswerCount = lessonStore!.getLessonQuestionsAnsweredIncorrectly(idx);
+    const questionCount = lessonStore!.getLessonQuestionCount(idx);
 
     const handleClick = () => {
         exitFullscreen();
@@ -30,7 +33,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                         {
                             questionCount: questionCount,
                             incorrectAnswerCount: incorrectAnswerCount,
-                            duration: formatDuration(t, props.durationInSeconds)
+                            duration: formatDuration(t as TFunction, props.durationInSeconds)
                         }
                     )}
                 </p>

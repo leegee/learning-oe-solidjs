@@ -3,10 +3,9 @@ import { createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import { type Lesson } from "../components/Lessons/Lesson";
-import { loadConfig } from "../lib/config";
+import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/lesson-loader";
-import { useConfigContext } from "../contexts/ConfigProvider";
 
 export type ILessonSummary = {
     title: string;
@@ -22,8 +21,20 @@ export interface ICourseMetadata {
     createdAt: string;
     updatedAt: string;
     tags: string[];
-    lessons: Lesson[];
 }
+
+const MetadataDefault = {
+    courseTitle: 'New Course',
+    description: 'A description',
+    language: 'en',
+    targetLanguage: 'en',
+    level: 'level',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    tags: [],
+} as ICourseMetadata;
+
+const LessonsDefault: Lesson[] = [];
 
 export interface ICourseData extends ICourseMetadata {
     lessons: Lesson[];
@@ -36,32 +47,30 @@ export interface ICourseStore {
         lessons: Lesson[];
         loading: boolean;
     };
+    setCourse: (args: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => void;
     setCourseIdx: (index: number) => void;
     getCourseIdx: () => number;
     lessons: () => Lesson[];
     setLessons: (courseIdx: number, updatedLessons: Lesson[]) => void;
+    initCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
 }
 
 let courseStoreInstance: ICourseStore;
+export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
 
-export const courseTitlesInIndexOrder = (): string[] => {
-    const { config } = useConfigContext();
-    return [...config.courses.map((course) => course.title)];
-}
-
-export const useCourseStore = async (): Promise<ICourseStore> => {
+export const useCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
     if (!courseStoreInstance) {
-        courseStoreInstance = await makeCourseStore();
+        courseStoreInstance = await makeCourseStore(getCourseIdxSignal);
     }
     return Promise.resolve(courseStoreInstance);
-}
+};
 
-export const makeCourseStore = () => {
+export const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
     const [state, setState] = createStore({
         courseMetadata: null as ICourseMetadata | null,
-        courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX)) || 0,
+        courseIdx: Number(getCourseIdxSignal()),
         lessons: [] as Lesson[],
         loading: false,
     });
@@ -75,22 +84,32 @@ export const makeCourseStore = () => {
 
     const setCourse = ({ lessons, courseMetadata }: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => {
         setState({ lessons, courseMetadata });
-    }
+    };
 
-    // Load the course data
+    // Reactive effect watching external signal
     createEffect(async () => {
-        const index = state.courseIdx;
+        const courseIdx = Number(getCourseIdxSignal());
+        setState("courseIdx", courseIdx);
+
+        console.debug('# Enter course store effect: signal set courseIdx to', courseIdx);
+
         const config = await getAppConfig();
 
-        if (index === -1 || index >= config.courses.length) {
-            console.warn("Invalid course index:", index);
-            return;
+        console.log('course effect: config', config.courses.length);
+
+        if (courseIdx < 0) {
+            console.warn("# Invalid course index:", courseIdx);
+            throw new Error("Negative course index? " + courseIdx);
+        }
+        if (courseIdx >= config.courses.length) {
+            console.warn("# Invalid course index:", courseIdx);
+            throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
 
-        const { fileBasename } = config.courses[index];
+        const { fileBasename } = config.courses[courseIdx];
         const filePath = `../../lessons/${fileBasename}.json`;
 
-        console.info("-----------Loading course:", fileBasename, filePath);
+        console.info(`# Loading course ${fileBasename} from ${filePath}`);
         setState("loading", true);
 
         try {
@@ -115,9 +134,7 @@ export const makeCourseStore = () => {
                 courseMetadata: { ...courseData },
             });
             setState({ loading: false });
-        }
-
-        catch (error) {
+        } catch (error) {
             console.error("Error loading lessons:", error);
             setState("loading", false);
         }
@@ -138,9 +155,14 @@ export const makeCourseStore = () => {
         localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
     };
 
-    const getLessons = (courseIdx: number, updated: Lesson[]) => {
-        // asdfasdf
-        // localStorage.setItem(storageKeys.LESSONS(courseIdx), JSON.stringify(state.lessons));
+    const initCourse = (courseIdx: number) => {
+        setState({ loading: true });
+        setLessons(courseIdx, []);
+        setCourse({
+            lessons: [...LessonsDefault],
+            courseMetadata: { ...MetadataDefault },
+        });
+        setState({ loading: false });
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
@@ -159,6 +181,7 @@ export const makeCourseStore = () => {
 
     return {
         store: state,
+        initCourse,
         setCourse,
         setCourseIdx,
         getCourseIdx,
@@ -168,3 +191,17 @@ export const makeCourseStore = () => {
         reset,
     };
 };
+
+
+// @example  throw new InvalidCourseIndexError("No such course as", courseIdx);
+class InvalidCourseIndexError extends Error {
+    public courseIdx: number;
+
+    constructor(message: string, courseIdx: number) {
+        super(message);
+        this.name = this.constructor.name;
+        this.courseIdx = courseIdx;
+        Error.captureStackTrace(this, this.constructor); // Capture stack trace (optional)
+    }
+}
+

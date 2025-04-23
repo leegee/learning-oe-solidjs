@@ -3,15 +3,13 @@ import MenuTogglebutton from "../Menu/MenuToggleButton";
 import { useConfigContext } from "../../contexts/ConfigProvider";
 import { useLessonStore } from "../../global-state/lessons";
 import { useI18n } from "../../contexts/I18nProvider";
+import { useParams } from '@solidjs/router';
 
-export interface IHeaderProps {
-    courseIdx: number;
-}
-
-const Header = (props: IHeaderProps) => {
+const Header = () => {
     const { t } = useI18n();
     const { config } = useConfigContext();
-    const lessonStore = useLessonStore(props.courseIdx);
+    const params = useParams();
+    const lessonStore = useLessonStore(Number(params.courseIdx || -1));
 
     // todo stats
     const lessonIndex = lessonStore!.getTotalCorrectAnswers();

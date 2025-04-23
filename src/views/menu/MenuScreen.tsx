@@ -52,7 +52,7 @@ const MenuScreen = () => {
 
                 <nav class="course-menu">
                     {/* {config.courses.map((course, courseIdx) => ( */}
-                    {courseTitlesInIndexOrder().map((courseTitle, courseIdx) => (
+                    {courseTitlesInIndexOrder(config).map((courseTitle, courseIdx) => (
                         <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                             <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                 {courseTitle}

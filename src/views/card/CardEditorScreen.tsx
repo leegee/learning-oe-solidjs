@@ -77,7 +77,7 @@ const Editor = () => {
                 : lesson
         );
 
-        cStore.setLessons(updatedLessons)
+        cStore.setLessons(courseIdx(), updatedLessons)
         navigate(-1);
     };
 
