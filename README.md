@@ -42,8 +42,18 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## TODO
 
-Save & Load custom lessons
+Save & Load custom lessons: @solid-primitives/storage:
+
+```typescript
+    import { createSignal } from 'solid-js';
+    import { makePersisted } from '@solid-primitives/storage';
+    const [store, setStore, init] = makePersisted(
+        createStore( DATA_TO_STORE ), {name: NAME_OF_STORE }
+    );
+```
 
 ## Thanks:
 
 * The [Junicode](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
+* SolidJS
+* Vite

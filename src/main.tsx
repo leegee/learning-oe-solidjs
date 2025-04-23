@@ -5,7 +5,6 @@ import { render } from "solid-js/web";
 import { type Config, loadConfig } from './lib/config';
 import { setupI18n } from './contexts/I18nProvider';
 import { useCourseStore } from './global-state/course';
-import { useLessonStore } from './global-state/lessons';
 import App from "./App";
 
 // Initialize the app configuration
@@ -24,16 +23,10 @@ const startApp = async () => {
     throw new Error("Failed to load config. App will not start.");
   }
 
-  const [courseResult, _] = await Promise.allSettled([
+  await Promise.allSettled([
     useCourseStore(),
     setupI18n(appConfig),
   ]);
-
-  if (courseResult.status === 'fulfilled') {
-    useLessonStore(courseResult.value.getCourseIdx());
-  } else {
-    console.error('Failed to load course store:', courseResult.reason);
-  }
 
   const jsx = <App config={appConfig as Config} />;
 
