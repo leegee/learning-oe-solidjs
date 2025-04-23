@@ -35,12 +35,8 @@ export const ConfirmProvider = (props: IConfirmProviderProps) => {
                     <dialog class="confirm-dialog" open={isOpen()}>
                         <h3>{message()}</h3>
                         <footer>
-                            <button class="cancel-button" onClick={cancel}>
-                                <span class="utf8-icon-close" />
-                            </button>
-                            <button class="next-button" onClick={confirm}>
-                                <span class="utf8-icon-tick" />
-                            </button>
+                            <button class="cancel-button utf8-icon-close" onClick={cancel} />
+                            <button class="next-button utf8-icon-tick" onClick={confirm} />
                         </footer>
                     </dialog>
                 </div>
