@@ -37,7 +37,7 @@ lessonFiles.forEach((filename) => {
 });
 
 // Mock: export const LESSONS_JSON = () => import.meta.glob("../../lessons/*.json");
-jest.mock('./src/config/lesson-loader', () => {
+jest.mock('./src/config/load-default-lessons', () => {
     return { LESSONS_JSON: () => mockedLessonsJson };
 });
 

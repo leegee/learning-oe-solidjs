@@ -1,15 +1,15 @@
 import './CourseEditor.css';
-import { onMount, createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
+import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
 import { useConfigContext } from '../../contexts/ConfigProvider';
 import { courseTitlesInIndexOrder, useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/ConfirmProvider';
-import { createDefaultCard } from '../Cards';
 import { Lesson } from "../Lessons/Lesson";
 import EditableText from "../CardEditor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import AddCardButton from './AddCardButton';
+import AddLessonButton from './AddLessonButton';
 
 export default function CourseEditor() {
     const { config } = useConfigContext();
@@ -21,18 +21,21 @@ export default function CourseEditor() {
     const [courseTitle, setCourseTitle] = createSignal("");
     const courseIdx = () => Number(params.courseIdx) ?? -1;
 
-
-    onMount(() => {
+    // Initialise a new course
+    createEffect(() => {
+        if (courseStore.loading) return;
         if (params.courseIdx === 'init') {
-            if (!courseStore.loading) {
-                const courseIdx = courseTitlesInIndexOrder(config).length;
-                console.debug('init');
-                courseStore()!.initCourse(courseIdx);
-                navigate('/editor/' + courseIdx);
-            } else {
-                console.error('courseStore still loading');
-            }
+            const courseIdx = courseTitlesInIndexOrder(config).length;
+            courseStore()!.initCourse(courseIdx);
+            navigate('/editor/' + courseIdx);
         }
+    });
+
+    createEffect(() => {
+        if (courseStore.loading) return;
+        const courseIdx = Number(params.courseIdx);
+        if (isNaN(courseIdx)) return;
+        courseStore()!.loadCourse(courseIdx);
     });
 
     createEffect(() => {
@@ -248,24 +251,16 @@ export default function CourseEditor() {
                                     </div>
                                 ))}
 
-                                <AddCardButton
-                                    onAdd={(klass) => {
-                                        const newCard = createDefaultCard(klass);
-                                        const updatedLessons = courseStore()!.lessons().map((lesson, i) =>
-                                            i === lessonIdx
-                                                ? { ...lesson, cards: [...lesson.cards, newCard] }
-                                                : lesson
-                                        );
-
-                                        courseStore()!.setLessons(courseIdx(), updatedLessons);
-
-                                        const newCardIdx = updatedLessons[lessonIdx].cards.length - 1;
-                                        navigate(`/editor/${courseIdx()}/${lessonIdx}/${newCardIdx}`);
-                                    }}
-                                />
+                                <AddCardButton />
                             </div>
                         </section>
                     ))}
+
+                    <section>
+                        <div>
+                            <AddLessonButton />
+                        </div>
+                    </section>
                 </div>
             </article>
         </Show>

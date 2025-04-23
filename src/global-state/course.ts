@@ -4,7 +4,6 @@
 * is cached and returned.
 */
 import { createStore } from "solid-js/store";
-import { createEffect } from "solid-js";
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
 import { type Lesson } from "../components/Lessons/Lesson";
@@ -54,6 +53,7 @@ export interface ICourseStore {
     };
     setCourse: (args: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => void;
     setCourseIdx: (index: number) => void;
+    loadCourse: (index: number) => void;
     getCourseIdx: () => number;
     lessons: () => Lesson[];
     setLessons: (courseIdx: number, updatedLessons: Lesson[]) => void;
@@ -75,7 +75,7 @@ export const useCourseStore = async (getCourseIdxSignal?: () => string | number)
     return courseStoreInstance;
 };
 
-export const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
+const makeCourseStore = async (getCourseIdxSignal: () => string | number): Promise<ICourseStore> => {
     const [state, setState] = createStore({
         courseMetadata: null as ICourseMetadata | null,
         courseIdx: Number(getCourseIdxSignal()),
@@ -95,12 +95,11 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
     };
 
     // Reactive effect watching external signal for the index of the current course within (or without) LESSONS_JSON
-    createEffect(async () => {
+    const loadCourse = async (courseIdx: number) => {
         const config = await getAppConfig();
-        const courseIdx = Number(getCourseIdxSignal());
 
         if (isNaN(courseIdx)) {
-            return; // Route not yet configured.
+            return;
         }
 
         if (courseIdx >= config.courses.length) {
@@ -119,11 +118,12 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
             throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
 
+        setState("loading", true);
+
         const { fileBasename } = config.courses[courseIdx];
         const filePath = `../../lessons/${fileBasename}.json`;
 
         console.info(`Loading course ${fileBasename} from ${filePath}`);
-        setState("loading", true);
 
         try {
             const lessons = await LESSONS_JSON();
@@ -151,7 +151,7 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
             console.error("Error loading lessons:", error);
             setState("loading", false);
         }
-    });
+    }
 
     const setCourseIdx = (index: number) => {
         if (isNaN(index)) {
@@ -203,6 +203,7 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
         initCourse,
         setCourse,
         setCourseIdx,
+        loadCourse,
         getCourseIdx,
         lessons,
         setLessons,

@@ -12,6 +12,12 @@ export interface Lesson {
     cards: IAnyCard[]
 };
 
+export const DefaultLesson = {
+    title: 'A Lesson',
+    description: 'A lesson description',
+    cards: []
+};
+
 export interface ILessonProps {
     lesson: Lesson;
     onAnswer: (cardIndex: number, incorrectAnswer?: string) => void;

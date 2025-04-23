@@ -1,57 +1,41 @@
 import './LessonIntroScreen.css';
-import {
-    createEffect,
-    createMemo,
-    createResource,
-    createSignal,
-    Show,
-} from "solid-js";
+
+import { createEffect, createMemo, createResource, Show, } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
+
 import { useLessonStore } from "../../../global-state/lessons";
-import { useCourseStore } from "../../../global-state/course";
+import { useCourseStore, type ICourseStore } from "../../../global-state/course";
 import { enterFullscreen } from "../../../lib/fullscreen";
 import { useI18n } from "../../../contexts/I18nProvider";
 
 const LessonIntroScreen = () => {
-    const [courseStore] = createResource(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
     const params = useParams();
     const navigate = useNavigate();
     const { t } = useI18n();
-    const lessonStore = useLessonStore(Number(params.courseIdx));
 
-    const [courseIdx, setCourseIdx] = createSignal(Number(-1));
-    const [lessonIdx, setLessonIdx] = createSignal(Number(-1));
+    const courseIdx = createMemo(() => Number(params.courseIdx));
+    const lessonIdx = createMemo(() => Number(params.lessonIdx));
+
+    const lessonStore = createMemo(() => useLessonStore(courseIdx()));
 
     createEffect(() => {
         const cStore = courseStore();
-        if (!cStore) {
-            return;
-        }
-
-        const newCourseIdx = Number(params.courseIdx);
-        if (newCourseIdx !== courseIdx()) {
-            setCourseIdx(newCourseIdx);
-            cStore.setCourseIdx(newCourseIdx);
-
-            const newLessonIdx = Number(params.lessonIdx);
-            if (newLessonIdx !== lessonIdx()) {
-                setLessonIdx(newLessonIdx);
-                lessonStore!.updateLessonIdx(newCourseIdx, newLessonIdx);
-            }
+        if (cStore) {
+            cStore.setCourseIdx(courseIdx());
+            lessonStore()?.updateLessonIdx(courseIdx(), lessonIdx());
         }
     });
 
     const lesson = createMemo(() => {
         const store = courseStore();
-        if (!store || !store.store) {
-            return undefined;
-        }
+        if (!store || !store.store) return undefined;
         return store.store.lessons?.[lessonIdx()];
     });
 
     const handleClick = () => {
         enterFullscreen();
-        lessonStore!.resetLesson(courseIdx(), lessonIdx());
+        lessonStore()?.resetLesson(courseIdx(), lessonIdx());
         navigate(`/course/${courseIdx()}/${lessonIdx()}/in-progress`);
     };
 
@@ -61,12 +45,9 @@ const LessonIntroScreen = () => {
                 <>
                     <article class="lesson-intro card">
                         <header>
-                            <h2>
-                                {t('lesson')} {lessonIdx() + 1}
-                            </h2>
+                            <h2>{t('lesson')} {lessonIdx() + 1}</h2>
                             <h3>{loadedLesson().title}</h3>
                         </header>
-
                         {loadedLesson().description && (
                             <p class="description">{loadedLesson().description}</p>
                         )}
