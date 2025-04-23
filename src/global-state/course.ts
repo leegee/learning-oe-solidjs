@@ -94,7 +94,7 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
         setState({ lessons, courseMetadata });
     };
 
-    // Reactive effect watching external signal that of the  current course index.
+    // Reactive effect watching external signal for the index of the current course within (or without) LESSONS_JSON
     createEffect(async () => {
         const config = await getAppConfig();
         const courseIdx = Number(getCourseIdxSignal());

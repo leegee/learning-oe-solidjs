@@ -26,6 +26,7 @@ export default function CourseEditor() {
         if (params.courseIdx === 'init') {
             if (!courseStore.loading) {
                 const courseIdx = courseTitlesInIndexOrder(config).length;
+                console.debug('init');
                 courseStore()!.initCourse(courseIdx);
                 navigate('/editor/' + courseIdx);
             } else {
@@ -43,7 +44,9 @@ export default function CourseEditor() {
 
     createEffect(() => {
         if (courseStore.loading) return;
-        courseStore()!.setCourseIdx(courseIdx());
+        if (courseStore()?.getCourseIdx !== courseIdx) {
+            courseStore()?.setCourseIdx(courseIdx());
+        }
         courseStore()!.setLessons(courseIdx(), courseStore()!.store.lessons);
         setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
     });
