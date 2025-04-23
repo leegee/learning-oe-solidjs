@@ -10,7 +10,7 @@ import courseLessonsSchema from "../../lessons.schema.json";
 import { type Lesson } from "../components/Lessons/Lesson";
 import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
-import { LESSONS_JSON } from "../config/lesson-loader";
+import { LESSONS_JSON } from "../config/load-default-lessons";
 
 export type ILessonSummary = {
     title: string;
@@ -94,13 +94,13 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
         setState({ lessons, courseMetadata });
     };
 
-    // Reactive effect watching external signal
+    // Reactive effect watching external signal that of the  current course index.
     createEffect(async () => {
         const config = await getAppConfig();
         const courseIdx = Number(getCourseIdxSignal());
 
         if (isNaN(courseIdx)) {
-            return; // Not yet configured.
+            return; // Route not yet configured.
         }
 
         if (courseIdx >= config.courses.length) {
@@ -173,13 +173,15 @@ export const makeCourseStore = async (getCourseIdxSignal: () => string | number)
     };
 
     const initCourse = (courseIdx: number) => {
+        console.log('initCourse enter');
         setState({ loading: true });
-        setLessons(courseIdx, []);
         setCourse({
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
+        setCourseIdx(courseIdx);
         setState({ loading: false });
+        console.log('initCourse done');
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {

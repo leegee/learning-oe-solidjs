@@ -1,6 +1,7 @@
 import './CourseEditor.css';
-import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
-import { useCourseStore, type ICourseStore } from "../../global-state/course";
+import { onMount, createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
+import { useConfigContext } from '../../contexts/ConfigProvider';
+import { courseTitlesInIndexOrder, useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/ConfirmProvider';
@@ -11,6 +12,7 @@ import Card from "../Lessons/Card";
 import AddCardButton from './AddCardButton';
 
 export default function CourseEditor() {
+    const { config } = useConfigContext();
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
@@ -18,6 +20,19 @@ export default function CourseEditor() {
     const params = useParams();
     const [courseTitle, setCourseTitle] = createSignal("");
     const courseIdx = () => Number(params.courseIdx) ?? -1;
+
+
+    onMount(() => {
+        if (params.courseIdx === 'init') {
+            if (!courseStore.loading) {
+                const courseIdx = courseTitlesInIndexOrder(config).length;
+                courseStore()!.initCourse(courseIdx);
+                navigate('/editor/' + courseIdx);
+            } else {
+                console.error('courseStore still loading');
+            }
+        }
+    });
 
     createEffect(() => {
         document.body.classList.add("editing-card");

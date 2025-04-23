@@ -14,6 +14,7 @@ import MenuScreen from "./views/menu/MenuScreen";
 export const Routes = (): JSX.Element => (
     <>
         <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
+        <Route path="/editor/:courseIdx/init" component={CourseEditor} />
         <Route path="/editor/:courseIdx?" component={CourseEditor} />
 
         <Route path="/course/:courseIdx" component={CourseRootScreen}>
