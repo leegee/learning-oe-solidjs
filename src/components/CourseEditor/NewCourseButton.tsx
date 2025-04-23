@@ -8,9 +8,7 @@ const NewCourseButton = () => {
     }
 
     return (
-        <button class="large-icon-button" onClick={handlClick}>
-            <i class='icon-cog' />
-        </button>
+        <button title="Create a blank course" class="large-icon-button utf8-icon-new" onClick={handlClick} />
     );
 };
 

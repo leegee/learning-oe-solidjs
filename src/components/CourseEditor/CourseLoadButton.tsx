@@ -28,7 +28,9 @@ const CourseLoadButtons = (props: ICourseSaveButtonProps) => {
 
     return (
         <>
-            <button class="utf8-icon-new large-icon-button" onClick={() => handleLoad()} />
+            <button title="Load this course" class="large-icon-button" onClick={() => handleLoad()}>
+                <i class='icon-download' />
+            </button>
 
             <dialog ref={el => (errorDialogRef = el)} class='dialog-error'>
                 <header>

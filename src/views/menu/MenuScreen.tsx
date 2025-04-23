@@ -71,7 +71,7 @@ const MenuScreen = () => {
 
                     <li>
                         <a onClick={() => { }}>
-                            Create a new course
+                            Custom Course
                         </a>
                         <span class='course-action-buttons'>
                             <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
