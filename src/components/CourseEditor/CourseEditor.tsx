@@ -12,7 +12,7 @@ import AddLessonButton from './AddLessonButton';
 import CourseEditorLessonList from './CourseEditorLessonList';
 
 export default function CourseEditor() {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { t } = useI18n();
     const navigate = useNavigate();
     const [courseTitle, setCourseTitle] = createSignal("");

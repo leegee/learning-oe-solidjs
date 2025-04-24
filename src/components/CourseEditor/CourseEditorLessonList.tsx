@@ -14,7 +14,7 @@ import AddLessonButton from './AddLessonButton';
 import CourseEditorCardHolder from './CourseEditorCardHolder';
 
 export default function CourseEditorLessonList() {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { t } = useI18n();
     const params = useParams();
     const courseIdx = () => Number(params.courseIdx) ?? -1;

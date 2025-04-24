@@ -13,7 +13,7 @@ import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 import CourseLoadButton from '../../components/CourseEditor/CourseLoadButton';
 
 const MenuScreen = () => {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
     const { t } = useI18n();
     const navigate = useNavigate();

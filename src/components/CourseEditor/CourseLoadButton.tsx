@@ -6,7 +6,7 @@ export interface ICourseSaveButtonProps {
 }
 
 const CourseLoadButtons = (props: ICourseSaveButtonProps) => {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     let errorDialogRef: HTMLDialogElement | null = null;
     let okDialogRef: HTMLDialogElement | null = null;
 

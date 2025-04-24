@@ -10,7 +10,7 @@ export default function LoadCourseByRoute() {
     const { config } = useConfigContext();
     const params = useParams();
     const navigate = useNavigate();
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
 
     createEffect(() => {

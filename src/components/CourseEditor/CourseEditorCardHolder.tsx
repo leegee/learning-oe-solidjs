@@ -15,7 +15,7 @@ interface ICourseEditorCardHolderProps {
 }
 
 export default function CourseEditorCardHolder(props: ICourseEditorCardHolderProps) {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();

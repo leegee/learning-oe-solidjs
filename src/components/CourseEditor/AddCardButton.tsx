@@ -9,7 +9,7 @@ interface IAddCardButtonProps {
 }
 
 export default function AddCardButton(props: IAddCardButtonProps) {
-    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
     const [showOptions, setShowOptions] = createSignal(false);
