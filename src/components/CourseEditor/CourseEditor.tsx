@@ -168,21 +168,19 @@ export default function CourseEditor() {
                                         <div class="vertical-controls top-controls">
                                             <button
                                                 title="Move up to the previous lesson"
+                                                class="move-card-button icon-up-fat"
                                                 disabled={lessonIdx === 0}
                                                 onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
-                                            >
-                                                ↑
-                                            </button>
+                                            />
                                         </div>
 
                                         <div class="horizontal-controls">
                                             <button
                                                 title="Swap with the card on the left"
+                                                class="move-card-button icon-left-fat"
                                                 disabled={cardIdx === 0}
                                                 onClick={() => moveCard(lessonIdx, cardIdx, -1)}
-                                            >
-                                                ←
-                                            </button>
+                                            />
 
                                             <div class="card-overlay-wrapper">
                                                 <Card
@@ -200,7 +198,7 @@ export default function CourseEditor() {
                                                         class="control small-control"
                                                         onClick={() => deleteCard(lessonIdx, cardIdx)}
                                                     >
-                                                        🗑
+                                                        <span class='icon-trash' />
                                                     </button>
 
                                                     <button
@@ -210,28 +208,26 @@ export default function CourseEditor() {
                                                             navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)
                                                         }
                                                     >
-                                                        ✎
+                                                        <span class='icon-pencil' />
                                                     </button>
                                                 </div>
                                             </div>
 
                                             <button
                                                 title="Swap with the card to the right"
+                                                class="move-card-button icon-right-fat"
                                                 disabled={cardIdx === lesson.cards.length - 1}
                                                 onClick={() => moveCard(lessonIdx, cardIdx, 1)}
-                                            >
-                                                →
-                                            </button>
+                                            />
                                         </div>
 
                                         <div class="vertical-controls bottom-controls">
                                             <button
                                                 title="Move to the next lesson"
+                                                class="move-card-button icon-down-fat"
                                                 onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
                                                 disabled={lessonIdx === courseStore()!.lessons().length - 1}
-                                            >
-                                                ↓
-                                            </button>
+                                            />
                                         </div>
                                     </div>
                                 ))}

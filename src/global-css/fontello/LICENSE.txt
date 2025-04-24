@@ -28,13 +28,13 @@ Font license info
    Homepage:  http://designmodo.com/linecons-free/
 
 
-## Fontelico
+## Entypo
 
-   Copyright (C) 2012 by Fontello project
+   Copyright (C) 2012 by Daniel Bruce
 
-   Author:    Crowdsourced, for Fontello project
+   Author:    Daniel Bruce
    License:   SIL (http://scripts.sil.org/OFL)
-   Homepage:  http://fontello.com
+   Homepage:  http://www.entypo.com
 
 
 ## MFG Labs
@@ -44,5 +44,14 @@ Font license info
    Author:    MFG Labs
    License:   SIL (http://scripts.sil.org/OFL)
    Homepage:  http://www.mfglabs.com/
+
+
+## Fontelico
+
+   Copyright (C) 2012 by Fontello project
+
+   Author:    Crowdsourced, for Fontello project
+   License:   SIL (http://scripts.sil.org/OFL)
+   Homepage:  http://fontello.com
 
 

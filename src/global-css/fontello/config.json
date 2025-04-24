@@ -8,7 +8,7 @@
   "glyphs": [
     {
       "uid": "9bc2902722abb366a213a052ade360bc",
-      "css": "spin6",
+      "css": "enso",
       "code": 59449,
       "src": "fontelico"
     },
@@ -31,12 +31,6 @@
       "src": "mfglabs"
     },
     {
-      "uid": "c74dc50bfc8aa68f0d23010ad8960cb2",
-      "css": "ccw",
-      "code": 61477,
-      "src": "mfglabs"
-    },
-    {
       "uid": "587bjlxppui6u4japooa2foe58rsvicp",
       "css": "pencil",
       "code": 59393,
@@ -47,6 +41,42 @@
       "css": "trash",
       "code": 59394,
       "src": "linecons"
+    },
+    {
+      "uid": "70370693ada58ef0a60fa0984fe8d52a",
+      "css": "plus-thin",
+      "code": 59395,
+      "src": "entypo"
+    },
+    {
+      "uid": "44e04715aecbca7f266a17d5a7863c68",
+      "css": "plus-thick",
+      "code": 59396,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "335c443d3231b944287309aa2593c880",
+      "css": "down-fat",
+      "code": 59397,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "fd2ed680ef900acb68836a99ec1a4de7",
+      "css": "left-fat",
+      "code": 59398,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "54c3330bdeed0fb9042e12d16d46c9ab",
+      "css": "right-fat",
+      "code": 59399,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "d21293ba68a7dcfec696464ae64949e1",
+      "css": "up-fat",
+      "code": 59400,
+      "src": "mfglabs"
     }
   ]
 }

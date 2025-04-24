@@ -229,10 +229,6 @@
     background: rgb(180, 92, 70);
 }
 
-.card-holder.dragging {
-    opacity: 0.5;
-}
-
 .card-holder .vertical-controls {
     position: relative;
     width: 100%;
@@ -242,36 +238,33 @@
     top: 0;
 }
 
-.card-holder .vertical-controls>button,
-.card-holder .horizontal-controls>button {
-    border: none;
-    background-color: none;
-}
-
 .card-holder .horizontal-controls {
     display: flex;
     width: 100%;
+    height: 100%;
     align-items: center;
 }
 
-.card-holder .vertical-controls>button,
-.card-holder .horizontal-controls>button {
-    color: transparent;
+.card-holder .move-card-button {
+    opacity: 49.5%;
     width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+    color: transparent;
     text-align: center;
     padding: var(--oe-ctrl-button-padding);
 }
 
-.card-holder .vertical-controls>button:hover,
-.card-holder .horizontal-controls>button:hover {
+.card-holder .move-card-button:hover {
     outline: 0;
+    opacity: 100%;
 }
 
-.card-holder:hover .vertical-controls>button:not([disabled]),
-.card-holder:hover .horizontal-controls>button:not([disabled]) {
+.card-holder:hover .move-card-button:not([disabled]),
+.card-holder:hover .move-card-button:not([disabled]) {
     color: var(--oe-clr-fg);
 }
-
 
 .card-overlay-wrapper {
     position: relative;
