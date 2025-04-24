@@ -119,7 +119,6 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setStore({ lessons, courseMetadata });
     };
 
-    // Reactive effect watching external signal for the index of the current course within (or without) LESSONS_JSON
     const loadCourseFromFile = async (courseIdx: number) => {
         const config = await getAppConfig();
 
