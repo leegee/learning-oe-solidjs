@@ -58,7 +58,7 @@
 }
 
 .course-editor>header .coourse-action-buttons button {
-    opacity: 66%;
+    border: 1pt solid var(--oe-clr-border);
 }
 
 .course-editor>header .coourse-action-buttons button:hover {
@@ -114,7 +114,15 @@
 .course-editor .lesson {
     margin: 0;
     margin-bottom: 1em;
-    /* border: 1px solid var(--oe-clr-border); */
+}
+
+.course-editor .lesson h3 {
+    display: flex;
+    align-items: center;
+}
+
+.course-editor .lesson h3 .add-lesson-button-component {
+    margin-left: auto;
 }
 
 .course-editor .cards {
@@ -339,4 +347,8 @@
 
 .card-overlay button.small-control {
     font-size: 1em;
+}
+
+.lesson>header h3 .large-icon-button {
+    border: 1pt solid var(--oe-clr-border);
 }

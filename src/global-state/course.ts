@@ -69,7 +69,7 @@ export interface ICourseStore {
     getLessons: () => ILesson[];
     getTotalLessonsCount: () => number;
     setLessons: (updatedLessons: ILesson[]) => void;
-    addLesson: (lessonIdx?: number, offset?: number) => void;
+    addLesson: (lessonIdx?: number) => void;
     setTitle: (newTitle: string) => void;
     getTitle: () => string;
     initNewCourse: (courseIdx: number) => void;
@@ -196,16 +196,24 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
     const getTotalLessonsCount = createMemo(() => store.lessons.length);
 
-    const addLesson = (lessonIdx?: number, offset?: number) => {
-        setStore("lessons", (lessons) => [
-            ...lessons,
-            {
-                ...DefaultLesson,
-                index: lessonIdx ?? lessons.length,
-                offset: offset ?? 0
+    const addLesson = (insertAtLessonIdx?: number) => {
+        setStore("lessons", (lessons) => {
+            const newLesson = { ...DefaultLesson };
+            if (insertAtLessonIdx === undefined || insertAtLessonIdx > lessons.length) {
+                return [...lessons, newLesson];
             }
-        ]);
-    }
+
+            if (insertAtLessonIdx <= 0) {
+                return [newLesson, ...lessons];
+            }
+
+            return [
+                ...lessons.slice(0, insertAtLessonIdx),
+                { ...DefaultLesson },
+                ...lessons.slice(insertAtLessonIdx)
+            ];
+        });
+    };
 
     const initNewCourse = () => {
         console.log('initNewCourse enter');

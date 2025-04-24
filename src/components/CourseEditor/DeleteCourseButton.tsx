@@ -33,8 +33,6 @@ export default function DeleteCourseButton(props: IDeleteCourseButtonProps) {
         showConfirm(t('confirm_delete_course'), onConfirmed)
     }
     return (
-        <button class="delete-course-button" onClick={handleDelete} title={t('delete_course')}>
-            <span class='icon-trash' />
-        </button>
+        <button class="large-icon-button icon-trash" onClick={handleDelete} title={t('delete_course')} />
     );
 }

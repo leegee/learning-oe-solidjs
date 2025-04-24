@@ -1,20 +1,11 @@
- .add-lesson {
-     display: flex;
-     justify-content: center;
-     align-items: center;
-     border: 4pt dotted var(--oe-clr-border);
-     min-width: 7em;
-     max-width: 7em;
-     min-height: 7em;
-     max-height: 7em;
-     border-radius: 50%;
-     font-size: 22pt;
-     line-height: 1em;
-     padding: 0;
-     margin: 0;
- }
+.add-lesson-button-component {
+    display: flex;
+}
 
- .add-lesson button:hover {
-     background-color: var(--oe-clr-fg);
-     opacity: 0.3;
- }
+.add-lesson-overlay {
+    display: flex;
+    background-color: var(--oe-clr-modal-bg);
+    border: 1pt soild var(--oe-clr-border);
+    position: relative;
+    left: -2.5em;
+}
