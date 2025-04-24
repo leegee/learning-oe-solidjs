@@ -8,14 +8,15 @@ import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/ConfirmProvider';
-import { Lesson } from "../Lessons/Lesson";
+import { ILesson } from "../Lessons/Lesson";
 import EditableText from "../CardEditor/Editor/EditableText";
 import Card from "../Lessons/Card";
 import AddCardButton from './AddCardButton';
 import AddLessonButton from './AddLessonButton';
+import CourseEditorCardHolder from './CourseEditorCardHolder';
 
 export default function CourseEditor() {
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();
@@ -39,75 +40,10 @@ export default function CourseEditor() {
         setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
     });
 
-    const deleteCard = (lessonIdx: number, cardIdx: number) => {
-        if (courseStore.loading) return;
-        showConfirm(t('confirm_delete_card'), () => {
-            const updated = (courseStore()!.lessons() as Lesson[]).map((lesson, i) =>
-                i === lessonIdx
-                    ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
-                    : lesson
-            );
-            courseStore()!.setLessons(courseIdx(), updated);
-        });
-    };
-
-    const updateLesson = (lessonIdx: number, updateFn: (lesson: Lesson) => Lesson) => {
+    const updateLesson = (lessonIdx: number, updateFn: (lesson: ILesson) => ILesson) => {
         const updated = [...courseStore()!.lessons()];
         updated[lessonIdx] = updateFn(updated[lessonIdx]);
         courseStore()!.setLessons(courseIdx(), updated);
-    };
-
-    const cloneLesson = (lesson: Lesson) => ({
-        ...lesson,
-        cards: [...lesson.cards],
-    });
-
-    const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
-        const originalLessons = courseStore()!.lessons();
-        const updatedLessons = [...originalLessons];
-
-        const lesson = cloneLesson(updatedLessons[lessonIdx]);
-        const cards = [...lesson.cards];
-        const newCardIdx = cardIdx + direction;
-
-        if (newCardIdx < 0 || newCardIdx >= cards.length) return;
-
-        const [movedCard] = cards.splice(cardIdx, 1);
-        cards.splice(newCardIdx, 0, movedCard);
-
-        lesson.cards = cards;
-        updatedLessons[lessonIdx] = lesson;
-        courseStore()!.setLessons(courseIdx(), updatedLessons);
-    };
-
-    const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
-        const originalLessons = courseStore()!.lessons();
-        const newLessonIdx = lessonIdx + direction;
-
-        if (
-            newLessonIdx < 0 ||
-            newLessonIdx >= originalLessons.length ||
-            cardIdx < 0 ||
-            cardIdx >= originalLessons[lessonIdx].cards.length
-        ) return;
-
-        const updatedLessons = [...originalLessons];
-        const fromLesson = cloneLesson(updatedLessons[lessonIdx]);
-        const toLesson = cloneLesson(updatedLessons[newLessonIdx]);
-
-        const fromCards = [...fromLesson.cards];
-        const toCards = [...toLesson.cards];
-
-        const [movedCard] = fromCards.splice(cardIdx, 1);
-        toCards.push(movedCard);
-
-        fromLesson.cards = fromCards;
-        toLesson.cards = toCards;
-
-        updatedLessons[lessonIdx] = fromLesson;
-        updatedLessons[newLessonIdx] = toLesson;
-
-        courseStore()!.setLessons(courseIdx(), updatedLessons);
     };
 
 
@@ -165,70 +101,10 @@ export default function CourseEditor() {
                             <div class="cards">
                                 {lesson.cards.map((card, cardIdx) => (
                                     <div class="card-holder">
-                                        <div class="vertical-controls top-controls">
-                                            <button
-                                                title="Move up to the previous lesson"
-                                                class="move-card-button icon-up-fat"
-                                                disabled={lessonIdx === 0}
-                                                onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, -1)}
-                                            />
-                                        </div>
-
-                                        <div class="horizontal-controls">
-                                            <button
-                                                title="Swap with the card on the left"
-                                                class="move-card-button icon-left-fat"
-                                                disabled={cardIdx === 0}
-                                                onClick={() => moveCard(lessonIdx, cardIdx, -1)}
-                                            />
-
-                                            <div class="card-overlay-wrapper">
-                                                <Card
-                                                    tabindex={-1}
-                                                    card={card}
-                                                    lesson={lesson}
-                                                    ondblclick={() =>
-                                                        navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)
-                                                    }
-                                                />
-
-                                                <div class="card-overlay">
-                                                    <button
-                                                        title="Delete"
-                                                        class="control small-control"
-                                                        onClick={() => deleteCard(lessonIdx, cardIdx)}
-                                                    >
-                                                        <span class='icon-trash' />
-                                                    </button>
-
-                                                    <button
-                                                        title="Edit"
-                                                        class="control"
-                                                        onClick={() =>
-                                                            navigate(`/editor/${courseIdx()}/${lessonIdx}/${cardIdx}`)
-                                                        }
-                                                    >
-                                                        <span class='icon-pencil' />
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <button
-                                                title="Swap with the card to the right"
-                                                class="move-card-button icon-right-fat"
-                                                disabled={cardIdx === lesson.cards.length - 1}
-                                                onClick={() => moveCard(lessonIdx, cardIdx, 1)}
-                                            />
-                                        </div>
-
-                                        <div class="vertical-controls bottom-controls">
-                                            <button
-                                                title="Move to the next lesson"
-                                                class="move-card-button icon-down-fat"
-                                                onClick={() => moveCardBetweenLessons(lessonIdx, cardIdx, 1)}
-                                                disabled={lessonIdx === courseStore()!.lessons().length - 1}
-                                            />
-                                        </div>
+                                        <CourseEditorCardHolder
+                                            lesson={lesson} lessonIdx={lessonIdx}
+                                            card={card} cardIdx={cardIdx}
+                                        />
                                     </div>
                                 ))}
 

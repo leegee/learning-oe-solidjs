@@ -9,7 +9,7 @@ import { enterFullscreen } from "../../../lib/fullscreen";
 import { useI18n } from "../../../contexts/I18nProvider";
 
 const LessonIntroScreen = () => {
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
     const { t } = useI18n();

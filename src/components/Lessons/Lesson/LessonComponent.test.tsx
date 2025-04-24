@@ -1,6 +1,6 @@
 import { screen, fireEvent, waitFor } from 'solid-testing-library';
 import { renderTestElement } from '../../../../jest.setup';
-import LessonComponent, { type Lesson } from './LessonComponent';
+import LessonComponent, { type ILesson } from './LessonComponent';
 import { IMultipleChoiceCard } from '../../Cards/MultipleChoice/MultipleChoice';
 
 jest.mock('../../../components/cards', () => ({
@@ -19,7 +19,7 @@ jest.mock('../../../components/cards', () => ({
 }));
 
 describe('LessonComponent', () => {
-    const lesson: Lesson = {
+    const lesson: ILesson = {
         title: 'Test Lesson',
         cards: [
             {

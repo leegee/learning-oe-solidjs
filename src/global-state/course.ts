@@ -8,10 +8,11 @@ import { makePersisted } from "@solid-primitives/storage";
 
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
-import { type Lesson } from "../components/Lessons/Lesson";
+import { type ILesson } from "../components/Lessons/Lesson";
 import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/load-default-lessons";
+import { createMemo } from "solid-js";
 
 export type ILessonSummary = {
     title: string;
@@ -41,28 +42,28 @@ const MetadataDefault = {
 } as ICourseMetadata;
 
 export interface ICourseData extends ICourseMetadata {
-    lessons: Lesson[];
+    lessons: ILesson[];
 }
 
 export interface ICourseStore {
     store: {
         courseMetadata: ICourseMetadata | null;
         courseIdx: number;
-        lessons: Lesson[];
+        lessons: ILesson[];
         loading: boolean;
     };
-    setCourse: (args: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => void;
+    setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     setCourseIdx: (index: number) => void;
     loadCourse: (index: number) => void;
     getCourseIdx: () => number;
-    lessons: () => Lesson[];
-    setLessons: (courseIdx: number, updatedLessons: Lesson[]) => void;
+    lessons: () => ILesson[];
+    setLessons: (courseIdx: number, updatedLessons: ILesson[]) => void;
     initCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
 }
 
-const LessonsDefault: Lesson[] = [];
+const LessonsDefault: ILesson[] = [];
 let courseStoreInstance: ICourseStore;
 export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
 
@@ -80,7 +81,7 @@ const makeCourseStore = async () => {
         createStore({
             courseMetadata: null as ICourseMetadata | null,
             courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX) || 0),
-            lessons: [] as Lesson[],
+            lessons: [] as ILesson[],
             loading: false,
         }),
         {
@@ -96,7 +97,7 @@ const makeCourseStore = async () => {
         return appConfigPromise;
     };
 
-    const setCourse = ({ lessons, courseMetadata }: { lessons: Lesson[], courseMetadata: ICourseMetadata }) => {
+    const setCourse = ({ lessons, courseMetadata }: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => {
         setState({ lessons, courseMetadata });
     };
 
@@ -109,8 +110,8 @@ const makeCourseStore = async () => {
         }
 
         if (courseIdx >= config.courses.length) {
-            console.warn('Course index out of bounds:', courseIdx, '>=', config.courses.length);
-            return;
+            console.warn("Invalid course index:", courseIdx);
+            throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
 
         setState("courseIdx", courseIdx);
@@ -118,10 +119,6 @@ const makeCourseStore = async () => {
         if (courseIdx < 0) {
             console.warn("Invalid course index:", courseIdx);
             throw new Error("Negative course index? " + courseIdx);
-        }
-        if (courseIdx >= config.courses.length) {
-            console.warn("Invalid course index:", courseIdx);
-            throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
 
         setState("loading", true);
@@ -170,9 +167,10 @@ const makeCourseStore = async () => {
 
     const getCourseIdx = () => state.courseIdx;
 
-    const lessons = (): Lesson[] => state.lessons;
+    // const lessons = (): ILesson[] => state.lessons;
+    const lessons = createMemo(() => state.lessons);
 
-    const setLessons = (courseIdx: number, lessons: Lesson[]) => {
+    const setLessons = (courseIdx: number, lessons: ILesson[]) => {
         setState("lessons", lessons);
         setState("courseIdx", courseIdx);
     };

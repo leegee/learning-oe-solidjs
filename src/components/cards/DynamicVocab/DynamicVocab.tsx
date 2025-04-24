@@ -1,7 +1,7 @@
 import { createMemo } from 'solid-js';
 import VocabMatchCardComponent, { type IVocabMatchCard } from '../VocabMatch/VocabMatch';
 import { type IBaseCard } from '../BaseCard.type';
-import { type Lesson } from '../../Lessons/Lesson';
+import { type ILesson } from '../../Lessons/Lesson';
 
 export interface IDynamicVocabCard extends IBaseCard {
     class: 'dynamic-vocab';
@@ -15,7 +15,7 @@ export const defaultCard: IDynamicVocabCard = {
 
 interface IDynamicVocabCardProps {
     card: IDynamicVocabCard;
-    lesson: Lesson;
+    lesson: ILesson;
     onCorrect: (numberOfCorrectAnswers?: number) => void;
     onIncorrect: () => void;
     onComplete: () => void;

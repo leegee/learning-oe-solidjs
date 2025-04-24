@@ -6,7 +6,7 @@ import Card from '../Card';
 import { type IAnyCard } from '../../Cards';
 import { useI18n } from '../../../contexts/I18nProvider';
 
-export interface Lesson {
+export interface ILesson {
     title: string;
     description?: string;
     cards: IAnyCard[]
@@ -19,7 +19,7 @@ export const DefaultLesson = {
 };
 
 export interface ILessonProps {
-    lesson: Lesson;
+    lesson: ILesson;
     onAnswer: (cardIndex: number, incorrectAnswer?: string) => void;
     onCancel: () => void;
     onLessonComplete: () => void;

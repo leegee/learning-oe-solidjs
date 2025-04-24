@@ -1,5 +1,5 @@
 import { Switch, Match, JSX } from "solid-js";
-import { type Lesson } from "./Lesson";
+import { type ILesson } from "./Lesson";
 import { useI18n } from "../../contexts/I18nProvider";
 import {
     type IBlanksCard,
@@ -19,7 +19,7 @@ import {
 
 type ICardProps = {
     card: IAnyCard | null;
-    lesson: Lesson;
+    lesson: ILesson;
     tabindex?: number;
     onComplete?: () => void;
     onCorrect?: () => void;

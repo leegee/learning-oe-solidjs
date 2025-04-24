@@ -11,7 +11,7 @@ export interface IResetCourseButtonComponentProps {
 export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentProps) => {
     const { t } = useI18n();
     const { showConfirm } = useConfirm();
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
     const lessonStore = useLessonStore(props.courseIdx);
     const totalAnswered = createMemo(() => lessonStore!.getTotalQuestionsAnswered());
 

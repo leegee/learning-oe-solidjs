@@ -15,7 +15,7 @@ const CourseHome = () => {
     const navigate = useNavigate();
     const [courseIdx, setCourseIdx] = createSignal(Number(params.courseIdx));
 
-    const [courseStore] = createResource(() => useCourseStore());
+    const [courseStore] = createResource(useCourseStore());
     const [lessonStore, setLessonStore] = createSignal<ReturnType<typeof useLessonStore> | null>(null);
 
     // Watch for route param changes

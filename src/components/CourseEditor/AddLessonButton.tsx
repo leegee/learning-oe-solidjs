@@ -5,7 +5,7 @@ import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { DefaultLesson } from "../Lessons/Lesson";
 
 export default function AddLessonButton() {
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
 

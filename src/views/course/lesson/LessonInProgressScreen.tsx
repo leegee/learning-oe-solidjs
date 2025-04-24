@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
-import LessonComponent, { Lesson } from "../../../components/Lessons/Lesson";
+import LessonComponent, { ILesson } from "../../../components/Lessons/Lesson";
 import { useCourseStore } from "../../../global-state/course";
 import { useLessonStore } from "../../../global-state/lessons";
 
@@ -12,7 +12,7 @@ const LessonInProgressScreen = () => {
     const navigate = useNavigate();
     const lessonStore = useLessonStore(courseIndex());
 
-    const [lesson, setLesson] = createSignal<Lesson | null>(null);
+    const [lesson, setLesson] = createSignal<ILesson | null>(null);
     const [startTime, setStartTime] = createSignal(Date.now());
 
     // Set course/lesson index and load lesson once courseStore is loaded

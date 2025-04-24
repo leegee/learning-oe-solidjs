@@ -1,17 +1,17 @@
 import './LessonList.css';
 import { createResource, For, Show } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
-import { Lesson } from '../Lesson';
+import { ILesson } from '../Lesson';
 
 interface LessonListProps {
     currentLessonIndex: number;
     courseIndex: number;
-    lessons: Lesson[];
+    lessons: ILesson[];
     onLessonSelected: (lessonIndex: number) => void;
 }
 
 const LessonList = (props: LessonListProps) => {
-    const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
+    const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
 
     const onLessonSelectedLocal = (lessonIndex: number) => {
         props.onLessonSelected(lessonIndex);
