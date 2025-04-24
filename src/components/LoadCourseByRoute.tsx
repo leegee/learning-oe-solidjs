@@ -12,7 +12,6 @@ export default function LoadCourseByRoute() {
     const navigate = useNavigate();
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
-
     createEffect(() => {
         if (courseStore.loading) return;
 
@@ -24,7 +23,8 @@ export default function LoadCourseByRoute() {
         if (courseIdx === RouteFragementInitCourse) {
             const courseIdx = courseTitlesInIndexOrder(config).length;
             courseStore()!.initCourse(courseIdx);
-            return navigate('/editor/' + courseIdx);
+            console.log('go')
+            return navigate('/editor/' + courseIdx, { replace: true });
         }
 
         if (isNaN(Number(courseIdx))) {

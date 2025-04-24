@@ -30,33 +30,39 @@ export default function CourseEditor() {
 
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
-            <article class="course-editor" role="dialog" aria-modal="true">
-                <header>
-                    <h2>
-                        {t('course')}:&nbsp;
-                        <q>
-                            <EditableText value={courseTitle()} onChange={setCourseTitle} />
-                        </q>
-                    </h2>
-                    <h3>All Lessons and Cards</h3>
+            {(store) => {
+                const lessons = store().lessons();
+                return (
 
-                    {courseStore()!.lessons().length > 1 &&
-                        <nav class="lesson-pager">
-                            {courseStore()!.lessons().map((lesson, idx) => (
-                                <button
-                                    class="pager-link"
-                                    onClick={() => navigate(`#lesson-${idx}`)}
-                                    aria-label={`Go to lesson ${idx + 1}: ${lesson.title}`}
-                                >
-                                    {idx + 1}: {lesson.title}
-                                </button>
-                            ))}
-                        </nav>
-                    }
-                </header>
+                    <article class="course-editor" role="dialog" aria-modal="true">
+                        <header>
+                            <h2>
+                                {t('course')}:&nbsp;
+                                <q>
+                                    <EditableText value={courseTitle()} onChange={setCourseTitle} />
+                                </q>
+                            </h2>
+                            <h3>All Lessons and Cards</h3>
 
-                <CourseEditorLessonList />
-            </article>
+                            {lessons.length > 1 &&
+                                <nav class="lesson-pager">
+                                    {lessons.map((lesson, idx) => (
+                                        <button
+                                            class="pager-link"
+                                            onClick={() => navigate(`#lesson-${idx}`)}
+                                            aria-label={`Go to lesson ${idx + 1}: ${lesson.title}`}
+                                        >
+                                            {idx + 1}: {lesson.title}
+                                        </button>
+                                    ))}
+                                </nav>
+                            }
+                        </header>
+
+                        <CourseEditorLessonList />
+                    </article>
+                )
+            }}
         </Show>
     );
 }
