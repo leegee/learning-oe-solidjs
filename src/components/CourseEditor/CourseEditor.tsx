@@ -8,7 +8,6 @@ import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import EditableText from "../CardEditor/Editor/EditableText";
-import AddLessonButton from './AddLessonButton';
 import CourseEditorLessonList from './CourseEditorLessonList';
 
 export default function CourseEditor() {

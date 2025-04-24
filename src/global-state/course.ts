@@ -8,7 +8,7 @@ import { makePersisted } from "@solid-primitives/storage";
 
 import Ajv from "ajv";
 import courseLessonsSchema from "../../lessons.schema.json";
-import { type ILesson } from "../components/Lessons/Lesson";
+import { DefaultLesson, type ILesson } from "../components/Lessons/Lesson";
 import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/load-default-lessons";
@@ -58,6 +58,7 @@ export interface ICourseStore {
     getCourseIdx: () => number;
     lessons: () => ILesson[];
     setLessons: (courseIdx: number, updatedLessons: ILesson[]) => void;
+    addLesson: (courseIdx: number) => void;
     initCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
@@ -170,9 +171,21 @@ const makeCourseStore = async () => {
     const lessons = createMemo(() => state.lessons);
 
     const setLessons = (courseIdx: number, lessons: ILesson[]) => {
-        setState("lessons", lessons);
-        setState("courseIdx", courseIdx);
+        setState({
+            "lessons": lessons,
+            "courseIdx": courseIdx,
+        });
     };
+
+    const addLesson = (courseIdx: number) => {
+        setState({
+            courseIdx: Number(courseIdx),
+            lessons: [
+                ...state.lessons,
+                DefaultLesson
+            ]
+        });
+    }
 
     const initCourse = (courseIdx: number) => {
         console.log('initCourse enter');
@@ -210,6 +223,7 @@ const makeCourseStore = async () => {
         getCourseIdx,
         lessons,
         setLessons,
+        addLesson,
         lessonTitles2Indicies: CourseTitles2Indicies,
         reset,
     };
