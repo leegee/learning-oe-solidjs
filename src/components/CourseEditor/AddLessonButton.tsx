@@ -1,32 +1,29 @@
 import "./AddLessonButton.css";
-import { createResource } from "solid-js";
-import { useNavigate, useParams } from "@solidjs/router";
+import { createResource, Show } from "solid-js";
+import { useParams } from "@solidjs/router";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { DefaultLesson } from "../Lessons/Lesson";
 
 export default function AddLessonButton() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
-    const navigate = useNavigate();
 
     const handleClick = () => {
-        const nextFreeLessonIdx = courseStore()!.lessons().length;
+        const store = courseStore();
+        if (courseStore.loading || !store) return;
 
-        courseStore()!.setLessons(
+        store.setLessons(
             Number(params.courseIdx),
             [
-                ...courseStore()!.lessons(),
+                ...store.lessons(),
                 DefaultLesson
             ]
         );
-
-        const newCardIdx = courseStore()!.lessons().length - 1;
-        navigate(`/editor/${params.courseIdx}/${nextFreeLessonIdx}/${newCardIdx}`);
     }
 
     return (
-        <button class={'add-lesson'} onClick={() => handleClick()} title='Add a new lesson to this course'>
-            <span class="utf8-icon-add" />
-        </button>
+        <Show when={!courseStore.loading} fallback={<p>Loading...</p>}>
+            <button class='add-lesson utf8-icon-add' onClick={() => handleClick()} title='Add a new lesson to this course' />
+        </Show>
     );
 }

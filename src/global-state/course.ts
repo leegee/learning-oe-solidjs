@@ -167,7 +167,6 @@ const makeCourseStore = async () => {
 
     const getCourseIdx = () => state.courseIdx;
 
-    // const lessons = (): ILesson[] => state.lessons;
     const lessons = createMemo(() => state.lessons);
 
     const setLessons = (courseIdx: number, lessons: ILesson[]) => {
