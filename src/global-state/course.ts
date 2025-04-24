@@ -67,6 +67,7 @@ export interface ICourseStore {
     saveCard: (card: IAnyCard, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
     getLessons: () => ILesson[];
+    getTotalLessonsCount: () => number;
     setLessons: (updatedLessons: ILesson[]) => void;
     addLesson: (courseIdx: number) => void;
     setTitle: (newTitle: string) => void;
@@ -191,9 +192,9 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
     const getLessons = createMemo(() => store.lessons);
 
-    const setLessons = (lessons: ILesson[]) => {
-        setStore({ "lessons": lessons, });
-    };
+    const setLessons = (lessons: ILesson[]) => setStore({ "lessons": lessons, });
+
+    const getTotalLessonsCount = createMemo(() => store.lessons.length);
 
     const addLesson = () => {
         setStore({
@@ -271,8 +272,9 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         saveCard,
         deleteCard,
         setLessons,
-        addLesson,
+        getTotalLessonsCount,
         getLessons,
+        addLesson,
         lessonTitles2Indicies: CourseTitles2Indicies,
         reset,
     };
