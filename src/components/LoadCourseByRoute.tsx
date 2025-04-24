@@ -22,7 +22,7 @@ export default function LoadCourseByRoute() {
 
         if (courseIdx === RouteFragementInitCourse) {
             const courseIdx = courseTitlesInIndexOrder(config).length;
-            courseStore()!.initCourse(courseIdx);
+            courseStore()!.initNewCourse(courseIdx);
             console.log('go')
             return navigate('/editor/' + courseIdx, { replace: true });
         }

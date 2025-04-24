@@ -35,7 +35,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
     };
 
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
-        const originalLessons = courseStore()!.lessons();
+        const originalLessons = courseStore()!.getLessons();
         const updatedLessons = [...originalLessons];
 
         const lesson = cloneLesson(updatedLessons[lessonIdx]);
@@ -54,7 +54,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
 
     const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
         if (courseStore.loading) return 'Loading...';
-        const originalLessons = courseStore()!.lessons();
+        const originalLessons = courseStore()!.getLessons();
         const newLessonIdx = lessonIdx + direction;
 
         if (
@@ -147,7 +147,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
                         title="Move to the next lesson"
                         class="move-card-button icon-down-fat"
                         onClick={() => moveCardBetweenLessons(props.lessonIdx, props.cardIdx, 1)}
-                        disabled={props.lessonIdx === courseStore()!.lessons().length - 1}
+                        disabled={props.lessonIdx === courseStore()!.getLessons().length - 1}
                     />
                 </div>
             </div>

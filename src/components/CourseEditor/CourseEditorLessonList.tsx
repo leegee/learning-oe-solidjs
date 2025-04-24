@@ -27,14 +27,14 @@ export default function CourseEditorLessonList() {
     });
 
     const updateLesson = (lessonIdx: number, updateFn: (lesson: ILesson) => ILesson) => {
-        const updated = [...courseStore()!.lessons()];
+        const updated = [...courseStore()!.getLessons()];
         updated[lessonIdx] = updateFn(updated[lessonIdx]);
         courseStore()!.setLessons(courseIdx(), updated);
     };
 
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
-            {courseStore()!.lessons().map((lesson, lessonIdx) => (
+            {courseStore()!.getLessons().map((lesson, lessonIdx) => (
                 <section id={`lesson-${lessonIdx}`} class='lesson'>
                     <header>
                         <h3>

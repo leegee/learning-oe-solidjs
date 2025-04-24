@@ -33,7 +33,7 @@ export default function CourseEditor() {
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
             {(store) => {
-                const lessons = store().lessons();
+                const lessons = store().getLessons();
                 return (
 
                     <article class="course-editor" role="dialog" aria-modal="true">

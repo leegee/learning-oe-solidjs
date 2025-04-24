@@ -18,7 +18,7 @@ export default function AddCardButton(props: IAddCardButtonProps) {
         if (!store) return;
 
         const courseIdx = Number(params.courseIdx);
-        const lessons = store.lessons();
+        const lessons = store.getLessons();
 
         if (!Array.isArray(lessons) || props.lessonIdx < 0 || props.lessonIdx >= lessons.length) {
             console.error("Invalid lesson index or malformed lessons:", lessons, props.lessonIdx);

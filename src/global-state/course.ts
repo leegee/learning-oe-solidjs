@@ -60,10 +60,10 @@ export interface ICourseStore {
     saveCard: (card: IAnyCard, courseIdx: number, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
     getCourseIdx: () => number;
-    lessons: () => ILesson[];
+    getLessons: () => ILesson[];
     setLessons: (courseIdx: number, updatedLessons: ILesson[]) => void;
     addLesson: (courseIdx: number) => void;
-    initCourse: (courseIdx: number) => void;
+    initNewCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx?: number) => void;
 }
@@ -114,7 +114,7 @@ const makeCourseStore = async () => {
 
         const newIdx = 0;
         setCourseIdx(newIdx);
-        await loadCourse(newIdx);
+        await loadCourseFromFile(newIdx);
     };
 
     const setCourse = ({ lessons, courseMetadata }: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => {
@@ -122,7 +122,7 @@ const makeCourseStore = async () => {
     };
 
     // Reactive effect watching external signal for the index of the current course within (or without) LESSONS_JSON
-    const loadCourse = async (courseIdx: number) => {
+    const loadCourseFromFile = async (courseIdx: number) => {
         const config = await getAppConfig();
 
         if (isNaN(courseIdx)) {
@@ -187,7 +187,7 @@ const makeCourseStore = async () => {
 
     const getCourseIdx = () => state.courseIdx;
 
-    const lessons = createMemo(() => state.lessons);
+    const getLessons = createMemo(() => state.lessons);
 
     const setLessons = (courseIdx: number, lessons: ILesson[]) => {
         setState({
@@ -206,8 +206,8 @@ const makeCourseStore = async () => {
         });
     }
 
-    const initCourse = (courseIdx: number) => {
-        console.log('initCourse enter');
+    const initNewCourse = (courseIdx: number) => {
+        console.log('initNewCourse enter');
         setState({ loading: true });
         setCourse({
             lessons: [...LessonsDefault],
@@ -215,7 +215,7 @@ const makeCourseStore = async () => {
         });
         setCourseIdx(courseIdx);
         setState({ loading: false });
-        console.log('initCourse done');
+        console.log('initNewCourse done');
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
@@ -261,17 +261,17 @@ const makeCourseStore = async () => {
 
     return {
         store: state,
-        initCourse,
-        loadCourse,
+        initNewCourse,
+        loadCourseFromFile,
+        setCourseIdx,
+        getCourseIdx,
+        setCourse,
         deleteCourse,
         saveCard,
         deleteCard,
-        setCourse,
-        setCourseIdx,
-        getCourseIdx,
-        lessons,
         setLessons,
         addLesson,
+        getLessons,
         lessonTitles2Indicies: CourseTitles2Indicies,
         reset,
     };
