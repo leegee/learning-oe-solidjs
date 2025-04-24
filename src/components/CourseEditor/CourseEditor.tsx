@@ -5,24 +5,17 @@
 import './CourseEditor.css';
 import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import { useNavigate, useParams } from "@solidjs/router";
+import { useNavigate } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
-import { useConfirm } from '../../contexts/ConfirmProvider';
-import { ILesson } from "../Lessons/Lesson";
 import EditableText from "../CardEditor/Editor/EditableText";
-import Card from "../Lessons/Card";
-import AddCardButton from './AddCardButton';
 import AddLessonButton from './AddLessonButton';
-import CourseEditorCardHolder from './CourseEditorCardHolder';
+import CourseEditorLessonList from './CourseEditorLessonList';
 
 export default function CourseEditor() {
     const [courseStore] = createResource<ICourseStore, true>(useCourseStore);
-    const { showConfirm } = useConfirm();
     const { t } = useI18n();
     const navigate = useNavigate();
-    const params = useParams();
     const [courseTitle, setCourseTitle] = createSignal("");
-    const courseIdx = () => Number(params.courseIdx) ?? -1;
 
     createEffect(() => {
         document.body.classList.add("editing-card");
@@ -33,19 +26,8 @@ export default function CourseEditor() {
 
     createEffect(() => {
         if (courseStore.loading) return;
-        if (courseStore()?.getCourseIdx !== courseIdx) {
-            courseStore()?.setCourseIdx(courseIdx());
-        }
-        courseStore()!.setLessons(courseIdx(), courseStore()!.store.lessons);
         setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
     });
-
-    const updateLesson = (lessonIdx: number, updateFn: (lesson: ILesson) => ILesson) => {
-        const updated = [...courseStore()!.lessons()];
-        updated[lessonIdx] = updateFn(updated[lessonIdx]);
-        courseStore()!.setLessons(courseIdx(), updated);
-    };
-
 
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
@@ -74,51 +56,13 @@ export default function CourseEditor() {
                     }
                 </header>
 
-                <div class="lessons">
-                    {courseStore()!.lessons().map((lesson, lessonIdx) => (
-                        <section id={`lesson-${lessonIdx}`}>
-                            <header>
-                                <h3>
-                                    {lessonIdx + 1}: &nbsp;
-                                    <EditableText
-                                        value={lesson.title}
-                                        onChange={(newVal) =>
-                                            updateLesson(lessonIdx, lesson => ({ ...lesson, title: newVal }))
-                                        }
-                                    />
-                                </h3>
-
-                                <h4>
-                                    <EditableText
-                                        value={lesson.description ?? ""}
-                                        onChange={(newVal) =>
-                                            updateLesson(lessonIdx, lesson => ({ ...lesson, description: newVal }))
-                                        }
-                                    />
-                                </h4>
-                            </header>
-
-                            <div class="cards">
-                                {lesson.cards.map((card, cardIdx) => (
-                                    <div class="card-holder">
-                                        <CourseEditorCardHolder
-                                            lesson={lesson} lessonIdx={lessonIdx}
-                                            card={card} cardIdx={cardIdx}
-                                        />
-                                    </div>
-                                ))}
-
-                                <AddCardButton lessonIdx={lessonIdx} />
-                            </div>
-                        </section>
-                    ))}
+                <section class="lessons">
+                    <CourseEditorLessonList />
 
                     <section>
-                        <div>
-                            <AddLessonButton />
-                        </div>
+                        <AddLessonButton />
                     </section>
-                </div>
+                </section>
             </article>
         </Show>
     );
