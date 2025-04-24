@@ -20,23 +20,18 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
     const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
-    const courseIdx = () => Number(params.courseIdx) ?? -1;
 
     const cloneLesson = (lesson: ILesson) => ({
         ...lesson,
         cards: [...lesson.cards],
     });
 
-    const deleteCard = (lessonIdx: number, cardIdx: number) => {
+    const confirmDeleteCard = () => {
         if (courseStore.loading) return;
-        showConfirm(t('confirm_delete_card'), () => {
-            const updated = (courseStore()!.lessons() as ILesson[]).map((lesson, i) =>
-                i === lessonIdx
-                    ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
-                    : lesson
-            );
-            courseStore()!.setLessons(courseIdx(), updated);
-        });
+        showConfirm(
+            t('confirm_delete_card'),
+            () => courseStore()!.deleteCard(Number(params.courseIdx), Number(props.lessonIdx), Number(props.cardIdx))
+        );
     };
 
     const moveCard = (lessonIdx: number, cardIdx: number, direction: number) => {
@@ -54,7 +49,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
 
         lesson.cards = cards;
         updatedLessons[lessonIdx] = lesson;
-        courseStore()!.setLessons(courseIdx(), updatedLessons);
+        courseStore()!.setLessons(Number(params.courseIdx), updatedLessons);
     };
 
     const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
@@ -85,7 +80,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
         updatedLessons[lessonIdx] = fromLesson;
         updatedLessons[newLessonIdx] = toLesson;
 
-        courseStore()!.setLessons(courseIdx(), updatedLessons);
+        courseStore()!.setLessons(Number(params.courseIdx), updatedLessons);
     };
 
     return (
@@ -114,7 +109,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
                             card={props.card}
                             lesson={props.lesson}
                             ondblclick={() =>
-                                navigate(`/editor/${courseIdx()}/${props.lessonIdx}/${props.cardIdx}`)
+                                navigate(`/editor/${params.courseIdx}/${props.lessonIdx}/${props.cardIdx}`)
                             }
                         />
 
@@ -122,7 +117,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
                             <button
                                 title="Delete"
                                 class="control small-control"
-                                onClick={() => deleteCard(props.lessonIdx, props.cardIdx)}
+                                onClick={() => confirmDeleteCard()}
                             >
                                 <span class='icon-trash' />
                             </button>
@@ -131,7 +126,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
                                 title="Edit"
                                 class="control"
                                 onClick={() =>
-                                    navigate(`/editor/${courseIdx()}/${props.lessonIdx}/${props.cardIdx}`)
+                                    navigate(`/editor/${params.courseIdx}/${props.lessonIdx}/${props.cardIdx}`)
                                 }
                             >
                                 <span class='icon-pencil' />

@@ -52,10 +52,11 @@ export interface ICourseStore {
         lessons: ILesson[];
         loading: boolean;
     };
-    deleteCourse: (courseIdx: number) => void;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     setCourseIdx: (index: number) => void;
     loadCourse: (index: number) => void;
+    deleteCard: (courseIdx: number, lessonIdx: number, cardIdx: number) => void;
+    deleteCourse: (courseIdx: number) => void;
     getCourseIdx: () => number;
     lessons: () => ILesson[];
     setLessons: (courseIdx: number, updatedLessons: ILesson[]) => void;
@@ -222,6 +223,15 @@ const makeCourseStore = async () => {
         }));
     };
 
+    const deleteCard = (courseIdx: number, lessonIdx: number, cardIdx: number) => {
+        const updated = (state.lessons).map((lesson, i) =>
+            i === lessonIdx
+                ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
+                : lesson
+        );
+        setLessons(courseIdx, updated);
+    }
+
     const reset = (courseIdx?: number) => {
         const idx = courseIdx || getCourseIdx();
         localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
@@ -235,6 +245,7 @@ const makeCourseStore = async () => {
         initCourse,
         loadCourse,
         deleteCourse,
+        deleteCard,
         setCourse,
         setCourseIdx,
         getCourseIdx,
