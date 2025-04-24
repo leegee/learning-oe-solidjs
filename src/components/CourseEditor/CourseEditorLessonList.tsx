@@ -35,7 +35,7 @@ export default function CourseEditorLessonList() {
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
             {courseStore()!.lessons().map((lesson, lessonIdx) => (
-                <section id={`lesson-${lessonIdx}`}>
+                <section id={`lesson-${lessonIdx}`} class='lesson'>
                     <header>
                         <h3>
                             {lessonIdx + 1}: &nbsp;
@@ -72,10 +72,11 @@ export default function CourseEditorLessonList() {
                 </section>
             ))}
 
-            <section>
-                <div>
-                    <AddLessonButton />
-                </div>
+            <section class='lesson'>
+                <header>
+                    <h3>Add a new lesson</h3>
+                </header>
+                <AddLessonButton />
             </section>
         </Show>
     );

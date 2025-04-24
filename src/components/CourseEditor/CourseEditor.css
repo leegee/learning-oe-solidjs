@@ -31,8 +31,7 @@
     gap: 1em;
     border: 1pt solid var(--oe-clr-border);
     padding: 1em;
-    margin: 1em 0;
-
+    margin: 0 0 1em 0;
 }
 
 .course-editor section header h3 {
@@ -89,6 +88,12 @@
 .course-editor .lesson-pager .pager-link:hover {
     outline: 1pt solid var(--oe-clr-highlight);
     opacity: 100%;
+}
+
+.course-editor .lesson {
+    margin: 0;
+    margin-bottom: 1em;
+    /* border: 1px solid var(--oe-clr-border); */
 }
 
 .course-editor .cards {

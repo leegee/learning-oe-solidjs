@@ -56,13 +56,7 @@ export default function CourseEditor() {
                     }
                 </header>
 
-                <section class="lessons">
-                    <CourseEditorLessonList />
-
-                    <section>
-                        <AddLessonButton />
-                    </section>
-                </section>
+                <CourseEditorLessonList />
             </article>
         </Show>
     );
