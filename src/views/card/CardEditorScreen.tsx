@@ -62,22 +62,10 @@ const Editor = () => {
         cStore.setCourseIdx(courseIdx());
     });
 
-    const handleSave = (updatedCard: IAnyCard) => {
+    const onSave = (updatedCard: IAnyCard) => {
         const cStore = courseStore();
         if (!cStore) return;
-
-        const updatedLessons = cStore.store.lessons.map((lesson, lIdx) =>
-            lIdx === lessonIdx()
-                ? {
-                    ...lesson,
-                    cards: lesson.cards.map((card, cIdx) =>
-                        cIdx === cardIdx() ? updatedCard : card
-                    ),
-                }
-                : lesson
-        );
-
-        cStore.setLessons(courseIdx(), updatedLessons)
+        cStore.saveCard(updatedCard, courseIdx(), lessonIdx(), cardIdx());
         navigate(-1);
     };
 
@@ -89,7 +77,7 @@ const Editor = () => {
             <article>
                 <CardEditor
                     card={currentCard()!}
-                    onSave={handleSave}
+                    onSave={onSave}
                     onCancel={() => navigate(`/editor/${courseIdx()}`)}
                 />
             </article>

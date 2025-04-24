@@ -13,6 +13,7 @@ import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/load-default-lessons";
 import { createMemo } from "solid-js";
+import { IAnyCard } from "../components/Cards";
 
 export type ILessonSummary = {
     title: string;
@@ -56,6 +57,7 @@ export interface ICourseStore {
     setCourseIdx: (index: number) => void;
     loadCourse: (index: number) => void;
     deleteCard: (courseIdx: number, lessonIdx: number, cardIdx: number) => void;
+    saveCard: (card: IAnyCard, courseIdx: number, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
     getCourseIdx: () => number;
     lessons: () => ILesson[];
@@ -223,6 +225,23 @@ const makeCourseStore = async () => {
         }));
     };
 
+    const saveCard = (updatedCard: IAnyCard, courseIdx: number, lessonIdx: number, cardIdx: number) => {
+        const updatedLessons = state.lessons.map((lesson, lIdx) =>
+            lIdx === lessonIdx
+                ? {
+                    ...lesson,
+                    cards: lesson.cards.map((card, cIdx) =>
+                        cIdx === cardIdx ? updatedCard : card
+                    ),
+                }
+                : lesson
+        );
+
+        setLessons(courseIdx, updatedLessons);
+        console.log('updated card')
+    };
+
+
     const deleteCard = (courseIdx: number, lessonIdx: number, cardIdx: number) => {
         const updated = (state.lessons).map((lesson, i) =>
             i === lessonIdx
@@ -245,6 +264,7 @@ const makeCourseStore = async () => {
         initCourse,
         loadCourse,
         deleteCourse,
+        saveCard,
         deleteCard,
         setCourse,
         setCourseIdx,
