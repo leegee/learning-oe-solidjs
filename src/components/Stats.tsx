@@ -15,7 +15,7 @@ const Stats = (props: IStatsProps) => {
     }
 
     return (
-        <section class="stats-component">
+        <section class="stats-component card">
             <h2>{t('progress')}</h2>
 
             <table>
