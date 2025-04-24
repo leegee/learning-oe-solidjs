@@ -8,22 +8,17 @@ interface Answers {
 }
 
 export const useLessonStore = (courseIdx: number) => {
-  const storageName = `lesson-store-${courseIdx}`;
+  const course_storage_key = `lesson-store-${courseIdx}`;
 
   const [state, setState] = makePersisted(
     createStore({
-      lessonIndex: 0,
       answers: {} as Answers,
     }),
     {
-      name: storageName,
+      name: course_storage_key,
       storage: localStorage,
     }
   );
-
-  const updateLessonIdx = (newLessonIndex: number) => {
-    setState('lessonIndex', newLessonIndex);
-  };
 
   const saveAnswer = (
     lessonIdx: number,
@@ -102,8 +97,6 @@ export const useLessonStore = (courseIdx: number) => {
   };
 
   return {
-    lessonIndex: state.lessonIndex,
-    updateLessonIdx,
     saveAnswer,
     getLessonAnswers,
     resetLesson,

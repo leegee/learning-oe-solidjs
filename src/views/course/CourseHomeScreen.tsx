@@ -29,15 +29,9 @@ const CourseHome = () => {
     // Sync courseStore and update lessonStore
     createEffect(() => {
         if (courseStore.loading) return;
-
         const cs = courseStore();
         const idx = courseIdx();
         if (!cs) return;
-
-        if (cs.getCourseIdx() !== idx) {
-            cs.setCourseIdx(idx);
-        }
-
         setLessonStore(useLessonStore(idx));
     });
 

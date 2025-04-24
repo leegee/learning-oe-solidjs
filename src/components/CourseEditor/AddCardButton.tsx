@@ -33,7 +33,7 @@ export default function AddCardButton(props: IAddCardButtonProps) {
                 : lesson
         );
 
-        store.setLessons(courseIdx, updatedLessons);
+        store.setLessons(updatedLessons);
 
         const newCardIdx = updatedLessons[props.lessonIdx]?.cards?.length - 1;
         if (newCardIdx == null || newCardIdx < 0) {

@@ -32,7 +32,7 @@ export default function LoadCourseByRoute() {
         }
 
         loadedCourses.add(courseIdx);
-        courseStore()!.loadCourse(Number(courseIdx));
+        courseStore()!.loadCourseFromFile(Number(courseIdx));
     });
 
     return null;

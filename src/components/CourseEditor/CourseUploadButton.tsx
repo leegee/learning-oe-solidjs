@@ -5,7 +5,7 @@ export interface ICourseSaveButtonProps {
     courseIdx: number;
 }
 
-const CourseLoadButtons = (props: ICourseSaveButtonProps) => {
+const CourseUploadButton = (props: ICourseSaveButtonProps) => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     let errorDialogRef: HTMLDialogElement | null = null;
     let okDialogRef: HTMLDialogElement | null = null;
@@ -13,7 +13,8 @@ const CourseLoadButtons = (props: ICourseSaveButtonProps) => {
     const handleLoad = async () => {
         if (courseStore.loading) return;
 
-        courseStore()?.setCourseIdx(props.courseIdx);
+        alert('todo')
+        courseStore()?.loadCourseFromFile(props.courseIdx);
 
         try {
             okDialogRef?.showModal();
@@ -55,4 +56,4 @@ const CourseLoadButtons = (props: ICourseSaveButtonProps) => {
     );
 };
 
-export default CourseLoadButtons;
+export default CourseUploadButton;

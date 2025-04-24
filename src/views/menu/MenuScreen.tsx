@@ -8,9 +8,9 @@ import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
 import { useI18n } from "../../contexts/I18nProvider";
-import CourseSaveButton from '../../components/CourseEditor/CourseSaveButton';
+import CourseDownloadButton from '../../components/CourseEditor/CourseDownloadButton';
 import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
-import CourseLoadButton from '../../components/CourseEditor/CourseLoadButton';
+import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
@@ -20,19 +20,7 @@ const MenuScreen = () => {
     const { config } = useConfigContext();
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);
 
-    // Use the store when it's resolved
-    createEffect(() => {
-        const store = courseStore();
-        if (store) {
-            setLocalCourseIndex(store.getCourseIdx());
-        }
-    });
-
     const setLocalSelectedCourse = (courseIndex: number) => {
-        const store = courseStore();
-        if (store) {
-            store.setCourseIdx(courseIndex);
-        }
         setLocalCourseIndex(courseIndex);
         navigate('/course/' + courseIndex);
     };
@@ -43,7 +31,6 @@ const MenuScreen = () => {
                 console.debug('local course index is NaN?');
                 return;
             }
-            courseStore()!.setCourseIdx(localCourseIndex());
         }
     });
 
@@ -52,7 +39,7 @@ const MenuScreen = () => {
             <section class='card'>
                 <TitleComponent title={config.menuTitle || config.appTitle} />
 
-                {courseStore() && courseStore()!.getCourseIdx() === -1 && <h3>{t('choose_a_course')}</h3>}
+                {<h3>{t('choose_a_course')}</h3>}
 
                 <nav class="course-menu">
                     {/* {config.courses.map((course, courseIdx) => ( */}
@@ -63,7 +50,7 @@ const MenuScreen = () => {
                             </a>
                             <span class='course-action-buttons'>
                                 <ResetCourseButtonComponent courseIdx={courseIdx} />
-                                <CourseSaveButton courseIdx={courseIdx} />
+                                <CourseDownloadButton />
                                 <CourseEditorButton courseIdx={courseIdx} />
                             </span>
                         </li>

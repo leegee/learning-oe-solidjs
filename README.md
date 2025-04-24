@@ -55,5 +55,5 @@ Save & Load custom lessons: @solid-primitives/storage:
 ## Thanks:
 
 * The [Junicode](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
-* SolidJS
+* `SolidJS`, `@solid-primitives/storage`, `solid-js/store`
 * Vite

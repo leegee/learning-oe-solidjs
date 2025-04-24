@@ -5,7 +5,6 @@
 import './CourseEditor.css';
 import { createEffect, createResource, onCleanup, Show } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import { useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { ILesson } from "../Lessons/Lesson";
 import EditableText from "../CardEditor/Editor/EditableText";
@@ -16,8 +15,6 @@ import CourseEditorCardHolder from './CourseEditorCardHolder';
 export default function CourseEditorLessonList() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { t } = useI18n();
-    const params = useParams();
-    const courseIdx = () => Number(params.courseIdx) ?? -1;
 
     createEffect(() => {
         document.body.classList.add("editing-card");
@@ -27,9 +24,9 @@ export default function CourseEditorLessonList() {
     });
 
     const updateLesson = (lessonIdx: number, updateFn: (lesson: ILesson) => ILesson) => {
-        const updated = [...courseStore()!.getLessons()];
-        updated[lessonIdx] = updateFn(updated[lessonIdx]);
-        courseStore()!.setLessons(courseIdx(), updated);
+        const updatedLessons = [...courseStore()!.getLessons()];
+        updatedLessons[lessonIdx] = updateFn(updatedLessons[lessonIdx]);
+        courseStore()!.setLessons(updatedLessons);
     };
 
     return (

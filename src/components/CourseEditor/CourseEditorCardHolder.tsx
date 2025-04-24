@@ -1,4 +1,4 @@
-import { createEffect, createResource, Show } from "solid-js";
+import { createResource, Show } from "solid-js";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useI18n } from "../../contexts/I18nProvider";
@@ -30,7 +30,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
         if (courseStore.loading) return;
         showConfirm(
             t('confirm_delete_card'),
-            () => courseStore()!.deleteCard(Number(params.courseIdx), Number(props.lessonIdx), Number(props.cardIdx))
+            () => courseStore()!.deleteCard(Number(props.lessonIdx), Number(props.cardIdx))
         );
     };
 
@@ -49,7 +49,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
 
         lesson.cards = cards;
         updatedLessons[lessonIdx] = lesson;
-        courseStore()!.setLessons(Number(params.courseIdx), updatedLessons);
+        courseStore()!.setLessons(updatedLessons);
     };
 
     const moveCardBetweenLessons = (lessonIdx: number, cardIdx: number, direction: number) => {
@@ -80,7 +80,7 @@ export default function CourseEditorCardHolder(props: ICourseEditorCardHolderPro
         updatedLessons[lessonIdx] = fromLesson;
         updatedLessons[newLessonIdx] = toLesson;
 
-        courseStore()!.setLessons(Number(params.courseIdx), updatedLessons);
+        courseStore()!.setLessons(updatedLessons);
     };
 
     return (

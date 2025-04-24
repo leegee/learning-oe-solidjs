@@ -1,6 +1,6 @@
 import './LessonIntroScreen.css';
 
-import { createEffect, createMemo, createResource, Show, } from "solid-js";
+import { createMemo, createResource, Show, } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 
 import { useLessonStore } from "../../../global-state/lessons";
@@ -19,14 +19,6 @@ const LessonIntroScreen = () => {
 
     const lessonStore = createMemo(() => useLessonStore(courseIdx()));
 
-    createEffect(() => {
-        const cStore = courseStore();
-        if (cStore) {
-            cStore.setCourseIdx(courseIdx());
-            lessonStore()?.updateLessonIdx(courseIdx(), lessonIdx());
-        }
-    });
-
     const lesson = createMemo(() => {
         const store = courseStore();
         if (!store || !store.store) return undefined;
@@ -35,7 +27,7 @@ const LessonIntroScreen = () => {
 
     const handleClick = () => {
         enterFullscreen();
-        lessonStore()?.resetLesson(courseIdx(), lessonIdx());
+        lessonStore()?.resetLesson(lessonIdx());
         navigate(`/course/${courseIdx()}/${lessonIdx()}/in-progress`);
     };
 

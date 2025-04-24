@@ -59,13 +59,12 @@ const Editor = () => {
     createEffect(() => {
         const cStore = courseStore();
         if (!cStore) return;
-        cStore.setCourseIdx(courseIdx());
     });
 
     const onSave = (updatedCard: IAnyCard) => {
         const cStore = courseStore();
         if (!cStore) return;
-        cStore.saveCard(updatedCard, courseIdx(), lessonIdx(), cardIdx());
+        cStore.saveCard(updatedCard, lessonIdx(), cardIdx());
         navigate(-1);
     };
 

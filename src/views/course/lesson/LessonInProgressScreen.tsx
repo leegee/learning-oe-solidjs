@@ -18,11 +18,8 @@ const LessonInProgressScreen = () => {
     // Set course/lesson index and load lesson once courseStore is loaded
     createEffect(() => {
         const store = courseStore();
-        const courseIdx = courseIndex();
         const lessonIdx = lessonIndex();
         if (store && store.store.lessons && store.store.lessons[lessonIdx]) {
-            store.setCourseIdx(courseIdx);
-            lessonStore!.updateLessonIdx(courseIdx, lessonIdx);
             setLesson(store.store.lessons[lessonIdx]);
             setStartTime(Date.now());
         }
@@ -33,7 +30,7 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-        lessonStore!.saveAnswer(courseIndex(), lessonIndex(), cardIndex, incorrectAnswer || '');
+        lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
     };
 
     const onLessonComplete = () => {

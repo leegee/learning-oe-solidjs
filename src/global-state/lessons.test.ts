@@ -14,7 +14,6 @@ describe("state", () => {
         const [getCourseStore] = createResource<ICourseStore, true>(useCourseStore);
         courseStore = await getCourseStore()!;
         localStorage.clear();
-        courseStore.setCourseIdx(1);
     });
 
     describe("saveAnswer", () => {
@@ -229,28 +228,15 @@ describe("state", () => {
             });
 
             it("should return the saved course index from localStorage", () => {
-                localStorage.setItem(storageKeys.COURSE_INDEX, "3");
+                localStorage.setItem(storageKeys.CURRENT_COURSE_INDEX, "3");
                 expect(courseStore.getCourseIdx()).toBe(3);
             });
 
             it("should return 0 if saved course index is not a valid number", () => {
-                localStorage.setItem(storageKeys.COURSE_INDEX, "invalid");
+                localStorage.setItem(storageKeys.CURRENT_COURSE_INDEX, "invalid");
                 expect(courseStore.getCourseIdx()).toBe(0);
             });
         });
-
-        describe("courseStore.setCourseIdx", () => {
-            it("should save the course index in localStorage", () => {
-                courseStore.setCourseIdx(5);
-                expect(localStorage.getItem(storageKeys.COURSE_INDEX)).toBe("5");
-            });
-
-            it("should update the global courseStore.getCourseIdx() value", () => {
-                courseStore.setCourseIdx(7);
-                expect(courseStore.getCourseIdx()).toBe(7);
-            });
-        });
-
 
     });
 

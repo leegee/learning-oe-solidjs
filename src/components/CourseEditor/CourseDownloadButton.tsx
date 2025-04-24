@@ -1,18 +1,14 @@
 import { createResource } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 
-export interface ICourseSaveButtonProps {
-    courseIdx: number;
-}
 
-const CourseSaveButton = (props: ICourseSaveButtonProps) => {
+const CourseDownloadButton = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     let errorDialogRef: HTMLDialogElement | null = null;
 
     const handleSave = async () => {
         if (courseStore.loading) return;
 
-        courseStore()?.setCourseIdx(props.courseIdx);
         const filename = 'lessons.lson.json';
 
         try {
@@ -58,13 +54,11 @@ const CourseSaveButton = (props: ICourseSaveButtonProps) => {
                     <h3>Error saving lessons</h3>
                 </header>
                 <footer>
-                    <button class="large-icon-button" onClick={() => errorDialogRef?.close()}>
-                        <span class="utf8-icon-close" />
-                    </button>
+                    <button class="large-icon-button utf8-icon-close" onClick={() => errorDialogRef?.close()} />
                 </footer>
             </dialog>
         </>
     );
 };
 
-export default CourseSaveButton;
+export default CourseDownloadButton;

@@ -2,6 +2,8 @@
 * This is a singleton store. Loading of course data is async, 
 * but this isn't needed on every init as the first instantiation 
 * is cached and returned.
+* 
+* One course is in-memory at a time, indicated by `courseIdx`.
 */
 import { createStore } from "solid-js/store";
 import { makePersisted } from "@solid-primitives/storage";
@@ -49,30 +51,25 @@ export interface ICourseData extends ICourseMetadata {
 export interface ICourseStore {
     store: {
         courseMetadata: ICourseMetadata | null;
-        courseIdx: number;
         lessons: ILesson[];
         loading: boolean;
     };
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
-    setCourseIdx: (index: number) => void;
-    loadCourse: (index: number) => void;
-    deleteCard: (courseIdx: number, lessonIdx: number, cardIdx: number) => void;
-    saveCard: (card: IAnyCard, courseIdx: number, lessonIdx: number, cardIdx: number) => void;
+    loadCourseFromFile: (index: number) => void;
+    deleteCard: (lessonIdx: number, cardIdx: number) => void;
+    saveCard: (card: IAnyCard, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
-    getCourseIdx: () => number;
     getLessons: () => ILesson[];
-    setLessons: (courseIdx: number, updatedLessons: ILesson[]) => void;
+    setLessons: (updatedLessons: ILesson[]) => void;
     addLesson: (courseIdx: number) => void;
     initNewCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
-    reset: (courseIdx?: number) => void;
+    reset: (courseIdx: number) => void;
 }
 
 const LessonsDefault: ILesson[] = [];
 let courseStoreInstance: ICourseStore;
 export const courseTitlesInIndexOrder = (config: Config): string[] => [...config.courses.map((course) => course.title)];
-
-const STORE_NAME = 'oe-courses';
 
 export const useCourseStore = async () => {
     if (!courseStoreInstance) {
@@ -85,12 +82,11 @@ const makeCourseStore = async () => {
     const [state, setState] = makePersisted(
         createStore({
             courseMetadata: null as ICourseMetadata | null,
-            courseIdx: Number(localStorage.getItem(storageKeys.COURSE_INDEX) || 0),
             lessons: [] as ILesson[],
             loading: false,
         }),
         {
-            name: STORE_NAME,
+            name: storageKeys.STORE_NAME,
             storage: localStorage,
         }
     );
@@ -113,7 +109,6 @@ const makeCourseStore = async () => {
         reset(courseIdx);
 
         const newIdx = 0;
-        setCourseIdx(newIdx);
         await loadCourseFromFile(newIdx);
     };
 
@@ -133,8 +128,6 @@ const makeCourseStore = async () => {
             console.warn("Invalid course index:", courseIdx);
             throw new InvalidCourseIndexError("Future lesson?", courseIdx);
         }
-
-        setState("courseIdx", courseIdx);
 
         if (courseIdx < 0) {
             console.warn("Invalid course index:", courseIdx);
@@ -176,29 +169,14 @@ const makeCourseStore = async () => {
         }
     }
 
-    const setCourseIdx = (index: number) => {
-        if (isNaN(index)) {
-            console.warn('setCourseIdx to NaN? No');
-            return;
-        }
-        const actual = isNaN(index) ? 0 : index;
-        setState("courseIdx", actual);
-    };
-
-    const getCourseIdx = () => state.courseIdx;
-
     const getLessons = createMemo(() => state.lessons);
 
-    const setLessons = (courseIdx: number, lessons: ILesson[]) => {
-        setState({
-            "lessons": lessons,
-            "courseIdx": courseIdx,
-        });
+    const setLessons = (lessons: ILesson[]) => {
+        setState({ "lessons": lessons, });
     };
 
-    const addLesson = (courseIdx: number) => {
+    const addLesson = () => {
         setState({
-            courseIdx: Number(courseIdx),
             lessons: [
                 ...state.lessons,
                 DefaultLesson
@@ -206,14 +184,13 @@ const makeCourseStore = async () => {
         });
     }
 
-    const initNewCourse = (courseIdx: number) => {
+    const initNewCourse = () => {
         console.log('initNewCourse enter');
         setState({ loading: true });
         setCourse({
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
-        setCourseIdx(courseIdx);
         setState({ loading: false });
         console.log('initNewCourse done');
     };
@@ -225,7 +202,7 @@ const makeCourseStore = async () => {
         }));
     };
 
-    const saveCard = (updatedCard: IAnyCard, courseIdx: number, lessonIdx: number, cardIdx: number) => {
+    const saveCard = (updatedCard: IAnyCard, lessonIdx: number, cardIdx: number) => {
         const updatedLessons = state.lessons.map((lesson, lIdx) =>
             lIdx === lessonIdx
                 ? {
@@ -237,34 +214,32 @@ const makeCourseStore = async () => {
                 : lesson
         );
 
-        setLessons(courseIdx, updatedLessons);
+        setLessons(updatedLessons);
         console.log('updated card')
     };
 
 
-    const deleteCard = (courseIdx: number, lessonIdx: number, cardIdx: number) => {
-        const updated = (state.lessons).map((lesson, i) =>
+    const deleteCard = (lessonIdx: number, cardIdx: number) => {
+        const updatedLessons = (state.lessons).map((lesson, i) =>
             i === lessonIdx
                 ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
                 : lesson
         );
-        setLessons(courseIdx, updated);
+        setLessons(updatedLessons);
     }
 
-    const reset = (courseIdx?: number) => {
-        const idx = courseIdx || getCourseIdx();
+    const reset = (courseIdx: number) => {
+        const idx = courseIdx;
         localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
+        localStorage.removeItem(storageKeys.CURRENT_COURSE_INDEX);
         localStorage.removeItem(storageKeys.ANSWERS(idx));
-        localStorage.removeItem(storageKeys.COURSE_INDEX);
-        localStorage.removeItem(STORE_NAME);
+        localStorage.removeItem(storageKeys.STORE_NAME);
     };
 
     return {
         store: state,
         initNewCourse,
         loadCourseFromFile,
-        setCourseIdx,
-        getCourseIdx,
         setCourse,
         deleteCourse,
         saveCard,
