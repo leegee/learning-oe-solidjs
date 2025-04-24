@@ -35,13 +35,16 @@ export default function CourseEditorLessonList() {
                 <section id={`lesson-${lessonIdx}`} class='lesson'>
                     <header>
                         <h3>
-                            {lessonIdx + 1}: &nbsp;
-                            <EditableText
-                                value={lesson.title}
-                                onChange={(newVal) =>
-                                    updateLesson(lessonIdx, lesson => ({ ...lesson, title: newVal }))
-                                }
-                            />
+                            <span>
+                                {lessonIdx + 1}: &nbsp;
+                                <EditableText
+                                    value={lesson.title}
+                                    onChange={(newVal) =>
+                                        updateLesson(lessonIdx, lesson => ({ ...lesson, title: newVal }))
+                                    }
+                                />
+                            </span>
+                            <AddLessonButton lessonIdx={lessonIdx} />
                         </h3>
 
                         <h4>
@@ -68,13 +71,6 @@ export default function CourseEditorLessonList() {
                     </div>
                 </section>
             ))}
-
-            <section class='lesson'>
-                <header>
-                    <h3>Add a new lesson</h3>
-                </header>
-                <AddLessonButton />
-            </section>
         </Show>
     );
 }
