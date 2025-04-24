@@ -59,7 +59,7 @@ const CardEditor = (props: EditCardModalProps) => {
         }
     });
 
-    const handleSave = () => {
+    const onSave = () => {
         if (!props.card) {
             return;
         }
@@ -173,7 +173,7 @@ const CardEditor = (props: EditCardModalProps) => {
 
                         <footer class="modal-actions">
                             <button onClick={props.onCancel}>Cancel</button>
-                            <button onClick={handleSave}>Save</button>
+                            <button onClick={onSave}>Save</button>
                         </footer>
                     </aside>
                 )
