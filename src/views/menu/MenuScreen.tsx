@@ -1,5 +1,5 @@
 import './MenuScreen.css';
-import { createSignal, createEffect, createResource } from "solid-js";
+import { createSignal, createEffect, createResource, Show } from "solid-js";
 import packageJson from '../../../package.json';
 import { courseTitlesInIndexOrder, type ICourseStore, useCourseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/ConfigProvider";
@@ -35,44 +35,51 @@ const MenuScreen = () => {
     });
 
     return (
-        <aside aria-roledescription="Toggle menu" class="hamburger-menu">
-            <section class='card'>
-                <TitleComponent title={config.menuTitle || config.appTitle} />
+        <Show when={!courseStore.loading} fallback={<p>Loading...</p>}>
+            <aside aria-roledescription="Toggle menu" class="hamburger-menu">
+                <section class='card'>
+                    <TitleComponent title={config.menuTitle || config.appTitle} />
 
-                {<h3>{t('choose_a_course')}</h3>}
+                    {<h3>{t('choose_a_course')}</h3>}
 
-                <nav class="course-menu">
-                    {/* {config.courses.map((course, courseIdx) => ( */}
-                    {courseTitlesInIndexOrder(config).map((courseTitle, courseIdx) => (
-                        <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
-                            <a onClick={() => setLocalSelectedCourse(courseIdx)}>
-                                {courseTitle}
+                    <nav class="course-menu">
+
+
+                        {/** TODO This needs to come from cached data */}
+
+                        {/* {config.courses.map((course, courseIdx) => ( */}
+                        {courseTitlesInIndexOrder(config).map((courseTitle, courseIdx) => (
+                            <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
+                                <a onClick={() => setLocalSelectedCourse(courseIdx)}>
+                                    {courseTitle}
+                                    {/* {courseStore()?.getTitle()} */}
+                                </a>
+                                <span class='course-action-buttons'>
+                                    <ResetCourseButtonComponent courseIdx={courseIdx} />
+                                    <CourseDownloadButton />
+                                    <CourseEditorButton courseIdx={courseIdx} />
+                                </span>
+                            </li>
+                        ))}
+
+                        <li>
+                            <a onClick={() => { }}>
+                                Custom Course
                             </a>
                             <span class='course-action-buttons'>
-                                <ResetCourseButtonComponent courseIdx={courseIdx} />
-                                <CourseDownloadButton />
-                                <CourseEditorButton courseIdx={courseIdx} />
+                                <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
+                                <NewCourseButton />
                             </span>
                         </li>
-                    ))}
 
-                    <li>
-                        <a onClick={() => { }}>
-                            Custom Course
-                        </a>
-                        <span class='course-action-buttons'>
-                            <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
-                            <NewCourseButton />
-                        </span>
-                    </li>
+                    </nav>
 
-                </nav>
-
-                <footer>
-                    <small>Version {packageJson.version}</small>
-                </footer>
-            </section>
-        </aside >
+                    <footer>
+                        <small>Version {packageJson.version}</small>
+                    </footer>
+                </section>
+            </aside>
+        </Show>
     );
 };
 
