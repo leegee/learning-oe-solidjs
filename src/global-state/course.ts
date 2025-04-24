@@ -5,7 +5,7 @@
 * 
 * One course is in-memory at a time, indicated by `courseIdx`.
 */
-import { createStore } from "solid-js/store";
+import { createStore, SetStoreFunction } from "solid-js/store";
 import { makePersisted } from "@solid-primitives/storage";
 
 import Ajv from "ajv";
@@ -14,7 +14,7 @@ import { DefaultLesson, type ILesson } from "../components/Lessons/Lesson";
 import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/load-default-lessons";
-import { createMemo } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { IAnyCard } from "../components/Cards";
 
 export type ILessonSummary = {
@@ -54,6 +54,7 @@ export interface ICourseStore {
         lessons: ILesson[];
         loading: boolean;
     };
+    setStore: SetStoreFunction<any>;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     loadCourseFromFile: (index: number) => void;
     deleteCard: (lessonIdx: number, cardIdx: number) => void;
@@ -62,6 +63,8 @@ export interface ICourseStore {
     getLessons: () => ILesson[];
     setLessons: (updatedLessons: ILesson[]) => void;
     addLesson: (courseIdx: number) => void;
+    setTitle: (newTitle: string) => void;
+    getTitle: () => string;
     initNewCourse: (courseIdx: number) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx: number) => void;
@@ -78,8 +81,8 @@ export const useCourseStore = async () => {
     return courseStoreInstance;
 };
 
-const makeCourseStore = async () => {
-    const [state, setState] = makePersisted(
+const makeCourseStore = async (): Promise<ICourseStore> => {
+    const [store, setStore] = makePersisted(
         createStore({
             courseMetadata: null as ICourseMetadata | null,
             lessons: [] as ILesson[],
@@ -113,7 +116,7 @@ const makeCourseStore = async () => {
     };
 
     const setCourse = ({ lessons, courseMetadata }: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => {
-        setState({ lessons, courseMetadata });
+        setStore({ lessons, courseMetadata });
     };
 
     // Reactive effect watching external signal for the index of the current course within (or without) LESSONS_JSON
@@ -134,7 +137,7 @@ const makeCourseStore = async () => {
             throw new Error("Negative course index? " + courseIdx);
         }
 
-        setState("loading", true);
+        setStore("loading", true);
 
         const { fileBasename } = config.courses[courseIdx];
         const filePath = `../../lessons/${fileBasename}.json`;
@@ -162,23 +165,23 @@ const makeCourseStore = async () => {
                 lessons: courseData.lessons,
                 courseMetadata: { ...courseData },
             });
-            setState({ loading: false });
+            setStore({ loading: false });
         } catch (error) {
             console.error("Error loading lessons:", error);
-            setState("loading", false);
+            setStore("loading", false);
         }
     }
 
-    const getLessons = createMemo(() => state.lessons);
+    const getLessons = createMemo(() => store.lessons);
 
     const setLessons = (lessons: ILesson[]) => {
-        setState({ "lessons": lessons, });
+        setStore({ "lessons": lessons, });
     };
 
     const addLesson = () => {
-        setState({
+        setStore({
             lessons: [
-                ...state.lessons,
+                ...store.lessons,
                 DefaultLesson
             ]
         });
@@ -186,24 +189,24 @@ const makeCourseStore = async () => {
 
     const initNewCourse = () => {
         console.log('initNewCourse enter');
-        setState({ loading: true });
+        setStore({ loading: true });
         setCourse({
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
-        setState({ loading: false });
+        setStore({ loading: false });
         console.log('initNewCourse done');
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
-        return state.lessons.map((lesson, lessonIndex) => ({
+        return store.lessons.map((lesson, lessonIndex) => ({
             title: lesson.title,
             index: lessonIndex,
         }));
     };
 
     const saveCard = (updatedCard: IAnyCard, lessonIdx: number, cardIdx: number) => {
-        const updatedLessons = state.lessons.map((lesson, lIdx) =>
+        const updatedLessons = store.lessons.map((lesson, lIdx) =>
             lIdx === lessonIdx
                 ? {
                     ...lesson,
@@ -220,7 +223,7 @@ const makeCourseStore = async () => {
 
 
     const deleteCard = (lessonIdx: number, cardIdx: number) => {
-        const updatedLessons = (state.lessons).map((lesson, i) =>
+        const updatedLessons = (store.lessons).map((lesson, i) =>
             i === lessonIdx
                 ? { ...lesson, cards: lesson.cards.filter((_, j) => j !== cardIdx) }
                 : lesson
@@ -236,8 +239,14 @@ const makeCourseStore = async () => {
         localStorage.removeItem(storageKeys.STORE_NAME);
     };
 
+    const setTitle = (newTitle: string) => setStore("courseMetadata", "courseTitle", newTitle);;
+    const getTitle = () => store.courseMetadata?.courseTitle ?? '';
+
     return {
-        store: state,
+        store,
+        setStore,
+        setTitle,
+        getTitle,
         initNewCourse,
         loadCourseFromFile,
         setCourse,

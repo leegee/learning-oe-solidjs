@@ -16,7 +16,6 @@ export default function CourseEditor() {
     const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
-    const [courseTitle, setCourseTitle] = createSignal("");
 
     createEffect(() => {
         document.body.classList.add("editing-card");
@@ -25,23 +24,20 @@ export default function CourseEditor() {
         });
     });
 
-    createEffect(() => {
-        if (courseStore.loading) return;
-        setCourseTitle(courseStore()!.store.courseMetadata?.courseTitle ?? "");
-    });
-
     return (
         <Show when={courseStore()} fallback={<p>{t('loading')}...</p>}>
             {(store) => {
                 const lessons = store().getLessons();
                 return (
-
                     <article class="course-editor" role="dialog" aria-modal="true">
                         <header>
                             <h2>
                                 {t('course')}:&nbsp;
                                 <q>
-                                    <EditableText value={courseTitle()} onChange={setCourseTitle} />
+                                    <EditableText
+                                        value={store().store.courseMetadata?.courseTitle ?? ""}
+                                        onChange={(newTitle) => store().setStore("courseMetadata", "courseTitle", newTitle)}
+                                    />
                                 </q>
                                 <nav class="coourse-action-buttons">
                                     <DeleteCourseButton courseIdx={Number(params.courseIdx)} />
