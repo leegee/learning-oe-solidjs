@@ -20,3 +20,20 @@
     text-align: left;
     font-size: normal;
 }
+
+.stats-component td.value {
+    width: 2em;
+    text-align: right;
+}
+
+.stats-component .correct-answers {
+    color: green;
+}
+
+.stats-component .incorrect-answers {
+    color: red;
+}
+
+.stats-component .questions-answered {
+    color: cyan;
+}

@@ -24,7 +24,7 @@ const Stats = (props: IStatsProps) => {
                         <th class='correct-answers-alt'>
                             {t('correct_answer_count_alt')}
                         </th>
-                        <td class='correct-answers-value'>
+                        <td class='value'>
                             {lessonStore.getTotalCorrectAnswers()}
                         </td>
                     </tr>
@@ -33,7 +33,7 @@ const Stats = (props: IStatsProps) => {
                         <th class='incorrect-answers-alt'>
                             {t('incorrect_answer_count_alt')}
                         </th>
-                        <td class='incorrect-answers-value'>
+                        <td class='value'>
                             {lessonStore.getTotalQuestionsAnswered()}
                         </td>
                     </tr>
@@ -42,7 +42,7 @@ const Stats = (props: IStatsProps) => {
                         <th class='questions-answered-alt'>
                             {t('questions_answered_count_alt')}
                         </th>
-                        <td class='questions-answered-value'>
+                        <td class='value'>
                             {lessonStore.getTotalQuestionsAnswered()}
                         </td>
                     </tr>

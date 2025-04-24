@@ -15,19 +15,6 @@
     color: var(--oe-clr-fg);
 }
 
-.correct-answers-value {
-    color: green;
-}
-
-.incorrect-answers-value {
-    color: red;
-}
-
-.questions-answered-value {
-    color: cyan;
-}
-
-
 #home footer {
     display: flex;
     align-items: baseline;
