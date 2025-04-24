@@ -232,7 +232,7 @@ export default function CourseEditor() {
                                     </div>
                                 ))}
 
-                                <AddCardButton />
+                                <AddCardButton lessonIdx={lessonIdx} />
                             </div>
                         </section>
                     ))}

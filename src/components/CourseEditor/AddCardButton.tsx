@@ -5,6 +5,7 @@ import { CARD_CLASSES, createDefaultCard } from "../Cards";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 
 interface IAddCardButtonProps {
+    lessonIdx: number;
 }
 
 export default function AddCardButton(props: IAddCardButtonProps) {
@@ -12,20 +13,35 @@ export default function AddCardButton(props: IAddCardButtonProps) {
     const params = useParams();
     const navigate = useNavigate();
     const [showOptions, setShowOptions] = createSignal(false);
-
     const onAdd = (klass: string) => {
+        const store = courseStore();
+        if (!store) return;
+
+        const courseIdx = Number(params.courseIdx);
+        const lessons = store.lessons();
+
+        if (!Array.isArray(lessons) || props.lessonIdx < 0 || props.lessonIdx >= lessons.length) {
+            console.error("Invalid lesson index or malformed lessons:", lessons, props.lessonIdx);
+            return;
+        }
+
         const newCard = createDefaultCard(klass);
-        const updatedLessons = courseStore()!.lessons().map((lesson, i) =>
-            i === Number(params.lessonIdx)
+
+        const updatedLessons = lessons.map((lesson, i) =>
+            i === props.lessonIdx
                 ? { ...lesson, cards: [...lesson.cards, newCard] }
                 : lesson
         );
 
-        courseStore()!.setLessons(Number(params.courseIdx), updatedLessons);
+        store.setLessons(courseIdx, updatedLessons);
 
-        const newCardIdx = updatedLessons[Number(params.lessonIdx)].cards.length - 1;
+        const newCardIdx = updatedLessons[props.lessonIdx]?.cards?.length - 1;
+        if (newCardIdx == null || newCardIdx < 0) {
+            console.error("Failed to calculate newCardIdx");
+            return;
+        }
 
-        navigate(`/editor/${params.courseIdx}/${Number(params.lessonIdx)}/${newCardIdx}`);
+        navigate(`/editor/${courseIdx}/${props.lessonIdx}/${newCardIdx}`);
     };
 
     return (
