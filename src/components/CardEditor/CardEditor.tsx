@@ -32,7 +32,6 @@ const CardEditor = (props: EditCardModalProps) => {
     const [options, setOptions] = createSignal<string[]>([]);
     const [words, setWords] = createSignal<IBooleanWord[]>([]);
 
-
     createEffect(() => {
         if (!props.card) {
             console.warn('No card!');
@@ -67,22 +66,22 @@ const CardEditor = (props: EditCardModalProps) => {
         const updatedCard = { ...props.card } as IAnyCard;
 
         if ("answers" in updatedCard) {
-            (updatedCard as IMultipleChoiceCard).answers = answers();
+            updatedCard.answers = answers();
         }
         if ("answer" in updatedCard) {
-            (updatedCard as IAnyCardWithAnswer).answer = answer();
+            updatedCard.answer = answer();
         }
         if ("options" in updatedCard) {
-            (updatedCard as IWritingBlocksCard).options = options();
+            updatedCard.options = options();
         }
         if ("question" in props.card) {
-            (updatedCard as IBlanksCard).question = question();
+            updatedCard.question = question();
         }
         if ("words" in updatedCard) {
-            (updatedCard as IBlanksCard).words = words();
+            updatedCard.words = words();
         }
         if ("vocab" in updatedCard) {
-            (updatedCard as IVocabMatchCard).vocab = vocab();
+            updatedCard.vocab = vocab();
         }
 
 
