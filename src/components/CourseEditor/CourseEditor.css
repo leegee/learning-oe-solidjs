@@ -18,6 +18,14 @@
     font-size: 1.2em;
     font-weight: 300;
     margin-bottom: 0.3em;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+
+.course-editor>header h2 q {
+    margin-right: auto;
 }
 
 .course-editor>header h3 {
@@ -42,6 +50,19 @@
 .course-editor>section>h4 {
     height: 100%;
     padding-right: 1em;
+}
+
+.course-editor>header .coourse-action-buttons {
+    margin-left: auto;
+    font-size: 80%;
+}
+
+.course-editor>header .coourse-action-buttons button {
+    opacity: 66%;
+}
+
+.course-editor>header .coourse-action-buttons button:hover {
+    opacity: 99%;
 }
 
 .course-editor .lessons {

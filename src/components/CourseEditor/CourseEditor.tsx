@@ -5,15 +5,17 @@
 import './CourseEditor.css';
 import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import { useNavigate } from "@solidjs/router";
+import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import EditableText from "../CardEditor/Editor/EditableText";
 import CourseEditorLessonList from './CourseEditorLessonList';
+import DeleteCourseButton from './DeleteCourseButton';
 
 export default function CourseEditor() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { t } = useI18n();
     const navigate = useNavigate();
+    const params = useParams();
     const [courseTitle, setCourseTitle] = createSignal("");
 
     createEffect(() => {
@@ -41,6 +43,9 @@ export default function CourseEditor() {
                                 <q>
                                     <EditableText value={courseTitle()} onChange={setCourseTitle} />
                                 </q>
+                                <nav class="coourse-action-buttons">
+                                    <DeleteCourseButton courseIdx={Number(params.courseIdx)} />
+                                </nav>
                             </h2>
                             <h3>All Lessons and Cards</h3>
 

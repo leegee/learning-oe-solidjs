@@ -52,6 +52,7 @@ export interface ICourseStore {
         lessons: ILesson[];
         loading: boolean;
     };
+    deleteCourse: (courseIdx: number) => void;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     setCourseIdx: (index: number) => void;
     loadCourse: (index: number) => void;
@@ -96,6 +97,21 @@ const makeCourseStore = async () => {
     const getAppConfig = () => {
         if (!appConfigPromise) appConfigPromise = loadConfig();
         return appConfigPromise;
+    };
+
+    const deleteCourse = async (courseIdx: number) => {
+        const config = await getAppConfig();
+
+        if (isNaN(courseIdx) || courseIdx < 0 || courseIdx >= config.courses.length) {
+            throw new Error(`Invalid course index for deletion: ${courseIdx}`);
+        }
+
+        // config.courses.splice(courseIdx, 1);
+        reset(courseIdx);
+
+        const newIdx = 0;
+        setCourseIdx(newIdx);
+        await loadCourse(newIdx);
     };
 
     const setCourse = ({ lessons, courseMetadata }: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => {
@@ -217,9 +233,10 @@ const makeCourseStore = async () => {
     return {
         store: state,
         initCourse,
+        loadCourse,
+        deleteCourse,
         setCourse,
         setCourseIdx,
-        loadCourse,
         getCourseIdx,
         lessons,
         setLessons,
