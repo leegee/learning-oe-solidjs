@@ -279,7 +279,7 @@ const makeCourseStore = async () => {
 
 
 // @example  throw new InvalidCourseIndexError("No such course as", courseIdx);
-class InvalidCourseIndexError extends Error {
+export class InvalidCourseIndexError extends Error {
     public courseIdx: number;
 
     constructor(message: string, courseIdx: number) {
