@@ -1,8 +1,10 @@
 import { createStore } from 'solid-js/store';
 import { makePersisted } from '@solid-primitives/storage';
 
+type CardWrongAnswers = string[];
+type LessonAnswers = CardWrongAnswers[];
 interface Answers {
-  [lessonIndex: number]: string[][]; // (lesson index -> card answers)
+  [lessonIndex: number]: LessonAnswers;
 }
 
 export const useLessonStore = (courseIdx: number) => {
@@ -44,15 +46,12 @@ export const useLessonStore = (courseIdx: number) => {
     setState('answers', lessonIdx, cardIdx, [...existingAnswers, incorrectAnswer]);
   };
 
-
   const getLessonAnswers = (lessonIndex: number): string[][] => {
     return state.answers[lessonIndex] ?? [];
   };
 
   const resetLesson = (lessonIndex: number): void => {
-    const updatedAnswers = { ...state.answers };
-    updatedAnswers[lessonIndex] = [];
-    setState('answers', updatedAnswers);
+    setState('answers', lessonIndex, []);
   };
 
   const getTotalTakenLessons = (): number => {
@@ -66,29 +65,19 @@ export const useLessonStore = (courseIdx: number) => {
     );
   };
 
-  const getTotalCorrectAnswers = (): number => {
-    return Object.values(state.answers).reduce(
+  const countAnswers = (filterFn: (a: string) => boolean) =>
+    Object.values(state.answers).reduce(
       (total, lessonAnswers) =>
         total +
         lessonAnswers.reduce(
-          (sum: number, cardAnswers: []) => sum + cardAnswers.filter((a) => a === '').length,
+          (sum: number, cardAnswers: string[]) => sum + cardAnswers.filter(filterFn).length,
           0
         ),
       0
     );
-  };
 
-  const getTotalIncorrectAnswers = (): number => {
-    return Object.values(state.answers).reduce(
-      (total, lessonAnswers) =>
-        total +
-        lessonAnswers.reduce(
-          (sum: number, cardAnswers: string[]) => sum + cardAnswers.filter((a) => a !== '').length,
-          0
-        ),
-      0
-    );
-  };
+  const getTotalCorrectAnswers = () => countAnswers((a) => a === '');
+  const getTotalIncorrectAnswers = () => countAnswers((a) => a !== '');
 
   const getLessonQuestionCount = (lessonIndex: number): number => {
     return getLessonAnswers(lessonIndex).length;

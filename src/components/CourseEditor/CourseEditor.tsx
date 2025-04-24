@@ -1,7 +1,10 @@
+/**
+ * NB By this stage, courseStore()!.loadCourse(params.courseIdx) has already been called.
+ * 
+ */
 import './CourseEditor.css';
 import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
-import { useConfigContext } from '../../contexts/ConfigProvider';
-import { courseTitlesInIndexOrder, useCourseStore, type ICourseStore } from "../../global-state/course";
+import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
 import { useConfirm } from '../../contexts/ConfirmProvider';
@@ -12,7 +15,6 @@ import AddCardButton from './AddCardButton';
 import AddLessonButton from './AddLessonButton';
 
 export default function CourseEditor() {
-    const { config } = useConfigContext();
     const [courseStore] = createResource<ICourseStore>(() => useCourseStore());
     const { showConfirm } = useConfirm();
     const { t } = useI18n();
@@ -20,23 +22,6 @@ export default function CourseEditor() {
     const params = useParams();
     const [courseTitle, setCourseTitle] = createSignal("");
     const courseIdx = () => Number(params.courseIdx) ?? -1;
-
-    // Initialise a new course
-    createEffect(() => {
-        if (courseStore.loading) return;
-        if (params.courseIdx === 'init') {
-            const courseIdx = courseTitlesInIndexOrder(config).length;
-            courseStore()!.initCourse(courseIdx);
-            navigate('/editor/' + courseIdx);
-        }
-    });
-
-    createEffect(() => {
-        if (courseStore.loading) return;
-        const courseIdx = Number(params.courseIdx);
-        if (isNaN(courseIdx)) return;
-        courseStore()!.loadCourse(courseIdx);
-    });
 
     createEffect(() => {
         document.body.classList.add("editing-card");

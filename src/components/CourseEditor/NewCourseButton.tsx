@@ -1,10 +1,11 @@
 import { useNavigate } from "@solidjs/router";
+import { RouteFragementInitCourse } from "../../Routes";
 
 const NewCourseButton = () => {
     const navigate = useNavigate();
 
     const handlClick = async () => {
-        navigate('/editor/init');
+        navigate('/editor/' + RouteFragementInitCourse);
     }
 
     return (

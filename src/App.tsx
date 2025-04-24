@@ -24,8 +24,8 @@ const App = (props: IAppProps) => {
 
   const AppLayout = (layoutProps: ILayoutProps) => (
     <>
-      <LoadCourseByRoute />
       <ConfigProvider config={props.config}>
+        <LoadCourseByRoute />
         <I18nProvider>
           <ConfirmProvider>
             <main id="main">
