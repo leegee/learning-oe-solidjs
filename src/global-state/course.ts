@@ -14,7 +14,7 @@ import { DefaultLesson, type ILesson } from "../components/Lessons/Lesson";
 import { Config, loadConfig } from "../lib/config";
 import { storageKeys } from "./keys";
 import { LESSONS_JSON } from "../config/load-default-lessons";
-import { createMemo, Show } from "solid-js";
+import { createMemo } from "solid-js";
 import { IAnyCard } from "../components/Cards";
 
 export type ILessonSummary = {

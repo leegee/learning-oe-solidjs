@@ -3,7 +3,7 @@
  * 
  */
 import './CourseEditor.css';
-import { createEffect, createResource, createSignal, onCleanup, Show } from "solid-js";
+import { createEffect, createResource, onCleanup, Show } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
 import { useI18n } from "../../contexts/I18nProvider";
