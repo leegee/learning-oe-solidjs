@@ -17,7 +17,7 @@ const Editor = () => {
     // Lessons derived from the resolved course store
     const lessons = createMemo(() => {
         const cStore = courseStore();
-        return cStore?.store.lessons ?? [];
+        return cStore?.getLessons() ?? [];
     });
 
     // Current card derived from lessons, once ready

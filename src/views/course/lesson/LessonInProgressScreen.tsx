@@ -1,11 +1,11 @@
 import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
 import LessonComponent, { ILesson } from "../../../components/Lessons/Lesson";
-import { useCourseStore } from "../../../global-state/course";
+import { useCourseStore, type ICourseStore } from "../../../global-state/course";
 import { useLessonStore } from "../../../global-state/lessons";
 
 const LessonInProgressScreen = () => {
-    const [courseStore] = createResource(useCourseStore);
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
     const courseIndex = createMemo(() => Number(params.courseIdx || -1));
     const lessonIndex = createMemo(() => Number(params.lessonIdx || -1));
@@ -17,10 +17,13 @@ const LessonInProgressScreen = () => {
 
     // Set course/lesson index and load lesson once courseStore is loaded
     createEffect(() => {
+        if (courseStore.loading) return;
         const store = courseStore();
+        if (!store) return;
         const lessonIdx = lessonIndex();
-        if (store && store.store.lessons && store.store.lessons[lessonIdx]) {
-            setLesson(store.store.lessons[lessonIdx]);
+        const lessons = store?.getLessons();
+        if (lessons[lessonIdx]) {
+            setLesson(lessons[lessonIdx]);
             setStartTime(Date.now());
         }
     });

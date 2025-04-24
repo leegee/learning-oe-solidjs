@@ -35,8 +35,8 @@ export default function CourseEditor() {
                                 {t('course')}:&nbsp;
                                 <q>
                                     <EditableText
-                                        value={store().store.courseMetadata?.courseTitle ?? ""}
-                                        onChange={(newTitle) => store().setStore("courseMetadata", "courseTitle", newTitle)}
+                                        value={store().getTitle() ?? ""}
+                                        onChange={(newTitle) => store().setTitle(newTitle)}
                                     />
                                 </q>
                                 <nav class="coourse-action-buttons">

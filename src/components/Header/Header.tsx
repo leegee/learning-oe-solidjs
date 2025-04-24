@@ -28,9 +28,7 @@ const Header = () => {
             </aside>
 
             <div class="header-text">
-                <h1 lang={config.targetLanguage}>
-                    {config.appTitle}
-                </h1>
+                <h1 lang={config.targetLanguage}>{config.appTitle}</h1>
                 <MenuTogglebutton />
             </div>
         </header>

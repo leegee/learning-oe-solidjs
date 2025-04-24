@@ -47,9 +47,9 @@ const CourseHome = () => {
             <article id="home">
                 <Stats courseIdx={courseIdx()} />
                 <LessonList
-                    lessons={courseStore()!.store.lessons}
+                    lessons={courseStore()!.getLessons()}
                     courseIndex={courseIdx()}
-                    currentLessonIndex={lessonStore()!.lessonIndex}
+                    currentLessonIndex={lessonStore()!.getCurrentLessonIdx()}
                     onLessonSelected={onLessonSelected}
                 />
             </article>

@@ -20,14 +20,14 @@ const CourseDownloadButton = () => {
 
                 const writable = await handle.createWritable();
                 await writable.write(
-                    JSON.stringify(courseStore()!.store.lessons, null, 2)
+                    JSON.stringify(courseStore()!.getLessons(), null, 2)
                 );
                 await writable.close();
             }
             else {
                 // Fallback: create a blob and simulate download
                 const blob = new Blob([
-                    JSON.stringify(courseStore()!.store.lessons, null, 2)
+                    JSON.stringify(courseStore()!.getLessons(), null, 2)
                 ], { type: "text/plain" });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement("a");

@@ -5,7 +5,7 @@
 * 
 * One course is in-memory at a time, indicated by `courseIdx`.
 */
-import { createStore, SetStoreFunction } from "solid-js/store";
+import { createStore, type Store } from "solid-js/store";
 import { makePersisted } from "@solid-primitives/storage";
 
 import Ajv from "ajv";
@@ -48,13 +48,19 @@ export interface ICourseData extends ICourseMetadata {
     lessons: ILesson[];
 }
 
+export interface ICourseDataStore {
+    courseMetadata: ICourseMetadata | null;
+    lessons: ILesson[];
+    loading: boolean;
+}
+
 export interface ICourseStore {
-    store: {
+    store: Store<{
         courseMetadata: ICourseMetadata | null;
         lessons: ILesson[];
         loading: boolean;
-    };
-    setStore: SetStoreFunction<any>;
+    }>;
+    // setStore: SetStoreFunction<ICourseDataStore>;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     loadCourseFromFile: (index: number) => void;
     deleteCard: (lessonIdx: number, cardIdx: number) => void;
@@ -83,7 +89,7 @@ export const useCourseStore = async () => {
 
 const makeCourseStore = async (): Promise<ICourseStore> => {
     const [store, setStore] = makePersisted(
-        createStore({
+        createStore<ICourseDataStore>({
             courseMetadata: null as ICourseMetadata | null,
             lessons: [] as ILesson[],
             loading: false,
@@ -119,6 +125,36 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setStore({ lessons, courseMetadata });
     };
 
+
+    /**
+     * 
+     * @param fileBasename - file name without extension
+     * @throws 
+     * @returns 
+     */
+    const loadFile = async (fileBasename: string): Promise<ICourseData> => {
+        const filePath = `../../lessons/${fileBasename}.json`;
+        console.info(`Loading course ${fileBasename} from ${filePath}`);
+
+        const lessons = await LESSONS_JSON();
+        if (!lessons[filePath]) {
+            throw new Error('Lesson not found: ' + filePath);
+        }
+        const module = await lessons[filePath]();
+        const courseData = (module as { default: ICourseData }).default;
+
+        const ajv = new Ajv();
+        const validate = ajv.compile(courseLessonsSchema);
+        const valid = validate(courseData);
+
+        if (!valid) {
+            console.debug(JSON.stringify(validate.errors, null, 4));
+            throw new TypeError("Invalid JSON");
+        }
+
+        return courseData;
+    }
+
     const loadCourseFromFile = async (courseIdx: number) => {
         const config = await getAppConfig();
 
@@ -128,7 +164,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
         if (courseIdx >= config.courses.length) {
             console.warn("Invalid course index:", courseIdx);
-            throw new InvalidCourseIndexError("Future lesson?", courseIdx);
+            throw new InvalidCourseIndexError("Lesson out of range", courseIdx);
         }
 
         if (courseIdx < 0) {
@@ -139,27 +175,9 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setStore("loading", true);
 
         const { fileBasename } = config.courses[courseIdx];
-        const filePath = `../../lessons/${fileBasename}.json`;
-
-        console.info(`Loading course ${fileBasename} from ${filePath}`);
 
         try {
-            const lessons = await LESSONS_JSON();
-            if (!lessons[filePath]) {
-                throw new Error('Lesson not found: ' + filePath);
-            }
-            const module = await lessons[filePath]();
-            const courseData = (module as { default: ICourseData }).default;
-
-            const ajv = new Ajv();
-            const validate = ajv.compile(courseLessonsSchema);
-            const valid = validate(courseData);
-
-            if (!valid) {
-                console.debug(JSON.stringify(validate.errors, null, 4));
-                throw new TypeError("Invalid JSON");
-            }
-
+            const courseData = await loadFile(fileBasename);
             setCourse({
                 lessons: courseData.lessons,
                 courseMetadata: { ...courseData },
@@ -181,7 +199,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setStore({
             lessons: [
                 ...store.lessons,
-                DefaultLesson
+                { ...DefaultLesson }
             ]
         });
     }
@@ -243,7 +261,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
     return {
         store,
-        setStore,
+        // setStore,
         setTitle,
         getTitle,
         initNewCourse,
@@ -261,7 +279,9 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 };
 
 
-// @example  throw new InvalidCourseIndexError("No such course as", courseIdx);
+/**
+ *  @example  throw new InvalidCourseIndexError("No such course as", courseIdx);
+ */
 export class InvalidCourseIndexError extends Error {
     public courseIdx: number;
 
@@ -269,7 +289,7 @@ export class InvalidCourseIndexError extends Error {
         super(message);
         this.name = this.constructor.name;
         this.courseIdx = courseIdx;
-        Error.captureStackTrace(this, this.constructor); // Capture stack trace (optional)
+        Error.captureStackTrace(this, this.constructor);
     }
 }
 

@@ -21,7 +21,7 @@ const LessonCompletedScreen = () => {
             return;
         }
 
-        if (nextLessonIndex() < store.store.lessons.length) {
+        if (nextLessonIndex() < store.getLessons().length) {
             navigate(`/course/${courseIndex()}/${nextLessonIndex()}/intro`);
         } else {
             navigate(`/course/${courseIndex()}/finished`);

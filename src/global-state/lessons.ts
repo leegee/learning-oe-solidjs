@@ -2,7 +2,9 @@ import { createStore } from 'solid-js/store';
 import { makePersisted } from '@solid-primitives/storage';
 
 type CardWrongAnswers = string[];
+
 type LessonAnswers = CardWrongAnswers[];
+
 interface Answers {
   [lessonIndex: number]: LessonAnswers;
 }
@@ -12,6 +14,7 @@ export const useLessonStore = (courseIdx: number) => {
 
   const [state, setState] = makePersisted(
     createStore({
+      currentLessonIdx: -1,
       answers: {} as Answers,
     }),
     {
@@ -19,6 +22,9 @@ export const useLessonStore = (courseIdx: number) => {
       storage: localStorage,
     }
   );
+
+  const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
+  const getCurrentLessonIdx = () => state.currentLessonIdx;
 
   const saveAnswer = (
     lessonIdx: number,
@@ -97,6 +103,8 @@ export const useLessonStore = (courseIdx: number) => {
   };
 
   return {
+    getCurrentLessonIdx,
+    setCurrentLessonIdx,
     saveAnswer,
     getLessonAnswers,
     resetLesson,

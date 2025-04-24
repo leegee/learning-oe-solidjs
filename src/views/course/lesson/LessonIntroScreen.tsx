@@ -22,7 +22,7 @@ const LessonIntroScreen = () => {
     const lesson = createMemo(() => {
         const store = courseStore();
         if (!store || !store.store) return undefined;
-        return store.store.lessons?.[lessonIdx()];
+        return store.getLessons()?.[lessonIdx()];
     });
 
     const handleClick = () => {
