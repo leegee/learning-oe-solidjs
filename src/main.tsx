@@ -28,13 +28,15 @@ const startApp = async () => {
     setupI18n(appConfig),
   ]);
 
+  const jsx = <App config={appConfig as Config} />;
+
   const root = document.getElementById("root");
 
   if (root) {
     root.innerHTML = '';
-    render(() => <App config={appConfig as Config} />, root);
+    render(() => jsx, root);
   } else {
-    createRoot(() => <App config={appConfig as Config} />);
+    createRoot(() => jsx);
   }
 };
 
