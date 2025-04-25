@@ -222,8 +222,11 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
-        setStore({ loading: false });
-        console.log('initNewCourse done');
+        // hacky
+        setTimeout(() => {
+            setStore({ loading: false });
+            console.log('initNewCourse done');
+        }, 0);
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
