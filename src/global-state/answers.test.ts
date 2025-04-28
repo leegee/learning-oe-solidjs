@@ -4,14 +4,6 @@ import { useLessonStore } from "./answers";
 
 let lessonStore: ReturnType<typeof useLessonStore>;
 
-jest.mock('@solid-primitives/storage', () => ({
-    createLocalStorage: jest.fn().mockImplementation(() => ({
-        getItem: jest.fn(() => null),
-        setItem: jest.fn(),
-        clear: jest.fn(),
-    })),
-}));
-
 beforeEach(() => {
     jest.restoreAllMocks();
     localStorage.clear();
