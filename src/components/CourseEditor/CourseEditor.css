@@ -352,3 +352,14 @@
 .lesson>header h3 .large-icon-button {
     border: 1pt solid var(--oe-clr-border);
 }
+
+.no-lessons {
+    border: 1pt solid var(--oe-clr-border);
+    display: flex;
+    align-items: center;
+}
+
+.no-lessons button {
+    border: 3pt solid var(--oe-clr-border);
+    font-size: xx-large;
+}

@@ -10,12 +10,18 @@ import { useI18n } from "../../contexts/I18nProvider";
 import EditableText from "../CardEditor/Editor/EditableText";
 import CourseEditorLessonList from './CourseEditorLessonList';
 import DeleteCourseButton from './DeleteCourseButton';
+import { useConfigContext } from '../../contexts/ConfigProvider';
 
 export default function CourseEditor() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const { t } = useI18n();
     const navigate = useNavigate();
     const params = useParams();
+    const { config } = useConfigContext();
+
+    createEffect(() => {
+        console.log('editor course idx:', params.courseIdx);
+    });
 
     createEffect(() => {
         document.body.classList.add("editing-card");
@@ -39,11 +45,20 @@ export default function CourseEditor() {
                                         onChange={(newTitle) => store().setTitle(newTitle)}
                                     />
                                 </q>
-                                <nav class="coourse-action-buttons">
-                                    <DeleteCourseButton courseIdx={Number(params.courseIdx)} />
-                                </nav>
+                                <Show when={Number(params.courseIdx) < config.courses.length}>
+                                    <nav class="coourse-action-buttons">
+                                        <DeleteCourseButton courseIdx={Number(params.courseIdx)} />
+                                    </nav>
+                                </Show>
                             </h2>
-                            <h3>All Lessons and Cards</h3>
+                            <h3>
+                                <q>
+                                    <EditableText
+                                        value={store().getDescription() ?? ""}
+                                        onChange={(newDesec) => store().setDescription(newDesec)}
+                                    />
+                                </q>
+                            </h3>
 
                             {lessons.length > 1 &&
                                 <nav class="lesson-pager">
@@ -61,6 +76,7 @@ export default function CourseEditor() {
                         </header>
 
                         <CourseEditorLessonList />
+
                     </article>
                 )
             }}

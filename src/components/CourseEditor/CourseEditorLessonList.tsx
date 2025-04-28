@@ -71,6 +71,14 @@ export default function CourseEditorLessonList() {
                     </div>
                 </section>
             ))}
+
+            <Show when={courseStore()!.getLessons()}>
+                <article class='card no-set-height no-lessons'>
+                    <AddLessonButton lessonIdx={0} />
+                    <p>Click above to create your first lesson</p>
+                    <p>Click titles and descriptions to edit them</p>
+                </article>
+            </Show>
         </Show>
     );
 }

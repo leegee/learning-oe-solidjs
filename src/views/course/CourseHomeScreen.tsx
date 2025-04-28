@@ -57,7 +57,7 @@ const CourseHome = () => {
                             >
                                 <Show when={metadata}>
                                     <section class="card no-set-height">
-                                        <h2>{metadata!.courseTitle}</h2>
+                                        <h2>{metadata!.title}</h2>
                                         <p>{metadata!.description}</p>
                                     </section>
                                 </Show>

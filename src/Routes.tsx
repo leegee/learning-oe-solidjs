@@ -12,12 +12,9 @@ import MenuScreen from "./views/menu/MenuScreen";
 
 import CourseEditor from "./components/CourseEditor";
 
-export const RouteFragementInitCourse = 'init';
-
 export const Routes = (): JSX.Element => (
     <>
         <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
-        <Route path={`/editor/:courseIdx/${RouteFragementInitCourse}`} component={CourseEditor} />
         <Route path="/editor/:courseIdx?" component={CourseEditor} />
 
         <Route path="/course/:courseIdx" component={CourseRootScreen}>

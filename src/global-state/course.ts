@@ -23,7 +23,7 @@ export type ILessonSummary = {
 };
 
 export interface ICourseMetadata {
-    courseTitle: string;
+    title: string;
     description?: string;
     language: string;
     targetLanguage: string;
@@ -34,7 +34,7 @@ export interface ICourseMetadata {
 }
 
 const MetadataDefault = {
-    courseTitle: 'New Course',
+    title: 'New Course',
     description: 'A description',
     language: 'en',
     targetLanguage: 'en',
@@ -62,17 +62,21 @@ export interface ICourseStore {
     }>;
     // setStore: SetStoreFunction<ICourseDataStore>;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
+    getLessons: () => ILesson[];
     loadCourseFromFile: (index: number) => void;
+    saveCourseToStorage: () => void;
+    loadCourseFromStorage: (couseidx: number) => void;
     deleteCard: (lessonIdx: number, cardIdx: number) => void;
     saveCard: (card: IAnyCard, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
-    getLessons: () => ILesson[];
     getTotalLessonsCount: () => number;
     setLessons: (updatedLessons: ILesson[]) => void;
     addLesson: (lessonIdx?: number) => void;
     setTitle: (newTitle: string) => void;
     getTitle: () => string;
-    initNewCourse: (config: Config) => void;
+    setDescription: (newDesc: string) => void;
+    getDescription: () => string;
+    initNewCourse: (config: Config) => number;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx: number) => void;
 }
@@ -156,6 +160,34 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         return courseData;
     }
 
+    const saveCourseToStorage = () => {
+        try {
+            setStore("loading", true);
+            setStore("loading", true);
+            const course = {
+                lessons: store.lessons,
+                courseMetadata: store.courseMetadata,
+            };
+            localStorage.setItem('custom-lesson', JSON.stringify(course));
+        } finally {
+            setStore("loading", false);
+        }
+    }
+
+    const loadCourseFromStorage = (courseIdx: number) => {
+        console.log('loadCourseFromStorage enter');
+        try {
+            const storedCourse = JSON.parse(localStorage.getItem('custom-lesson') || '{}');
+            setCourse({
+                lessons: storedCourse.lessons,
+                courseMetadata: storedCourse.courseMetadata!,
+            });
+            console.log('loadCourseFromStorage set ', storedCourse);
+        } finally {
+            setStore("loading", false);
+        }
+    }
+
     const loadCourseFromFile = async (courseIdx: number) => {
         const config = await getAppConfig();
 
@@ -163,7 +195,12 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
             return;
         }
 
-        if (courseIdx >= config.courses.length) {
+        if (courseIdx === config.courses.length) {
+            console.log('load course from storage')
+            return loadCourseFromStorage(courseIdx);
+        }
+
+        if (courseIdx > config.courses.length) {
             console.warn("Invalid course index:", courseIdx);
             throw new InvalidCourseIndexError("Lesson out of range", courseIdx);
         }
@@ -216,17 +253,18 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         });
     };
 
-    const initNewCourse = (config: Config) => {
-        console.log('initNewCourse enter');
-        const newIdx = courseTitlesInIndexOrder(config).length;
+    const initNewCourse = (config: Config): number => {
+        console.trace('initNewCourse enter');
+        const courseIdx = courseTitlesInIndexOrder(config).length;
         setStore({ loading: true });
         setCourse({
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
         setStore({ loading: false });
-        console.log('initNewCourse leave with', newIdx);
-        return newIdx;
+        saveCourseToStorage();
+        console.log('initNewCourse leave with', courseIdx);
+        return courseIdx;
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {
@@ -270,15 +308,22 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         localStorage.removeItem(storageKeys.STORE_NAME);
     };
 
-    const setTitle = (newTitle: string) => setStore("courseMetadata", "courseTitle", newTitle);;
-    const getTitle = () => store.courseMetadata?.courseTitle ?? '';
+    const setTitle = (newTitle: string) => setStore("courseMetadata", "title", newTitle);;
+    const getTitle = () => store.courseMetadata?.title ?? '';
+
+    const setDescription = (newDesc: string) => setStore("courseMetadata", "description", newDesc);;
+    const getDescription = () => store.courseMetadata?.description ?? '';
 
     return {
         store,
         // setStore,
         setTitle,
         getTitle,
+        setDescription,
+        getDescription,
         initNewCourse,
+        saveCourseToStorage,
+        loadCourseFromStorage,
         loadCourseFromFile,
         setCourse,
         deleteCourse,

@@ -48,10 +48,10 @@ const MenuScreen = () => {
                         {/** TODO This needs to come from cached data */}
 
                         {/* {config.courses.map((course, courseIdx) => ( */}
-                        {courseTitlesInIndexOrder(config).map((courseTitle, courseIdx) => (
+                        {courseTitlesInIndexOrder(config).map((title, courseIdx) => (
                             <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                                 <a onClick={() => setLocalSelectedCourse(courseIdx)}>
-                                    {courseTitle}
+                                    {title}
                                     {/* {courseStore()?.getTitle()} */}
                                 </a>
                                 <span class='course-action-buttons'>
@@ -63,7 +63,7 @@ const MenuScreen = () => {
                         ))}
 
                         <li>
-                            <a onClick={() => { }}>
+                            <a onClick={() => { navigate('/editor/' + config.courses.length) }}>
                                 Custom Course
                             </a>
                             <span class='course-action-buttons'>
