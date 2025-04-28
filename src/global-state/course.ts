@@ -72,7 +72,7 @@ export interface ICourseStore {
     addLesson: (lessonIdx?: number) => void;
     setTitle: (newTitle: string) => void;
     getTitle: () => string;
-    initNewCourse: (courseIdx: number) => void;
+    initNewCourse: (config: Config) => void;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx: number) => void;
 }
@@ -179,9 +179,10 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
         try {
             const courseData = await loadFile(fileBasename);
+            const { lessons, ...courseMetadata } = courseData;
             setCourse({
-                lessons: courseData.lessons,
-                courseMetadata: { ...courseData },
+                lessons,
+                courseMetadata,
             });
             setStore({ loading: false });
         } catch (error) {
@@ -215,18 +216,17 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         });
     };
 
-    const initNewCourse = () => {
+    const initNewCourse = (config: Config) => {
         console.log('initNewCourse enter');
+        const newIdx = courseTitlesInIndexOrder(config).length;
         setStore({ loading: true });
         setCourse({
             lessons: [...LessonsDefault],
             courseMetadata: { ...MetadataDefault },
         });
-        // hacky
-        setTimeout(() => {
-            setStore({ loading: false });
-            console.log('initNewCourse done');
-        }, 0);
+        setStore({ loading: false });
+        console.log('initNewCourse leave with', newIdx);
+        return newIdx;
     };
 
     const CourseTitles2Indicies = (): ILessonSummary[] => {

@@ -18,7 +18,6 @@ const CourseHome = () => {
     const [courseStore] = createResource(useCourseStore);
     const [lessonStore, setLessonStore] = createSignal<ReturnType<typeof useLessonStore> | null>(null);
 
-    // Watch for route param changes
     createEffect(() => {
         const newIdx = Number(params.courseIdx);
         if (!Number.isNaN(newIdx) && newIdx !== courseIdx()) {
@@ -26,13 +25,11 @@ const CourseHome = () => {
         }
     });
 
-    // Sync courseStore and update lessonStore
     createEffect(() => {
         if (courseStore.loading) return;
-        const cs = courseStore();
-        const idx = courseIdx();
-        if (!cs) return;
-        setLessonStore(useLessonStore(idx));
+        const store = courseStore();
+        if (!store) return;
+        setLessonStore(useLessonStore(courseIdx()));
     });
 
     const onLessonSelected = (lessonIndex: number) => {
@@ -45,15 +42,32 @@ const CourseHome = () => {
             fallback={<div>Loading lessons ...</div>}
         >
             <article id="home">
-                <Stats courseIdx={courseIdx()} />
-                <LessonList
-                    lessons={courseStore()!.getLessons()}
-                    courseIndex={courseIdx()}
-                    currentLessonIndex={lessonStore()!.getCurrentLessonIdx()}
-                    onLessonSelected={onLessonSelected}
-                />
+                {(() => {
+                    const store = courseStore()!;
+                    const lesson = lessonStore()!;
+                    const metadata = store.store.courseMetadata;
+
+                    return (
+                        <>
+                            <Stats courseIdx={courseIdx()} />
+
+                            <LessonList
+                                courseIndex={courseIdx()}
+                                onLessonSelected={onLessonSelected}
+                            >
+                                <Show when={metadata}>
+                                    <section class="card no-set-height">
+                                        <h2>{metadata!.courseTitle}</h2>
+                                        <p>{metadata!.description}</p>
+                                    </section>
+                                </Show>
+                            </LessonList>
+                        </>
+                    );
+                })()}
             </article>
         </Show>
+
     );
 };
 

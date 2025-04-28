@@ -6,7 +6,7 @@
             "type": "string",
             "description": "The title of the course."
         },
-        "courseDescription": {
+        "description": {
             "type": "string",
             "description": "A short description of the course."
         },

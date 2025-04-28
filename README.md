@@ -42,15 +42,8 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## TODO
 
-Save & Load custom lessons: @solid-primitives/storage:
-
-```typescript
-    import { createSignal } from 'solid-js';
-    import { makePersisted } from '@solid-primitives/storage';
-    const [store, setStore, init] = makePersisted(
-        createStore( DATA_TO_STORE ), {name: NAME_OF_STORE }
-    );
-```
+* Load custom lessons into local storage.
+* Restore use of incrementLessonsIdx and test for end of course
 
 ## Thanks:
 

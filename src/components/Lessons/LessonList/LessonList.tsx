@@ -1,57 +1,50 @@
 import './LessonList.css';
-import { createResource, For, Show } from 'solid-js';
+import { createResource, For, JSX, Show } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
-import { ILesson } from '../Lesson';
+import { useLessonStore } from '../../../global-state/lessons';
 
 interface LessonListProps {
-    currentLessonIndex: number;
     courseIndex: number;
-    lessons: ILesson[];
+    children: JSX.Element;
     onLessonSelected: (lessonIndex: number) => void;
 }
 
 const LessonList = (props: LessonListProps) => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
-
-    const onLessonSelectedLocal = (lessonIndex: number) => {
-        props.onLessonSelected(lessonIndex);
-    };
+    const lessonStore = useLessonStore(props.courseIndex);
 
     return (
         <Show when={!courseStore.loading} fallback={<div>Loading lesson list...</div>}>
-            <Show when={courseStore()?.store?.courseMetadata} fallback={<div>Loading course data...</div>}>
-                {(metadata) => {
-
-                    return (
-                        <section class="card lesson-list">
-                            <h2>{metadata().courseTitle}</h2>
-                            <ol>
-                                <For each={props.lessons}>
-                                    {(lesson, index) => (
-                                        <li>
-                                            <button
-                                                disabled={index() > props.currentLessonIndex}
-                                                onClick={() => {
-                                                    if (index() <= props.currentLessonIndex) {
-                                                        onLessonSelectedLocal(index());
-                                                    }
-                                                }}
-                                                class={[
-                                                    index() < props.currentLessonIndex ? 'completed' : '',
-                                                    index() === props.currentLessonIndex ? 'current' : '',
-                                                    index() > props.currentLessonIndex ? 'todo' : ''
-                                                ].join(' ')}
-                                            >
-                                                {lesson.title}
-                                            </button>
-                                        </li>
-                                    )}
-                                </For>
-                            </ol>
-                        </section>
-                    );
-                }}
-            </Show>
+            <section class="card lesson-list">
+                {props.children}
+                <ol>
+                    <For each={courseStore()?.getLessons() ?? []}>
+                        {(lesson, index) => {
+                            const idx = index();
+                            const currentIdx = lessonStore.getCurrentLessonIdx();
+                            return (
+                                <li>
+                                    <button
+                                        disabled={idx > currentIdx}
+                                        onClick={() => {
+                                            if (idx <= currentIdx) {
+                                                props.onLessonSelected(idx);
+                                            }
+                                        }}
+                                        classList={{
+                                            completed: idx < currentIdx,
+                                            current: idx === currentIdx,
+                                            todo: idx > currentIdx
+                                        }}
+                                    >
+                                        {lesson.title}
+                                    </button>
+                                </li>
+                            );
+                        }}
+                    </For>
+                </ol>
+            </section>
         </Show>
     );
 };

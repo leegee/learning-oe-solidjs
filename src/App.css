@@ -45,6 +45,10 @@ footer {
     justify-content: space-between
 }
 
+.card.no-set-height {
+    flex: unset;
+}
+
 .card * {
     background-color: var(--oe-clr-card-bg);
 }

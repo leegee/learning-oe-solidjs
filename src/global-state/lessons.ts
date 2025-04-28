@@ -24,7 +24,14 @@ export const useLessonStore = (courseIdx: number) => {
   );
 
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
-  const getCurrentLessonIdx = () => state.currentLessonIdx;
+  const getCurrentLessonIdx = () => {
+    let rv = state.currentLessonIdx || 0;
+    if (rv === 0) {
+      setCurrentLessonIdx(0);
+    }
+    return rv;
+  };
+  const incrementLessonsIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
 
   const saveAnswer = (
     lessonIdx: number,
@@ -105,6 +112,7 @@ export const useLessonStore = (courseIdx: number) => {
   return {
     getCurrentLessonIdx,
     setCurrentLessonIdx,
+    incrementLessonsIdx,
     saveAnswer,
     getLessonAnswers,
     resetLesson,
