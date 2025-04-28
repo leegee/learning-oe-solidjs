@@ -10,7 +10,8 @@ interface Answers {
 }
 
 export const useLessonStore = (courseIdx: number) => {
-  const course_storage_key = `lesson-store-${courseIdx}`;
+  // Use one store for each course.
+  const course_storage_key = `answers-store-${courseIdx}`;
 
   const [state, setState] = makePersisted(
     createStore({
@@ -24,13 +25,11 @@ export const useLessonStore = (courseIdx: number) => {
   );
 
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
+
   const getCurrentLessonIdx = () => {
-    let rv = state.currentLessonIdx || 0;
-    if (rv === 0) {
-      setCurrentLessonIdx(0);
-    }
-    return rv;
+    return state.currentLessonIdx !== -1 ? state.currentLessonIdx : -1;
   };
+
   const incrementLessonsIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
 
   const saveAnswer = (

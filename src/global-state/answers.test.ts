@@ -1,0 +1,134 @@
+import "@solid-primitives/storage";
+import "@jest/globals";
+import { useLessonStore } from "./answers";
+
+let lessonStore: ReturnType<typeof useLessonStore>;
+
+jest.mock('@solid-primitives/storage', () => ({
+    createLocalStorage: jest.fn().mockImplementation(() => ({
+        getItem: jest.fn(() => null),
+        setItem: jest.fn(),
+        clear: jest.fn(),
+    })),
+}));
+
+beforeEach(() => {
+    jest.restoreAllMocks();
+    localStorage.clear();
+    lessonStore = useLessonStore(0);
+});
+
+describe("useLessonStore", () => {
+    beforeEach(() => {
+        jest.restoreAllMocks();
+        localStorage.clear();
+        lessonStore = useLessonStore(0);
+    });
+
+    describe("initial state", () => {
+        it("should initialize with currentLessonIdx", () => {
+            expect(lessonStore.getCurrentLessonIdx()).toBe(-1);
+            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
+            expect(stored.currentLessonIdx).toBe(-1);
+        });
+    });
+
+    describe("lesson index operations", () => {
+        it("should set current lesson index", () => {
+            lessonStore.setCurrentLessonIdx(5);
+            expect(lessonStore.getCurrentLessonIdx()).toBe(5);
+        });
+
+        it("should increment lesson index", () => {
+            lessonStore.setCurrentLessonIdx(2);
+            lessonStore.incrementLessonsIdx();
+            expect(lessonStore.getCurrentLessonIdx()).toBe(3);
+        });
+    });
+
+    describe("saveAnswer", () => {
+        it("should save an incorrect answer to a new lesson/card", () => {
+            lessonStore.saveAnswer(1, 0, "wrong-1");
+            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
+            expect(stored.answers).toEqual({ 1: [["wrong-1"]] });
+        });
+
+        it("should append multiple incorrect answers", () => {
+            lessonStore.saveAnswer(1, 0, "wrong-1");
+            lessonStore.saveAnswer(1, 0, "wrong-2");
+            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
+            expect(stored.answers).toEqual({ 1: [["wrong-1", "wrong-2"]] });
+        });
+
+        it("should create empty arrays if saving to a card index out of order", () => {
+            lessonStore.saveAnswer(2, 2, "wrong-late");
+            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
+            expect(stored.answers[2]).toEqual([[], [], ["wrong-late"]]);
+        });
+    });
+
+    describe("getLessonAnswers", () => {
+        it("should return empty array for unknown lesson", () => {
+            expect(lessonStore.getLessonAnswers(10)).toEqual([]);
+        });
+
+        it("should return answers for existing lesson", () => {
+            lessonStore.saveAnswer(0, 0, "a1");
+            expect(lessonStore.getLessonAnswers(0)).toEqual([["a1"]]);
+        });
+    });
+
+    describe("resetLesson", () => {
+        it("should reset a lesson's answers", () => {
+            lessonStore.saveAnswer(0, 0, "wrong");
+            lessonStore.resetLesson(0);
+            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
+            expect(stored.answers[0]).toEqual([]);
+        });
+    });
+
+    describe("total counting functions", () => {
+        beforeEach(() => {
+            lessonStore.saveAnswer(0, 0, ""); // correct
+            lessonStore.saveAnswer(0, 1, "wrong");
+            lessonStore.saveAnswer(1, 0, "wrong");
+            lessonStore.saveAnswer(1, 1, ""); // correct
+        });
+
+        it("should count total taken lessons", () => {
+            expect(lessonStore.getTotalTakenLessons()).toBe(2);
+        });
+
+        it("should count total questions answered", () => {
+            expect(lessonStore.getTotalQuestionsAnswered()).toBe(4);
+        });
+
+        it("should count total correct answers", () => {
+            expect(lessonStore.getTotalCorrectAnswers()).toBe(2);
+        });
+
+        it("should count total incorrect answers", () => {
+            expect(lessonStore.getTotalIncorrectAnswers()).toBe(2);
+        });
+    });
+
+    describe("lesson-specific counting", () => {
+        beforeEach(() => {
+            lessonStore.saveAnswer(5, 0, "wrong-1");
+            lessonStore.saveAnswer(5, 1, "");
+            lessonStore.saveAnswer(5, 2, "wrong-2");
+        });
+
+        it("should count total questions in a lesson", () => {
+            expect(lessonStore.getLessonQuestionCount(5)).toBe(3);
+        });
+
+        it("should count correct answers in a lesson", () => {
+            expect(lessonStore.getLessonQuestionsAnsweredCorrectly(5)).toBe(1);
+        });
+
+        it("should count incorrect answers in a lesson", () => {
+            expect(lessonStore.getLessonQuestionsAnsweredIncorrectly(5)).toBe(2);
+        });
+    });
+});

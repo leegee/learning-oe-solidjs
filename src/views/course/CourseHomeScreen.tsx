@@ -7,7 +7,7 @@ import {
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import Stats from "../../components/Stats";
-import { useLessonStore } from "../../global-state/lessons";
+import { useLessonStore } from "../../global-state/answers";
 import { useCourseStore } from "../../global-state/course";
 
 const CourseHome = () => {

@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "@solidjs/router";
 import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
 import LessonComponent, { ILesson } from "../../../components/Lessons/Lesson";
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
-import { useLessonStore } from "../../../global-state/lessons";
+import { useLessonStore } from "../../../global-state/answers";
 
 const LessonInProgressScreen = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);

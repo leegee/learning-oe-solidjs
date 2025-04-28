@@ -2,7 +2,7 @@ import './LessonCompleted.css';
 import { useParams } from '@solidjs/router';
 import { TFunction } from 'i18next';
 import { useI18n } from '../../contexts/I18nProvider';
-import { useLessonStore } from '../../global-state/lessons';
+import { useLessonStore } from '../../global-state/answers';
 import { formatDuration } from "../../lib/format-duration";
 import { exitFullscreen } from '../../lib/fullscreen';
 

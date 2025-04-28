@@ -1,7 +1,7 @@
 import './LessonList.css';
 import { createResource, For, JSX, Show } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
-import { useLessonStore } from '../../../global-state/lessons';
+import { useLessonStore } from '../../../global-state/answers';
 
 interface LessonListProps {
     courseIndex: number;

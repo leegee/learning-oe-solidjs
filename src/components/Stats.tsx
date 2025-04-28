@@ -1,5 +1,5 @@
 import './Stats.css';
-import { useLessonStore } from "../global-state/lessons";
+import { useLessonStore } from "../global-state/answers";
 import { useI18n } from '../contexts/I18nProvider';
 
 export interface IStatsProps {

@@ -3,7 +3,7 @@ import './LessonIntroScreen.css';
 import { createMemo, createResource, Show, } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 
-import { useLessonStore } from "../../../global-state/lessons";
+import { useLessonStore } from "../../../global-state/answers";
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
 import { enterFullscreen } from "../../../lib/fullscreen";
 import { useI18n } from "../../../contexts/I18nProvider";

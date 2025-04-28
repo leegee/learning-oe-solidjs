@@ -4,7 +4,7 @@ import { useParams } from '@solidjs/router';
 import { type ICourseStore, useCourseStore } from '../../global-state/course';
 import MenuTogglebutton from "../Menu/MenuToggleButton";
 import { useConfigContext } from "../../contexts/ConfigProvider";
-import { useLessonStore } from "../../global-state/lessons";
+import { useLessonStore } from "../../global-state/answers";
 import { useI18n } from "../../contexts/I18nProvider";
 
 const Header = () => {
