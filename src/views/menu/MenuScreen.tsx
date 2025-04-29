@@ -63,7 +63,7 @@ const MenuScreen = () => {
                         ))}
 
                         <li>
-                            <a onClick={() => { navigate('/editor/' + config.courses.length) }}>
+                            <a onClick={() => { navigate('/course/' + config.courses.length) }}>
                                 Custom Course
                             </a>
                             <span class='course-action-buttons'>
