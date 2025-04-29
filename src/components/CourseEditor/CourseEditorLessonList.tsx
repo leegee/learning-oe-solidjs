@@ -72,9 +72,13 @@ export default function CourseEditorLessonList() {
                 </section>
             ))}
 
-            <Show when={courseStore()!.getLessons()}>
+            <Show when={courseStore()!.getLessons().length === 0}>
                 <article class='card no-set-height no-lessons'>
-                    <AddLessonButton lessonIdx={0} />
+                    <button
+                        class="large-icon-button icon-plus-thin"
+                        title="Add a new lesson to this course"
+                        onClick={() => courseStore()?.addLesson(0)}
+                    />
                     <p>Click above to create your first lesson</p>
                     <p>Click titles and descriptions to edit them</p>
                 </article>
