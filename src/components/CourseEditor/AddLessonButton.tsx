@@ -1,9 +1,13 @@
 import "./AddLessonButton.css";
 import { createSignal, createResource, Show, onCleanup } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
+import { useNavigate } from "@solidjs/router";
+import { useConfigContext } from "../../contexts/ConfigProvider";
 
 export interface IAddLessonButtonProps {
     lessonIdx?: number;
+    above?: boolean;
+    below?: boolean;
 }
 
 export default function AddLessonButton(props: IAddLessonButtonProps) {
@@ -30,20 +34,26 @@ export default function AddLessonButton(props: IAddLessonButtonProps) {
 
                 <Show when={showOptions()}>
                     <aside class="add-lesson-overlay">
-                        <button class="large-icon-button icon-up-fat"
-                            title="Add a new lesson above this"
-                            onClick={() => {
-                                courseStore()?.addLesson(Number(props.lessonIdx) - 1);
-                                setShowOptions(false);
-                            }}
-                        />
-                        <button class="large-icon-button icon-down-fat"
-                            title="Add a new lesson beneath this"
-                            onClick={() => {
-                                courseStore()?.addLesson(Number(props.lessonIdx) + 1);
-                                setShowOptions(false);
-                            }}
-                        />
+                        <Show when={props.above || (!props.above && !props.below)}>
+                            <button class="large-icon-button icon-up-fat"
+                                title="Add a new lesson above this"
+                                onClick={() => {
+                                    courseStore()?.addLesson(Number(props.lessonIdx) - 1);
+                                    setShowOptions(false);
+                                }}
+                            />
+                        </Show>
+
+                        <Show when={props.below || (!props.above && !props.below)}>
+                            <button class="large-icon-button icon-down-fat"
+                                title="Add a new lesson beneath this"
+                                onClick={() => {
+                                    courseStore()?.addLesson(Number(props.lessonIdx) + 1);
+                                    setShowOptions(false);
+                                }}
+                            />
+                        </Show>
+
                     </aside>
                 </Show>
             </div>
