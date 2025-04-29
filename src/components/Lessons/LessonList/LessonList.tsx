@@ -16,34 +16,42 @@ const LessonList = (props: LessonListProps) => {
     return (
         <Show when={!courseStore.loading} fallback={<div>Loading lesson list...</div>}>
             <section class="card lesson-list">
+
                 {props.children}
-                <ol>
-                    <For each={courseStore()?.getLessons() ?? []}>
-                        {(lesson, index) => {
-                            const idx = index();
-                            const currentIdx = lessonStore.getCurrentLessonIdx();
-                            return (
-                                <li>
-                                    <button
-                                        disabled={idx > currentIdx}
-                                        onClick={() => {
-                                            if (idx <= currentIdx) {
-                                                props.onLessonSelected(idx);
-                                            }
-                                        }}
-                                        classList={{
-                                            completed: idx < currentIdx,
-                                            current: idx === currentIdx,
-                                            todo: idx > currentIdx
-                                        }}
-                                    >
-                                        {lesson.title}
-                                    </button>
-                                </li>
-                            );
-                        }}
-                    </For>
-                </ol>
+
+                <Show
+                    when={(courseStore()?.getLessons()?.length ?? 0) > 0}
+                    fallback={<p class="card">No lessons are available for this course.</p>}
+                >
+                    <ol>
+                        <For each={courseStore()?.getLessons() ?? []}>
+                            {(lesson, index) => {
+                                const idx = index();
+                                const currentIdx = lessonStore.getCurrentLessonIdx();
+                                return (
+                                    <li>
+                                        <button
+                                            disabled={idx > currentIdx}
+                                            onClick={() => {
+                                                if (idx <= currentIdx) {
+                                                    props.onLessonSelected(idx);
+                                                }
+                                            }}
+                                            classList={{
+                                                completed: idx < currentIdx,
+                                                current: idx === currentIdx,
+                                                todo: idx > currentIdx
+                                            }}
+                                        >
+                                            {lesson.title}
+                                        </button>
+                                    </li>
+                                );
+                            }}
+                        </For>
+                    </ol>
+                </Show>
+
             </section>
         </Show>
     );
