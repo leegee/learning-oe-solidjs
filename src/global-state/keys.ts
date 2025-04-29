@@ -6,4 +6,5 @@ export const storageKeys = {
     LESSONS: (courseIdx: number) => `${STORAGE_PREFIX}course_${courseIdx}`,
     CURRENT_COURSE_INDEX: `${STORAGE_PREFIX}course`,
     STORE_NAME: 'oe-courses',
+    EDITING_MODE: 'oe-editing',
 };

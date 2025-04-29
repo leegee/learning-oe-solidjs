@@ -42,8 +42,9 @@
     margin-top: 10vh;
     padding-top: 1em;
     display: flex;
-    align-items: center;
-    flex-direction: column;
+    justify-content: center;
+    flex-direction: row;
+    gap: 1em;
 }
 
 .hamburger-menu small {

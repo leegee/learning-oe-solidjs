@@ -11,10 +11,12 @@ import { useI18n } from "../../contexts/I18nProvider";
 import CourseDownloadButton from '../../components/CourseEditor/CourseDownloadButton';
 import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
+import { storageKeys } from '../../global-state/keys';
+
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
-
+    const [editing, setEditing] = createSignal(false);
     const { t } = useI18n();
     const navigate = useNavigate();
     const { config } = useConfigContext();
@@ -46,19 +48,19 @@ const MenuScreen = () => {
 
 
                         {/** TODO This needs to come from cached data */}
-
-                        {/* {config.courses.map((course, courseIdx) => ( */}
                         {courseTitlesInIndexOrder(config).map((title, courseIdx) => (
                             <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                                 <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                     {title}
                                     {/* {courseStore()?.getTitle()} */}
                                 </a>
-                                <span class='course-action-buttons'>
-                                    <ResetCourseButtonComponent courseIdx={courseIdx} />
-                                    <CourseDownloadButton />
-                                    <CourseEditorButton courseIdx={courseIdx} />
-                                </span>
+                                <Show when={editing()}>
+                                    <span class='course-action-buttons'>
+                                        <ResetCourseButtonComponent courseIdx={courseIdx} />
+                                        <CourseDownloadButton />
+                                        <CourseEditorButton courseIdx={courseIdx} />
+                                    </span>
+                                </Show>
                             </li>
                         ))}
 
@@ -66,18 +68,25 @@ const MenuScreen = () => {
                             <a onClick={() => { navigate('/course/' + config.courses.length) }}>
                                 Custom Course
                             </a>
-                            <span class='course-action-buttons'>
-                                <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
-                                <NewCourseButton />
-                            </span>
+                            <Show when={editing()}>
+                                <span class='course-action-buttons'>
+                                    <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
+                                    <NewCourseButton />
+                                </span>
+                            </Show>
                         </li>
 
                     </nav>
 
                     <footer>
-                        <small>Version {packageJson.version}</small>
+                        <small>
+                            <button onClick={() => setEditing(!editing())}>Edit Courses </button>
+                        </small>
                     </footer>
                 </section>
+                <footer>
+                    <small>Version {packageJson.version}</small>
+                </footer>
             </aside>
         </Show>
     );
