@@ -11,8 +11,6 @@ import { useI18n } from "../../contexts/I18nProvider";
 import CourseDownloadButton from '../../components/CourseEditor/CourseDownloadButton';
 import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
-import { storageKeys } from '../../global-state/keys';
-
 
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
