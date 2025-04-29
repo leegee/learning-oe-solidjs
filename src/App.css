@@ -37,6 +37,7 @@ footer {
     background-color: var(--oe-clr-card-bg);
     border: 1pt solid var(--oe-clr-border);
     margin: 1em 0;
+    margin-top: 0;
     padding: 1em;
     flex: 1;
     overflow: auto;

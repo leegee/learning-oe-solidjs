@@ -1,5 +1,6 @@
 .header-component {
     transition: all 1s;
+    margin-bottom: 1em;
 }
 
 body.menu-shown .header-component {
