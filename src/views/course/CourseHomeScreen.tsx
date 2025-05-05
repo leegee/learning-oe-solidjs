@@ -45,7 +45,6 @@ const CourseHome = () => {
             <article id="home">
                 {(() => {
                     const store = courseStore()!;
-                    const lesson = lessonStore()!;
                     const metadata = store.store.courseMetadata;
 
                     return (
@@ -59,7 +58,9 @@ const CourseHome = () => {
                                 <Show when={metadata}>
                                     <section class="card no-set-height">
                                         <h2>{metadata!.title}</h2>
-                                        <p>{metadata!.description}</p>
+                                        <Show when={metadata!.description}>
+                                            <p>{metadata!.description}</p>
+                                        </Show>
                                     </section>
                                 </Show>
                             </LessonList>
