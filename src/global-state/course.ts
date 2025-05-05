@@ -191,6 +191,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     }
 
     const loadCourseFromFile = async (courseIdx: number) => {
+        console.info('loadCourseFromFile enter');
         const config = await getAppConfig();
 
         if (isNaN(courseIdx)) {
@@ -224,10 +225,13 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
                 courseMetadata,
             });
             setStore({ loading: false });
+            console.info('loadCourseFromFile OK');
         } catch (error) {
             console.error("Error loading lessons:", error);
             setStore("loading", false);
         }
+
+        console.info('loadCourseFromFile leave');
     }
 
     const getLessons = createMemo(() => store.lessons);

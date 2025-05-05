@@ -27,7 +27,6 @@ export const useLessonStore = (courseIdx: number) => {
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
 
   const getCurrentLessonIdx = () => {
-    console.log('state.currentLessonIdx', state.currentLessonIdx)
     return state.currentLessonIdx === -1 ? 0 : state.currentLessonIdx;
   };
 

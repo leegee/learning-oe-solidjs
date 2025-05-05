@@ -7,7 +7,6 @@ import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
 import { useNavigate } from "@solidjs/router";
 import CourseEditorButton from "../../components/CourseEditor/CourseEditorButton";
-import { useI18n } from "../../contexts/I18nProvider";
 import CourseDownloadButton from '../../components/CourseEditor/CourseDownloadButton';
 import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
