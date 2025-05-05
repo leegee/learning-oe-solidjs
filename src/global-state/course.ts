@@ -63,9 +63,10 @@ export interface ICourseStore {
     // setStore: SetStoreFunction<ICourseDataStore>;
     setCourse: (args: { lessons: ILesson[], courseMetadata: ICourseMetadata }) => void;
     getLessons: () => ILesson[];
+    getCourseData: (courseIdx?: number) => Promise<ICourseData>;
     loadCourseFromFile: (index: number) => void;
-    saveCourseToStorage: () => void;
-    loadCourseFromStorage: (couseidx: number) => void;
+    saveCourseToStorage: (fileText?: string) => void;
+    loadCourseFromStorage: () => void;
     deleteCard: (lessonIdx: number, cardIdx: number) => void;
     saveCard: (card: IAnyCard, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
@@ -79,7 +80,10 @@ export interface ICourseStore {
     initNewCourse: (config: Config) => number;
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx: number) => void;
+    assertValidCourseData: (courseData: ICourseData) => unknown;
 }
+
+const CUSTOM_COURSE_STORAGE_KEY = 'custom-lesson';
 
 const LessonsDefault: ILesson[] = [];
 let courseStoreInstance: ICourseStore;
@@ -130,6 +134,16 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setStore({ lessons, courseMetadata });
     };
 
+    const assertValidCourseData = (courseData: ICourseData) => {
+        const ajv = new Ajv();
+        const validate = ajv.compile(courseLessonsSchema);
+        const valid = validate(courseData);
+        if (!valid) {
+            console.error(JSON.stringify(validate.errors, null, 4));
+            console.debug('courseData', courseData);
+            throw new TypeError("Invalid course data", courseData);
+        }
+    }
 
     /**
      * 
@@ -148,42 +162,36 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         const module = await lessons[filePath]();
         const courseData = (module as { default: ICourseData }).default;
 
-        const ajv = new Ajv();
-        const validate = ajv.compile(courseLessonsSchema);
-        const valid = validate(courseData);
-
-        if (!valid) {
-            console.debug(JSON.stringify(validate.errors, null, 4));
-            throw new TypeError("Invalid JSON");
-        }
-
         console.info(`Loaded course ${fileBasename} from ${filePath}`);
 
         return courseData;
     }
 
-    const saveCourseToStorage = () => {
-        try {
-            setStore("loading", true);
-            setStore("loading", true);
+    const saveCourseToStorage = (fileText?: string) => {
+        setStore("loading", true);
+
+        if (fileText) {
+            const courseData: ICourseData = JSON.parse(fileText);
+            assertValidCourseData(courseData);
+        }
+        else {
             const course = {
                 lessons: store.lessons,
                 courseMetadata: store.courseMetadata,
             };
-            localStorage.setItem('custom-lesson', JSON.stringify(course));
-        } finally {
-            setStore("loading", false);
+            fileText = JSON.stringify(course)
         }
+
+        localStorage.setItem(CUSTOM_COURSE_STORAGE_KEY, fileText);
+        setStore("loading", false);
     }
 
-    const loadCourseFromStorage = (courseIdx: number) => {
+    const loadCourseFromStorage = () => {
         console.log('loadCourseFromStorage enter');
         try {
-            const storedCourse = JSON.parse(localStorage.getItem('custom-lesson') || '{}');
-            setCourse({
-                lessons: storedCourse.lessons,
-                courseMetadata: storedCourse.courseMetadata!,
-            });
+            const storedCourse = JSON.parse(localStorage.getItem(CUSTOM_COURSE_STORAGE_KEY) || '{}');
+            const { lessons, ...courseMetadata } = storedCourse;
+            setCourse({ lessons, courseMetadata });
             console.log('loadCourseFromStorage set ', storedCourse);
         } finally {
             setStore("loading", false);
@@ -191,21 +199,16 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     }
 
     const loadCourseFromFile = async (courseIdx: number) => {
-        console.info('loadCourseFromFile enter');
-        const config = await getAppConfig();
-
+        console.info('loadCourseFromFile enter with', courseIdx);
         if (isNaN(courseIdx)) {
             return;
         }
 
+        const config = await getAppConfig();
+
         if (courseIdx === config.courses.length) {
             console.log('loadCourseFromFile Shall load course from storage')
-            return loadCourseFromStorage(courseIdx);
-        }
-
-        if (courseIdx > config.courses.length) {
-            console.warn("loadCourseFromFile Invalid course index:", courseIdx);
-            throw new InvalidCourseIndexError("Lesson out of range", courseIdx);
+            return loadCourseFromStorage();
         }
 
         if (courseIdx < 0) {
@@ -215,11 +218,16 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
         setStore("loading", true);
 
-        const { fileBasename } = config.courses[courseIdx];
-
         try {
-            const courseData = await loadFile(fileBasename);
+            let courseData: ICourseData;
+
+            const { fileBasename } = config.courses[courseIdx];
+            courseData = await loadFile(fileBasename);
+
+            assertValidCourseData(courseData);
+
             const { lessons, ...courseMetadata } = courseData;
+
             setCourse({
                 lessons,
                 courseMetadata,
@@ -235,6 +243,20 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     }
 
     const getLessons = createMemo(() => store.lessons);
+
+    const getCourseData = async (courseIdx?: number) => {
+        if (!store.lessons || store.lessons.length === 0) {
+            if (!Number.isFinite(courseIdx)) {
+                throw new Error('No lessons loaded and no courseIdx supplied?');
+            }
+            await loadCourseFromFile(courseIdx!);
+            console.debug("getCourseData loaded course", courseIdx);
+        }
+        return {
+            ...store.courseMetadata,
+            lessons: store.lessons,
+        } as ICourseData
+    };
 
     const setLessons = (lessons: ILesson[]) => setStore({ "lessons": lessons, });
 
@@ -336,11 +358,13 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         saveCard,
         deleteCard,
         setLessons,
-        getTotalLessonsCount,
         getLessons,
+        getCourseData,
+        getTotalLessonsCount,
         addLesson,
         lessonTitles2Indicies: CourseTitles2Indicies,
         reset,
+        assertValidCourseData,
     };
 };
 

@@ -50,7 +50,7 @@ const MenuScreen = () => {
                                 <Show when={editing()}>
                                     <span class='course-action-buttons'>
                                         <ResetCourseButtonComponent courseIdx={courseIdx} />
-                                        <CourseDownloadButton />
+                                        <CourseDownloadButton courseIdx={courseIdx} />
                                         <CourseEditorButton courseIdx={courseIdx} />
                                     </span>
                                 </Show>
@@ -65,7 +65,7 @@ const MenuScreen = () => {
                                 <span class='course-action-buttons'>
                                     <NewCourseButton />
                                     <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
-                                    <CourseDownloadButton />
+                                    <CourseDownloadButton courseIdx={courseTitlesInIndexOrder(config).length} />
                                     <CourseEditorButton courseIdx={courseTitlesInIndexOrder(config).length} />
                                 </span>
                             </Show>

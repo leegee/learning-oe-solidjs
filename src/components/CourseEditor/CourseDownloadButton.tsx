@@ -1,8 +1,11 @@
 import { createResource } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 
+export type ICourseDownloadButtonProps = {
+    courseIdx: number;
+};
 
-const CourseDownloadButton = () => {
+const CourseDownloadButton = (props: ICourseDownloadButtonProps) => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     let errorDialogRef: HTMLDialogElement | null = null;
 
@@ -11,31 +14,22 @@ const CourseDownloadButton = () => {
 
         const filename = 'lessons.lson.json';
 
-        try {
-            if ('showSaveFilePicker' in window) {
-                const handle = await (window as any).showSaveFilePicker({
-                    suggestedName: filename,
-                    types: [{ description: "Lessons", accept: { "application/json": [".lson.json"] } }],
-                });
+        const courseData = await courseStore()!.getCourseData(props.courseIdx);
 
-                const writable = await handle.createWritable();
-                await writable.write(
-                    JSON.stringify(courseStore()!.getLessons(), null, 2)
-                );
-                await writable.close();
-            }
-            else {
-                // Fallback: create a blob and simulate download
-                const blob = new Blob([
-                    JSON.stringify(courseStore()!.getLessons(), null, 2)
-                ], { type: "text/plain" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = filename;
-                a.click();
-                URL.revokeObjectURL(url);
-            }
+        if (!courseData) {
+            throw new Error('Lessons not loaded?');
+        }
+
+        try {
+            const blob = new Blob([
+                JSON.stringify(courseData, null, 2)
+            ], { type: "text/plain" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
         }
         catch (err) {
             if ((err as Error).name !== "AbortError") {
@@ -47,7 +41,7 @@ const CourseDownloadButton = () => {
 
     return (
         <>
-            <button class="icon-download large-icon-button" onClick={() => handleSave()} />
+            <button title="Download this course" class="icon-download large-icon-button" onClick={() => handleSave()} />
 
             <dialog ref={el => (errorDialogRef = el)} class='dialog-error'>
                 <header>
