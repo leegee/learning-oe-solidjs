@@ -199,18 +199,18 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         }
 
         if (courseIdx === config.courses.length) {
-            console.log('load course from storage')
+            console.log('loadCourseFromFile Shall load course from storage')
             return loadCourseFromStorage(courseIdx);
         }
 
         if (courseIdx > config.courses.length) {
-            console.warn("Invalid course index:", courseIdx);
+            console.warn("loadCourseFromFile Invalid course index:", courseIdx);
             throw new InvalidCourseIndexError("Lesson out of range", courseIdx);
         }
 
         if (courseIdx < 0) {
-            console.warn("Invalid course index:", courseIdx);
-            throw new Error("Negative course index? " + courseIdx);
+            console.warn("loadCourseFromFile Invalid course index:", courseIdx);
+            throw new Error("loadCourseFromFile: Negative course index? " + courseIdx);
         }
 
         setStore("loading", true);
@@ -227,7 +227,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
             setStore({ loading: false });
             console.info('loadCourseFromFile OK');
         } catch (error) {
-            console.error("Error loading lessons:", error);
+            console.error("loadCourseFromFile Error loading lessons:", error);
             setStore("loading", false);
         }
 
