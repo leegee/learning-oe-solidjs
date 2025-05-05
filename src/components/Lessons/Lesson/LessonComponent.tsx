@@ -100,7 +100,7 @@ const LessonComponent = (props: ILessonProps) => {
         <article class="lesson">
             <h2>
                 <em>{props.lesson.title}</em>
-                <button class="close-button" onClick={leaveIfConfirmed} aria-label={t('lesson_progress')} />
+                <button class="close-button" onClick={leaveIfConfirmed} aria-label={t('cancel_lesson')} />
             </h2>
 
             <progress

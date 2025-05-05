@@ -11,6 +11,7 @@
     "delint": "eslint .",
     "deploy": "gh-pages -d dist",
     "test": "jest",
+    "e2e": "bun run playwright test",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "prebuild": "npm run test"
