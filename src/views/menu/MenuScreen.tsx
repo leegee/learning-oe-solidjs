@@ -42,8 +42,7 @@ const MenuScreen = () => {
 
                     {<h3>{t('choose_a_course')}</h3>}
 
-                    <nav class="course-menu">
-
+                    <nav class={"course-menu " + (editing() ? 'editing' : '')}>
 
                         {/** TODO This needs to come from cached data */}
                         {courseTitlesInIndexOrder(config).map((title, courseIdx) => (

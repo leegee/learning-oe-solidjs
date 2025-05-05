@@ -62,9 +62,12 @@
     margin: 3em auto;
     display: flex;
     flex-direction: column;
-    justify-items: center;
-    text-align: left;
+    align-items: center;
     width: 100%;
+}
+
+.course-menu.editing {
+    align-items: stretch;
 }
 
 .course-menu li {
