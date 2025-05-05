@@ -15,7 +15,6 @@ import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
 const MenuScreen = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const [editing, setEditing] = createSignal(false);
-    const { t } = useI18n();
     const navigate = useNavigate();
     const { config } = useConfigContext();
     const [localCourseIndex, setLocalCourseIndex] = createSignal<number>(0);

@@ -157,6 +157,8 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
             throw new TypeError("Invalid JSON");
         }
 
+        console.info(`Loaded course ${fileBasename} from ${filePath}`);
+
         return courseData;
     }
 
