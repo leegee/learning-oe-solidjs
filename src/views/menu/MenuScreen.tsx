@@ -40,8 +40,6 @@ const MenuScreen = () => {
                 <section class='card'>
                     <TitleComponent title={config.menuTitle || config.appTitle} />
 
-                    {<h3>{t('choose_a_course')}</h3>}
-
                     <nav class={"course-menu " + (editing() ? 'editing' : '')}>
 
                         {/** TODO This needs to come from cached data */}
