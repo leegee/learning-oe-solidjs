@@ -46,6 +46,10 @@ footer {
     justify-content: space-between
 }
 
+.card:last-child {
+    margin-bottom: 0;
+}
+
 .card.no-set-height {
     flex: unset;
     height: auto;
