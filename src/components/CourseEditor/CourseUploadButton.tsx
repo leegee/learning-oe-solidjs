@@ -54,7 +54,7 @@ const CourseUploadButton = (props: ICourseSaveButtonProps) => {
                     <h3>Course Loaded</h3>
                 </header>
                 <footer>
-                    <button class="large-icon-button utf8-icon-tick" onClick={() => errorDialogRef?.close()} />
+                    <button class="large-icon-button utf8-icon-tick" onClick={() => done()} />
                 </footer>
             </dialog >
         </>
