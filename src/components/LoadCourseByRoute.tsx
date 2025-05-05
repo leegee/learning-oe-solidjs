@@ -8,7 +8,7 @@ export default function LoadCourseByRoute() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
 
-    createEffect(() => {
+    createEffect(async () => {
         if (courseStore.loading) return;
         const courseIdx = params.courseIdx;
         if (!courseIdx) return;
@@ -16,7 +16,8 @@ export default function LoadCourseByRoute() {
         const numericIdx = Number(courseIdx);
         if (!isNaN(numericIdx) && !loadedCourses.has(courseIdx)) {
             loadedCourses.add(courseIdx);
-            courseStore()?.loadCourseFromFile(numericIdx);
+            await courseStore()?.loadCourseFromFile(numericIdx);
+            console.log('Loaded course by route')
         }
     });
 
