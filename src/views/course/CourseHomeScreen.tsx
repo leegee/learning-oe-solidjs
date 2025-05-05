@@ -20,8 +20,10 @@ const CourseHome = () => {
     createEffect(() => {
         const idx = Number(params.courseIdx);
         if (Number.isFinite(idx)) {
+            console.log("Course home screen set courseIdx", idx)
             setCourseIdx(idx);
         } else {
+            console.log("Course home screen has no courseIdx")
             setCourseIdx(null);
         }
     });
@@ -39,7 +41,7 @@ const CourseHome = () => {
 
     return (
         <Show
-            when={!courseStore.loading && courseStore() && lessonStore() && courseIdx()}
+            when={!courseStore.loading && courseStore() && lessonStore() && courseIdx() !== null}
             fallback={<div>Loading lessons ...</div>}
         >
             <article id="home">
