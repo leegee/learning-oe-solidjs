@@ -27,7 +27,8 @@ export const useLessonStore = (courseIdx: number) => {
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
 
   const getCurrentLessonIdx = () => {
-    return state.currentLessonIdx !== -1 ? state.currentLessonIdx : -1;
+    console.log('state.currentLessonIdx', state.currentLessonIdx)
+    return state.currentLessonIdx === -1 ? 0 : state.currentLessonIdx;
   };
 
   const incrementLessonsIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
