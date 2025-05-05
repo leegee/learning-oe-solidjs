@@ -10,6 +10,11 @@ const CourseUploadButton = (props: ICourseSaveButtonProps) => {
     let errorDialogRef: HTMLDialogElement | null = null;
     let okDialogRef: HTMLDialogElement | null = null;
 
+    const done = () => {
+        okDialogRef?.close();
+        errorDialogRef?.close();
+    }
+
     const handleLoad = async () => {
         if (courseStore.loading) return;
 
@@ -29,8 +34,8 @@ const CourseUploadButton = (props: ICourseSaveButtonProps) => {
 
     return (
         <>
-            <button title="Load this course" class="large-icon-button" onClick={() => handleLoad()}>
-                <i class='icon-download' />
+            <button title="Load a course from a file" class="large-icon-button" onClick={() => handleLoad()}>
+                <i class='icon-upload' />
             </button>
 
             <dialog ref={el => (errorDialogRef = el)} class='dialog-error'>
@@ -38,7 +43,7 @@ const CourseUploadButton = (props: ICourseSaveButtonProps) => {
                     <h3>Error loading course</h3>
                 </header>
                 <footer>
-                    <button class="large-icon-button" onClick={() => errorDialogRef?.close()}>
+                    <button class="large-icon-button" onClick={() => done()}>
                         <span class="utf8-icon-close" />
                     </button>
                 </footer>
