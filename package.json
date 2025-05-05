@@ -30,6 +30,7 @@
     "@babel/preset-typescript": "^7.27.0",
     "@eslint/js": "^9.21.0",
     "@jest/globals": "^29.7.0",
+    "@playwright/test": "^1.52.0",
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/jest-dom": "^6.6.3",
     "@types/ajv": "^1.0.4",
