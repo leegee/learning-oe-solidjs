@@ -62,7 +62,8 @@ describe('BlanksCardComponent', () => {
             expect(correctWord).toHaveClass('word-option');
 
             fireEvent.click(correctWord);
-            const insertedWord = screen.getByRole('button', { name: 'example' });
+            // Should really use the i18n lib for the text
+            const insertedWord = screen.getByRole('button', { name: 'example (selected)' });
             await waitFor(() => expect(insertedWord).toHaveClass('word-option correct'));
         });
 
