@@ -55,7 +55,7 @@ const CourseHome = () => {
                     onLessonSelected={onLessonSelected}
                 >
                     <Show when={courseMetadata()}>
-                        <section class="card no-set-height">
+                        <section class="card no-border no-set-height">
                             <h2>{courseMetadata()!.title}</h2>
                             <Show when={courseMetadata()!.description}>
                                 <p>{courseMetadata()!.description}</p>

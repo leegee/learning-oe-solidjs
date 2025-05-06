@@ -50,6 +50,11 @@ footer {
     margin-bottom: 0;
 }
 
+.card.no-border {
+    border-color: transparent;
+    padding: 0;
+}
+
 .card.no-set-height {
     flex: unset;
     height: auto;

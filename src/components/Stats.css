@@ -5,6 +5,7 @@
 
 .stats-component h2 {
     font-weight: 300;
+    margin-bottom: 0.5em;
 }
 
 .stats-component th {
