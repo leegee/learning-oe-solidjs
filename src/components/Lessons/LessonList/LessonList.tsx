@@ -42,6 +42,7 @@ const LessonList = (props: LessonListProps) => {
                                                 current: idx === currentIdx,
                                                 todo: idx > currentIdx
                                             }}
+                                            title={lesson.description || ''}
                                         >
                                             {lesson.title}
                                         </button>
