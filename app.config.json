@@ -75,7 +75,12 @@
                 "card-class.blanks": "Complete the Blanks",
                 "card-class.writing": "Writing",
                 "card-class.writing-blocks": "Writing Blocks",
-                "card-class.dynamic-vocab": "Dynamic Vocabulary"
+                "card-class.dynamic-vocab": "Dynamic Vocabulary",
+                "selected": "Selected",
+                "select": "Select",
+                "matched": "matched",
+                "correct": "correct",
+                "incorrect": "incorrect"
             },
             "ang": {
                 "reset_course": "Styrtan Ara",

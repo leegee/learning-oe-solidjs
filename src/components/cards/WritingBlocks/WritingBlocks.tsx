@@ -4,6 +4,7 @@ import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import './WritingBlocks.css';
+import { useI18n } from '../../../contexts/I18nProvider';
 
 export interface IWritingBlocksCard extends IBaseCard {
     question: string;
@@ -32,6 +33,7 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
+    const { t } = useI18n();
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
@@ -91,7 +93,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
                                 class='option-button'
                                 onClick={() => handleWordClick(word)}
                                 disabled={selectedWords().includes(word)}
-                                aria-label={selectedWords().includes(word) ? `${word} (selected)` : `Add ${word} to selected words`}
+                                aria-label={selectedWords().includes(word) ? `${word} (${t('selected')})` : `${t('select')} ${word}`}
                             >
                                 {word}
                             </button>

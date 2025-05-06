@@ -161,7 +161,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                                             class={`vocab-match left-word ${row.isLeftMatched ? 'correct' : ''} ${selectedLeft() === row.leftWord ? 'selected' : ''} ${row.shakeIt ? 'shake' : ''}`}
                                             onClick={() => handleLeftWordClicked(row.leftWord)}
                                             disabled={row.isLeftDisabled}
-                                            aria-label={row.isLeftMatched ? `${row.leftWord} (matched)` : `Select ${row.leftWord}`}
+                                            aria-label={row.isLeftMatched ? `${row.leftWord} (${t('matched')})` : `${t('select')} ${row.leftWord}`}
                                         >
                                             {row.leftWord}
                                         </button>
@@ -172,7 +172,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                                             class={`vocab-match right-word ${row.isRightMatched ? 'correct' : ''} ${selectedRight() === row.shuffledRightWord ? 'selected' : ''} ${row.shakeRight ? 'shake' : ''}`}
                                             onClick={() => handleRightWordClicked(row.shuffledRightWord)}
                                             disabled={row.isRightDisabled}
-                                            aria-label={row.isRightMatched ? `${row.shuffledRightWord} (matched)` : `Select ${row.shuffledRightWord}`}
+                                            aria-label={row.isRightMatched ? `${row.shuffledRightWord}  (${t('matched')})` : `${t('select')} ${row.shuffledRightWord}`}
                                         >
                                             {row.shuffledRightWord}
                                         </button>
