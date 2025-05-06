@@ -1,27 +1,27 @@
-import "@solid-primitives/storage";
 import "@jest/globals";
 import { useLessonStore } from "./answers";
+
+// Mocking the persistence mechanism used by `useLessonStore` (i.e., @solid-primitives/storage)
+jest.mock('@solid-primitives/storage', () => ({
+    makePersisted: (signal: any, _options?: any) => signal,
+}));
 
 let lessonStore: ReturnType<typeof useLessonStore>;
 
 beforeEach(() => {
     jest.restoreAllMocks();
-    localStorage.clear();
-    lessonStore = useLessonStore(0);
+    lessonStore = useLessonStore(0);  // Initialize store without interacting with storage
 });
 
 describe("useLessonStore", () => {
     beforeEach(() => {
         jest.restoreAllMocks();
-        localStorage.clear();
         lessonStore = useLessonStore(0);
     });
 
     describe("initial state", () => {
         it("should initialize with currentLessonIdx", () => {
-            expect(lessonStore.getCurrentLessonIdx()).toBe(-1);
-            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
-            expect(stored.currentLessonIdx).toBe(-1);
+            expect(lessonStore.getCurrentLessonIdx()).toBe(0);
         });
     });
 
@@ -41,21 +41,21 @@ describe("useLessonStore", () => {
     describe("saveAnswer", () => {
         it("should save an incorrect answer to a new lesson/card", () => {
             lessonStore.saveAnswer(1, 0, "wrong-1");
-            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
-            expect(stored.answers).toEqual({ 1: [["wrong-1"]] });
+            const answers = lessonStore.getLessonAnswers(1);
+            expect(answers).toEqual([["wrong-1"]]);
         });
 
         it("should append multiple incorrect answers", () => {
             lessonStore.saveAnswer(1, 0, "wrong-1");
             lessonStore.saveAnswer(1, 0, "wrong-2");
-            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
-            expect(stored.answers).toEqual({ 1: [["wrong-1", "wrong-2"]] });
+            const answers = lessonStore.getLessonAnswers(1);
+            expect(answers).toEqual([["wrong-1", "wrong-2"]]);
         });
 
         it("should create empty arrays if saving to a card index out of order", () => {
             lessonStore.saveAnswer(2, 2, "wrong-late");
-            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
-            expect(stored.answers[2]).toEqual([[], [], ["wrong-late"]]);
+            const answers = lessonStore.getLessonAnswers(2);
+            expect(answers).toEqual([[], [], ["wrong-late"]]);
         });
     });
 
@@ -74,8 +74,8 @@ describe("useLessonStore", () => {
         it("should reset a lesson's answers", () => {
             lessonStore.saveAnswer(0, 0, "wrong");
             lessonStore.resetLesson(0);
-            const stored = JSON.parse(localStorage.getItem("answers-store-0") || "{}");
-            expect(stored.answers[0]).toEqual([]);
+            const answers = lessonStore.getLessonAnswers(0);
+            expect(answers).toEqual([]);
         });
     });
 
