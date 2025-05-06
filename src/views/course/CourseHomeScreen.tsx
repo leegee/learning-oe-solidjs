@@ -1,4 +1,4 @@
-import { createSignal, createEffect, createResource, createMemo, Show } from "solid-js";
+import { createSignal, createEffect, createResource, Show, createMemo } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import Stats from "../../components/Stats";
@@ -12,20 +12,7 @@ const CourseHome = () => {
     const [courseIdx, setCourseIdx] = createSignal<number | null>(null);
     const [courseStore] = createResource(useCourseStore);
 
-    const lessonStore = createMemo(() => {
-        const idx = courseIdx();
-        if (idx !== null) {
-            return useLessonStore(idx);
-        }
-        return null;
-    });
-
-    const courseMetadata = createMemo(() => courseStore()?.store.courseMetadata);
-
-    createEffect(() => {
-        console.log("courseMetadata", courseMetadata())
-        console.log("courseMetadata 2", courseStore()?.store)
-    })
+    const [courseMetadata, setCourseMetadata] = createSignal<any | null>(null);
 
     createEffect(() => {
         const idx = Number(params.courseIdx);
@@ -36,6 +23,25 @@ const CourseHome = () => {
             console.log("Course home screen has no courseIdx");
             setCourseIdx(null);
         }
+    });
+
+    // Track the loading and data of courseStore
+    createEffect(() => {
+        if (courseStore() && !courseStore.loading) {
+            const idx = courseIdx();
+            if (idx !== null) {
+                const metadata = courseStore()?.store.courseMetadata;
+                setCourseMetadata(metadata);
+            }
+        }
+    });
+
+    const lessonStore = createMemo(() => {
+        const idx = courseIdx();
+        if (idx !== null) {
+            return useLessonStore(idx);
+        }
+        return null;
     });
 
     const onLessonSelected = (lessonIndex: number) => {
