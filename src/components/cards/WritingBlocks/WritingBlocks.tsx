@@ -72,7 +72,10 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
                 <div class='selected-words'>
                     <For each={selectedWords()}>
                         {(word, index) => (
-                            <button class='selected-word' onClick={() => handleRemoveWord(index())}>
+                            <button class='selected-word'
+                                onClick={() => handleRemoveWord(index())}
+                                aria-label={`Remove word: ${word}`}
+                            >
                                 {word}
                             </button>
                         )}
@@ -88,6 +91,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
                                 class='option-button'
                                 onClick={() => handleWordClick(word)}
                                 disabled={selectedWords().includes(word)}
+                                aria-label={selectedWords().includes(word) ? `${word} (selected)` : `Add ${word} to selected words`}
                             >
                                 {word}
                             </button>

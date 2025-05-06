@@ -94,6 +94,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                                     : ''
                                     }`}
                                 disabled={areButtonsDisabled() ? true : undefined}
+                                aria-label={hasChecked() ? (isCorrect() ? `${option} (correct)` : `${option} (incorrect)`) : `Select ${option}`}
                             >
                                 {option}
                             </button>

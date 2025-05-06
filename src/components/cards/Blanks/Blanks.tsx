@@ -110,6 +110,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                         const isCorrect = props.card.words.some((item) => Object.keys(item)[0] === word && Object.values(item)[0]);
                         const shakeClass = shake() === word ? 'shake' : '';
                         const className = 'word-option ' + (isSelected ? (isCorrect ? 'correct' : 'incorrect') : '') + shakeClass;
+                        const label = isSelected ? `${word} (selected)` : `Select ${word}`;
 
                         return (
                             <button
@@ -117,6 +118,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                                 onClick={() => handleWordClick(word)}
                                 disabled={isSelected}
                                 class={className}
+                                aria-label={label}
                             >
                                 {word}
                             </button>
