@@ -1,13 +1,12 @@
 import './App.css';
 import { type JSX } from "solid-js";
-import { Router } from "@solidjs/router";
+import { HashRouter } from "@solidjs/router";
 
 import { type Config } from "./lib/config";
 import { Routes } from './Routes';
 import { ConfigProvider } from "./contexts/ConfigProvider";
 import { ConfirmProvider } from "./contexts/ConfirmProvider";
 import { I18nProvider } from "./contexts/I18nProvider";
-import { useAppPath } from "./lib/use-app-path";
 import HeaderComponent from "./components/Header";
 import LoadCourseByRoute from './components/LoadCourseByRoute';
 
@@ -16,7 +15,6 @@ export interface IAppProps {
 }
 
 const App = (props: IAppProps) => {
-  const baseRoute = useAppPath();
 
   interface ILayoutProps {
     children?: JSX.Element;
@@ -39,9 +37,9 @@ const App = (props: IAppProps) => {
   );
 
   return (
-    <Router base={baseRoute} root={AppLayout} >
+    <HashRouter root={AppLayout}>
       <Routes />
-    </Router >
+    </HashRouter >
   );
 };
 
