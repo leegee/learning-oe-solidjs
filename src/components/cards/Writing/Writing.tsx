@@ -70,7 +70,6 @@ const WritingCardComponent = (props: IWritingCardProps) => {
 
     const handleCheckAnswer = () => {
         const normalizedUserInput = normalizeText(userInput());
-        console.log(normalizedUserInput === normalizedAnswer())
         if (normalizedUserInput === normalizedAnswer()) {
             setIsCorrect(true);
             props.onCorrect();
