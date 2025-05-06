@@ -9,6 +9,7 @@ export default {
     moduleFileExtensions: ["js", "jsx", "ts", "tsx"],
     setupFilesAfterEnv: ["<rootDir>/jest.setup.tsx"],
 
+    testPathIgnorePatterns: ['/node_modules/', '/dist/', 'tests/'], // ie Playwright tests
 
     reporters: [
         'default',
