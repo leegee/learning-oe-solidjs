@@ -22,7 +22,6 @@ export const MockI18nProvider = (props: IMockI18nProviderProps) => (
     </MockI18nContext.Provider>
 );
 
-// replace your real useI18n during tests
 export const useI18n = () => {
     const ctx = useContext(MockI18nContext);
     if (!ctx) {
