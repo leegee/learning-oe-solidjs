@@ -4,10 +4,8 @@ import TextInput from "./Editor/TextInput";
 import {
     IAnyCard,
     IBlanksCard,
-    IMultipleChoiceCard,
     IAnyCardWithAnswer,
     IWritingBlocksCard,
-    IVocabMatchCard,
     isAnyCardWithAnswer,
 } from "../Cards";
 

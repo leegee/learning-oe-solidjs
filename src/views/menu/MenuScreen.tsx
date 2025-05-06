@@ -64,7 +64,7 @@ const MenuScreen = () => {
                             <Show when={editing()}>
                                 <span class='course-action-buttons'>
                                     <NewCourseButton />
-                                    <CourseLoadButton courseIdx={courseTitlesInIndexOrder(config).length} />
+                                    <CourseLoadButton />
                                     <CourseDownloadButton courseIdx={courseTitlesInIndexOrder(config).length} />
                                     <CourseEditorButton courseIdx={courseTitlesInIndexOrder(config).length} />
                                 </span>

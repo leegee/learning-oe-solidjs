@@ -1,5 +1,5 @@
 import './Header.css';
-import { createMemo, createResource, Show } from 'solid-js';
+import { createResource, Show } from 'solid-js';
 import { useParams } from '@solidjs/router';
 import { type ICourseStore, useCourseStore } from '../../global-state/course';
 import MenuTogglebutton from "../Menu/MenuToggleButton";

@@ -1,11 +1,7 @@
 import { createResource } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
 
-export interface ICourseSaveButtonProps {
-    courseIdx: number;
-}
-
-const CourseUploadButton = (props: ICourseSaveButtonProps) => {
+const CourseUploadButton = () => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     let errorDialogRef: HTMLDialogElement | null = null;
     let okDialogRef: HTMLDialogElement | null = null;

@@ -1,8 +1,6 @@
 import "./AddLessonButton.css";
 import { createSignal, createResource, Show, onCleanup } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../../global-state/course";
-import { useNavigate } from "@solidjs/router";
-import { useConfigContext } from "../../contexts/ConfigProvider";
 
 export interface IAddLessonButtonProps {
     lessonIdx?: number;
