@@ -21,7 +21,7 @@ Create and share quizes and language lessons.
 ![Multiple Choice](./README/multiple-choice.png)
 ![Pair words](./README/pair-words.png)
 ![Fill in the blanks](./README/blanks.png)
-![write](./README/writing.png)
+![Writing](./README/writing.png)
 
 ## Demo: Learn Old English
 
@@ -42,7 +42,6 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## TODO
 
-* Load custom lessons into local storage.
 * Restore use of incrementLessonsIdx and test for end of course
 
 ## Thanks:

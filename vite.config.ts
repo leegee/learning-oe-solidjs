@@ -24,14 +24,51 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       manifest: {
+        id: "/learning-oe-solidjs/",
         start_url: 'https://leegee.github.io' + base,
-        name: 'Learn Old English',
-        short_name: 'Old English',
-        description: 'Old English Learning',
-        display: "fullscreen",
+        name: 'Learning Cards',
+        short_name: 'Learning Cards',
+        description: 'Learning Cards for Old English and more',
+        display: "standalone",
+        display_override: ["fullscreen", "minimal-ui"],
         orientation: "portrait",
-        theme_color: '#000033',
+        theme_color: '#0000ee',
+        background_color: '#000033',
         scope: base,
+        screenshots: [
+          {
+            src: "screenshots/screenshot-640x480.png",
+            sizes: "640x480",
+            type: "image/png"
+          },
+          {
+            src: "screenshots/screenshot-640x480-2.png",
+            sizes: "640x480",
+            type: "image/png"
+          },
+          {
+            src: "screenshots/screenshot-640x480-3.png",
+            sizes: "640x480",
+            type: "image/png"
+          },
+
+          {
+            src: "screenshots/screenshot-1280x720.png",
+            sizes: "1280x720",
+            type: "image/png"
+          },
+          {
+            src: "screenshots/screenshot-1280x720-2.png",
+            sizes: "1280x720",
+            type: "image/png"
+          },
+          {
+            src: "screenshots/screenshot-1280x720-3.png",
+            sizes: "1280x720",
+            type: "image/png"
+          }
+
+        ],
         icons: [
           {
             src: base + 'icons/pwa-512x512.png',
@@ -50,7 +87,7 @@ export default defineConfig({
           },
           {
             src: base + "icons/apple-touch-icon-180x180.png",
-            sizes: "512x512",
+            sizes: "180x180",
             type: "image/png"
           },
           {
