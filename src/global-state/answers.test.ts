@@ -1,7 +1,7 @@
 import "@jest/globals";
 import { useLessonStore } from "./answers";
 
-// Mocking the persistence mechanism used by `useLessonStore` (i.e., @solid-primitives/storage)
+// Mock the persistence mechanism
 jest.mock('@solid-primitives/storage', () => ({
     makePersisted: (signal: any, _options?: any) => signal,
 }));
@@ -10,7 +10,7 @@ let lessonStore: ReturnType<typeof useLessonStore>;
 
 beforeEach(() => {
     jest.restoreAllMocks();
-    lessonStore = useLessonStore(0);  // Initialize store without interacting with storage
+    lessonStore = useLessonStore(0);
 });
 
 describe("useLessonStore", () => {
@@ -42,20 +42,28 @@ describe("useLessonStore", () => {
         it("should save an incorrect answer to a new lesson/card", () => {
             lessonStore.saveAnswer(1, 0, "wrong-1");
             const answers = lessonStore.getLessonAnswers(1);
-            expect(answers).toEqual([["wrong-1"]]);
+            expect(answers).toEqual([
+                { wrongAnswers: ["wrong-1"], correct: false }
+            ]);
         });
 
         it("should append multiple incorrect answers", () => {
             lessonStore.saveAnswer(1, 0, "wrong-1");
             lessonStore.saveAnswer(1, 0, "wrong-2");
             const answers = lessonStore.getLessonAnswers(1);
-            expect(answers).toEqual([["wrong-1", "wrong-2"]]);
+            expect(answers).toEqual([
+                { wrongAnswers: ["wrong-1", "wrong-2"], correct: false }
+            ]);
         });
 
-        it("should create empty arrays if saving to a card index out of order", () => {
+        it("should create empty cards if saving to a card index out of order", () => {
             lessonStore.saveAnswer(2, 2, "wrong-late");
             const answers = lessonStore.getLessonAnswers(2);
-            expect(answers).toEqual([[], [], ["wrong-late"]]);
+            expect(answers).toEqual([
+                { wrongAnswers: [], correct: false },
+                { wrongAnswers: [], correct: false },
+                { wrongAnswers: ["wrong-late"], correct: false }
+            ]);
         });
     });
 
@@ -66,7 +74,9 @@ describe("useLessonStore", () => {
 
         it("should return answers for existing lesson", () => {
             lessonStore.saveAnswer(0, 0, "a1");
-            expect(lessonStore.getLessonAnswers(0)).toEqual([["a1"]]);
+            expect(lessonStore.getLessonAnswers(0)).toEqual([
+                { wrongAnswers: ["a1"], correct: false }
+            ]);
         });
     });
 
