@@ -29,7 +29,7 @@ export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentPro
         <button class='large-icon-button' onClick={() =>
             showConfirm(t('lose_progress', { totalAnswered: totalAnswered() }), onConfirmed)}
         >
-            <i class="icon-ccw" title={t('reset_course')} />
+            <i class="utf8-icon-reset" title={t('reset_course')} />
         </button>
     );
 }

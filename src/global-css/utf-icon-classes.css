@@ -15,6 +15,10 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.utf8-icon-reset:before {
+    content: "⟳";
+}
+
 .utf8-icon-new:before {
     content: '✨';
 }
