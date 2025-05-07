@@ -53,7 +53,7 @@ export const useLessonStore = (courseIdx: number) => {
     setState('answers', lessonIdx, cardIdx, [...existingAnswers, incorrectAnswer]);
   };
 
-  const getLessonAnswers = (lessonIndex: number): string[][] => {
+  const getLessonAnswers = (lessonIndex: number): LessonAnswers => {
     return state.answers[lessonIndex] ?? [];
   };
 
