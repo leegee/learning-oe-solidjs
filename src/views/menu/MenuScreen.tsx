@@ -40,12 +40,10 @@ const MenuScreen = () => {
 
                     <nav class={"course-menu " + (editing() ? 'editing' : '')}>
 
-                        {/** TODO This needs to come from cached data */}
                         {courseTitlesInIndexOrder(config).map((title, courseIdx) => (
                             <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
                                 <a onClick={() => setLocalSelectedCourse(courseIdx)}>
                                     {title}
-                                    {/* {courseStore()?.getTitle()} */}
                                 </a>
                                 <Show when={editing()}>
                                     <span class='course-action-buttons'>

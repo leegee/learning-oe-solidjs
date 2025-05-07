@@ -16,8 +16,10 @@ const MenuToggle = () => {
 
     const toggleMenu = () => {
         if (isMenuOpen()) {
-            // navigate(lastNonMenuPath());
-            if (lastNonMenuPath() === getPathWithoutBase()) {
+            const currentPath = getPathWithoutBase();
+            const lastPath = lastNonMenuPath();
+            if (lastPath === currentPath || lastPath === '/menu' || !lastPath) {
+                // We have no location  to which to return
                 navigate('/');
             } else {
                 window.history.back();

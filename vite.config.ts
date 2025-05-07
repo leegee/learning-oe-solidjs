@@ -39,32 +39,38 @@ export default defineConfig({
           {
             src: "screenshots/screenshot-640x480.png",
             sizes: "640x480",
+            form_factor: "narrow",
             type: "image/png"
           },
           {
             src: "screenshots/screenshot-640x480-2.png",
             sizes: "640x480",
+            form_factor: "narrow",
             type: "image/png"
           },
           {
             src: "screenshots/screenshot-640x480-3.png",
             sizes: "640x480",
+            form_factor: "narrow",
             type: "image/png"
           },
 
           {
             src: "screenshots/screenshot-1280x720.png",
             sizes: "1280x720",
+            form_factor: "wide",
             type: "image/png"
           },
           {
             src: "screenshots/screenshot-1280x720-2.png",
             sizes: "1280x720",
+            form_factor: "wide",
             type: "image/png"
           },
           {
             src: "screenshots/screenshot-1280x720-3.png",
             sizes: "1280x720",
+            form_factor: "wide",
             type: "image/png"
           }
 
