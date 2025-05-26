@@ -1,4 +1,4 @@
-import { createSignal, createEffect, For } from 'solid-js';
+import { createSignal, createEffect, For, createMemo } from 'solid-js';
 
 import { type IBaseCard } from '../BaseCard.type';
 import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
@@ -37,6 +37,9 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
+    const normalizedAnswer = createMemo(() =>
+        normalizeText(props.card.answer)
+    );
 
     createEffect(() => {
         setLangs(setQandALangs(props.card));
@@ -56,8 +59,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
 
     const handleCheckAnswer = () => {
         const normalizedUserInput = normalizeText(selectedWords().join(' '));
-        const normalizedAnswer = normalizeText(props.card.answer);
-        if (normalizedUserInput === normalizedAnswer) {
+        if (normalizedUserInput === normalizedAnswer()) {
             setIsCorrect(true);
             props.onCorrect();
         } else {
