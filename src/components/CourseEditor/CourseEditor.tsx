@@ -2,15 +2,15 @@
  * NB By this stage, courseStore()!.loadCourse(params.courseIdx) has already been called.
  * 
  */
-import '../components/CourseEditor/CourseEditor.css';
+import './CourseEditor.css';
 import { createEffect, createResource, onCleanup, Show } from "solid-js";
-import { useCourseStore, type ICourseStore } from "../global-state/course";
+import { useCourseStore, type ICourseStore } from "../../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
-import { useI18n } from "../contexts/I18nProvider";
-import EditableText from "../components/CardEditor/Editor/EditableText";
-import CourseEditorLessonList from '../components/CourseEditor/CourseEditorLessonList';
-import DeleteCourseButton from '../components/CourseEditor/DeleteCourseButton';
-import { useConfigContext } from '../contexts/ConfigProvider';
+import { useI18n } from "../../contexts/I18nProvider";
+import EditableText from "../CardEditor/Editor/EditableText";
+import CourseEditorLessonList from './CourseEditorLessonList';
+import DeleteCourseButton from './DeleteCourseButton';
+import { useConfigContext } from '../../contexts/ConfigProvider';
 
 export default function CourseEditor() {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);

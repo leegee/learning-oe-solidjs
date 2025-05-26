@@ -1,2 +1,2 @@
-export * from '../../views/CourseEditor';
-export { default } from '../../views/CourseEditor';
+export * from './CourseEditor';
+export { default } from './CourseEditor';
