@@ -54,13 +54,13 @@ export default function CourseEditor() {
                             <h3>
                                 <q>
                                     <EditableText
-                                        value={store().getDescription() ?? ""}
+                                        value={store().getDescription() ?? "Description"}
                                         onChange={(newDesec) => store().setDescription(newDesec)}
                                     />
                                 </q>
                             </h3>
 
-                            {lessons.length > 1 &&
+                            {lessons && lessons.length > 1 &&
                                 <nav class="lesson-pager">
                                     {lessons.map((lesson, idx) => (
                                         <button

@@ -14,19 +14,20 @@ const CourseUploadButton = () => {
 
     const handleButtonClick = () => fileInputRef?.click();
 
-    const handleFileChange = async (e: Event) => {
+    const handleImportFile = async (e: Event) => {
+        console.log("loadCourseFromFile enter");
+
+        if (courseStore.loading) return;
+
         const input = e.target as HTMLInputElement;
         const file = input.files?.[0];
         if (!file) return;
-
-        if (courseStore.loading) return;
 
         try {
             console.log("Selected file:", file.name);
             const fileText = await file.text();
             console.log(fileText);
             await courseStore()?.saveCourseToStorage(fileText);
-            await courseStore()?.loadCourseFromStorage();
             okDialogRef?.showModal();
         }
         catch (err) {
@@ -54,7 +55,7 @@ const CourseUploadButton = () => {
                 ref={el => (fileInputRef = el)}
                 accept=".json"
                 style={{ display: "none" }}
-                onChange={handleFileChange}
+                onChange={handleImportFile}
             />
 
             <dialog ref={el => (errorDialogRef = el)} class="dialog-error">
