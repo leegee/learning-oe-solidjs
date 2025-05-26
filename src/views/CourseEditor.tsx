@@ -2,7 +2,7 @@
  * NB By this stage, courseStore()!.loadCourse(params.courseIdx) has already been called.
  * 
  */
-import './CourseEditor.css';
+import '../components/CourseEditor/CourseEditor.css';
 import { createEffect, createResource, onCleanup, Show } from "solid-js";
 import { useCourseStore, type ICourseStore } from "../global-state/course";
 import { useNavigate, useParams } from "@solidjs/router";
