@@ -14,7 +14,7 @@
     "lessons": [
         {
             "title": "Basic Vocabulary",
-            "description": "An introductory lesson to learn basic Old English vocabulary and simple sentence structures.",
+            "description": "Learn basic Old English vocabulary and simple sentence structures.",
             "cards": [
                 {
                     "class": "vocab",
@@ -43,13 +43,13 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "house",
+                    "question": "Write the Old English word for 'house'.",
                     "answer": "hūs"
                 },
                 {
                     "class": "writing-blocks",
                     "qlang": "target",
-                    "question": "Ic ēom a ____.",
+                    "question": "Complete the sentence: Ic ēom a ___.",
                     "answer": "mann",
                     "options": [
                         "mann",
@@ -62,7 +62,7 @@
                     "class": "blanks",
                     "qlang": "default",
                     "alang": "target",
-                    "question": "Hit is ___.",
+                    "question": "Fill in the blank: Hit is ___.",
                     "words": [
                         {
                             "hūs": true
@@ -94,7 +94,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "to call",
+                    "question": "What is the Old English verb for 'to call'?",
                     "answers": [
                         "hātan",
                         "bēon",
@@ -106,7 +106,7 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "to know",
+                    "question": "Write the Old English verb for 'to know'.",
                     "answer": "cunnan"
                 }
             ]
@@ -120,7 +120,7 @@
                     "qlang": "default",
                     "vocab": {
                         "fæder": "father",
-                        "modor": "mother",
+                        "mōdor": "mother",
                         "dohtor": "daughter",
                         "sunu": "son"
                     }
@@ -128,11 +128,11 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "daughter",
+                    "question": "What is the Old English word for 'daughter'?",
                     "answers": [
                         "dohtor",
                         "sunu",
-                        "modor",
+                        "mōdor",
                         "fæder"
                     ],
                     "answer": "dohtor"
@@ -140,7 +140,7 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "father",
+                    "question": "Write the Old English word for 'father'.",
                     "answer": "fæder"
                 }
             ]
@@ -154,17 +154,17 @@
                     "qlang": "default",
                     "vocab": {
                         "gōdne morgen": "good morning",
-                        "farewells": "farewell",
+                        "fārewel": "farewell",
                         "god bēoþ": "goodbye"
                     }
                 },
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "good morning",
+                    "question": "What is the Old English phrase for 'good morning'?",
                     "answers": [
                         "gōdne morgen",
-                        "farewells",
+                        "fārewel",
                         "god bēoþ"
                     ],
                     "answer": "gōdne morgen"
@@ -172,14 +172,14 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "goodbye",
+                    "question": "Write the Old English phrase for 'goodbye'.",
                     "answer": "god bēoþ"
                 }
             ]
         },
         {
             "title": "Numbers 1-10",
-            "description": "Learn the Old English numbers from 1 to 10.",
+            "description": "Learn the Old English numbers from one to ten.",
             "cards": [
                 {
                     "class": "vocab",
@@ -200,7 +200,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "seven",
+                    "question": "What is the Old English word for 'seven'?",
                     "answers": [
                         "seofon",
                         "nigon",
@@ -212,14 +212,14 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "four",
+                    "question": "Write the Old English word for 'four'.",
                     "answer": "fēower"
                 }
             ]
         },
         {
             "title": "Everyday Actions",
-            "description": "Learn common Old English verbs for actions.",
+            "description": "Learn common Old English verbs for everyday actions.",
             "cards": [
                 {
                     "class": "vocab",
@@ -234,7 +234,7 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "to go",
+                    "question": "What is the Old English verb for 'to go'?",
                     "answers": [
                         "gān",
                         "cuman",
@@ -246,7 +246,7 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "to come",
+                    "question": "Write the Old English verb for 'to come'.",
                     "answer": "cuman"
                 }
             ]
@@ -260,7 +260,7 @@
                     "qlang": "target",
                     "vocab": {
                         "blæc": "black",
-                        "hwita": "white",
+                        "hwīt": "white",
                         "grēn": "green",
                         "rēad": "red",
                         "blēo": "blue"
@@ -269,10 +269,10 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "black",
+                    "question": "What is the Old English word for 'black'?",
                     "answers": [
                         "blæc",
-                        "hwita",
+                        "hwīt",
                         "rēad",
                         "grēn"
                     ],
@@ -281,7 +281,7 @@
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "green",
+                    "question": "Write the Old English word for 'green'.",
                     "answer": "grēn"
                 }
             ]
@@ -295,7 +295,7 @@
                     "qlang": "target",
                     "vocab": {
                         "brōþor": "brother",
-                        "sweoster": "sister",
+                        "sweostor": "sister",
                         "cild": "child",
                         "fæder": "father"
                     }
@@ -303,53 +303,53 @@
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "sister",
+                    "question": "What is the Old English word for 'sister'?",
                     "answers": [
-                        "sweoster",
+                        "sweostor",
                         "brōþor",
                         "cild",
                         "fæder"
                     ],
-                    "answer": "sweoster"
+                    "answer": "sweostor"
                 },
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "brother",
+                    "question": "Write the Old English word for 'brother'.",
                     "answer": "brōþor"
                 }
             ]
         },
         {
             "title": "Animals",
-            "description": "Learn names of common animals in Old English.",
+            "description": "Learn the names of common animals in Old English.",
             "cards": [
                 {
                     "class": "vocab",
                     "qlang": "target",
                     "vocab": {
-                        "coney": "rabbit",
-                        "hound": "dog",
-                        "catt": "cat",
+                        "conīġ": "rabbit",
+                        "hund": "dog",
+                        "catte": "cat",
                         "hors": "horse"
                     }
                 },
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "cat",
+                    "question": "What is the Old English word for 'cat'?",
                     "answers": [
-                        "catt",
-                        "hound",
+                        "catte",
+                        "hund",
                         "hors",
                         "cyning"
                     ],
-                    "answer": "catt"
+                    "answer": "catte"
                 },
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "horse",
+                    "question": "Write the Old English word for 'horse'.",
                     "answer": "hors"
                 }
             ]
