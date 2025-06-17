@@ -80,6 +80,8 @@ export interface ICourseStore {
     lessonTitles2Indicies: () => ILessonSummary[];
     reset: (courseIdx: number) => void;
     assertValidCourseData: (courseData: ICourseData) => unknown;
+    getTargetLang: () => string;
+    getSourceLang: () => string;
 }
 
 const LessonsDefault: ILesson[] = [];
@@ -243,6 +245,10 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         } as ICourseData
     };
 
+    const getSourceLang = (): string => store.courseMetadata?.language || '';
+
+    const getTargetLang = (): string => store.courseMetadata?.targetLanguage || '';
+
     const setLessons = (lessons: ILesson[]) => setStore({ "lessons": lessons, });
 
     const getTotalLessonsCount = createMemo(() => store.lessons && store.lessons.length);
@@ -353,6 +359,8 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         setLessons,
         getLessons,
         getCourseData,
+        getTargetLang,
+        getSourceLang,
         getTotalLessonsCount,
         addLesson,
         lessonTitles2Indicies: CourseTitles2Indicies,

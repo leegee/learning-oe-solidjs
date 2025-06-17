@@ -1,9 +1,9 @@
 import './VocabMatch.css';
-import { createSignal, createEffect, For, Show } from 'solid-js';
+import { createSignal, createEffect, For, Show, createResource } from 'solid-js';
 import { useConfigContext } from '../../../contexts/ConfigProvider.tsx';
 import { shuffleArray } from '../../../lib/shuffle-array.ts';
 import { type IBaseCard } from '../BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import { setQandALangs } from '../../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../../ActionButton/ActionButton.tsx';
 import { useI18n } from '../../../contexts/I18nProvider.tsx';
 
@@ -42,7 +42,7 @@ interface ITableRow {
 
 const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     const { t } = useI18n();
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
+    const [langs] = createResource(() => setQandALangs(props.card));
     const [shuffledRightColumn, setShuffledRightColumn] = createSignal<string[]>([]);
     const [tableData, setTableData] = createSignal<ITableRow[]>([]);
     const [isComplete, setIsComplete] = createSignal(false);
@@ -51,7 +51,6 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
     const { config } = useConfigContext();
 
     createEffect(() => {
-        setLangs(setQandALangs(props.card));
         const rightColumn = Object.values(props.card.vocab);
         setShuffledRightColumn(shuffleArray(rightColumn));
 
@@ -146,10 +145,11 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
         }
     });
 
+
     return (
-        <>
+        <Show when={langs()} fallback={<p>Loading...</p>}>
             <section class="vocab-match card">
-                <h3 lang={langs().q}>{props.card.question || t('match_the_words')}</h3>
+                <h3 lang={langs()!.q}>{props.card.question || t('match_the_words')}</h3>
                 <table>
                     <tbody>
                         <For each={tableData()}>
@@ -157,7 +157,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                                 <tr>
                                     <td>
                                         <button
-                                            lang={langs().q}
+                                            lang={langs()!.q}
                                             class={`vocab-match left-word ${row.isLeftMatched ? 'correct' : ''} ${selectedLeft() === row.leftWord ? 'selected' : ''} ${row.shakeIt ? 'shake' : ''}`}
                                             onClick={() => handleLeftWordClicked(row.leftWord)}
                                             disabled={row.isLeftDisabled}
@@ -168,7 +168,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                                     </td>
                                     <td>
                                         <button
-                                            lang={langs().a}
+                                            lang={langs()!.a}
                                             class={`vocab-match right-word ${row.isRightMatched ? 'correct' : ''} ${selectedRight() === row.shuffledRightWord ? 'selected' : ''} ${row.shakeRight ? 'shake' : ''}`}
                                             onClick={() => handleRightWordClicked(row.shuffledRightWord)}
                                             disabled={row.isRightDisabled}
@@ -194,7 +194,7 @@ const VocabMatchCardComponent = (props: IVocabMatchCardProps) => {
                     />
                 </footer>
             </Show>
-        </>
+        </Show>
     );
 };
 

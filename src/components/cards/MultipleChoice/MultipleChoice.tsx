@@ -1,8 +1,8 @@
-import { For } from 'solid-js';
+import { createResource, For, Show } from 'solid-js';
 import { createSignal, createEffect } from 'solid-js';
 
 import { shuffleArray } from '../../../lib/shuffle-array';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
+import { setQandALangs } from '../../../lib/set-q-and-a-langs';
 import { type IBaseCard } from '../BaseCard.type';
 import ActionButton from '../../ActionButton';
 import './MultipleChoice.css';
@@ -31,7 +31,7 @@ export interface IMultipleChoiceCardProps {
 
 const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     const { t } = useI18n();
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
+    const [langs] = createResource(() => setQandALangs(props.card));
     const [selectedOption, setSelectedOption] = createSignal<string | null>(null);
     const [hasChecked, setHasChecked] = createSignal<boolean>(false);
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
@@ -40,7 +40,6 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
 
     createEffect(() => {
         setShuffledOptions(shuffleArray(props.card.answers));
-        setLangs(setQandALangs(props.card));
         setHasChecked(false);
         setSelectedOption(null);
         setIsCorrect(null);
@@ -74,20 +73,20 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     };
 
     return (
-        <>
+        <Show when={langs()} fallback={<p>Loading...</p>}>
             <section class='card multiple-choice'>
-                {langs().q !== langs().q &&
-                    <h4 lang={langs().q}>
-                        {t('in_lang_how_do_you_say', { lang: t(langs().a) })}
+                {langs()!.q !== langs()!.q &&
+                    <h4 lang={langs()!.q}>
+                        {t('in_lang_how_do_you_say', { lang: t(langs()!.a) })}
                     </h4>
                 }
-                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
+                <h3 class="question" lang={langs()!.q}>{props.card.question}</h3>
 
                 <div class='options'>
                     <For each={shuffledOptions()}>
                         {(option) => (
                             <button
-                                lang={langs().a}
+                                lang={langs()!.a}
                                 onClick={() => handleOptionClick(option)}
                                 class={`multiple-choice-button ${selectedOption() === option ? 'selected' : ''} ${hasChecked() && selectedOption() === option
                                     ? (isCorrect() ? 'correct' : 'incorrect')
@@ -109,7 +108,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={props.onComplete}
             />
-        </>
+        </Show>
     );
 };
 

@@ -1,7 +1,7 @@
 {
     "title": "Learn the Alefbet",
     "description": "An introductory course to learn all 22 letters of the Hebrew alphabet (Alefbet), including final forms.",
-    "language": "English",
+    "language": "eng",
     "targetLanguage": "heb",
     "author": "OpenAI Example",
     "version": "1.1.0",

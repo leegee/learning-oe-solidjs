@@ -1,7 +1,7 @@
-import { createSignal, createEffect, For, createMemo } from 'solid-js';
+import { createSignal, createEffect, For, createMemo, createResource, Show } from 'solid-js';
 
 import { type IBaseCard } from '../BaseCard.type';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
+import { setQandALangs } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import './WritingBlocks.css';
 import { useI18n } from '../../../contexts/I18nProvider';
@@ -34,7 +34,7 @@ const normalizeText = (text: string): string => {
 
 const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     const { t } = useI18n();
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
+    const [langs] = createResource(() => setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
     const normalizedAnswer = createMemo(() =>
@@ -42,7 +42,6 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     );
 
     createEffect(() => {
-        setLangs(setQandALangs(props.card));
         setSelectedWords([]);
         setIsCorrect(null);
     });
@@ -69,9 +68,9 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     };
 
     return (
-        <>
+        <Show when={langs()} fallback={<p>Loading...</p>}>
             <section class='writing-blocks-card card'>
-                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
+                <h3 class="question" lang={langs()!.q}>{props.card.question}</h3>
 
                 <div class='selected-words'>
                     <For each={selectedWords()}>
@@ -110,7 +109,7 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={props.onComplete}
             />
-        </>
+        </Show>
     );
 };
 

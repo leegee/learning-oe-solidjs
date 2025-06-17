@@ -1,8 +1,8 @@
 import './Blanks.css';
-import { createSignal, createEffect, type JSX } from 'solid-js';
+import { createSignal, createEffect, type JSX, createResource, Show } from 'solid-js';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import { type IBaseCard } from '../BaseCard.type';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs';
+import { setQandALangs } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import { useI18n } from '../../../contexts/I18nProvider';
 
@@ -32,7 +32,7 @@ export interface IBlanksCardProps {
 
 const BlanksCardComponent = (props: IBlanksCardProps) => {
     const { t } = useI18n();
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
+    const [langs] = createResource(() => setQandALangs(props.card));
     const [shuffledWords, setShuffledWords] = createSignal<string[]>([]);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
     const [isComplete, setIsComplete] = createSignal<null | boolean>(null);
@@ -43,7 +43,6 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
     createEffect(() => {
         setShuffledWords(shuffleArray(props.card.words.map(word => Object.keys(word)[0])));
-        setLangs(setQandALangs(props.card));
 
         const initialSentence = props.card.question.split(/[\s\b]/).reduce((acc, word) => {
             if (/^_{2,}/.test(word)) {
@@ -97,10 +96,10 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
     };
 
     return (
-        <>
+        <Show when={langs()} fallback={<p>Loading...</p>}>
             <section class="card blanks-card">
                 <h4>{t('fill_in_the_blanks')}</h4>
-                <h3 class="question" lang={langs().q}>
+                <h3 class="question" lang={langs()!.q}>
                     {currentSentence()}
                 </h3>
 
@@ -114,7 +113,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
 
                         return (
                             <button
-                                lang={langs().a}
+                                lang={langs()!.a}
                                 onClick={() => handleWordClick(word)}
                                 disabled={isSelected}
                                 class={className}
@@ -134,7 +133,7 @@ const BlanksCardComponent = (props: IBlanksCardProps) => {
                 onComplete={props.onComplete}
             />
 
-        </>
+        </Show>
     );
 };
 

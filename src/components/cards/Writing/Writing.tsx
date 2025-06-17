@@ -1,7 +1,7 @@
 import './Writing.css';
-import { createSignal, createEffect, createMemo } from 'solid-js';
+import { createSignal, createMemo, createResource, Show } from 'solid-js';
 import { type IBaseCard } from '../BaseCard.type.ts';
-import { setQandALangs, setQandALangsReturnType } from '../../../lib/set-q-and-a-langs.ts';
+import { setQandALangs } from '../../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../../ActionButton/index.ts';
 import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
 import { useI18n } from '../../../contexts/I18nProvider.tsx';
@@ -31,18 +31,13 @@ const normalizeText = (text: string): string => {
 
 const WritingCardComponent = (props: IWritingCardProps) => {
     const { t } = useI18n();
-    const [langs, setLangs] = createSignal<setQandALangsReturnType>(setQandALangs(props.card));
+    const [langs] = createResource(() => setQandALangs(props.card));
     const [userInput, setUserInput] = createSignal<string>('');
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
 
     let inputRef: HTMLTextAreaElement | null = null;
 
     const normalizedAnswer = createMemo(() => normalizeText(props.card.answer));
-
-    createEffect(() => {
-        const newLangs = setQandALangs(props.card);
-        setLangs(newLangs);
-    });
 
     const setTheUserInput = (text: string) => {
         setIsCorrect(null);
@@ -60,8 +55,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
         const newValue = userInput().slice(0, start) + letter + userInput().slice(end);
         setTheUserInput(newValue);
 
-        // Move cursor after inserted letter - 
-        // after the state change but before the re-render
+        // Move cursor after inserted letter - after the state change but before the re-render
         queueMicrotask(() => {
             input.selectionStart = input.selectionEnd = start + letter.length;
             input.focus();
@@ -86,20 +80,20 @@ const WritingCardComponent = (props: IWritingCardProps) => {
     };
 
     return (
-        <>
+        <Show when={langs()} fallback={<p>Loading...</p>}>
             <section class='card writing-card'>
-                {langs().q !== langs().a &&
-                    <h4>{t('translate_to_lang', { lang: t(langs().a) })}</h4>
+                {langs()!.q !== langs()!.a &&
+                    <h4>{t('translate_to_lang', { lang: t(langs()!.a) })}</h4>
                 }
-                <h3 class="question" lang={langs().q}>{props.card.question}</h3>
+                <h3 class="question" lang={langs()!.q}>{props.card.question}</h3>
 
                 <div class='input'>
                     <textarea
                         id='writing-input'
                         class='answer'
-                        placeholder={t('type_in') + ' ' + t(langs().a) + '...'}
+                        placeholder={t('type_in') + ' ' + t(langs()!.a) + '...'}
                         ref={el => inputRef = el}
-                        lang={langs().a}
+                        lang={langs()!.a}
                         value={userInput()}
                         autofocus={true}
                         onInput={(e) => setTheUserInput(e.target.value)}
@@ -107,7 +101,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                     />
 
                     <LetterButtons
-                        lang={langs().a}
+                        lang={langs()!.a}
                         onSelect={handleLetterButtonClick}
                         text={props.card.answer}
                     />
@@ -120,7 +114,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={next}
             />
-        </>
+        </Show>
     );
 };
 
