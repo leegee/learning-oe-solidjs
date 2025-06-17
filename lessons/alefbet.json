@@ -1,0 +1,182 @@
+{
+    "title": "Learn the Alefbet",
+    "description": "An introductory course to learn all 22 letters of the Hebrew alphabet (Alefbet), including final forms.",
+    "language": "English",
+    "targetLanguage": "Hebrew",
+    "author": "OpenAI Example",
+    "version": "1.1.0",
+    "createdAt": "2025-06-17T00:00:00Z",
+    "updatedAt": "2025-06-17T00:00:00Z",
+    "tags": [
+        "Hebrew",
+        "alphabet",
+        "Alefbet",
+        "language basics"
+    ],
+    "lessons": [
+        {
+            "title": "Alefbet - Part 1",
+            "description": "Learn the first letters of the Alefbet: Alef to Vav.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Alef": "א",
+                        "Bet": "ב",
+                        "Gimel": "ג",
+                        "Dalet": "ד",
+                        "He": "ה",
+                        "Vav": "ו"
+                    }
+                },
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "How do you write 'Bet' in Hebrew?",
+                    "answer": "ב"
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which letter is 'Dalet'?",
+                    "answers": [
+                        "ג",
+                        "ד",
+                        "ה",
+                        "ז"
+                    ],
+                    "answer": "ד"
+                }
+            ]
+        },
+        {
+            "title": "Alefbet - Part 2",
+            "description": "Learn Zayin to Lamed.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Zayin": "ז",
+                        "Chet": "ח",
+                        "Tet": "ט",
+                        "Yod": "י",
+                        "Kaf": "כ",
+                        "Final Kaf": "ך",
+                        "Lamed": "ל"
+                    }
+                },
+                {
+                    "class": "writing-blocks",
+                    "qlang": "default",
+                    "question": "Select the correct blocks to write 'Yod':",
+                    "answer": "י",
+                    "options": [
+                        "ל",
+                        "י",
+                        "כ",
+                        "ח"
+                    ]
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which is the final form of Kaf?",
+                    "answers": [
+                        "כ",
+                        "ך",
+                        "ל",
+                        "מ"
+                    ],
+                    "answer": "ך"
+                }
+            ]
+        },
+        {
+            "title": "Alefbet - Part 3",
+            "description": "Learn Mem to Tsadi.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Mem": "מ",
+                        "Final Mem": "ם",
+                        "Nun": "נ",
+                        "Final Nun": "ן",
+                        "Samekh": "ס",
+                        "Ayin": "ע",
+                        "Pe": "פ",
+                        "Final Pe": "ף",
+                        "Tsadi": "צ",
+                        "Final Tsadi": "ץ"
+                    }
+                },
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "How do you write 'Final Mem'?",
+                    "answer": "ם"
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which letter comes after Samekh?",
+                    "answers": [
+                        "ע",
+                        "צ",
+                        "נ",
+                        "פ"
+                    ],
+                    "answer": "ע"
+                }
+            ]
+        },
+        {
+            "title": "Alefbet - Part 4",
+            "description": "Learn Qof to Tav and review all letters.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Qof": "ק",
+                        "Resh": "ר",
+                        "Shin": "ש",
+                        "Tav": "ת"
+                    }
+                },
+                {
+                    "class": "blanks",
+                    "qlang": "default",
+                    "alang": "target",
+                    "question": "Fill in the missing letter: ר _ ש",
+                    "words": [
+                        {
+                            "ר": false
+                        },
+                        {
+                            "ש": true
+                        },
+                        {
+                            "ש": false
+                        }
+                    ]
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which letter is 'Tav'?",
+                    "answers": [
+                        "ת",
+                        "ש",
+                        "ר",
+                        "ק"
+                    ],
+                    "answer": "ת"
+                }
+            ]
+        }
+    ]
+}
