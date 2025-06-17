@@ -5,21 +5,6 @@ import { IMultipleChoiceCard } from './MultipleChoice/MultipleChoice';
 import { IVocabMatchCard } from './VocabMatch/VocabMatch';
 import { IWritingCard } from './Writing/Writing';
 import { IWritingBlocksCard } from './WritingBlocks/WritingBlocks';
-
-export type {
-    IAnyCard, IAnyCardWithAnswer,
-    IBaseCard, IBlanksCard, IDynamicVocabCard,
-    IMultipleChoiceCard, IVocabMatchCard, IWritingCard,
-    IWritingBlocksCard
-};
-
-export { default as MultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
-export { default as VocabMatchCardComponent } from './VocabMatch/VocabMatch';
-export { default as BlanksCardComponent } from './Blanks/Blanks';
-export { default as WritingCardComponent } from './Writing/Writing';
-export { default as WritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
-export { default as DynamicVocabComponent } from './DynamicVocab/DynamicVocab';
-
 import { defaultCard as defaultCardMultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
 import { defaultCard as defaultCardVocabMatchCardComponent } from './VocabMatch/VocabMatch';
 import { defaultCard as defaultCardBlanksCardComponent } from './Blanks/Blanks';
@@ -27,6 +12,19 @@ import { defaultCard as defaultCardWritingCardComponent } from './Writing/Writin
 import { defaultCard as defaultCardWritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
 import { defaultCard as defaultCardDynamicVocabComponent } from './DynamicVocab/DynamicVocab';
 import { IAnyCard, IAnyCardWithAnswer } from './AnyCard.type';
+
+export { default as MultipleChoiceComponent } from './MultipleChoice/MultipleChoice';
+export { default as VocabMatchCardComponent } from './VocabMatch/VocabMatch';
+export { default as BlanksCardComponent } from './Blanks/Blanks';
+export { default as WritingCardComponent } from './Writing/Writing';
+export { default as WritingBlocksCardComponent } from './WritingBlocks/WritingBlocks';
+export { default as DynamicVocabComponent } from './DynamicVocab/DynamicVocab';
+export type {
+    IAnyCard, IAnyCardWithAnswer,
+    IBaseCard, IBlanksCard, IDynamicVocabCard,
+    IMultipleChoiceCard, IVocabMatchCard, IWritingCard,
+    IWritingBlocksCard
+};
 
 const defaultCardMap: Record<CardClass, IAnyCard> = {
     'multiple-choice': defaultCardMultipleChoiceComponent,
