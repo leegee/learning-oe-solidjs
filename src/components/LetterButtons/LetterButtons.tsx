@@ -23,6 +23,46 @@ const Letters: Record<string, Letter[]> = {
         { symbol: 'ō', name: 'long-o' },
         { symbol: 'ū', name: 'long-u' },
         { symbol: 'ȳ', name: 'long-y' }
+    ],
+    'heb': [
+        { symbol: 'א', name: 'Alef' },
+        { symbol: 'ב', name: 'Bet' },
+        { symbol: 'ג', name: 'Gimel' },
+        { symbol: 'ד', name: 'Dalet' },
+        { symbol: 'ה', name: 'He' },
+        { symbol: 'ו', name: 'Vav' },
+        { symbol: 'ז', name: 'Zayin' },
+        { symbol: 'ח', name: 'Chet' },
+        { symbol: 'ט', name: 'Tet' },
+        { symbol: 'י', name: 'Yod' },
+        { symbol: 'כ', name: 'Kaf' },
+        { symbol: 'ך', name: 'Final Kaf' },
+        { symbol: 'ל', name: 'Lamed' },
+        { symbol: 'מ', name: 'Mem' },
+        { symbol: 'ם', name: 'Final Mem' },
+        { symbol: 'נ', name: 'Nun' },
+        { symbol: 'ן', name: 'Final Nun' },
+        { symbol: 'ס', name: 'Samekh' },
+        { symbol: 'ע', name: 'Ayin' },
+        { symbol: 'פ', name: 'Pe' },
+        { symbol: 'ף', name: 'Final Pe' },
+        { symbol: 'צ', name: 'Tsadi' },
+        { symbol: 'ץ', name: 'Final Tsadi' },
+        { symbol: 'ק', name: 'Qof' },
+        { symbol: 'ר', name: 'Resh' },
+        { symbol: 'ש', name: 'Shin' },
+        { symbol: 'ת', name: 'Tav' }
+    ],
+    'hun': [
+        { symbol: 'á', name: 'a-acute' },
+        { symbol: 'é', name: 'e-acute' },
+        { symbol: 'í', name: 'i-acute' },
+        { symbol: 'ó', name: 'o-acute' },
+        { symbol: 'ö', name: 'o-umlaut' },
+        { symbol: 'ő', name: 'o-double-acute' },
+        { symbol: 'ú', name: 'u-acute' },
+        { symbol: 'ü', name: 'u-umlaut' },
+        { symbol: 'ű', name: 'u-double-acute' }
     ]
 };
 
@@ -37,6 +77,8 @@ const LetterButtons = (props: LetterButtonsProps) => {
         console.warn(`No buttons exist for the supplied language, "${props.lang}".`);
         return '';
     }
+
+    console.info('Buttons for', props.lang)
 
     if (props.text.length === 0) {
         return '';
