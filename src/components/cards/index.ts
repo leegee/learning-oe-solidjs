@@ -27,12 +27,12 @@ export type {
 };
 
 const defaultCardMap: Record<CardClass, IAnyCard> = {
+    'blanks': defaultCardBlanksCardComponent,
+    'dynamic-vocab': defaultCardDynamicVocabComponent,
     'multiple-choice': defaultCardMultipleChoiceComponent,
     'vocab': defaultCardVocabMatchCardComponent,
-    'blanks': defaultCardBlanksCardComponent,
-    'writing': defaultCardWritingCardComponent,
     'writing-blocks': defaultCardWritingBlocksCardComponent,
-    'dynamic-vocab': defaultCardDynamicVocabComponent,
+    'writing': defaultCardWritingCardComponent,
 };
 
 export const createDefaultCard = (klass: CardClass): IAnyCard => {
@@ -40,7 +40,14 @@ export const createDefaultCard = (klass: CardClass): IAnyCard => {
 }
 
 
-export const CARD_CLASSES = ['writing-blocks', 'writing', 'vocab', 'multiple-choice', 'dynamic'];
+export const CARD_CLASSES = [
+    'blanks',
+    'dynamic-vocab',
+    'multiple-choice',
+    'vocab',
+    'writing-blocks',
+    'writing',
+];
 
 export type CardClass = typeof CARD_CLASSES[number];
 
