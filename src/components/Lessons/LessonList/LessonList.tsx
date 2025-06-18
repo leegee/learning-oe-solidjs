@@ -28,6 +28,10 @@ const LessonList = (props: LessonListProps) => {
                             {(lesson, index) => {
                                 const idx = index();
                                 const currentIdx = lessonStore.getCurrentLessonIdx();
+                                const isDone = lessonStore.isLessonDone(idx);
+                                console.log('xxx', idx, currentIdx, isDone)
+                                // const isTodo = idx > currentIdx && !lessonStore.isLessonDone(idx);
+
                                 return (
                                     <li>
                                         <button
@@ -38,9 +42,9 @@ const LessonList = (props: LessonListProps) => {
                                                 }
                                             }}
                                             classList={{
-                                                completed: idx < currentIdx,
                                                 current: idx === currentIdx,
-                                                todo: idx > currentIdx
+                                                completed: idx !== currentIdx && lessonStore.isLessonDone(idx),
+                                                todo: idx !== currentIdx && !lessonStore.isLessonDone(idx),
                                             }}
                                             title={lesson.description || ''}
                                         >

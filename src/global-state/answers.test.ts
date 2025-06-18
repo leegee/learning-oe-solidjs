@@ -33,7 +33,7 @@ describe("useLessonStore", () => {
 
         it("should increment lesson index", () => {
             lessonStore.setCurrentLessonIdx(2);
-            lessonStore.incrementLessonsIdx();
+            lessonStore.incrementCurrentLessonIdx();
             expect(lessonStore.getCurrentLessonIdx()).toBe(3);
         });
     });

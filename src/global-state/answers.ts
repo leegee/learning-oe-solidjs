@@ -30,17 +30,16 @@ export const useLessonStore = (courseIdx: number) => {
     }
   );
 
-  // --- Internal Helpers ---
 
-  const getOrCreateLesson = (lessonIdx: number) => {
+  const _getOrCreateLesson = (lessonIdx: number) => {
     if (!state.answers[lessonIdx]) {
       setState('answers', lessonIdx, []);
     }
     return state.answers[lessonIdx];
   };
 
-  const getOrCreateCard = (lessonIdx: number, cardIdx: number) => {
-    const lesson = getOrCreateLesson(lessonIdx);
+  const _getOrCreateCard = (lessonIdx: number, cardIdx: number) => {
+    const lesson = _getOrCreateLesson(lessonIdx);
     if (!lesson[cardIdx]) {
       for (let i = lesson.length; i <= cardIdx; i++) {
         setState('answers', lessonIdx, i, { wrongAnswers: [], correct: false });
@@ -49,17 +48,17 @@ export const useLessonStore = (courseIdx: number) => {
     return state.answers[lessonIdx][cardIdx];
   };
 
-  // --- API ---
+  // Public API
 
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
 
   const getCurrentLessonIdx = () => (state.currentLessonIdx === -1 ? 0 : state.currentLessonIdx);
 
-  const incrementLessonsIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
+  const incrementCurrentLessonIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
 
   const saveAnswer = (lessonIdx: number, cardIdx: number, incorrectAnswer: string = ''): void => {
-    getOrCreateLesson(lessonIdx);
-    getOrCreateCard(lessonIdx, cardIdx);
+    _getOrCreateLesson(lessonIdx);
+    _getOrCreateCard(lessonIdx, cardIdx);
 
     setState('answers', lessonIdx, cardIdx, (prev) => {
       if (incorrectAnswer === '') {
@@ -120,10 +119,18 @@ export const useLessonStore = (courseIdx: number) => {
     );
   };
 
+  const isLessonDone = (lessonIndex: number): boolean => {
+    const questionCount = getLessonQuestionCount(lessonIndex);
+    return (
+      questionCount > 0 &&
+      getLessonQuestionsAnsweredCorrectly(lessonIndex) === questionCount
+    );
+  };
+
   return {
     getCurrentLessonIdx,
     setCurrentLessonIdx,
-    incrementLessonsIdx,
+    incrementCurrentLessonIdx,
     saveAnswer,
     getLessonAnswers,
     resetLesson,
@@ -134,5 +141,6 @@ export const useLessonStore = (courseIdx: number) => {
     getLessonQuestionsAnsweredCorrectly,
     getLessonQuestionCount,
     getLessonQuestionsAnsweredIncorrectly,
+    isLessonDone,
   };
 };
