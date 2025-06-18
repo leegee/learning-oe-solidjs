@@ -10,8 +10,26 @@
     ],
     "lessons": [
         {
-            "title": "Lesson: Test Components",
-            "description": "Test components",
+            "title": "Lesson: Test 1",
+            "description": "Test 1",
+            "cards": [
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which letter comes after Samekh?",
+                    "answers": [
+                        "ע",
+                        "צ",
+                        "נ",
+                        "פ"
+                    ],
+                    "answer": "ע"
+                }
+            ]
+        },
+        {
+            "title": "Lesson: Test 2",
+            "description": "Test 2",
             "cards": [
                 {
                     "class": "multiple-choice",

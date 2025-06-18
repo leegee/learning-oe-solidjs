@@ -5,7 +5,7 @@ import { useLessonStore } from '../../../global-state/answers';
 
 interface LessonListProps {
     courseIndex: number;
-    children: JSX.Element;
+    children?: JSX.Element;
     onLessonSelected: (lessonIndex: number) => void;
 }
 
@@ -35,16 +35,16 @@ const LessonList = (props: LessonListProps) => {
                                 return (
                                     <li>
                                         <button
-                                            disabled={idx > currentIdx}
+                                            disabled={idx !== currentIdx && !isDone}
                                             onClick={() => {
-                                                if (idx <= currentIdx) {
+                                                if (idx <= currentIdx || isDone) {
                                                     props.onLessonSelected(idx);
                                                 }
                                             }}
                                             classList={{
-                                                current: idx === currentIdx,
-                                                completed: idx !== currentIdx && lessonStore.isLessonDone(idx),
-                                                todo: idx !== currentIdx && !lessonStore.isLessonDone(idx),
+                                                current: idx === currentIdx && !isDone,
+                                                completed: lessonStore.isLessonDone(idx),
+                                                todo: idx !== currentIdx && !isDone,
                                             }}
                                             title={lesson.description || ''}
                                         >
