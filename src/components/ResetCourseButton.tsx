@@ -4,7 +4,6 @@ import { useLessonStore } from "../global-state/answers";
 import { useConfirm } from "../contexts/ConfirmProvider";
 import { useI18n } from "../contexts/I18nProvider";
 import { useCourseStore, type ICourseStore } from "../global-state/course";
-import { resetCourse } from "../global-state/lessons.localStorage";
 
 export interface IResetCourseButtonComponentProps {
     courseIdx: number;
@@ -20,7 +19,7 @@ export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentPro
 
     const onConfirmed = () => {
         if (courseStore.loading) return;
-        resetCourse();
+        courseStore()!.reset(props.courseIdx);
         navigate('/course/' + props.courseIdx);
     }
 
