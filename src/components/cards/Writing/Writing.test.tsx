@@ -2,12 +2,7 @@ import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from '../../../../jest.setup.tsx';
 
 jest.mock('../../../lib/set-q-and-a-langs.ts', () => ({
-    setQandALangs: jest.fn(() => {
-        const result = { q: 'eng', a: 'ang' };
-        console.log('setQandALangs called, returning:', result);
-        return result;
-        // return Promise.resolve(result);
-    }),
+    setQandALangs: jest.fn(() => ({ q: 'eng', a: 'ang' })),
 }));
 
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing.tsx';

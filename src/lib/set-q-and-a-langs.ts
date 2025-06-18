@@ -12,8 +12,6 @@ export const setQandALangs = async (card: IBaseCard): Promise<setQandALangsRetur
         return {
             q: sourceLang,
             a: targetLang
-            // q: card.qlang,
-            // a: card.alang
         };
     }
     return {

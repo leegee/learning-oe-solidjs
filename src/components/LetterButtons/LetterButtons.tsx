@@ -78,8 +78,6 @@ const LetterButtons = (props: LetterButtonsProps) => {
         return '';
     }
 
-    // console.info('Buttons for', props.lang)
-
     if (props.text.length === 0) {
         return '';
     }
