@@ -323,11 +323,17 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     }
 
     const reset = (courseIdx: number) => {
+        console.log('reset course', courseIdx);
         const idx = courseIdx;
         localStorage.removeItem(storageKeys.CURRENT_LESSON_INDEX(idx));
         localStorage.removeItem(storageKeys.CURRENT_COURSE_INDEX);
         localStorage.removeItem(storageKeys.ANSWERS(idx));
         localStorage.removeItem(storageKeys.STORE_NAME);
+        setStore({
+            courseMetadata: null,
+            lessons: [],
+            loading: false,
+        });
     };
 
     const setTitle = (newTitle: string) => setStore("courseMetadata", "title", newTitle);;
