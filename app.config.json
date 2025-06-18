@@ -16,6 +16,10 @@
         {
             "title": "Alefbet",
             "fileBasename": "alefbet"
+        },
+        {
+            "title": "Test",
+            "fileBasename": "test"
         }
     ],
     "animationShakeMs": 300,
