@@ -1,8 +1,10 @@
 import { createMemo, createResource } from "solid-js";
+import { useNavigate } from "@solidjs/router";
 import { useLessonStore } from "../global-state/answers";
 import { useConfirm } from "../contexts/ConfirmProvider";
 import { useI18n } from "../contexts/I18nProvider";
 import { useCourseStore, type ICourseStore } from "../global-state/course";
+import { resetCourse } from "../global-state/lessons.localStorage";
 
 export interface IResetCourseButtonComponentProps {
     courseIdx: number;
@@ -10,6 +12,7 @@ export interface IResetCourseButtonComponentProps {
 
 export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentProps) => {
     const { t } = useI18n();
+    const navigate = useNavigate();
     const { showConfirm } = useConfirm();
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const lessonStore = useLessonStore(props.courseIdx);
@@ -17,8 +20,8 @@ export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentPro
 
     const onConfirmed = () => {
         if (courseStore.loading) return;
-        courseStore()!.reset(props.courseIdx);
-        window.location.reload();
+        resetCourse();
+        navigate('/course/' + props.courseIdx);
     }
 
     if (totalAnswered() === 0) {
