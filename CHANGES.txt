@@ -1,9 +1,9 @@
 CHANGE LOG
 ==========
 
-2025-06-17
+2025-06-17 0.2.3
 
-Adds Hebrew
+Adds Hebrew and Hungarian, takes language from lesson not app config.
 
 2025-05-26 
 
