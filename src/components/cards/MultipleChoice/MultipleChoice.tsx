@@ -52,6 +52,13 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
         }
     };
 
+    const handleReset = () => {
+        setSelectedOption(null);
+        setIsCorrect(null);
+        setHasChecked(false);
+        setAreButtonsDisabled(false);
+    };
+
     const handleCheckAnswer = () => {
         if (hasChecked()) {
             setSelectedOption(null);
@@ -107,6 +114,7 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
                 isInputPresent={selectedOption() !== null}
                 onCheckAnswer={handleCheckAnswer}
                 onComplete={props.onComplete}
+                onReset={handleReset}
             />
         </Show>
     );

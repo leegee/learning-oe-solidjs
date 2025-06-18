@@ -7,6 +7,7 @@ interface ButtonProps {
     isInputPresent: boolean;   // allows clicking
     onCheckAnswer: () => void; // first click
     onComplete: () => void;    // second click
+    onReset?: () => void;      // Last question, answer wrong 
 }
 
 const ActionButton = (props: ButtonProps) => {
@@ -20,16 +21,21 @@ const ActionButton = (props: ButtonProps) => {
     });
 
     const handleClick = () => {
-        console.log('Action button click');
+        console.log('Action button click, props.isCorrect =', props.isCorrect);
         if (!hasChecked()) {
             // First click: Check the answer
             console.log('AB first click: not yet checked, checking now');
             props.onCheckAnswer();
             setHasChecked(true);
-        } else {
+        }
+        else if (props.isCorrect === false && props.onReset) {
+            setHasChecked(false);
+            props.onReset();
+        }
+        else {
             console.log('AB other click: has checked, calling complete');
             props.onComplete();
-            setHasChecked(false);
+            // setHasChecked(false);
         }
     };
 
