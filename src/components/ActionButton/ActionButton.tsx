@@ -34,6 +34,7 @@ const ActionButton = (props: ButtonProps) => {
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
+        if (!props.isInputPresent) return;
         if (props.isCorrect !== null
             && (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar')
         ) {
