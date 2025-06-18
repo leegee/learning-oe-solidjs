@@ -12,6 +12,7 @@
     "deploy": "gh-pages -d dist",
     "test": "jest",
     "e2e": "bun run playwright test",
+    "e2e:record": "playwright codegen http://localhost:5173/learning-oe-solidjs/",
     "preview": "vite preview",
     "predeploy": "npm run build",
     "prebuild": "npm run test"

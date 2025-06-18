@@ -33,6 +33,7 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
+    let lastSubmittedInput = '';
     const { t } = useI18n();
     const [langs] = createResource(() => setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
@@ -40,11 +41,6 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     const normalizedAnswer = createMemo(() =>
         normalizeText(props.card.answer)
     );
-
-    createEffect(() => {
-        setSelectedWords([]);
-        setIsCorrect(null);
-    });
 
     const handleWordClick = (word: string) => {
         setIsCorrect(null);
@@ -57,15 +53,33 @@ const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     };
 
     const handleCheckAnswer = () => {
+        console.log('WritingBlocks handleCheckAnswer')
         const normalizedUserInput = normalizeText(selectedWords().join(' '));
+        console.log(`WritingBlocks normalizedUserInput = ${normalizedUserInput} vs ${normalizedAnswer()}`)
         if (normalizedUserInput === normalizedAnswer()) {
+            console.log('WritingBlocks CORRECT')
             setIsCorrect(true);
             props.onCorrect();
         } else {
+            console.log('WritingBlocks INCORRECT')
             setIsCorrect(false);
             props.onIncorrect();
         }
     };
+
+
+    createEffect(() => {
+        setSelectedWords([]);
+        setIsCorrect(null);
+    });
+
+    createEffect(() => {
+        const currentInput = normalizeText(selectedWords().join(' '));
+        if (isCorrect() !== null && currentInput !== lastSubmittedInput) {
+            setIsCorrect(null);
+            setSelectedWords([]);
+        }
+    });
 
     return (
         <Show when={langs()} fallback={<p>Loading...</p>}>

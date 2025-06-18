@@ -20,6 +20,7 @@ const ActionButton = (props: ButtonProps) => {
     });
 
     const handleClick = () => {
+        console.log('Action button click');
         if (!hasChecked()) {
             // First click: Check the answer
             props.onCheckAnswer();

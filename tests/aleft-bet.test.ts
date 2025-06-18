@@ -1,7 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test('test', async ({ page }) => {
-    test.setTimeout(10_000);
     await page.goto('http://localhost:5173/learning-oe-solidjs/#/menu');
     await page.getByText('Alefbet').click();
     await page.getByRole('button', { name: 'Alefbet - Part 1' }).click();
@@ -27,30 +26,29 @@ test('test', async ({ page }) => {
     await page.getByRole('button', { name: 'action-button' }).click();
     await page.getByRole('button', { name: 'Continue' }).click();
     await page.getByRole('button', { name: 'Begin' }).click();
+    await page.getByRole('button', { name: 'Select Zayin' }).click();
+    await page.getByText('Alefbet - Part 2Pair the').click();
     await page.getByRole('button', { name: 'Select Lamed' }).click();
     await page.getByRole('button', { name: 'Select ל' }).click();
-    await page.getByRole('button', { name: 'Select Tet' }).click();
-    await page.getByRole('button', { name: 'Select ט' }).click();
     await page.getByRole('button', { name: 'Select Yod' }).click();
     await page.getByRole('button', { name: 'Select י' }).click();
+    await page.getByRole('button', { name: 'Select Tet' }).click();
+    await page.getByRole('button', { name: 'Select ט' }).click();
     await page.getByRole('button', { name: 'Select Final Kaf' }).click();
-    await page.getByRole('button', { name: 'Select ך' }).click();
     await page.getByRole('button', { name: 'Select Kaf' }).click();
     await page.getByRole('button', { name: 'Select כ' }).click();
+    await page.getByRole('button', { name: 'Select Final Kaf' }).click();
+    await page.getByRole('button', { name: 'Select ך' }).click();
     await page.getByRole('button', { name: 'Select Chet' }).click();
     await page.getByRole('button', { name: 'Select ח' }).click();
     await page.getByRole('button', { name: 'Select Zayin' }).click();
-    await page.getByRole('button', { name: 'Select ז' }).click();
+    await page.getByRole('cell', { name: 'Select ז' }).click();
     await page.getByRole('button', { name: 'action-button' }).click();
     await page.getByRole('button', { name: 'Select י' }).click();
-    await page.getByRole('button', { name: 'Select ח' }).click();
     await page.getByRole('button', { name: 'action-button' }).click();
     await page.getByRole('button', { name: 'action-button' }).click();
     await page.getByRole('button', { name: 'Select ך' }).click();
     await page.getByRole('button', { name: 'action-button' }).click();
     await page.getByRole('button', { name: 'action-button' }).click();
-    await page.getByRole('button', { name: 'Select י' }).click();
-    await page.getByRole('button', { name: 'Select כ' }).click();
-    await page.getByRole('button', { name: 'action-button' }).click();
-    await page.getByRole('button', { name: 'action-button' }).click();
+    await page.getByRole('button', { name: 'Continue' }).click();
 });
