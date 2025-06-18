@@ -14,63 +14,16 @@
             "description": "Test components",
             "cards": [
                 {
-                    "class": "writing",
-                    "qlang": "default",
-                    "question": "house",
-                    "answer": "hūs"
-                },
-                {
-                    "class": "writing-blocks",
-                    "qlang": "target",
-                    "question": "Ic ēom a man.",
-                    "answer": "I am a man.",
-                    "options": [
-                        "man",
-                        "woman",
-                        "I",
-                        "was",
-                        "the",
-                        "a",
-                        "am"
-                    ]
-                },
-                {
-                    "class": "blanks",
-                    "qlang": "default",
-                    "alang": "target",
-                    "question": "Hit is ___.",
-                    "words": [
-                        {
-                            "hūs": true
-                        },
-                        {
-                            "blu": false
-                        },
-                        {
-                            "tim": false
-                        }
-                    ]
-                },
-                {
-                    "class": "vocab",
-                    "qlang": "default",
-                    "vocab": {
-                        "woman": "wīf",
-                        "I": "Ic",
-                        "am": "ēom"
-                    }
-                },
-                {
                     "class": "multiple-choice",
                     "qlang": "default",
-                    "question": "What is the Old English word for 'man'?",
+                    "question": "Which letter comes after Samekh?",
                     "answers": [
-                        "mann",
-                        "wīf",
-                        "god",
-                        "hūs"
+                        "ע",
+                        "צ",
+                        "נ",
+                        "פ"
                     ],
-                    "answer": "mann"
+                    "answer": "ע"
                 }
             ]
         }
