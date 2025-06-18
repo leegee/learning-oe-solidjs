@@ -78,7 +78,7 @@ const LetterButtons = (props: LetterButtonsProps) => {
         return '';
     }
 
-    console.info('Buttons for', props.lang)
+    // console.info('Buttons for', props.lang)
 
     if (props.text.length === 0) {
         return '';
@@ -95,7 +95,7 @@ const LetterButtons = (props: LetterButtonsProps) => {
     }
 
     return (
-        <div class="letter-buttons">
+        <aside class="letter-buttons">
             <For each={filteredLetters}>
                 {(letter) => (
                     <button
@@ -107,7 +107,7 @@ const LetterButtons = (props: LetterButtonsProps) => {
                     </button>
                 )}
             </For>
-        </div>
+        </aside>
     );
 };
 

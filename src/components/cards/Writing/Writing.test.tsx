@@ -1,6 +1,15 @@
 import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from '../../../../jest.setup.tsx';
 
+jest.mock('../../../lib/set-q-and-a-langs.ts', () => ({
+    setQandALangs: jest.fn(() => {
+        const result = { q: 'eng', a: 'ang' };
+        console.log('setQandALangs called, returning:', result);
+        return result;
+        // return Promise.resolve(result);
+    }),
+}));
+
 import WritingCardComponent, { type IWritingCard, type IWritingCardProps } from './Writing.tsx';
 
 describe('WritingCardComponent', () => {
@@ -31,13 +40,19 @@ describe('WritingCardComponent', () => {
         jest.clearAllMocks();
     });
 
-    it('should display the question', () => {
+    it('should display the question', async () => {
         renderTestElement(WritingCardComponent, props);
         expect(screen.getByText('What is the answer?')).toBeInTheDocument();
     });
 
-    it('should call onCorrect when the answer is correct', () => {
+    it('should call onCorrect when the answer is correct', async () => {
         renderTestElement(WritingCardComponent, props);
+
+        await waitFor(() => {
+            const el = document.querySelector('.letter-buttons');
+            expect(el).toBeInTheDocument();
+        });
+
         fireEvent.input(
             screen.getByPlaceholderText('type_in ang...'),
             { target: { value: 'correct answer' } }

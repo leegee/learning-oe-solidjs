@@ -30,8 +30,8 @@ const normalizeText = (text: string): string => {
 };
 
 const WritingCardComponent = (props: IWritingCardProps) => {
-    const { t } = useI18n();
     const [langs] = createResource(() => setQandALangs(props.card));
+    const { t } = useI18n();
     const [userInput, setUserInput] = createSignal<string>('');
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
 
@@ -80,7 +80,7 @@ const WritingCardComponent = (props: IWritingCardProps) => {
     };
 
     return (
-        <Show when={langs()} fallback={<p>Loading...</p>}>
+        <Show when={langs()?.a} fallback={<p>Loading...</p>}>
             <section class='card writing-card'>
                 {langs()!.q !== langs()!.a &&
                     <h4>{t('translate_to_lang', { lang: t(langs()!.a) })}</h4>
