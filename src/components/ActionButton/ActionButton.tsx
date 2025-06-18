@@ -1,5 +1,5 @@
 import './ActionButton.css';
-import { createSignal, createEffect } from 'solid-js';
+import { createSignal, createEffect, onMount, onCleanup } from 'solid-js';
 import { useI18n } from '../../contexts/I18nProvider';
 
 interface ButtonProps {
@@ -23,9 +23,11 @@ const ActionButton = (props: ButtonProps) => {
         console.log('Action button click');
         if (!hasChecked()) {
             // First click: Check the answer
+            console.log('AB first click: not yet checked, checking now');
             props.onCheckAnswer();
             setHasChecked(true);
         } else {
+            console.log('AB other click: has checked, calling complete');
             props.onComplete();
             setHasChecked(false);
         }
@@ -39,12 +41,8 @@ const ActionButton = (props: ButtonProps) => {
         }
     };
 
-    createEffect(() => {
-        document.addEventListener('keydown', handleKeyDown);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    });
+    onMount(() => document.addEventListener('keydown', handleKeyDown));
+    onCleanup(() => document.removeEventListener('keydown', handleKeyDown));
 
     return (
         <button
