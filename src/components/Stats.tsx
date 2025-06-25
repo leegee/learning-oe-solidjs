@@ -11,7 +11,7 @@ const Stats = (props: IStatsProps) => {
     const lessonStore = useLessonStore(props.courseIdx);
 
     if (!lessonStore || !lessonStore.getTotalQuestionsAnswered()) {
-        return '';
+        return null;
     }
 
     return (
