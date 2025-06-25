@@ -34,7 +34,7 @@ const Stats = (props: IStatsProps) => {
                             {t('incorrect_answer_count_alt')}
                         </th>
                         <td class='value'>
-                            {lessonStore.getTotalQuestionsAnswered()}
+                            {lessonStore.getTotalIncorrectAnswers()}
                         </td>
                     </tr>
 
