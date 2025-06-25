@@ -14,6 +14,23 @@
             "description": "Test 1",
             "cards": [
                 {
+                    "class": "blanks",
+                    "qlang": "target",
+                    "alang": "default",
+                    "question": "___ שׁ ל",
+                    "words": [
+                        {
+                            "שׁ": false
+                        },
+                        {
+                            "וֹ": false
+                        },
+                        {
+                            "ם": true
+                        }
+                    ]
+                },
+                {
                     "class": "writing",
                     "qlang": "default",
                     "question": "How do you write 'Bet' in Hebrew?",

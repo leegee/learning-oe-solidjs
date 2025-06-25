@@ -29,6 +29,7 @@ const ActionButton = (props: ButtonProps) => {
             setHasChecked(true);
         }
         else if (props.isCorrect === false && props.onReset) {
+            console.log('AB click: reset');
             setHasChecked(false);
             props.onReset();
         }
