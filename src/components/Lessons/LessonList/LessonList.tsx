@@ -36,9 +36,7 @@ const LessonList = (props: LessonListProps) => {
                                     <li>
                                         <button
                                             onClick={() => {
-                                                if (idx <= currentIdx || isDone) {
-                                                    props.onLessonSelected(idx);
-                                                }
+                                                props.onLessonSelected(idx);
                                             }}
                                             classList={{
                                                 current: isCurrent,
