@@ -77,6 +77,11 @@ export const useLessonStore = (courseIdx: number) => {
     setState('answers', lessonIndex, []);
   };
 
+  const resetAllLessons = (): void => {
+    setState('answers', {});
+    setState('currentLessonIdx', -1);
+  };
+
   const getTotalTakenLessons = (): number => {
     return Object.keys(state.answers).length;
   };
@@ -134,6 +139,7 @@ export const useLessonStore = (courseIdx: number) => {
     saveAnswer,
     getLessonAnswers,
     resetLesson,
+    resetAllLessons,
     getTotalTakenLessons,
     getTotalQuestionsAnswered,
     getTotalCorrectAnswers,

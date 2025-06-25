@@ -20,6 +20,7 @@ export const ResetCourseButtonComponent = (props: IResetCourseButtonComponentPro
     const onConfirmed = () => {
         if (courseStore.loading) return;
         courseStore()!.reset(props.courseIdx);
+        lessonStore.resetAllLessons();
         navigate('/course/' + props.courseIdx);
     }
 
