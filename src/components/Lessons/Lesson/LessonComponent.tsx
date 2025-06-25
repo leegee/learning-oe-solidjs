@@ -103,6 +103,7 @@ const LessonComponent = (props: ILessonProps) => {
                 <button class="close-button" onClick={leaveIfConfirmed} aria-label={t('cancel_lesson')} />
             </h2>
 
+            {/* Lesson progress */}
             <progress
                 value={lessonStack().length === 0 ? 1 : (props.lesson.cards.length - lessonStack().length + 1)}
                 max={props.lesson.cards.length}
