@@ -296,15 +296,12 @@
                 },
                 {
                     "class": "blanks",
-                    "qlang": "default",
+                    "qlang": "target",
                     "alang": "default",
-                    "question": "Complete the word for 'Shalom' (שָׁלוֹם):___ שׁוֹ",
+                    "question": "שׁ ל ___",
                     "words": [
                         {
                             "שׁ": false
-                        },
-                        {
-                            "ל": true
                         },
                         {
                             "וֹ": false
@@ -313,7 +310,7 @@
                             "ם": true
                         }
                     ]
-                }
+                },
             ]
         }
     ]
