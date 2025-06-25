@@ -7,12 +7,14 @@ interface LanguageDataEntry {
 
 // Try to cut down the loading delay
 let voice: SpeechSynthesisVoice | undefined;
-window.speechSynthesis.onvoiceschanged = () => {
-    window.speechSynthesis.getVoices();
-    voice = speechSynthesis.getVoices().find(
-        (v) => v.lang.startsWith('en') && v.localService
-    );
-};
+if (window.speechSynthesis) {
+    window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.getVoices();
+        voice = speechSynthesis.getVoices().find(
+            (v) => v.lang.startsWith('en') && v.localService
+        );
+    };
+}
 
 const languageData: Record<LanguageCode, LanguageDataEntry> = {
     heb: {
@@ -62,6 +64,8 @@ const languageData: Record<LanguageCode, LanguageDataEntry> = {
 
 
 export function speakLetter(letter: string, langCode: LanguageCode): void {
+    if (!voice) return;
+
     if (!letter || !langCode) {
         console.warn('Missing letter or language code');
         return;

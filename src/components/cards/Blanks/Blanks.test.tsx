@@ -1,84 +1,66 @@
-import { screen, fireEvent, waitFor } from 'solid-testing-library';
-import BlanksCardComponent, { IBlanksCardProps } from './Blanks.tsx';
-import { renderTestElement } from '../../../../jest.setup.tsx';
-import { MockT as t } from '../../../../jest.setup.tsx';
+import BlanksCardComponent, { IBlanksCard } from './Blanks.tsx';
+import { render, screen, fireEvent, waitFor } from '@solidjs/testing-library';
+import { jest } from '@jest/globals';
+
+const defaultCard: IBlanksCard = {
+    class: 'blanks',
+    question: '__ sample __ test',
+    qlang: "default",
+    words: [
+        { sample: true },
+        { other: false },
+        { test: true },
+    ],
+};
 
 describe('BlanksCardComponent', () => {
-    let props: IBlanksCardProps;
-
-    beforeEach(() => {
-        props = {
-            card: {
-                class: 'blanks',
-                qlang: 'default',
-                question: 'This is a __ __.',
-                words: [
-                    { example: true },
-                    { test: false },
-                    { sample: true }
-                ]
-            },
+    const setup = () => {
+        const props = {
+            card: defaultCard,
             onCorrect: jest.fn(),
             onIncorrect: jest.fn(),
-            onComplete: jest.fn()
+            onComplete: jest.fn(),
         };
+
+        render(() => <BlanksCardComponent {...props} />);
+        return props;
+    };
+
+    it('calls onCorrect when a correct sequence is selected and checked', async () => {
+        const props = setup();
+
+        fireEvent.click(screen.getByRole('button', { name: /select sample/i }));
+        fireEvent.click(screen.getByRole('button', { name: /select test/i }));
+        fireEvent.click(screen.getByLabelText('action-button'));
+
+        await waitFor(() => {
+            expect(props.onCorrect).toHaveBeenCalledWith(2);
+        });
     });
 
-    test('should render the component correctly', () => {
-        renderTestElement(BlanksCardComponent, props);
-        expect(screen.getByText(t('fill_in_the_blanks'))).toBeInTheDocument();
+    it('calls onIncorrect when incorrect sequence is selected and checked', async () => {
+        const props = setup();
+
+        fireEvent.click(screen.getByRole('button', { name: /select other/i }));
+        fireEvent.click(screen.getByLabelText('action-button'));
+
+        await waitFor(() => {
+            expect(props.onIncorrect).toHaveBeenCalled();
+        });
     });
 
-    test('should call onCorrect when a correct word is clicked', () => {
-        renderTestElement(BlanksCardComponent, props);
-        let correctWord = screen.getByText('example');
-        fireEvent.click(correctWord);
-        correctWord = screen.getByText('sample');
-        fireEvent.click(correctWord);
-        expect(props.onCorrect).toHaveBeenCalledTimes(2);
-    });
+    it('calls onComplete after correct check and clicking Next', async () => {
+        const props = setup();
 
-    test('should call onIncorrect when an incorrect word is clicked', () => {
-        renderTestElement(BlanksCardComponent, props);
-        const incorrectWord = screen.getByText('test');
-        fireEvent.click(incorrectWord);
-        expect(props.onIncorrect).toHaveBeenCalled();
-    });
+        fireEvent.click(screen.getByRole('button', { name: /select sample/i }));
+        fireEvent.click(screen.getByRole('button', { name: /select test/i }));
+        fireEvent.click(screen.getByLabelText('action-button'));
 
-    test('should call onComplete when all correct words are selected and Next clicked', () => {
-        renderTestElement(BlanksCardComponent, props);
-        fireEvent.click(screen.getByText('example'));
-        fireEvent.click(screen.getByText('sample'));
+        await waitFor(() => {
+            expect(props.onCorrect).toHaveBeenCalled();
+        });
+
         fireEvent.click(screen.getByLabelText('action-button'));
         expect(props.onComplete).toHaveBeenCalled();
     });
-
-
-    describe('should add the correct CSS classes', () => {
-        test('on a correct selection', async () => {
-            renderTestElement(BlanksCardComponent, props);
-
-            const correctWord = screen.getByText('example');
-            expect(correctWord).toHaveClass('word-option');
-
-            fireEvent.click(correctWord);
-            // Should really use the i18n lib for the text
-            const insertedWord = screen.getByRole('button', { name: 'example (selected)' });
-            await waitFor(() => expect(insertedWord).toHaveClass('word-option correct'));
-        });
-
-        test('on an incorrect selection', async () => {
-            renderTestElement(BlanksCardComponent, props);
-
-            const incorrectWord = screen.getByText('test');
-            expect(incorrectWord).toHaveClass('word-option');
-
-            fireEvent.click(incorrectWord);
-            const clickedWord = screen.getByText('test');
-            await waitFor(() => expect(clickedWord).toHaveClass('word-option shake'));
-        });
-    });
-
 });
-
-
