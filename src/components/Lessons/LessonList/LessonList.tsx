@@ -29,22 +29,21 @@ const LessonList = (props: LessonListProps) => {
                                 const idx = index();
                                 const currentIdx = lessonStore.getCurrentLessonIdx();
                                 const isDone = lessonStore.isLessonDone(idx);
-                                console.log('xxx', idx, currentIdx, isDone)
-                                // const isTodo = idx > currentIdx && !lessonStore.isLessonDone(idx);
+                                const isCurrent = idx === currentIdx + 1 && !isDone;
+                                const isTodo = idx > currentIdx && !lessonStore.isLessonDone(idx) && !isCurrent;
 
                                 return (
                                     <li>
                                         <button
-                                            disabled={idx !== currentIdx && !isDone}
                                             onClick={() => {
                                                 if (idx <= currentIdx || isDone) {
                                                     props.onLessonSelected(idx);
                                                 }
                                             }}
                                             classList={{
-                                                current: idx === currentIdx && !isDone,
+                                                current: isCurrent,
+                                                todo: isTodo,
                                                 completed: lessonStore.isLessonDone(idx),
-                                                todo: idx !== currentIdx && !isDone,
                                             }}
                                             title={lesson.description || ''}
                                         >
