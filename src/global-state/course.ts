@@ -174,10 +174,8 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
             const courseData: ICourseData = JSON.parse(fileText);
             assertValidCourseData(courseData);
             const { lessons, ...courseMetadata } = courseData;
-            setStore({
-                lessons: lessons,
-                courseMetadata: courseMetadata,
-            });
+            setStore("lessons", lessons);
+            setStore("courseMetadata", courseMetadata);
         } catch (e) {
             console.error("Invalid course file:", e);
         } finally {
@@ -249,7 +247,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
 
     const getTargetLang = (): string => store.courseMetadata?.targetLanguage || '';
 
-    const setLessons = (lessons: ILesson[]) => setStore({ "lessons": lessons, });
+    const setLessons = (lessons: ILesson[]) => setStore("lessons", lessons);
 
     const getTotalLessonsCount = createMemo(() => store.lessons && store.lessons.length);
 
