@@ -15,7 +15,6 @@ const LessonInProgressScreen = () => {
     const [lesson, setLesson] = createSignal<ILesson | null>(null);
     const [startTime, setStartTime] = createSignal(Date.now());
 
-    // Set course/lesson index and load lesson once courseStore is loaded
     createEffect(() => {
         if (courseStore.loading) return;
         const store = courseStore();
