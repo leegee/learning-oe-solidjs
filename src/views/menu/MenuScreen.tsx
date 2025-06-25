@@ -38,7 +38,7 @@ const MenuScreen = () => {
                 <section class='card'>
                     <TitleComponent title={config.menuTitle || config.appTitle} />
 
-                    <nav class={"course-menu " + (editing() ? 'editing' : '')}>
+                    <menu class={"course-menu " + (editing() ? 'editing' : '')}>
 
                         {courseTitlesInIndexOrder(config).map((title, courseIdx) => (
                             <li tabIndex={courseIdx + 1} class={localCourseIndex() === courseIdx ? 'selected' : ''}>
@@ -69,7 +69,7 @@ const MenuScreen = () => {
                             </Show>
                         </li>
 
-                    </nav>
+                    </menu>
 
                     <footer>
                         <small>
