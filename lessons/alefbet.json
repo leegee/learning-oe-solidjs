@@ -118,18 +118,6 @@
                     "qlang": "default",
                     "question": "How do you write 'Final Mem'?",
                     "answer": "ם"
-                },
-                {
-                    "class": "multiple-choice",
-                    "qlang": "default",
-                    "question": "Which letter comes after Samekh?",
-                    "answers": [
-                        "ע",
-                        "צ",
-                        "נ",
-                        "פ"
-                    ],
-                    "answer": "ע"
                 }
             ]
         },
@@ -146,23 +134,6 @@
                         "Shin": "ש",
                         "Tav": "ת"
                     }
-                },
-                {
-                    "class": "blanks",
-                    "qlang": "default",
-                    "alang": "target",
-                    "question": "Fill in the missing letter: ר _ ש",
-                    "words": [
-                        {
-                            "ר": false
-                        },
-                        {
-                            "ש": true
-                        },
-                        {
-                            "ש": false
-                        }
-                    ]
                 },
                 {
                     "class": "multiple-choice",
