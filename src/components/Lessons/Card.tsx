@@ -31,7 +31,7 @@ export default function Card(props: ICardProps) {
     const { t } = useI18n();
     return (
         <div
-            tabindex={props.tabindex || undefined}
+            // tabindex={props.tabindex || undefined}
             ondblclick={props.ondblclick}
         >
             <Switch fallback={<p>Unknown lesson card...</p>}>
