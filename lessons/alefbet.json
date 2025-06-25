@@ -148,6 +148,173 @@
                     "answer": "ת"
                 }
             ]
+        },
+        {
+            "title": "Letters That Sound the Same?",
+            "description": "Explore Hebrew letters that may sound similar and how to tell them apart.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Bet (with dot)": "בּ",
+                        "Vet (without dot)": "ב",
+                        "Kaf (with dot)": "כּ",
+                        "Khaf (without dot)": "כ",
+                        "Shin (right dot)": "שׁ",
+                        "Sin (left dot)": "שׂ"
+                    }
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which one is 'Vet'?",
+                    "answers": [
+                        "בּ",
+                        "כּ",
+                        "ב",
+                        "שׁ"
+                    ],
+                    "answer": "ב"
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which one is 'Shin' (sh sound)?",
+                    "answers": [
+                        "שׁ",
+                        "שׂ",
+                        "ס",
+                        "ז"
+                    ],
+                    "answer": "שׁ"
+                },
+                {
+                    "class": "writing-blocks",
+                    "qlang": "default",
+                    "question": "Which blocks make up 'Kaf with dot'?",
+                    "answer": "כּ",
+                    "options": [
+                        "כ",
+                        "כּ",
+                        "ך",
+                        "בּ"
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Forms and Final Forms",
+            "description": "Learn the five Hebrew letters with final forms and when to use them.",
+            "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Kaf": "כ",
+                        "Final Kaf": "ך",
+                        "Mem": "מ",
+                        "Final Mem": "ם",
+                        "Nun": "נ",
+                        "Final Nun": "ן",
+                        "Pe": "פ",
+                        "Final Pe": "ף",
+                        "Tsadi": "צ",
+                        "Final Tsadi": "ץ"
+                    }
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which letter is used at the end of a word?",
+                    "answers": [
+                        "מ",
+                        "נ",
+                        "ך",
+                        "כ"
+                    ],
+                    "answer": "ך"
+                },
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "How do you write the final form of 'Nun'?",
+                    "answer": "ן"
+                },
+                {
+                    "class": "blanks",
+                    "qlang": "default",
+                    "alang": "default",
+                    "question": "Fill in the final form of the letter at the end of the word: __ מֶל",
+                    "words": [
+                        {
+                            "מֶ": false
+                        },
+                        {
+                            "ל": false
+                        },
+                        {
+                            "ך": true
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "title": "Review the Whole Alefbet",
+            "description": "Review everything you've learned with mixed question types.",
+            "cards": [
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "Write the Hebrew letter for 'Ayin'.",
+                    "answer": "ע"
+                },
+                {
+                    "class": "multiple-choice",
+                    "qlang": "default",
+                    "question": "Which of these is a final form letter?",
+                    "answers": [
+                        "ב",
+                        "ם",
+                        "ש",
+                        "י"
+                    ],
+                    "answer": "ם"
+                },
+                {
+                    "class": "writing-blocks",
+                    "qlang": "default",
+                    "question": "Build the letter 'Tsadi'.",
+                    "answer": "צ",
+                    "options": [
+                        "צ",
+                        "ץ",
+                        "ס",
+                        "ר"
+                    ]
+                },
+                {
+                    "class": "blanks",
+                    "qlang": "default",
+                    "alang": "default",
+                    "question": "Complete the word for 'Shalom' (שָׁלוֹם):___ שׁוֹ",
+                    "words": [
+                        {
+                            "שׁ": false
+                        },
+                        {
+                            "ל": true
+                        },
+                        {
+                            "וֹ": false
+                        },
+                        {
+                            "ם": true
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
