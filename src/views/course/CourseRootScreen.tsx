@@ -9,7 +9,6 @@ const CourseRootScreen = (props: ICourseRootScreenProps) => {
 
     return (
         <article id="main">
-            {/* Here we hold all the children for our route, /course/:courseIdx/* */}
             {resolvedChildren()}
         </article>
     );
