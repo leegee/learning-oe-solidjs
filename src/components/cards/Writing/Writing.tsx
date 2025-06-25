@@ -5,6 +5,7 @@ import { setQandALangs } from '../../../lib/set-q-and-a-langs.ts';
 import ActionButton from '../../ActionButton/index.ts';
 import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
 import { useI18n } from '../../../contexts/I18nProvider.tsx';
+import { LanguageCode, speakLetter } from '../../../lib/speak-letters.ts';
 
 export interface IWritingCard extends IBaseCard {
     class: 'writing';
@@ -46,6 +47,8 @@ const WritingCardComponent = (props: IWritingCardProps) => {
 
     const handleLetterButtonClick = (letter: string) => {
         if (!inputRef) return;
+
+        speakLetter(letter, langs()!.a as LanguageCode);
 
         const input = inputRef;
         const start = input.selectionStart ?? userInput().length;

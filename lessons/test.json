@@ -1,7 +1,7 @@
 {
     "title": "Test",
     "language": "en",
-    "targetLanguage": "ang",
+    "targetLanguage": "heb",
     "level": "beginner",
     "createdAt": "2025-04-01T00:00:00Z",
     "updatedAt": "2025-04-01T00:00:00Z",
@@ -13,6 +13,12 @@
             "title": "Lesson: Test 1",
             "description": "Test 1",
             "cards": [
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "How do you write 'Bet' in Hebrew?",
+                    "answer": "ב"
+                },
                 {
                     "class": "multiple-choice",
                     "qlang": "default",
