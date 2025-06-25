@@ -5,9 +5,18 @@ interface LanguageDataEntry {
     letters: Record<string, string>;
 }
 
+// Try to cut down the loading delay
+let voice: SpeechSynthesisVoice | undefined;
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+    voice = speechSynthesis.getVoices().find(
+        (v) => v.lang.startsWith('en') && v.localService
+    );
+};
+
 const languageData: Record<LanguageCode, LanguageDataEntry> = {
     heb: {
-        langTag: 'en-GB', // <- speak Hebrew letters in English
+        langTag: 'en-GB', // speak Hebrew letters in English
         letters: {
             'א': 'aleph',
             'ב': 'bet',
@@ -75,5 +84,15 @@ export function speakLetter(letter: string, langCode: LanguageCode): void {
 
     const utterance = new SpeechSynthesisUtterance(name);
     utterance.lang = data.langTag;
+    utterance.rate = 0.75;
+    if (voice) {
+        utterance.voice = voice;
+    }
+
+    // Cancel any existing queue
+    speechSynthesis.cancel();
+
     speechSynthesis.speak(utterance);
+
+    console.log(utterance)
 }
