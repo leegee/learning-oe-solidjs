@@ -117,7 +117,7 @@ export const useLessonStore = (courseIdx: number) => {
     return getLessonAnswers(lessonIndex).filter((card) => card.correct).length;
   };
 
-  const getLessonQuestionsAnsweredIncorrectly = (lessonIndex: number): number => {
+  const getTotalWrongAttemptsInLesson = (lessonIndex: number): number => {
     return getLessonAnswers(lessonIndex).reduce(
       (total, card) => total + card.wrongAnswers.length,
       0
@@ -146,7 +146,7 @@ export const useLessonStore = (courseIdx: number) => {
     getTotalIncorrectAnswers,
     getLessonQuestionsAnsweredCorrectly,
     getLessonQuestionCount,
-    getLessonQuestionsAnsweredIncorrectly,
+    getTotalWrongAttemptsInLesson,
     isLessonDone,
   };
 };

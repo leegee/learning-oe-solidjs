@@ -15,9 +15,9 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const { t } = useI18n();
     const params = useParams();
     const lessonStore = useLessonStore(Number(params.courseIdx || -1));
-    const idx = lessonStore!.getCurrentLessonIdx();
-    const incorrectAnswerCount = lessonStore!.getLessonQuestionsAnsweredIncorrectly(idx);
-    const questionCount = lessonStore!.getLessonQuestionCount(idx);
+    const lessonIdx = lessonStore!.getCurrentLessonIdx();
+    const incorrectAnswerCount = lessonStore!.getTotalWrongAttemptsInLesson(lessonIdx);
+    const questionCount = lessonStore!.getLessonQuestionCount(lessonIdx);
 
     const handleClick = () => {
         exitFullscreen();

@@ -130,7 +130,7 @@ describe("useLessonStore", () => {
         });
 
         it("should count incorrect answers in a lesson", () => {
-            expect(lessonStore.getLessonQuestionsAnsweredIncorrectly(5)).toBe(2);
+            expect(lessonStore.getTotalWrongAttemptsInLesson(5)).toBe(2);
         });
     });
 });
