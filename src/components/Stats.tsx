@@ -24,36 +24,35 @@ const Stats = (props: IStatsProps) => {
                 incorrect={lessonStore.getTotalIncorrectAnswers()}
             />
 
-            <table>
-                <tbody>
-                    <tr class="correct-answers" title={t('corect_answers_alt')}>
-                        <th class='correct-answers-alt'>
+            <table class="horizontal-stats">
+                <thead>
+                    <tr>
+                        <th class="correct-answers" title={t('corect_answers_alt')}>
                             {t('correct_answer_count_alt')}
                         </th>
-                        <td class='value'>
-                            {lessonStore.getTotalCorrectAnswers()}
-                        </td>
-                    </tr>
-
-                    <tr class="incorrect-answers" title={t('incorrect_answer_count_alt')}>
-                        <th class='incorrect-answers-alt'>
+                        <th class="incorrect-answers" title={t('incorrect_answer_count_alt')}>
                             {t('incorrect_answer_count_alt')}
                         </th>
-                        <td class='value'>
-                            {lessonStore.getTotalIncorrectAnswers()}
-                        </td>
-                    </tr>
-
-                    <tr class="questions-answered" title={t('questions_answered_count_alt')}>
-                        <th class='questions-answered-alt'>
+                        <th class="questions-answered" title={t('questions_answered_count_alt')}>
                             {t('questions_answered_count_alt')}
                         </th>
-                        <td class='value'>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            {lessonStore.getTotalCorrectAnswers()}
+                        </td>
+                        <td>
+                            {lessonStore.getTotalIncorrectAnswers()}
+                        </td>
+                        <td>
                             {lessonStore.getTotalQuestionsAnswered()}
                         </td>
                     </tr>
                 </tbody>
             </table>
+
         </section>
     );
 };

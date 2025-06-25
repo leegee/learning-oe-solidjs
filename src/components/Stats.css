@@ -30,3 +30,8 @@
 .stats-component .questions-answered {
     color: cyan;
 }
+
+.horizontal-stats th,
+.horizontal-stats td {
+    text-align: center;
+}
