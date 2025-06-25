@@ -76,6 +76,4 @@ export function speakLetter(letter: string, langCode: LanguageCode): void {
     const utterance = new SpeechSynthesisUtterance(name);
     utterance.lang = data.langTag;
     speechSynthesis.speak(utterance);
-
-    console.log('spoke', name, data.langTag)
 }

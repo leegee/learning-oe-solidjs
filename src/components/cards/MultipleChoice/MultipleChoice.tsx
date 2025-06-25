@@ -7,6 +7,7 @@ import { type IBaseCard } from '../BaseCard.type';
 import ActionButton from '../../ActionButton';
 import './MultipleChoice.css';
 import { useI18n } from '../../../contexts/I18nProvider';
+import { LanguageCode, speakLetter } from '../../../lib/speak-letters';
 
 export interface IMultipleChoiceCard extends IBaseCard {
     class: 'multiple-choice';
@@ -49,6 +50,9 @@ const MultipleChoiceComponent = (props: IMultipleChoiceCardProps) => {
     const handleOptionClick = (option: string) => {
         if (!areButtonsDisabled()) {
             setSelectedOption(option);
+            if (option.length === 1) {
+                speakLetter(option, langs()!.a as LanguageCode);
+            }
         }
     };
 
