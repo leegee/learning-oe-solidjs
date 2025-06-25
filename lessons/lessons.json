@@ -49,7 +49,7 @@
                 {
                     "class": "writing-blocks",
                     "qlang": "target",
-                    "question": "Complete the sentence: Ic ēom a ___.",
+                    "question": "Ic ēom a ___.",
                     "answer": "mann",
                     "options": [
                         "mann",
@@ -62,7 +62,7 @@
                     "class": "blanks",
                     "qlang": "default",
                     "alang": "target",
-                    "question": "Fill in the blank: Hit is ___.",
+                    "question": "Hit is ___.",
                     "words": [
                         {
                             "hūs": true
