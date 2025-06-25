@@ -262,12 +262,45 @@
         },
         {
             "title": "Review the Whole Alefbet",
-            "description": "Review everything you've learned with mixed question types.",
+            "description": "Review",
             "cards": [
+                {
+                    "class": "vocab",
+                    "qlang": "default",
+                    "vocab": {
+                        "Alef": "א",
+                        "Bet": "ב",
+                        "Gimel": "ג",
+                        "Dalet": "ד",
+                        "He": "ה",
+                        "Vav": "ו",
+                        "Zayin": "ז",
+                        "Chet": "ח",
+                        "Tet": "ט",
+                        "Yod": "י",
+                        "Kaf": "כ",
+                        "Final Kaf": "ך",
+                        "Lamed": "ל",
+                        "Mem": "מ",
+                        "Final Mem": "ם",
+                        "Nun": "נ",
+                        "Final Nun": "ן",
+                        "Samekh": "ס",
+                        "Ayin": "ע",
+                        "Pe": "פ",
+                        "Final Pe": "ף",
+                        "Tsadi": "צ",
+                        "Final Tsadi": "ץ",
+                        "Qof": "ק",
+                        "Resh": "ר",
+                        "Shin": "ש",
+                        "Tav": "ת"
+                    }
+                },
                 {
                     "class": "writing",
                     "qlang": "default",
-                    "question": "Write the Hebrew letter for 'Ayin'.",
+                    "question": "Select the Hebrew letter 'Ayin'.",
                     "answer": "ע"
                 },
                 {
@@ -285,7 +318,7 @@
                 {
                     "class": "writing-blocks",
                     "qlang": "default",
-                    "question": "Build the letter 'Tsadi'.",
+                    "question": "Select the letter 'Tsadi'.",
                     "answer": "צ",
                     "options": [
                         "צ",
