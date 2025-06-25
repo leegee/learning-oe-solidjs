@@ -1,4 +1,4 @@
-import '../global-css/index.css';
+import './global-css/index.css';
 import { createRoot } from 'solid-js';
 import { render } from "solid-js/web";
 
