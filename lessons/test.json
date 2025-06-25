@@ -17,7 +17,7 @@
                     "class": "blanks",
                     "qlang": "target",
                     "alang": "default",
-                    "question": "___ שׁ ל",
+                    "question": "שׁ ל ___",
                     "words": [
                         {
                             "שׁ": false
