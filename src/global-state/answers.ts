@@ -57,6 +57,7 @@ export const useLessonStore = (courseIdx: number) => {
   const incrementCurrentLessonIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
 
   const saveAnswer = (lessonIdx: number, cardIdx: number, incorrectAnswer: string = ''): void => {
+    console.log('calling lessonsStore.saveAnswer for', lessonIdx)
     _getOrCreateLesson(lessonIdx);
     _getOrCreateCard(lessonIdx, cardIdx);
 

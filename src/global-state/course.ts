@@ -152,7 +152,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
      */
     const loadFile = async (fileBasename: string): Promise<ICourseData> => {
         const filePath = `../../lessons/${fileBasename}.json`;
-        console.info(`Loading course ${fileBasename} from ${filePath}`);
+        console.info(`Loading course "${fileBasename}" from "${filePath}"`);
 
         const lessons = await LESSONS_JSON();
         if (!lessons[filePath]) {
@@ -167,7 +167,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     }
 
     const saveCourseToStorage = (fileText: string) => {
-        console.log("loadCourseFromFile");
+        console.log("saveCourseToStorage");
         setStore("loading", true);
 
         try {
@@ -186,6 +186,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
     const loadCourseFromFile = async (courseIdx: number) => {
         console.info('loadCourseFromFile enter with', courseIdx);
         if (isNaN(courseIdx)) {
+            console.error('Course index is not a number', courseIdx);
             return;
         }
 

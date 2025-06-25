@@ -1,5 +1,5 @@
 import './LessonList.css';
-import { createResource, For, JSX, Show } from 'solid-js';
+import { createEffect, createMemo, createResource, For, JSX, Show } from 'solid-js';
 import { useCourseStore, type ICourseStore } from "../../../global-state/course";
 import { useLessonStore } from '../../../global-state/answers';
 
@@ -11,7 +11,9 @@ interface LessonListProps {
 
 const LessonList = (props: LessonListProps) => {
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
-    const lessonStore = useLessonStore(props.courseIndex);
+    const lessonStore = createMemo(() => useLessonStore(props.courseIndex));
+
+    createEffect(() => console.log('lessonlist courseIndex', props.courseIndex))
 
     return (
         <Show when={!courseStore.loading} fallback={<div>Loading lesson list...</div>}>
@@ -27,10 +29,10 @@ const LessonList = (props: LessonListProps) => {
                         <For each={courseStore()?.getLessons() ?? []}>
                             {(lesson, index) => {
                                 const idx = index();
-                                const currentIdx = lessonStore.getCurrentLessonIdx();
-                                const isDone = lessonStore.isLessonDone(idx);
+                                const currentIdx = lessonStore().getCurrentLessonIdx();
+                                const isDone = lessonStore().isLessonDone(idx);
                                 const isCurrent = idx === currentIdx + 1 && !isDone;
-                                const isTodo = idx > currentIdx && !lessonStore.isLessonDone(idx) && !isCurrent;
+                                const isTodo = idx > currentIdx && !lessonStore().isLessonDone(idx) && !isCurrent;
 
                                 return (
                                     <li>
@@ -41,7 +43,7 @@ const LessonList = (props: LessonListProps) => {
                                             classList={{
                                                 current: isCurrent,
                                                 todo: isTodo,
-                                                completed: lessonStore.isLessonDone(idx),
+                                                completed: lessonStore().isLessonDone(idx),
                                             }}
                                             title={lesson.description || ''}
                                         >

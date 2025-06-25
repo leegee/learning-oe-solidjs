@@ -32,6 +32,7 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
+        console.log('calling lessonsStore.saveAnswer for', cardIndex)
         lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
     };
 
