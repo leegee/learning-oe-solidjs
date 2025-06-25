@@ -1,4 +1,4 @@
-import { createSignal, createEffect, createResource, Show, createMemo } from "solid-js";
+import { createSignal, createEffect, createResource, Show } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import Stats from "../../components/Stats";
@@ -8,10 +8,9 @@ import { useCourseStore } from "../../global-state/course";
 const CourseHome = () => {
     const params = useParams();
     const navigate = useNavigate();
-
+    const [lessonStore, setLessonStore] = createSignal<ReturnType<typeof useLessonStore> | null>(null);
     const [courseIdx, setCourseIdx] = createSignal<number | null>(null);
     const [courseStore] = createResource(useCourseStore);
-
     const [courseMetadata, setCourseMetadata] = createSignal<any | null>(null);
 
     createEffect(() => {
@@ -25,7 +24,6 @@ const CourseHome = () => {
         }
     });
 
-    // Track the loading and data of courseStore
     createEffect(() => {
         if (courseStore() && !courseStore.loading) {
             const idx = courseIdx();
@@ -36,12 +34,12 @@ const CourseHome = () => {
         }
     });
 
-    const lessonStore = createMemo(() => {
+    createEffect(() => {
         const idx = courseIdx();
         if (idx !== null) {
-            return useLessonStore(idx);
+            console.log("Creating lessonStore for courseIdx", idx);
+            setLessonStore(useLessonStore(idx));
         }
-        return null;
     });
 
     const onLessonSelected = (lessonIndex: number) => {
