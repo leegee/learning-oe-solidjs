@@ -1,5 +1,6 @@
-.leeson-progresss {
-    margin-top: 0;
-    height: 2pt;
+.leeson-progress {
     width: 100%;
+    height: 2pt;
+    margin-top: 2pt;
+    margin-bottom: 8pt;
 }
