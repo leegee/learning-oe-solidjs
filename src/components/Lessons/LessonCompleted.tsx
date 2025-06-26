@@ -19,7 +19,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const incorrectAnswerCount = lessonStore!.getTotalWrongAttemptsInLesson(lessonIdx);
     const questionCount = lessonStore!.getLessonQuestionCount(lessonIdx);
 
-    const handleClick = () => {
+    const handleNext = () => {
         exitFullscreen();
         props.onNext();
     }
@@ -39,7 +39,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                 </p>
             </section>
             <footer class='lesson-completed-footer'>
-                <button class='next-button' onClick={handleClick}>{t('continue')}</button>
+                <button class='next-button' onClick={handleNext}>{t('continue')}</button>
             </footer>
         </>
     );
