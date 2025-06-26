@@ -6,7 +6,7 @@ export interface IProgressBarProps {
     incorrect: number;
 }
 
-const CourseScoreProgressBar = (props: IProgressBarProps) => {
+const ProgressBarPercentageOfX = (props: IProgressBarProps) => {
     const { t } = useI18n();
 
     const total = props.correct + props.incorrect;
@@ -14,7 +14,6 @@ const CourseScoreProgressBar = (props: IProgressBarProps) => {
     return (
         <aside class="course-score-progress-component">
             <progress
-                id="course-score-progress"
                 class="course-score-progress-bar"
                 max={total}
                 value={props.correct}
@@ -26,4 +25,4 @@ const CourseScoreProgressBar = (props: IProgressBarProps) => {
     );
 };
 
-export default CourseScoreProgressBar;
+export default ProgressBarPercentageOfX;

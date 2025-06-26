@@ -6,16 +6,16 @@
 }
 
 .course-score-progress-bar::-webkit-progress-bar {
-    background-color: darkred;
+    background-color: var(--oe-clr-incomplete);
     border-radius: 4pt;
     overflow: hidden;
 }
 
 .course-score-progress-bar::-webkit-progress-value {
-    background-color: green;
+    background-color: var(--oe-clr-complete-bg);
     border-radius: 4pt 0 0 4pt;
 }
 
 .course-score-progress-bar::-moz-progress-bar {
-    background-color: green;
+    background-color: var(--oe-clr-complete-bg);
 }

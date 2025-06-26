@@ -87,16 +87,16 @@ h3.question::after {
 }
 
 .correct {
-    background-color: green;
+    background-color: var(--oe-clr-correct-bg);
 }
 
 .incorrect {
-    background-color: darkred;
+    background-color: var(--oe-clr-incorrect-bg);
 }
 
 .shake {
     color: white;
-    background-color: darkred;
+    background-color: var(--oe-clr-incorrect-bg);
 }
 
 .correct-next-button,
@@ -114,12 +114,12 @@ h3.question::after {
 }
 
 .correct-next-button {
-    background-color: darkgreen;
+    background-color: var(--oe-clr-highlight-success-bg);
 }
 
 .incorrect-next-button,
 .try-again-button {
-    background-color: maroon;
+    background-color: var(--oe-clr-incorrect-bg);
 }
 
 
@@ -154,7 +154,7 @@ h3.question::after {
 }
 
 .large-icon-button.selected {
-    color: green;
+    color: var(--oe-clr-highlight-success-bg);
 }
 
 /* button:disabled:not(.correct):not(.incorrect) {

@@ -6,17 +6,35 @@
 
 :root {
     --oe-clr-fg: #ddd;
-    --oe-clr-bg: #001;
+    --oe-clr-bg: #121212;
     --oe-clr-card-fg: #eee;
-    --oe-clr-card-bg: #000027;
+    --oe-clr-card-bg: #1E1E1E;
     --oe-clr-modal-fg: #ddde;
     --oe-clr-modal-bg: #000027EE;
     --oe-clr-border: #ddd5;
     --oe-clr-primary-fg: #eee;
-    --oe-clr-primary-bg: blue;
+    --oe-clr-primary-bg: #5E81AC;
+    --oe-clr-secondary-fg: #eee;
+    --oe-clr-secondary-bg: #5E81AC;
+    --oe-clr-highlight-success-bg: hsl(311, 20%, 63%);
+    --oe-clr-highlight-success-fg: #333;
+    /* --oe-clr-warning-bg: #D08770;
+    --oe-clr-warning-fg: #eee; */
+
+    --oe-clr-correct-fg: hsl(215, 28%, 14%);
+    --oe-clr-correct-bg: hsl(213, 32%, 52%);
+
+    --oe-clr-complete-fg: hsl(215, 28%, 14%);
+    --oe-clr-complete-bg: hsl(213, 32%, 52%);
+
+
+    --oe-clr-incorrect-fg: hsl(213, 32%, 52%);
+    --oe-clr-incorrect-bg: hsl(334, 31%, 18%);
+
+    --oe-clr-total-answered-fg: hsl(334, 31%, 18%);
+    --oe-clr-total-answered-bg: hsl(134, 32%, 52%);
 
     --oe-border-radius: 0.3em;
-
     --oe-fade-duration: 0.5s;
     --oe-fade-timing: ease-in-out;
     --fade-delay: 0s;

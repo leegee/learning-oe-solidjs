@@ -10,25 +10,38 @@
 
 .stats-component th {
     font-weight: normal;
-    text-align: left;
+    text-align: center;
     font-size: normal;
+    text-transform: capitalize;
 }
 
-.stats-component td.value {
-    width: 2em;
-    text-align: right;
+.stats-component td {
+    font-size: xx-large;
+    padding: 0.3em;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.stats-component td:hover,
+.stats-component td:focus {
+    font-size: xx-large;
+    padding: 0.3em;
+    opacity: 1;
 }
 
 .stats-component .correct-answers {
-    color: green;
+    background-color: var(--oe-clr-correct-bg);
+    color: var(--oe-clr-correct-fg);
 }
 
 .stats-component .incorrect-answers {
-    color: red;
+    background-color: var(--oe-clr-incorrect-bg);
+    color: var(--oe-clr-incorrect-fg);
 }
 
 .stats-component .questions-answered {
-    color: cyan;
+    background-color: var(--oe-clr-total-answered-bg);
+    color: var(--oe-clr-total-answered-fg);
 }
 
 .horizontal-stats th,

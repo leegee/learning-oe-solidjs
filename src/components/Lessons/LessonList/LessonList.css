@@ -21,8 +21,9 @@
 }
 
 .lesson-list button.completed {
-    background-color: #174f17;
-    color: #cae0ca;
+    background-color: var(--oe-clr-complete-bg);
+    color: var(--oe-clr-highlight-success-fg);
+    font-weight: bold;
 }
 
 .lesson-list button.current {

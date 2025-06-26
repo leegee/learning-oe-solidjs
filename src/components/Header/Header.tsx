@@ -23,7 +23,7 @@ const Header = () => {
                     <header class='header-component'>
                         <aside class="header-progress">
                             <progress
-                                class="course-progress"
+                                class="course-progress-bar"
                                 value={lessonIndex}
                                 max={totalLessons}
                                 aria-label={t("course_progress")}

@@ -1,7 +1,7 @@
 import './Stats.css';
 import { useLessonStore } from "../global-state/answers";
 import { useI18n } from '../contexts/I18nProvider';
-import CourseScoreProgressBar from './CourseScoreProgressBar';
+import ProgressBarPercentageOfX from './ProgressBarPercentageOfX';
 
 export interface IStatsProps {
     courseIdx: number;
@@ -19,7 +19,7 @@ const Stats = (props: IStatsProps) => {
         <section class="stats-component card">
             <h2>{t('progress')}</h2>
 
-            <CourseScoreProgressBar
+            <ProgressBarPercentageOfX
                 correct={lessonStore.getTotalCorrectAnswers()}
                 incorrect={lessonStore.getTotalIncorrectAnswers()}
             />
