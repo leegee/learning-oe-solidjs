@@ -22,14 +22,14 @@
     --oe-clr-warning-fg: #eee; */
 
     --oe-clr-correct-fg: hsl(215, 28%, 14%);
-    --oe-clr-correct-bg: hsl(213, 32%, 52%);
+    --oe-clr-correct-bg: #5E81AC;
 
     --oe-clr-complete-fg: hsl(215, 28%, 14%);
-    --oe-clr-complete-bg: hsl(213, 32%, 52%);
+    --oe-clr-complete-bg: #5E81AC;
 
 
-    --oe-clr-incorrect-fg: hsl(213, 32%, 52%);
-    --oe-clr-incorrect-bg: hsl(334, 31%, 18%);
+    --oe-clr-incorrect-fg: hsl(334, 31%, 18%);
+    --oe-clr-incorrect-bg: #D08770;
 
     --oe-clr-total-answered-fg: hsl(334, 31%, 18%);
     --oe-clr-total-answered-bg: hsl(134, 32%, 52%);
