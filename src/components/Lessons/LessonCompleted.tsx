@@ -7,7 +7,7 @@ import { formatDuration } from "../../lib/format-duration";
 import { exitFullscreen } from '../../lib/fullscreen';
 
 interface LessonCompletedComponentProps {
-    durationInSeconds: number;
+    lessonDurationInSeconds: number;
     onNext: () => void;
 }
 
@@ -33,7 +33,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
                         {
                             questionCount: questionCount,
                             incorrectAnswerCount: incorrectAnswerCount,
-                            duration: formatDuration(t as TFunction, props.durationInSeconds)
+                            duration: formatDuration(t as TFunction, props.lessonDurationInSeconds)
                         }
                     )}
                 </p>

@@ -38,7 +38,7 @@ const LessonInProgressScreen = () => {
 
     const onLessonComplete = () => {
         const duration = Math.floor((Date.now() - startTime()) / 1000);
-        navigate(`/course/${courseIndex()}/${lessonIndex()}/completed?duration=${duration}`);
+        navigate(`/course/${courseIndex()}/${lessonIndex()}/completed?lesson-duration=${duration}`);
     };
 
     return (

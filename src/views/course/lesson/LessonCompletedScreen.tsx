@@ -11,7 +11,7 @@ const LessonCompletedScreen = () => {
 
     const courseIndex = createMemo(() => Number(params.courseIdx));
     const lessonIndex = createMemo(() => Number(params.lessonIdx));
-    const duration = createMemo(() => Number(searchParams.duration) || -1);
+    const lessonDuration = createMemo(() => Number(searchParams['lesson-duration']) || -999);
 
     const nextLessonIndex = createMemo(() => lessonIndex() + 1);
 
@@ -32,7 +32,7 @@ const LessonCompletedScreen = () => {
         <Show when={courseStore()}>
             <LessonCompleted
                 onNext={onNext}
-                durationInSeconds={duration()}
+                lessonDurationInSeconds={lessonDuration()}
             />
         </Show>
     );
