@@ -34,6 +34,7 @@ footer {
 }
 
 .card {
+    color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-card-bg);
     border: 1pt solid var(--oe-clr-border);
     margin: 1em 0;

@@ -7,12 +7,12 @@
 :root {
     --oe-clr-fg: #ddd;
     --oe-clr-bg: #121212;
-    --oe-clr-card-fg: #eee;
+    --oe-clr-card-fg: #ddd;
     --oe-clr-card-bg: #1E1E1E;
     --oe-clr-modal-fg: #ddde;
     --oe-clr-modal-bg: #000027EE;
     --oe-clr-border: #ddd5;
-    --oe-clr-primary-fg: #eee;
+    --oe-clr-primary-fg: hsl(0, 0%, 90%);
     --oe-clr-primary-bg: #5E81AC;
     --oe-clr-secondary-fg: #eee;
     --oe-clr-secondary-bg: #5E81AC;
