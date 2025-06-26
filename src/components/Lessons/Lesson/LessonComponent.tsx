@@ -38,7 +38,7 @@ const LessonComponent = (props: ILessonProps) => {
         }
     })
 
-    const leaveIfConfirmed = () => {
+    const quitLessonIfConfirmed = () => {
         showConfirm(t('confirm_leave_lesson'), () => {
             exitFullscreen();
             props.onCancel();
@@ -47,7 +47,7 @@ const LessonComponent = (props: ILessonProps) => {
 
     const handleKeys = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
-            leaveIfConfirmed();
+            quitLessonIfConfirmed();
         }
     };
 
@@ -100,7 +100,7 @@ const LessonComponent = (props: ILessonProps) => {
         <article class="lesson">
             <h2>
                 <em>{props.lesson.title}</em>
-                <button class="close-button" onClick={leaveIfConfirmed} aria-label={t('cancel_lesson')} />
+                <button class="close-button" onClick={quitLessonIfConfirmed} aria-label={t('cancel_lesson')} />
             </h2>
 
             {/* Lesson progress */}
