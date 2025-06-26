@@ -22,7 +22,10 @@ const LessonCompletedScreen = () => {
         }
 
         if (nextLessonIndex() < store.getLessons().length) {
-            navigate(`/course/${courseIndex()}/${nextLessonIndex()}/intro`);
+            // Next lesson:
+            // navigate(`/course/${courseIndex()}/${nextLessonIndex()}/intro`);
+            // Back to course home screen:
+            navigate(`/course/${courseIndex()}`);
         } else {
             navigate(`/course/${courseIndex()}/finished`);
         }
