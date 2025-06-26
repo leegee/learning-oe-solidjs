@@ -15,7 +15,7 @@
     width: 10em;
     float: right;
     margin-left: auto;
-    background-color: var(--oe-clr-highlight)
+    background-color: var(--oe-clr-primary-bg)
 }
 
 .lesson-intro h2 {

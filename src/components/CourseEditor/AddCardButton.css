@@ -29,7 +29,7 @@
      font-size: 12pt;
      font-weight: normal;
      width: 100%;
-     background-color: var(--oe-clr-highlight);
+     background-color: var(--oe-clr-primary-bg);
      color: var(--oe-clr-fg);
      opacity: 100%;
      border-color: var(--oe-clr-border);

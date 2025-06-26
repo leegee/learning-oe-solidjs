@@ -110,7 +110,7 @@ h3.question::after {
 }
 
 .next-button {
-    background-color: var(--oe-clr-highlight);
+    background-color: var(--oe-clr-primary-bg);
 }
 
 .correct-next-button {
@@ -175,7 +175,7 @@ button[disabled]:hover {
 button.selected {
     border-color: var(--oe-clr-fg);
     filter: brightness(160%);
-    border-color: var(--oe-clr-highlight);
+    border-color: var(--oe-clr-primary-bg);
 }
 
 button.selected[disabled] {

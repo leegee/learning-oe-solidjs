@@ -107,7 +107,7 @@
 }
 
 .course-editor .lesson-pager .pager-link:hover {
-    outline: 1pt solid var(--oe-clr-highlight);
+    outline: 1pt solid var(--oe-clr-primary-bg);
     opacity: 100%;
 }
 
