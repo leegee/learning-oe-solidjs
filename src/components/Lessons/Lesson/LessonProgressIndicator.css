@@ -1,6 +1,22 @@
-.leeson-progress {
+.leeson-progress-bar {
     width: 100%;
     height: 2pt;
     margin-top: 2pt;
     margin-bottom: 8pt;
+    appearance: none;
+}
+
+.leeson-progress-bar::-webkit-progress-bar {
+    background-color: var(--oe-clr-incomplete);
+    border-radius: 4pt;
+    overflow: hidden;
+}
+
+.leeson-progress-bar::-webkit-progress-value {
+    background-color: var(--oe-clr-complete-bg);
+    border-radius: 4pt 0 0 4pt;
+}
+
+.leeson-progress-bar::-moz-progress-bar {
+    background-color: var(--oe-clr-complete-bg);
 }

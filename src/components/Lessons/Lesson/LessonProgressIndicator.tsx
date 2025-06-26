@@ -13,7 +13,7 @@ export default function LessonProgressIndicator(props: iLessonProgressIndicatorP
 
     return (
         <progress
-            class='leeson-progress'
+            class='leeson-progress-bar'
             value={props.value}
             max={props.max}
             aria-label={t('lesson_progress')}
