@@ -1,16 +1,9 @@
-/* Lesson.css */
 .lesson h2 {
     margin-top: 0.3em;
     margin-bottom: 0;
     font-weight: normal;
     font-size: 1em;
     opacity: 60%;
-}
-
-.lesson progress {
-    margin-top: 0;
-    height: 2pt;
-    width: 100%;
 }
 
 .lesson h2 {

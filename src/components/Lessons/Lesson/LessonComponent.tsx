@@ -5,6 +5,7 @@ import { exitFullscreen } from '../../../lib/fullscreen';
 import Card from '../Card';
 import { type IAnyCard } from '../../Cards';
 import { useI18n } from '../../../contexts/I18nProvider';
+import LessonProgressIndicator from './LessonProgressIndicator';
 
 export interface ILesson {
     title: string;
@@ -67,7 +68,7 @@ const LessonComponent = (props: ILessonProps) => {
 
     const goToNextQuestionCard = () => {
         if (correctlyAnswered) {
-            // Remove the first card
+            // Remove the current card so that the top of the stack is the "next question card:""
             setLessonStack((prevStack) => prevStack.slice(1));
 
             if (lessonStack().length === 0) {
@@ -75,7 +76,7 @@ const LessonComponent = (props: ILessonProps) => {
                 return;
             }
         } else {
-            // Move incorrectly answered card to the other end of the stack
+            // Move incorrectly answered card to the bottom of the stack
             setLessonStack((prevStack) => [...prevStack.slice(1), prevStack[0]]);
         }
     };
@@ -103,11 +104,9 @@ const LessonComponent = (props: ILessonProps) => {
                 <button class="close-button" onClick={quitLessonIfConfirmed} aria-label={t('cancel_lesson')} />
             </h2>
 
-            {/* Lesson progress */}
-            <progress
+            <LessonProgressIndicator
                 value={lessonStack().length === 0 ? 1 : (props.lesson.cards.length - lessonStack().length + 1)}
                 max={props.lesson.cards.length}
-                aria-label={t('lesson_progress')}
                 title={`${props.lesson.cards.length - lessonStack().length + 1} / ${props.lesson.cards.length}`}
             />
 
