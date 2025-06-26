@@ -146,6 +146,8 @@ h3.question::after {
     padding: 0.8em;
     margin: 0;
     border: none;
+    color: var(--oe-clr-question-button-fg);
+    background-color: var(--oe-clr-question-button-bg);
 }
 
 .large-icon-button:hover {

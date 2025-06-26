@@ -16,6 +16,8 @@
 
 .vocab-match td button {
     text-align: center;
+    color: var(--oe-clr-question-button-fg);
+    background-color: var(--oe-clr-question-button-bg);
 }
 
 .vocab-match .next-button {

@@ -8,7 +8,11 @@
     --oe-clr-fg: #ddd;
     --oe-clr-bg: #121212;
     --oe-clr-card-fg: #ddd;
-    --oe-clr-card-bg: #1E1E1E;
+    --oe-clr-card-bg: #0d0b23;
+
+    --oe-clr-question-button-bg: hsl(302, 40%, 10%);
+    --oe-clr-question-button-fg: #ddde;
+
     --oe-clr-modal-fg: #ddde;
     --oe-clr-modal-bg: #000027EE;
     --oe-clr-border: #ddd5;
