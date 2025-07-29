@@ -21,20 +21,20 @@ const ActionButton = (props: ButtonProps) => {
     });
 
     const handleClick = () => {
-        console.log('Action button click, props.isCorrect =', props.isCorrect);
+        // console.log('AB click, props.isCorrect =', props.isCorrect);
         if (!hasChecked()) {
             // First click: Check the answer
-            console.log('AB first click: not yet checked, checking now');
+            // console.log('AB first click: not yet checked, checking now');
             props.onCheckAnswer();
             setHasChecked(true);
         }
         else if (props.isCorrect === false && props.onReset) {
-            console.log('AB click: reset');
+            // console.log('AB click: reset');
             setHasChecked(false);
             props.onReset();
         }
         else {
-            console.log('AB other click: has checked, calling complete');
+            // console.log('AB other click: has checked, calling complete');
             props.onComplete();
             // setHasChecked(false);
         }
