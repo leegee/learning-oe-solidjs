@@ -116,6 +116,7 @@ h3.question::after {
 
 .correct-next-button {
     background-color: var(--oe-clr-highlight-success-bg);
+    color: var(--oe-clr-highlight-success-fg);
 }
 
 .incorrect-next-button,
