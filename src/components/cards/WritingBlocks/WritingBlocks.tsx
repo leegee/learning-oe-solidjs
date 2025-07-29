@@ -5,6 +5,7 @@ import { setQandALangs } from '../../../lib/set-q-and-a-langs';
 import ActionButton from '../../ActionButton';
 import './WritingBlocks.css';
 import { useI18n } from '../../../contexts/I18nProvider';
+import { normalizeText } from '../../../lib/normalise-text';
 
 export interface IWritingBlocksCard extends IBaseCard {
     question: string;
@@ -28,19 +29,13 @@ export interface IWritingBlocksCardProps {
     onComplete: () => void;
 }
 
-const normalizeText = (text: string): string => {
-    return text.trim().toLowerCase().replace(/[^\s\w]+/g, '').replace(/\s+/g, ' ');
-};
-
 const WritingBlocksCardComponent = (props: IWritingBlocksCardProps) => {
     let lastSubmittedInput = '';
     const { t } = useI18n();
     const [langs] = createResource(() => setQandALangs(props.card));
     const [isCorrect, setIsCorrect] = createSignal<boolean | null>(null);
     const [selectedWords, setSelectedWords] = createSignal<string[]>([]);
-    const normalizedAnswer = createMemo(() =>
-        normalizeText(props.card.answer)
-    );
+    const normalizedAnswer = createMemo(() => normalizeText(props.card.answer));
 
     const handleWordClick = (word: string) => {
         setIsCorrect(null);

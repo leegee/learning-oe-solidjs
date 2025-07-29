@@ -77,7 +77,7 @@ export function speakLetter(letter: string, langCode: LanguageCode): void {
         return;
     }
 
-    const normalizedLetter = letter.toLowerCase();
+    const normalizedLetter = letter.toLocaleLowerCase();
 
     const name = data.letters[normalizedLetter];
 

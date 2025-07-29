@@ -6,6 +6,7 @@ import ActionButton from '../../ActionButton/index.ts';
 import LetterButtons from '../../LetterButtons/LetterButtons.tsx';
 import { useI18n } from '../../../contexts/I18nProvider.tsx';
 import { LanguageCode, speakLetter } from '../../../lib/speak-letters.ts';
+import { normalizeText } from '../../../lib/normalise-text.ts';
 
 export interface IWritingCard extends IBaseCard {
     class: 'writing';
@@ -25,10 +26,6 @@ export interface IWritingCardProps {
     onIncorrect: () => void;
     onComplete: () => void;
 }
-
-const normalizeText = (text: string): string => {
-    return text.trim().toLowerCase().replace(/\W+/g, '').replace(/\s+/g, ' ');
-};
 
 const WritingCardComponent = (props: IWritingCardProps) => {
     const [langs] = createResource(() => setQandALangs(props.card));
