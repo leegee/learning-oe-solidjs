@@ -1,18 +1,21 @@
 import './Header.css';
-import { createMemo, createResource, Show } from 'solid-js';
-import { useParams } from '@solidjs/router';
+import {
+    // createMemo, 
+    createResource, Show
+} from 'solid-js';
+// import { useParams } from '@solidjs/router';
 import { type ICourseStore, useCourseStore } from '../../global-state/course';
 import MenuTogglebutton from "../Menu/MenuToggleButton";
 import { useConfigContext } from "../../contexts/ConfigProvider";
-import { useLessonStore } from "../../global-state/answers";
-import { useI18n } from "../../contexts/I18nProvider";
+// import { useLessonStore } from "../../global-state/answers";
+// import { useI18n } from "../../contexts/I18nProvider";
 
 const Header = () => {
-    const { t } = useI18n();
+    // const { t } = useI18n();
     const { config } = useConfigContext();
-    const params = useParams();
+    // const params = useParams();
 
-    const courseIdx = createMemo(() => Number(params.courseIdx || -1));
+    // const courseIdx = createMemo(() => Number(params.courseIdx || -1));
     // const lessonStore = createMemo(() => useLessonStore(courseIdx()));
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
