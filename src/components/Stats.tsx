@@ -2,6 +2,8 @@ import './Stats.css';
 import { useLessonStore } from "../global-state/answers";
 import { useI18n } from '../contexts/I18nProvider';
 import ProgressBarPercentageOfX from './ProgressBarPercentageOfX';
+import { createMemo, createResource } from 'solid-js';
+import { type ICourseStore, useCourseStore } from '../global-state/course';
 
 export interface IStatsProps {
     courseIdx: number;
@@ -9,19 +11,23 @@ export interface IStatsProps {
 
 const Stats = (props: IStatsProps) => {
     const { t } = useI18n();
-    const lessonStore = useLessonStore(props.courseIdx);
+    const lessonStore = createMemo(() => useLessonStore(props.courseIdx));
+    const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
-    if (!lessonStore || !lessonStore.getTotalQuestionsAnswered()) {
+    if (!lessonStore() || !lessonStore().getTotalQuestionsAnswered()) {
         return null;
     }
+
+    const lessonIndex = createMemo(() => lessonStore().getTotalQuestionsAnswered());
+    const totalLessons = createMemo(() => courseStore()?.getTotalLessonsCount() ?? 0);
 
     return (
         <section class="stats-component card">
             <h2>{t('progress')}</h2>
 
             <ProgressBarPercentageOfX
-                correct={lessonStore.getTotalCorrectAnswers()}
-                incorrect={lessonStore.getTotalIncorrectAnswers()}
+                correct={lessonIndex()}
+                incorrect={totalLessons()}
             />
 
             <table class="horizontal-stats">
@@ -41,13 +47,13 @@ const Stats = (props: IStatsProps) => {
                 <tbody>
                     <tr>
                         <td>
-                            {lessonStore.getTotalCorrectAnswers()}
+                            {lessonStore().getTotalCorrectAnswers()}
                         </td>
                         <td>
-                            {lessonStore.getTotalIncorrectAnswers()}
+                            {lessonStore().getTotalIncorrectAnswers()}
                         </td>
                         <td>
-                            {lessonStore.getTotalQuestionsAnswered()}
+                            {lessonStore().getTotalQuestionsAnswered()}
                         </td>
                     </tr>
                 </tbody>

@@ -13,24 +13,24 @@ const Header = () => {
     const params = useParams();
 
     const courseIdx = createMemo(() => Number(params.courseIdx || -1));
-    const lessonStore = createMemo(() => useLessonStore(courseIdx()));
+    // const lessonStore = createMemo(() => useLessonStore(courseIdx()));
     const [courseStore] = createResource<ICourseStore>(useCourseStore);
 
-    const lessonIndex = createMemo(() => lessonStore().getTotalQuestionsAnswered());
-    const totalLessons = createMemo(() => courseStore()?.getTotalLessonsCount() ?? 0);
+    // const lessonIndex = createMemo(() => lessonStore().getTotalQuestionsAnswered());
+    // const totalLessons = createMemo(() => courseStore()?.getTotalLessonsCount() ?? 0);
 
     return (
         <Show when={courseStore()} fallback={<p>Loading...</p>}>
             <header class='header-component'>
-                <aside class="header-progress">
-                    <progress
+                {/* <aside class="header-progress">
+                    ?<progress
                         class="course-progress-bar"
                         value={lessonIndex()}
                         max={totalLessons()}
                         aria-label={t("course_progress")}
                         title={`${t("all_lessons")} ${lessonIndex() + 1} / ${totalLessons()}`}
                     />
-                </aside>
+                </aside> */}
 
                 <div class="header-text">
                     <h1 lang={config.targetLanguage}>{config.appTitle}</h1>

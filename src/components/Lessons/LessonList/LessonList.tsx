@@ -34,6 +34,8 @@ const LessonList = (props: LessonListProps) => {
                                 const isCurrent = idx === currentIdx + 1 && !isDone;
                                 const isTodo = idx > currentIdx && !lessonStore().isLessonDone(idx) && !isCurrent;
 
+                                // console.log({ idx, isDone, isTodo, isCurrent });
+
                                 return (
                                     <li>
                                         <button

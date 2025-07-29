@@ -11,6 +11,8 @@ const ProgressBarPercentageOfX = (props: IProgressBarProps) => {
 
     const total = props.correct + props.incorrect;
 
+    console.log(props.correct, total);
+
     return (
         <aside class="course-score-progress-component">
             <progress
