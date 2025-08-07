@@ -6,7 +6,8 @@ Create and share quizes and language lessons.
 
 ## Features
 
-* Purely client-side
+* Purely client-side - "local first" 
+* Through the DAO could easily be extended
 * A SolidJS prototype without any third-party dependencies
 * Several types of quiz lessons:
     1. multiple choice
@@ -46,6 +47,6 @@ Any resemblance to other language learning apps is purely coincidence.
 
 ## Thanks:
 
-* The [Junicode](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
+* The [Junicode Old English](https://github.com/psb1558/Junicode-font/releases/tag/v2.211) font.
 * `SolidJS`, `@solid-primitives/storage`, `solid-js/store`
 * Vite
