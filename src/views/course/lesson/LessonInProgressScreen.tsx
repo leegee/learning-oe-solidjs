@@ -1,12 +1,12 @@
 import { useParams, useNavigate } from "@solidjs/router";
-import { createEffect, createMemo, createResource, createSignal, Show } from "solid-js";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import LessonComponent, { ILesson } from "../../../components/Lessons/Lesson";
-import { useCourseStore, type ICourseStore } from "../../../global-state/course";
+import { getCourseStore } from "../../../global-state/course";
 import { useLessonStore } from "../../../global-state/answers";
 
 const LessonInProgressScreen = () => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
+    const courseStore = getCourseStore();
     const courseIndex = createMemo(() => Number(params.courseIdx || -1));
     const lessonIndex = createMemo(() => Number(params.lessonIdx || -1));
     const navigate = useNavigate();
@@ -16,11 +16,9 @@ const LessonInProgressScreen = () => {
     const [startTime, setStartTime] = createSignal(Date.now());
 
     createEffect(() => {
-        if (courseStore.loading) return;
-        const store = courseStore();
-        if (!store) return;
+        if (!courseStore) return;
         const lessonIdx = lessonIndex();
-        const lessons = store?.getLessons();
+        const lessons = courseStore.getLessons();
         if (lessons[lessonIdx]) {
             setLesson(lessons[lessonIdx]);
             setStartTime(Date.now());
@@ -32,13 +30,15 @@ const LessonInProgressScreen = () => {
     };
 
     const onAnswer = (cardIndex: number, incorrectAnswer?: string) => {
-        console.log('calling lessonsStore.saveAnswer for', cardIndex)
-        lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || '');
+        console.log("calling lessonsStore.saveAnswer for", cardIndex);
+        lessonStore!.saveAnswer(lessonIndex(), cardIndex, incorrectAnswer || "");
     };
 
     const onLessonComplete = () => {
         const duration = Math.floor((Date.now() - startTime()) / 1000);
-        navigate(`/course/${courseIndex()}/${lessonIndex()}/completed?lesson-duration=${duration}`);
+        navigate(
+            `/course/${courseIndex()}/${lessonIndex()}/completed?lesson-duration=${duration}`
+        );
     };
 
     return (

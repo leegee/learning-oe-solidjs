@@ -1,18 +1,19 @@
 import './LessonIntroScreen.css';
 
-import { createMemo, createResource, Show, } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 
 import { useLessonStore } from "../../../global-state/answers";
-import { useCourseStore, type ICourseStore } from "../../../global-state/course";
+import { getCourseStore } from "../../../global-state/course";
 import { enterFullscreen } from "../../../lib/fullscreen";
 import { useI18n } from "../../../contexts/I18nProvider";
 
 const LessonIntroScreen = () => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
     const params = useParams();
     const navigate = useNavigate();
     const { t } = useI18n();
+
+    const courseStore = getCourseStore();
 
     const courseIdx = createMemo(() => Number(params.courseIdx));
     const lessonIdx = createMemo(() => Number(params.lessonIdx));
@@ -20,9 +21,8 @@ const LessonIntroScreen = () => {
     const lessonStore = createMemo(() => useLessonStore(courseIdx()));
 
     const lesson = createMemo(() => {
-        const store = courseStore();
-        if (!store || !store.store) return undefined;
-        return store.getLessons()?.[lessonIdx()];
+        if (!courseStore) return undefined;
+        return courseStore.getLessons()?.[lessonIdx()];
     });
 
     const handleClick = () => {

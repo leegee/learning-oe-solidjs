@@ -1,10 +1,10 @@
 import { IBaseCard } from '../components/Cards/BaseCard.type';
-import { useCourseStore } from '../global-state/course';
+import { getCourseStore } from '../global-state/course';
 
 export type setQandALangsReturnType = { q: string, a: string };
 
 export const setQandALangs = async (card: IBaseCard): Promise<setQandALangsReturnType> => {
-    const courseStore = await useCourseStore();
+    const courseStore = getCourseStore();
     const sourceLang = courseStore.getSourceLang();
     const targetLang = courseStore.getTargetLang();
 

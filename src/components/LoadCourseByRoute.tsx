@@ -1,22 +1,26 @@
-import { createResource, createEffect } from "solid-js";
+import { createEffect } from "solid-js";
 import { useParams } from "@solidjs/router";
-import { useCourseStore, type ICourseStore } from "../global-state/course";
+import { getCourseStore } from "../global-state/course";
 
 export default function LoadCourseByRoute() {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const courseStore = getCourseStore();
     const params = useParams();
 
-    createEffect(async () => {
-        if (courseStore.loading) return;
-
+    createEffect(() => {
         const courseIdx = params.courseIdx;
+
+        if (courseIdx === undefined || courseIdx === null) {
+            // No course index present (likely on home route) — do nothing
+            return;
+        }
+
         const numericIdx = Number(courseIdx);
 
         if (!isNaN(numericIdx)) {
-            console.log('Load course by route')
-            await courseStore()?.loadCourseFromFile(numericIdx);
+            console.log('Load course by route');
+            courseStore.loadCourseFromFile(numericIdx);
         } else {
-            console.error('Load course by route failure - course index was non-numeric', courseIdx)
+            console.error('Load course by route failure - course index was non-numeric', courseIdx);
         }
     });
 

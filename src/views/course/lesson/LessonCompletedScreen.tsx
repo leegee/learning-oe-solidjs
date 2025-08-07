@@ -1,13 +1,13 @@
 import { useParams, useNavigate, useSearchParams } from "@solidjs/router";
-import { createMemo, createResource, Show } from "solid-js";
+import { createMemo, Show } from "solid-js";
 import LessonCompleted from "../../../components/Lessons/LessonCompleted";
-import { useCourseStore } from "../../../global-state/course";
+import { getCourseStore } from "../../../global-state/course";
 
 const LessonCompletedScreen = () => {
-    const [courseStore] = createResource(useCourseStore);
     const params = useParams();
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const courseStore = getCourseStore();
 
     const courseIndex = createMemo(() => Number(params.courseIdx));
     const lessonIndex = createMemo(() => Number(params.lessonIdx));
@@ -16,15 +16,13 @@ const LessonCompletedScreen = () => {
     const nextLessonIndex = createMemo(() => lessonIndex() + 1);
 
     const onNext = () => {
-        const store = courseStore();
-        if (!store) {
+        if (!courseStore) {
             return;
         }
 
-        if (nextLessonIndex() < store.getLessons().length) {
-            // Next lesson:
-            // navigate(`/course/${courseIndex()}/${nextLessonIndex()}/intro`);
-            // Back to course home screen:
+        if (nextLessonIndex() < courseStore.getLessons().length) {
+            // Originally: navigate to next lesson
+            // Currently: Back to course home screen:
             navigate(`/course/${courseIndex()}`);
         } else {
             navigate(`/course/${courseIndex()}/finished`);
@@ -32,7 +30,7 @@ const LessonCompletedScreen = () => {
     };
 
     return (
-        <Show when={courseStore()}>
+        <Show when={courseStore}>
             <LessonCompleted
                 onNext={onNext}
                 lessonDurationInSeconds={lessonDuration()}

@@ -1,14 +1,14 @@
 // EditorScreen.tsx
 import { useNavigate, useParams } from "@solidjs/router";
-import { createEffect, createMemo, createResource, Show } from "solid-js";
+import { createMemo, createEffect, Show } from "solid-js";
 import CardEditor from "../../components/CardEditor/CardEditor";
-import { useCourseStore } from "../../global-state/course";
+import { getCourseStore } from "../../global-state/course";
 import { IAnyCard } from "../../components/Cards";
 
 const Editor = () => {
     const params = useParams();
     const navigate = useNavigate();
-    const [courseStore] = createResource(useCourseStore);
+    const courseStore = getCourseStore();
 
     const courseIdx = () => Number(params.courseIdx ?? -1);
     const lessonIdx = () => Number(params.lessonIdx ?? -1);
@@ -16,14 +16,13 @@ const Editor = () => {
 
     // Lessons derived from the resolved course store
     const lessons = createMemo(() => {
-        const cStore = courseStore();
-        return cStore?.getLessons() ?? [];
+        return courseStore?.getLessons() ?? [];
     });
 
     // Current card derived from lessons, once ready
     const currentCard = createMemo(() => {
         const lIdx = lessonIdx();
-        if (typeof lessonIdx === 'undefined' || !lessons().length) {
+        if (typeof lIdx === "undefined" || !lessons().length) {
             return;
         }
 
@@ -36,43 +35,39 @@ const Editor = () => {
 
         const cIdx = cardIdx();
 
-        if (cardIdx() >= lesson.cards.length) {
-            console.warn('cardId is >= lesson.cards length');
+        if (cIdx >= lesson.cards.length) {
+            console.warn("cardId is >= lesson.cards length");
             // Back out of editing cards that don't exist that can occur when user quits editing 
             // and browser auto-opens that tab when restarting
-            navigate('/course/' + courseIdx());
+            navigate("/course/" + courseIdx());
             return;
         }
 
         return lesson.cards[cIdx] ?? null;
     });
 
-    const canRenderEditor = createMemo(() =>
-        lessons().length > 0 &&
-        lessonIdx() >= 0 &&
-        cardIdx() >= 0
-        && currentCard() !== null
+    const canRenderEditor = createMemo(
+        () =>
+            lessons().length > 0 &&
+            lessonIdx() >= 0 &&
+            cardIdx() >= 0 &&
+            currentCard() !== null
     );
-
 
     // Sync course index into global store once it's ready
     createEffect(() => {
-        const cStore = courseStore();
-        if (!cStore) return;
+        if (!courseStore) return;
+        // You can add syncing logic here if needed
     });
 
     const onSave = (updatedCard: IAnyCard) => {
-        const cStore = courseStore();
-        if (!cStore) return;
-        cStore.saveCard(updatedCard, lessonIdx(), cardIdx());
+        if (!courseStore) return;
+        courseStore.saveCard(updatedCard, lessonIdx(), cardIdx());
         navigate(-1);
     };
 
     return (
-        <Show
-            when={canRenderEditor() && currentCard()}
-            fallback={<p>Loading editor...</p>}
-        >
+        <Show when={canRenderEditor() && currentCard()} fallback={<p>Loading editor...</p>}>
             <article>
                 <CardEditor
                     card={currentCard()!}

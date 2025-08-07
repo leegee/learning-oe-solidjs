@@ -389,3 +389,15 @@ export class InvalidCourseIndexError extends Error {
     }
 }
 
+
+/**
+ * Synchronious wrapper
+ * 
+ * @returns ICourseStore instance
+ */
+export const getCourseStore = (): ICourseStore => {
+    if (!courseStoreInstance) {
+        throw new Error("Course store not initialized. Call useCourseStore() first.");
+    }
+    return courseStoreInstance;
+};

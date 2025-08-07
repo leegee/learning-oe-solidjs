@@ -1,16 +1,16 @@
-import { createSignal, createEffect, createResource, Show } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
 import { useParams, useNavigate } from "@solidjs/router";
 import LessonList from "../../components/Lessons/LessonList";
 import Stats from "../../components/Stats";
 import { useLessonStore } from "../../global-state/answers";
-import { useCourseStore } from "../../global-state/course";
+import { getCourseStore } from "../../global-state/course";
 
 const CourseHome = () => {
     const params = useParams();
     const navigate = useNavigate();
     const [lessonStore, setLessonStore] = createSignal<ReturnType<typeof useLessonStore> | null>(null);
     const [courseIdx, setCourseIdx] = createSignal<number | null>(null);
-    const [courseStore] = createResource(useCourseStore);
+    const courseStore = getCourseStore();
     const [courseMetadata, setCourseMetadata] = createSignal<any | null>(null);
 
     createEffect(() => {
@@ -25,10 +25,10 @@ const CourseHome = () => {
     });
 
     createEffect(() => {
-        if (courseStore() && !courseStore.loading) {
+        if (courseStore) {
             const idx = courseIdx();
             if (idx !== null) {
-                const metadata = courseStore()?.store.courseMetadata;
+                const metadata = courseStore.store.courseMetadata;
                 setCourseMetadata(metadata);
             }
         }
@@ -48,8 +48,8 @@ const CourseHome = () => {
 
     return (
         <Show
-            when={!courseStore.loading && courseStore() && lessonStore()}
-            fallback={<div>Loading lessons ...</div>}
+            when={courseStore && lessonStore()}
+            fallback={<div>[1] Loading lessons ...</div>}
         >
             <article id="home">
                 <Stats courseIdx={courseIdx()!} />

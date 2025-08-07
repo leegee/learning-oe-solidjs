@@ -2,8 +2,8 @@ import './Stats.css';
 import { useLessonStore } from "../global-state/answers";
 import { useI18n } from '../contexts/I18nProvider';
 import ProgressBarPercentageOfX from './ProgressBarPercentageOfX';
-import { createMemo, createResource } from 'solid-js';
-import { type ICourseStore, useCourseStore } from '../global-state/course';
+import { createMemo } from 'solid-js';
+import { getCourseStore } from '../global-state/course';
 
 export interface IStatsProps {
     courseIdx: number;
@@ -12,14 +12,14 @@ export interface IStatsProps {
 const Stats = (props: IStatsProps) => {
     const { t } = useI18n();
     const lessonStore = createMemo(() => useLessonStore(props.courseIdx));
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const courseStore = getCourseStore();
 
     if (!lessonStore() || !lessonStore().getTotalQuestionsAnswered()) {
         return null;
     }
 
     const lessonIndex = createMemo(() => lessonStore().getTotalQuestionsAnswered());
-    const totalLessons = createMemo(() => courseStore()?.getTotalLessonsCount() ?? 0);
+    const totalLessons = createMemo(() => courseStore.getTotalLessonsCount());
 
     return (
         <section class="stats-component card">
@@ -46,19 +46,12 @@ const Stats = (props: IStatsProps) => {
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            {lessonStore().getTotalCorrectAnswers()}
-                        </td>
-                        <td>
-                            {lessonStore().getTotalIncorrectAnswers()}
-                        </td>
-                        <td>
-                            {lessonStore().getTotalQuestionsAnswered()}
-                        </td>
+                        <td>{lessonStore().getTotalCorrectAnswers()}</td>
+                        <td>{lessonStore().getTotalIncorrectAnswers()}</td>
+                        <td>{lessonStore().getTotalQuestionsAnswered()}</td>
                     </tr>
                 </tbody>
             </table>
-
         </section>
     );
 };

@@ -1,7 +1,7 @@
 import './MenuScreen.css';
-import { createSignal, createEffect, createResource, Show } from "solid-js";
+import { createSignal, createEffect, Show } from "solid-js";
 import packageJson from '../../../package.json';
-import { courseTitlesInIndexOrder, type ICourseStore, useCourseStore } from "../../global-state/course";
+import { courseTitlesInIndexOrder, getCourseStore } from "../../global-state/course";
 import { useConfigContext } from "../../contexts/ConfigProvider";
 import ResetCourseButtonComponent from "../../components/ResetCourseButton";
 import TitleComponent from "../../components/Menu/Title";
@@ -12,7 +12,7 @@ import NewCourseButton from '../../components/CourseEditor/NewCourseButton';
 import CourseLoadButton from '../../components/CourseEditor/CourseUploadButton';
 
 const MenuScreen = () => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const courseStore = getCourseStore();
     const [editing, setEditing] = createSignal(false);
     const navigate = useNavigate();
     const { config } = useConfigContext();
@@ -24,16 +24,17 @@ const MenuScreen = () => {
     };
 
     createEffect(() => {
-        if (!courseStore.loading) {
-            if (isNaN(localCourseIndex())) {
-                console.debug('local course index is NaN?');
-                return;
-            }
+        if (!courseStore) {
+            console.warn("Course store not available");
+            return;
+        }
+        if (isNaN(localCourseIndex())) {
+            console.debug('local course index is NaN?');
         }
     });
 
     return (
-        <Show when={!courseStore.loading} fallback={<p>Loading...</p>}>
+        <Show when={courseStore} fallback={<p>Loading...</p>}>
             <aside aria-roledescription="Toggle menu" class="hamburger-menu">
                 <section class='card'>
                     <TitleComponent title={config.menuTitle || config.appTitle} />

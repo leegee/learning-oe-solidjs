@@ -1,8 +1,7 @@
-import { createResource } from 'solid-js';
-import { useCourseStore, type ICourseStore } from "../../global-state/course";
+import { getCourseStore } from "../../global-state/course";
 
 const CourseUploadButton = () => {
-    const [courseStore] = createResource<ICourseStore>(useCourseStore);
+    const courseStore = getCourseStore();
     let errorDialogRef: HTMLDialogElement | null = null;
     let okDialogRef: HTMLDialogElement | null = null;
     let fileInputRef: HTMLInputElement | null = null;
@@ -15,22 +14,15 @@ const CourseUploadButton = () => {
     const handleButtonClick = () => fileInputRef?.click();
 
     const handleImportFile = async (e: Event) => {
-        console.log("loadCourseFromFile enter");
-
-        if (courseStore.loading) return;
-
         const input = e.target as HTMLInputElement;
         const file = input.files?.[0];
         if (!file) return;
 
         try {
-            console.log("Selected file:", file.name);
             const fileText = await file.text();
-            console.log(fileText);
-            await courseStore()?.saveCourseToStorage(fileText);
+            await courseStore.saveCourseToStorage(fileText);
             okDialogRef?.showModal();
-        }
-        catch (err) {
+        } catch (err) {
             if ((err as Error).name !== "AbortError") {
                 console.error("Error loading file:", err);
                 errorDialogRef?.showModal();
@@ -45,6 +37,7 @@ const CourseUploadButton = () => {
             <button
                 title="Load a course from a file"
                 class="large-icon-button"
+                disabled={!courseStore}
                 onClick={handleButtonClick}
             >
                 <i class="icon-upload" />
@@ -53,7 +46,7 @@ const CourseUploadButton = () => {
             <input
                 type="file"
                 ref={el => (fileInputRef = el)}
-                accept=".json"
+                accept=".json,application/json"
                 style={{ display: "none" }}
                 onChange={handleImportFile}
             />
