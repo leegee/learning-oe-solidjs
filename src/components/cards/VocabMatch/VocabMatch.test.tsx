@@ -1,7 +1,9 @@
 import { screen, fireEvent, waitFor } from 'solid-testing-library';
+import { renderTestElement } from '../../../../jest.setup';
+
+import { useCourseStore } from '../../../global-state/course';
 import { shuffleArray } from '../../../lib/shuffle-array';
 import VocabMatchCardComponent, { type IVocabMatchCard, type IVocabMatchCardProps } from './VocabMatch';
-import { renderTestElement } from '../../../../jest.setup';
 
 jest.mock('../../../lib/shuffle-array.ts', () => ({
     shuffleArray: jest.fn(),
@@ -14,6 +16,7 @@ describe('VocabMatchCardComponent', () => {
     let props: IVocabMatchCardProps;
 
     beforeEach(() => {
+        useCourseStore();
         mockOnCorrect = jest.fn();
         mockOnIncorrect = jest.fn();
         mockOnComplete = jest.fn();

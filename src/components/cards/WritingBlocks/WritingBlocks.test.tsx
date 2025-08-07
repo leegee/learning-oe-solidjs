@@ -1,5 +1,7 @@
 import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
 import { renderTestElement } from "../../../../jest.setup";
+
+import { useCourseStore } from '../../../global-state/course';
 import WritingBlocksCardComponent, { type IWritingBlocksCard, type IWritingBlocksCardProps } from "./WritingBlocks";
 
 describe("WritingBlocksCardComponent", () => {
@@ -9,6 +11,7 @@ describe("WritingBlocksCardComponent", () => {
     let props: IWritingBlocksCardProps;
 
     beforeEach(() => {
+        useCourseStore();
         mockOnCorrect = jest.fn();
         mockOnIncorrect = jest.fn();
         mockOnComplete = jest.fn();

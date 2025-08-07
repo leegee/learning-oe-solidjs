@@ -1,6 +1,7 @@
-import BlanksCardComponent, { IBlanksCard } from './Blanks.tsx';
 import { render, screen, fireEvent, waitFor } from '@solidjs/testing-library';
 import { jest } from '@jest/globals';
+import { useCourseStore } from '../../../global-state/course';
+import BlanksCardComponent, { IBlanksCard } from './Blanks.tsx';
 
 const defaultCard: IBlanksCard = {
     class: 'blanks',
@@ -14,6 +15,8 @@ const defaultCard: IBlanksCard = {
 };
 
 describe('BlanksCardComponent', () => {
+    beforeAll(useCourseStore);
+
     const setup = () => {
         const props = {
             card: defaultCard,

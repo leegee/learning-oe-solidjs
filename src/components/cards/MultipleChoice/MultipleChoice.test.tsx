@@ -1,12 +1,16 @@
 import { cleanup, screen, fireEvent, waitFor } from "solid-testing-library";
-import MultipleChoiceComponent, { type IMultipleChoiceCard, type IMultipleChoiceCardProps } from "./MultipleChoice";
 import { renderTestElement } from "../../../../jest.setup";
+
+import { useCourseStore } from '../../../global-state/course';
+import MultipleChoiceComponent, { type IMultipleChoiceCard, type IMultipleChoiceCardProps } from "./MultipleChoice";
 
 describe("MultipleChoiceComponent", () => {
     let mockOnCorrect: jest.Mock;
     let mockOnIncorrect: jest.Mock;
     let mockOnComplete: jest.Mock;
     let props: IMultipleChoiceCardProps;
+
+    beforeAll(useCourseStore);
 
     beforeEach(() => {
         mockOnCorrect = jest.fn();
