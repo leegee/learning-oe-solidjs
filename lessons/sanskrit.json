@@ -1,9 +1,10 @@
 {
     "title": "Sanskrit Alphabet Basics",
-    "description": "An introduction to the Sanskrit alphabet, known as Devanagari script.",
+    "description": "An introduction to the Sanskrit alphabet, written in the Devanagari script.",
     "language": "en",
     "targetLanguage": "sa",
-    "level": "beginner",
+    "author": "ChatGPT",
+    "version": "1.0",
     "createdAt": "2025-08-08T00:00:00Z",
     "updatedAt": "2025-08-08T00:00:00Z",
     "tags": [
@@ -18,14 +19,28 @@
             "description": "Learn the basic structure and sounds of the Sanskrit alphabet written in Devanagari script.",
             "cards": [
                 {
-                    "class": "reading",
+                    "class": "multiple-choice",
                     "qlang": "default",
-                    "content": "The Sanskrit alphabet consists of 49 letters written in the Devanagari script. It is an abugida, where each consonant carries an inherent vowel sound 'a' unless modified by a diacritic."
+                    "question": "How many letters are there in the Sanskrit alphabet (Devanagari script)?",
+                    "answers": [
+                        "49",
+                        "26",
+                        "33",
+                        "40"
+                    ],
+                    "answer": "49"
                 },
                 {
-                    "class": "reading",
+                    "class": "multiple-choice",
                     "qlang": "default",
-                    "content": "The letters are grouped into vowels (Svaras) and consonants (Vyanjanas). Vowels can be written independently or as marks attached to consonants."
+                    "question": "What is the inherent vowel sound in each consonant of Devanagari script?",
+                    "answers": [
+                        "a",
+                        "i",
+                        "u",
+                        "e"
+                    ],
+                    "answer": "a"
                 },
                 {
                     "class": "vocab",
@@ -43,15 +58,10 @@
                     }
                 },
                 {
-                    "class": "reading",
-                    "qlang": "default",
-                    "content": "Consonants are organized by place and manner of articulation, such as gutturals (ka group), palatals (ca group), retroflex (ṭa group), dentals (ta group), and labials (pa group)."
-                },
-                {
                     "class": "vocab",
                     "qlang": "default",
                     "vocab": {
-                        "क": "ka",
+                        "क": "ka (guttural consonant)",
                         "ख": "kha",
                         "ग": "ga",
                         "घ": "gha",
@@ -69,6 +79,29 @@
                         "च"
                     ],
                     "answer": "क"
+                },
+                {
+                    "class": "writing",
+                    "qlang": "default",
+                    "question": "Write the Devanagari letter for the sound 'ga'.",
+                    "answer": "ग"
+                },
+                {
+                    "class": "blanks",
+                    "qlang": "default",
+                    "alang": "target",
+                    "question": "Select the correct Devanagari letter for 'kha'.",
+                    "words": [
+                        {
+                            "ख": true
+                        },
+                        {
+                            "ग": false
+                        },
+                        {
+                            "घ": false
+                        }
+                    ]
                 }
             ]
         }
