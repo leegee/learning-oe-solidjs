@@ -3,7 +3,6 @@ import { useLessonStore } from "../global-state/answers";
 import { useI18n } from '../contexts/I18nProvider';
 import ProgressBarPercentageOfX from './ProgressBarPercentageOfX';
 import { createMemo } from 'solid-js';
-import { getCourseStore } from '../global-state/course';
 
 export interface IStatsProps {
     courseIdx: number;
@@ -12,8 +11,6 @@ export interface IStatsProps {
 const Stats = (props: IStatsProps) => {
     const { t } = useI18n();
     const lessonStore = createMemo(() => useLessonStore(props.courseIdx));
-    const courseStore = getCourseStore();
-
     if (!lessonStore() || !lessonStore().getTotalQuestionsAnswered()) {
         return null;
     }
