@@ -18,6 +18,10 @@
             "fileBasename": "alefbet"
         },
         {
+            "title": "Sanskrit",
+            "fileBasename": "sanskrit"
+        },
+        {
             "title": "Test",
             "fileBasename": "test"
         }
