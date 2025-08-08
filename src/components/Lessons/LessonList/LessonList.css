@@ -22,13 +22,13 @@
 
 .lesson-list button.completed {
     background-color: var(--oe-clr-complete-bg);
-    color: var(--oe-clr-highlight-success-fg);
+    color: var(--oe-clr-complete-fg);
     font-weight: bold;
 }
 
 .lesson-list button.current {
-    background-color: var(--oe-clr-primary-bg);
-    color: var(--oe-clr-primary-fg);
+    background-color: var(--oe-clr-current-bg);
+    color: var(--oe-clr-current-fg);
 }
 
 

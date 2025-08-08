@@ -28,8 +28,10 @@
     --oe-clr-correct-fg: hsl(215, 28%, 14%);
     --oe-clr-correct-bg: #5E81AC;
 
-    --oe-clr-complete-fg: hsl(215, 28%, 14%);
-    --oe-clr-complete-bg: #5E81AC;
+    --oe-clr-complete-fg: hsl(134, 32%, 32%);
+    --oe-clr-complete-bg: hsl(134, 32%, 52%);
+    --oe-clr-current-bg: hsl(213, 32%, 52%);
+    --oe-clr-current-fg: hsl(213, 32%, 2%);
 
 
     --oe-clr-incorrect-fg: hsl(334, 31%, 18%);

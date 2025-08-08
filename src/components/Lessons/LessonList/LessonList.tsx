@@ -27,32 +27,29 @@ const LessonList = (props: LessonListProps) => {
                         <For each={courseStore.getLessons() ?? []}>
                             {(lesson, index) => {
                                 const idx = index();
-                                const currentIdx = lessonStore().getCurrentLessonIdx();
                                 const done = lessonStore().isLessonDone(idx);
 
-                                const anyDone = currentIdx >= 0;
+                                // Find first incomplete lesson index once per render
+                                const lessons = courseStore.getLessons() ?? [];
+                                const firstIncompleteIdx = lessons.findIndex((_, i) => !lessonStore().isLessonDone(i));
 
-                                const isCurrent = anyDone
-                                    ? idx === currentIdx + 1 && !done
-                                    : idx === 0;
+                                // If all done, firstIncompleteIdx === -1, so highlight last lesson as current
+                                const currentIdx = firstIncompleteIdx === -1 ? lessons.length - 1 : firstIncompleteIdx;
 
-                                const isTodo = anyDone
-                                    ? idx > currentIdx && !done && !isCurrent
-                                    : false;
-
-                                console.log(idx, currentIdx, anyDone, isCurrent, isTodo)
+                                const isNext = idx === currentIdx && !done;
+                                const isTodo = idx > currentIdx && !done;
 
                                 return (
                                     <li>
                                         <button
                                             onClick={() => props.onLessonSelected(idx)}
                                             classList={{
-                                                current: isCurrent,
+                                                current: isNext,
                                                 todo: isTodo,
                                                 completed: done,
                                             }}
                                             title={lesson.description || ''}
-                                            aria-current={isCurrent ? "step" : undefined}
+                                            aria-current={isNext ? "step" : undefined}
                                         >
                                             {lesson.title}
                                         </button>
