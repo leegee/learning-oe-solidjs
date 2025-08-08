@@ -54,14 +54,12 @@ export default function CourseEditorLessonList() {
                     <div class="cards">
                         <For each={lesson.cards}>
                             {(card, cardIdx) => (
-                                <div class="card-holder">
-                                    <CourseEditorCardHolder
-                                        lesson={lesson}
-                                        lessonIdx={lessonIdx}
-                                        card={card}
-                                        cardIdx={cardIdx()}
-                                    />
-                                </div>
+                                <CourseEditorCardHolder
+                                    lesson={lesson}
+                                    lessonIdx={lessonIdx}
+                                    card={card}
+                                    cardIdx={cardIdx()}
+                                />
                             )}
                         </For>
 
