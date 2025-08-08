@@ -1,4 +1,3 @@
-import { Show } from "solid-js";
 import { useNavigate, useParams } from "@solidjs/router";
 import { getCourseStore } from "../../global-state/course";
 import { useConfirm } from '../../contexts/ConfirmProvider';

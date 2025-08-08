@@ -1,7 +1,6 @@
 import './CourseEditor.css';
 import { createEffect, For, onCleanup, Show } from "solid-js";
 import { getCourseStore } from "../../global-state/course";
-import { useI18n } from "../../contexts/I18nProvider";
 import { ILesson } from "../Lessons/Lesson";
 import EditableText from "../CardEditor/Editor/EditableText";
 import AddCardButton from './AddCardButton';
@@ -10,7 +9,6 @@ import CourseEditorCardHolder from './CourseEditorCardHolder';
 
 export default function CourseEditorLessonList() {
     const courseStore = getCourseStore();
-    const { t } = useI18n();
 
     createEffect(() => {
         document.body.classList.add("editing-card");
