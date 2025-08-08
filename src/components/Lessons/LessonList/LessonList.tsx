@@ -28,9 +28,19 @@ const LessonList = (props: LessonListProps) => {
                             {(lesson, index) => {
                                 const idx = index();
                                 const currentIdx = lessonStore().getCurrentLessonIdx();
-                                const isDone = lessonStore().isLessonDone(idx);
-                                const isCurrent = idx === currentIdx + 1 && !isDone;
-                                const isTodo = idx > currentIdx && !lessonStore().isLessonDone(idx) && !isCurrent;
+                                const done = lessonStore().isLessonDone(idx);
+
+                                const anyDone = currentIdx >= 0;
+
+                                const isCurrent = anyDone
+                                    ? idx === currentIdx + 1 && !done
+                                    : idx === 0;
+
+                                const isTodo = anyDone
+                                    ? idx > currentIdx && !done && !isCurrent
+                                    : false;
+
+                                console.log(idx, currentIdx, anyDone, isCurrent, isTodo)
 
                                 return (
                                     <li>
@@ -39,9 +49,10 @@ const LessonList = (props: LessonListProps) => {
                                             classList={{
                                                 current: isCurrent,
                                                 todo: isTodo,
-                                                completed: lessonStore().isLessonDone(idx),
+                                                completed: done,
                                             }}
                                             title={lesson.description || ''}
+                                            aria-current={isCurrent ? "step" : undefined}
                                         >
                                             {lesson.title}
                                         </button>
