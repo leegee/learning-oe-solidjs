@@ -19,16 +19,12 @@ const Stats = (props: IStatsProps) => {
     }
 
     const lessonIndex = createMemo(() => lessonStore().getTotalQuestionsAnswered());
-    const totalLessons = createMemo(() => courseStore.getTotalLessonsCount());
 
     return (
         <section class="stats-component card">
             <h2>{t('progress')}</h2>
 
-            <ProgressBarPercentageOfX
-                correct={lessonIndex()}
-                incorrect={totalLessons()}
-            />
+            <ProgressBarPercentageOfX correct={lessonIndex()} />
 
             <table class="horizontal-stats">
                 <thead>

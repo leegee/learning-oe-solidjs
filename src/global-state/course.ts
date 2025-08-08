@@ -70,6 +70,7 @@ export interface ICourseStore {
     saveCard: (card: IAnyCard, lessonIdx: number, cardIdx: number) => void;
     deleteCourse: (courseIdx: number) => void;
     getTotalLessonsCount: () => number;
+    getTotalQuestionsCount: () => number;
     setLessons: (updatedLessons: ILesson[]) => void;
     addLesson: (lessonIdx?: number) => void;
     setTitle: (newTitle: string) => void;
@@ -347,6 +348,12 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         return store.courseMetadata?.description ?? '';
     }
 
+    const getTotalQuestionsCount = createMemo(() => {
+        return store.lessons.reduce((total, lesson) => {
+            return total + (lesson.cards?.length ?? 0);
+        }, 0);
+    });
+
     return {
         store,
         // setStore,
@@ -367,6 +374,7 @@ const makeCourseStore = async (): Promise<ICourseStore> => {
         getTargetLang,
         getSourceLang,
         getTotalLessonsCount,
+        getTotalQuestionsCount,
         addLesson,
         lessonTitles2Indicies: CourseTitles2Indicies,
         reset,

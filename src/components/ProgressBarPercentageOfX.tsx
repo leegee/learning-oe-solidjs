@@ -1,17 +1,15 @@
 import './CourseScoreProgressBar.css';
 import { useI18n } from '../contexts/I18nProvider';
+import { getCourseStore } from '../global-state/course';
 
 export interface IProgressBarProps {
     correct: number;
-    incorrect: number;
 }
 
 const ProgressBarPercentageOfX = (props: IProgressBarProps) => {
     const { t } = useI18n();
-
-    const total = props.correct + props.incorrect;
-
-    console.log(props.correct, total);
+    const courseStore = getCourseStore();
+    const total = courseStore.getTotalQuestionsCount();
 
     return (
         <aside class="course-score-progress-component">
