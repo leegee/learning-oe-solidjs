@@ -1,22 +1,19 @@
 import { type JSX } from "solid-js";
 import { Navigate, Route } from "@solidjs/router";
 
-import CourseRootScreen from "./views/course/CourseRootScreen";
-import CompletedAllLessons from "./views/course/lesson/CompletedAllLessons";
-import CourseHomeScreen from "./views/course/CourseHomeScreen";
 import CardEditorScreen from "./views/card/CardEditorScreen";
+import CompletedAllLessons from "./views/course/lesson/CompletedAllLessons";
+import CourseEditor from "./components/CourseEditor";
+import CourseHomeScreen from "./views/course/CourseHomeScreen";
+import CourseRootScreen from "./views/course/CourseRootScreen";
 import LessonCompletedScreen from "./views/course/lesson/LessonCompletedScreen";
 import LessonInProgressScreen from "./views/course/lesson/LessonInProgressScreen";
 import LessonIntroScreen from "./views/course/lesson/LessonIntroScreen";
 import MenuScreen from "./views/menu/MenuScreen";
 
-import CourseEditor from "./components/CourseEditor";
-
 export const Routes = (): JSX.Element => (
     <>
-        <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
-        <Route path="/editor/:courseIdx?" component={CourseEditor} />
-
+        <Route path="/course" component={() => <Navigate href="/menu" />} />
         <Route path="/course/:courseIdx" component={CourseRootScreen}>
             <Route path="/" component={CourseHomeScreen} />
             <Route path=":lessonIdx" component={LessonIntroScreen} />
@@ -27,7 +24,9 @@ export const Routes = (): JSX.Element => (
         </Route>
 
         <Route path="/editor" component={() => <Navigate href="/menu" />} />
-        <Route path="/course" component={() => <Navigate href="/menu" />} />
+        <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
+        <Route path="/editor/:courseIdx?" component={CourseEditor} />
+
         <Route path="/menu" component={MenuScreen} />
         <Route path="/" component={() => <Navigate href="/menu" />} />
         <Route path="*" component={() => <h1>The specified resource is unavailable.</h1>} />
