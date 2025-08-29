@@ -36,7 +36,6 @@ export const I18nProvider = (props: II18nProviderProps) => {
     const resolvedChildren = children(() => props.children);
     const [language, setLanguage] = createSignal(i18n.language);
     const [ready, setReady] = createSignal(false);
-    // const t: typeof i18n.t = (...args: Parameters<typeof i18n.t>) => i18n.t(...args);
     const t = i18n.t;
 
     createEffect(() => {
