@@ -23,7 +23,7 @@ const startApp = async () => {
     throw new Error("Failed to load config. App will not start.");
   }
 
-  await Promise.allSettled([
+  await Promise.all([
     useCourseStore(),
     setupI18n(appConfig),
   ]);
@@ -36,7 +36,7 @@ const startApp = async () => {
     root.innerHTML = '';
     render(() => jsx, root);
   } else {
-    createRoot(() => jsx);
+    throw new Error('No root in HTML');
   }
 };
 
