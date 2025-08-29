@@ -1,3 +1,4 @@
+// Note: using hash router because for ease of hosting on GitHub pages
 import './App.css';
 import { type JSX } from "solid-js";
 import { HashRouter } from "@solidjs/router";
