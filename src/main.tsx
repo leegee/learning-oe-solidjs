@@ -1,5 +1,4 @@
 import './global-css/index.css';
-import { createRoot } from 'solid-js';
 import { render } from "solid-js/web";
 
 import { type Config, loadConfig } from './lib/config';
@@ -7,7 +6,6 @@ import { setupI18n } from './contexts/I18nProvider';
 import { useCourseStore } from './global-state/course';
 import App from "./App";
 
-// Initialize the app configuration
 const initializeAppConfig = async (): Promise<Config | null> => {
   try {
     return await loadConfig();
