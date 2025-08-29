@@ -4,6 +4,10 @@ Configurable quiz cards for language learning or other quizes.
 
 Create and share quizes and language lessons.
 
+## Synopsis
+
+    bun dev
+
 ## Features
 
 * Purely client-side - "local first" 
