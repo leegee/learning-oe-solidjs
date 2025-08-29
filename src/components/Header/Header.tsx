@@ -1,9 +1,10 @@
 import './Header.css';
 import { Show } from 'solid-js';
 import { useParams } from "@solidjs/router";
+
 import { getCourseStore } from '../../global-state/course';
-import MenuTogglebutton from "../Menu/MenuToggleButton";
 import { useConfigContext } from "../../contexts/ConfigProvider";
+import MenuTogglebutton from "../Menu/MenuToggleButton";
 
 const Header = () => {
     const params = useParams();
