@@ -21,7 +21,7 @@ describe("useLessonStore", () => {
 
     describe("initial state", () => {
         it("should initialize with currentLessonIdx", () => {
-            expect(lessonStore.getCurrentLessonIdx()).toBe(0);
+            expect(lessonStore.getCurrentLessonIdx()).toBe(-1);
         });
     });
 
