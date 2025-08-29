@@ -21,19 +21,17 @@ const App = (props: IAppProps) => {
   }
 
   const AppLayout = (layoutProps: ILayoutProps) => (
-    <>
-      <ConfigProvider config={props.config}>
-        <LoadCourseByRoute />
-        <I18nProvider>
-          <ConfirmProvider>
-            <main id="main">
-              <HeaderComponent />
-              {layoutProps.children}
-            </main>
-          </ConfirmProvider>
-        </I18nProvider>
-      </ConfigProvider>
-    </>
+    <ConfigProvider config={props.config}>
+      <LoadCourseByRoute />
+      <I18nProvider>
+        <ConfirmProvider>
+          <main id="main">
+            <HeaderComponent />
+            {layoutProps.children}
+          </main>
+        </ConfirmProvider>
+      </I18nProvider>
+    </ConfigProvider>
   );
 
   return (
