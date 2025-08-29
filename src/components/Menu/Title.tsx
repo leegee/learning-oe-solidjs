@@ -36,11 +36,7 @@ const TitleComponent = (props: ITitleComponentProps) => {
     });
 
     return (
-        <h1
-            ref={elementRef}
-            class="animated-text"
-            classList={{ visible: visible() }}
-        >
+        <h1 ref={elementRef} classList={{ visible: visible() }} >
             {props.title}
         </h1>
     );
