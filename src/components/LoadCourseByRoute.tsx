@@ -10,14 +10,14 @@ export default function LoadCourseByRoute() {
         const courseIdx = params.courseIdx;
 
         if (courseIdx === undefined || courseIdx === null) {
-            // No course index present (likely on home route) — do nothing
+            // No course index present (presumably on home route) — do nothing
             return;
         }
 
         const numericIdx = Number(courseIdx);
 
         if (!isNaN(numericIdx)) {
-            console.log('Load course by route');
+            console.log('Load course by route', numericIdx);
             courseStore.loadCourseFromFile(numericIdx);
         } else {
             console.error('Load course by route failure - course index was non-numeric', courseIdx);
