@@ -6,7 +6,7 @@ export function enterFullscreen() {
 }
 
 export function exitFullscreen() {
-    if (document.exitFullscreen) {
+    if (document.fullscreenElement) {
         document.exitFullscreen();
     }
 }
