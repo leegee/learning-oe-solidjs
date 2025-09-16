@@ -11,7 +11,7 @@ const Header = () => {
     const { config } = useConfigContext();
     const courseStore = getCourseStore();
 
-    const hasCourse = !!params.courseIdx;
+    const hasCourse = !!params.courseIdx && config.allowCustomisation;
 
     return (
         <Show when={courseStore} fallback={<p>Loading...</p>}>
