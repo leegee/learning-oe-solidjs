@@ -1,3 +1,23 @@
+.large-icon-button a {
+    text-decoration: none;
+    font-size: xx-large;
+    min-width: 2em;
+    max-width: 2em;
+    min-height: 2em;
+    max-height: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1pt solid transparent;
+}
+
+.large-icon-button a:hover {
+    border-radius: 50%;
+    color: var(--oe-clr-secondary-fg);
+    border-color: var(--oe-clr-secondary-fg);
+    background-color: var(--oe-clr-secondary-bg);
+}
+
 .header-component {
     transition: all 1s;
     margin-bottom: 1em;

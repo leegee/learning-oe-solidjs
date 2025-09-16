@@ -1,6 +1,7 @@
 {
     "defaultLanguage": "en",
     "targetLanguage": "ang",
+    "homeInsteadOfMenu": false,
     "uiLanguage": "en",
     "animationShakeMs": 333,
     "courses": [

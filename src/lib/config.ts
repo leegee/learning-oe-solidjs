@@ -18,6 +18,7 @@ interface CourseFileConfig {
 
 export interface Config {
     allowCustomisation?: boolean;
+    homeInsteadOfMenu: boolean;
     courses: CourseFileConfig[];
     defaultLanguage: string;
     targetLanguage: string;

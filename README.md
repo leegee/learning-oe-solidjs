@@ -48,6 +48,8 @@ Create and share quizes and language lessons.
 
 `allowCustomisation` - set to true or only one course is available without a course editor.
 
+`homeInsteadOfMenu` - instead of loading the menu, load the homepage.
+
 ## NB
 
 Any resemblance to other language learning apps is purely coincidence. 

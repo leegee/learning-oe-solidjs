@@ -5,6 +5,7 @@
     "appTitle": "Learning English",
     "menuTitle": "Courses",
     "allowCustomisation": false,
+    "homeInsteadOfMenu": true,
     "courses": [
         {
             "title": "Old English",

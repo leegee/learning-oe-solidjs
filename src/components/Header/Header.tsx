@@ -1,10 +1,11 @@
 import './Header.css';
-import { Show } from 'solid-js';
-import { useParams } from "@solidjs/router";
+import { Match, Show, Switch } from 'solid-js';
+import { A, useParams } from "@solidjs/router";
 
 import { getCourseStore } from '../../global-state/course';
 import { useConfigContext } from "../../contexts/ConfigProvider";
-import MenuTogglebutton from "../Menu/MenuToggleButton";
+import MenuToggleButton from "../Menu/MenuToggleButton";
+import { exitFullscreen } from '../../lib/fullscreen';
 
 const Header = () => {
     const params = useParams();
@@ -18,9 +19,18 @@ const Header = () => {
             <header class='header-component'>
                 <div class="header-text">
                     <h1 lang={config.targetLanguage}>{config.appTitle}</h1>
-                    <Show when={hasCourse}>
-                        <MenuTogglebutton />
-                    </Show>
+                    <Switch>
+                        <Match when={config.homeInsteadOfMenu}>
+                            <button class="large-icon-button" aria-label="Home">
+                                <A href='/home' onclick={() => exitFullscreen()}>
+                                    <span class={`utf8-icon-home`} />
+                                </A>
+                            </button>
+                        </Match>
+                        <Match when={hasCourse}>
+                            <MenuToggleButton />
+                        </Match>
+                    </Switch>
                 </div>
             </header>
         </Show>
