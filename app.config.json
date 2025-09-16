@@ -4,8 +4,8 @@
     "uiLanguage": "hu",
     "appTitle": "Learning English",
     "menuTitle": "Courses",
-    "allowCustomisation": false,
-    "homeInsteadOfMenu": true,
+    "allowCustomisation": true,
+    "homeInsteadOfMenu": false,
     "courses": [
         {
             "title": "Old English",
