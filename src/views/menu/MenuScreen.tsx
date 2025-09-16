@@ -58,27 +58,31 @@ const MenuScreen = () => {
                             </li>
                         ))}
 
-                        <li>
-                            <a onClick={() => { navigate('/course/' + config.courses.length) }}>
-                                Custom Course
-                            </a>
-                            <Show when={editing()}>
-                                <span class='course-action-buttons'>
-                                    <NewCourseButton />
-                                    <CourseLoadButton />
-                                    <CourseDownloadButton courseIdx={courseTitlesInIndexOrder(config).length} />
-                                    <CourseEditorButton courseIdx={courseTitlesInIndexOrder(config).length} />
-                                </span>
-                            </Show>
-                        </li>
-
+                        <Show when={config.allowCustomisation}>
+                            <li>
+                                <a onClick={() => { navigate('/course/' + config.courses.length) }}>
+                                    Custom Course
+                                </a>
+                                <Show when={editing()}>
+                                    <span class='course-action-buttons'>
+                                        <NewCourseButton />
+                                        <CourseLoadButton />
+                                        <CourseDownloadButton courseIdx={courseTitlesInIndexOrder(config).length} />
+                                        <CourseEditorButton courseIdx={courseTitlesInIndexOrder(config).length} />
+                                    </span>
+                                </Show>
+                            </li>
+                        </Show>
                     </menu>
 
-                    <footer>
-                        <small>
-                            <button onClick={() => setEditing(!editing())}>Edit Courses </button>
-                        </small>
-                    </footer>
+                    <Show when={config.allowCustomisation}>
+                        <footer>
+                            <small>
+                                <button onClick={() => setEditing(!editing())}>Edit Courses </button>
+                            </small>
+                        </footer>
+                    </Show>
+
                 </section>
                 <footer>
                     <small>Version {packageJson.version}</small>

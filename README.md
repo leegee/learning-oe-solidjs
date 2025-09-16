@@ -41,13 +41,20 @@ Create and share quizes and language lessons.
 * *Writing* rqeuires the user to translate a sentence by entering free text
 * *Dynamic Vocab* selects creates a Vocab lesson by combining data from other cards in he lesson
 
+
+## Config Optins
+
+...are undocumented except for:
+
+`allowCustomisation` - set to true or only one course is available without a course editor.
+
 ## NB
 
 Any resemblance to other language learning apps is purely coincidence. 
 
 ## TODO
 
-* Restore use of incrementLessonsIdx and test for end of course
+* ? Restore use of incrementLessonsIdx and test for end of course. This may have been done.
 
 ## Thanks:
 

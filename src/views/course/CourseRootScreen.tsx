@@ -4,6 +4,7 @@ interface ICourseRootScreenProps {
     children?: JSX.Element;
 }
 
+// A host to whatever course is specified later in the URL
 const CourseRootScreen = (props: ICourseRootScreenProps) => {
     const resolvedChildren = children(() => props.children);
 

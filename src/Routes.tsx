@@ -10,25 +10,85 @@ import LessonCompletedScreen from "./views/course/lesson/LessonCompletedScreen";
 import LessonInProgressScreen from "./views/course/lesson/LessonInProgressScreen";
 import LessonIntroScreen from "./views/course/lesson/LessonIntroScreen";
 import MenuScreen from "./views/menu/MenuScreen";
+import { ProtectedRoute } from "./components/ProtectedRoute";
+import { useConfigContext } from "./contexts/ConfigProvider";
 
-export const Routes = (): JSX.Element => (
-    <>
-        <Route path="/course" component={() => <Navigate href="/menu" />} />
-        <Route path="/course/:courseIdx" component={CourseRootScreen}>
-            <Route path="/" component={CourseHomeScreen} />
-            <Route path=":lessonIdx" component={LessonIntroScreen} />
-            <Route path=":lessonIdx/intro" component={LessonIntroScreen} />
-            <Route path=":lessonIdx/in-progress" component={LessonInProgressScreen} />
-            <Route path=":lessonIdx/completed" component={LessonCompletedScreen} />
-            <Route path="finished" component={CompletedAllLessons} />
-        </Route>
+export const Routes = (): JSX.Element => {
+    return (
+        <>
+            {/* Course routes */}
+            <Route path="/course" component={() => <Navigate href="/menu" />} />
+            <Route path="/course/:courseIdx" component={CourseRootScreen}>
+                <Route path="/" component={CourseHomeScreen} />
+                <Route path=":lessonIdx" component={LessonIntroScreen} />
+                <Route path=":lessonIdx/intro" component={LessonIntroScreen} />
+                <Route path=":lessonIdx/in-progress" component={LessonInProgressScreen} />
+                <Route path=":lessonIdx/completed" component={LessonCompletedScreen} />
+                <Route path="finished" component={CompletedAllLessons} />
+            </Route>
 
-        <Route path="/editor" component={() => <Navigate href="/menu" />} />
-        <Route path="/editor/:courseIdx/:lessonIdx/:cardIdx" component={CardEditorScreen} />
-        <Route path="/editor/:courseIdx?" component={CourseEditor} />
+            {/* Editor routes */}
+            <Route
+                path="/editor/:courseIdx/:lessonIdx/:cardIdx"
+                component={() => {
+                    const { config } = useConfigContext();
+                    return (
+                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
+                            <CardEditorScreen />
+                        </ProtectedRoute>
+                    );
+                }}
+            />
+            <Route
+                path="/editor/:courseIdx?"
+                component={() => {
+                    const { config } = useConfigContext();
+                    return (
+                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
+                            <CourseEditor />
+                        </ProtectedRoute>
+                    );
+                }}
+            />
 
-        <Route path="/menu" component={MenuScreen} />
-        <Route path="/" component={() => <Navigate href="/menu" />} />
-        <Route path="*" component={() => <h1>The specified resource is unavailable.</h1>} />
-    </>
-);
+            {/* Menu route */}
+            <Route
+                path="/menu"
+                component={() => {
+                    const { config } = useConfigContext();
+                    return (
+                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
+                            <MenuScreen />
+                        </ProtectedRoute>
+                    );
+                }}
+            />
+
+            {/* Default route */}
+            <Route
+                path="/"
+                component={() => {
+                    const { config } = useConfigContext();
+                    return (
+                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
+                            <Navigate href="/menu" />
+                        </ProtectedRoute>
+                    );
+                }}
+            />
+
+            {/* Fallback route */}
+            <Route
+                path="*"
+                component={() => {
+                    const { config } = useConfigContext();
+                    return (
+                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
+                            <Navigate href="/menu" />
+                        </ProtectedRoute>
+                    );
+                }}
+            />
+        </>
+    );
+};

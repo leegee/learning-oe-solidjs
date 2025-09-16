@@ -29,7 +29,7 @@ const LessonList = (props: LessonListProps) => {
                                 const idx = index();
                                 const done = lessonStore().isLessonDone(idx);
 
-                                // Find first incomplete lesson index once per render
+                                // Find first incomplete lesson index
                                 const lessons = courseStore.getLessons() ?? [];
                                 const firstIncompleteIdx = lessons.findIndex((_, i) => !lessonStore().isLessonDone(i));
 
