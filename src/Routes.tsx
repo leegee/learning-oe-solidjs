@@ -12,10 +12,13 @@ import LessonIntroScreen from "./views/course/lesson/LessonIntroScreen";
 import MenuScreen from "./views/menu/MenuScreen";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { useConfigContext } from "./contexts/ConfigProvider";
+import Homepage from "./views/Homepage";
 
 export const Routes = (): JSX.Element => {
     return (
         <>
+            <Route path="/home" component={Homepage} />
+
             {/* Course routes */}
             <Route path="/course" component={() => <Navigate href="/menu" />} />
             <Route path="/course/:courseIdx" component={CourseRootScreen}>
