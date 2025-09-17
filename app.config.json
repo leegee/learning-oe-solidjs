@@ -1,7 +1,7 @@
 {
     "defaultLanguage": "en",
-    "targetLanguage": "en",
-    "uiLanguage": "hu",
+    "targetLanguage": "ang",
+    "uiLanguage": "en",
     "appTitle": "Learning English",
     "menuTitle": "Courses",
     "allowCustomisation": true,
@@ -10,6 +10,22 @@
         {
             "title": "Old English",
             "fileBasename": "lessons"
+        },
+        {
+            "title": "UK Constitutional Law",
+            "fileBasename": "uk-constitution"
+        },
+        {
+            "title": "Alefbet",
+            "fileBasename": "alefbet"
+        },
+        {
+            "title": "Sanskrit",
+            "fileBasename": "sanskrit"
+        },
+        {
+            "title": "Test",
+            "fileBasename": "test"
         }
     ],
     "animationShakeMs": 300,
