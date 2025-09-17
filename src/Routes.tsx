@@ -73,8 +73,8 @@ export const Routes = (): JSX.Element => {
                 component={() => {
                     const { config } = useConfigContext();
                     return (
-                        <ProtectedRoute allowed={config.allowCustomisation ?? false} redirect="/course/1">
-                            <Navigate href="/menu" />
+                        <ProtectedRoute allowed={config.homeInsteadOfMenu ?? false} redirect="/course/1">
+                            <Navigate href="/home" />
                         </ProtectedRoute>
                     );
                 }}
