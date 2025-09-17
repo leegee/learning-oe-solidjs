@@ -1,4 +1,4 @@
-main {
+#main {
     display: flex;
     flex-direction: column;
     max-width: var(--oe-max-width);
@@ -9,14 +9,14 @@ main {
     padding: 10pt;
 }
 
-main,
-main * {
+#main,
+#main * {
     box-sizing: border-box;
     border-radius: var(--oe-border-radius);
 }
 
 @media (min-width: 1024px) {
-    main {
+    #main {
         padding-top: 1em;
     }
 }
