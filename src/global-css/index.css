@@ -48,103 +48,13 @@
     --oe-max-width: 40rem;
 }
 
-:root,
-html,
-body,
-#root {
-    color: var(--oe-clr-fg);
-    background-color: var(--oe-clr-bg);
+body {
     height: 100%;
     padding: 0;
     margin: 0;
-    font-family: 'Work Sans';
+    background-color: var(--oe-clr-bg);
 }
 
 body.editing-card {
     --oe-max-width: 55rem;
-}
-
-* {
-    border-radius: var(--oe-border-radius);
-}
-
-[lang="ang"] {
-    font-family: 'Junicode', serif;
-    font-style: italic;
-    font-size: 150%;
-    line-height: 80%;
-}
-
-[lang="ang"] input,
-[lang="ang"] textarea,
-input[lang="ang"],
-textarea[lang="ang"] {
-    font-style: oblique;
-}
-
-[lang="en"] {
-    font-family: 'Work Sans', sans;
-}
-
-[hidden] {
-    display: none;
-}
-
-p {
-    padding: 1em 0;
-    margin: 0;
-}
-
-button,
-a {
-    color: var(--oe-clr-fg);
-    background-color: var(--oe-clr-bg);
-    cursor: pointer;
-}
-
-button {
-    text-align: left;
-    font-size: 125%;
-    border: 1pt solid var(--oe-clr-border);
-    padding: 0.3em;
-    cursor: pointer;
-    transition: background-color var(--oe-fade-duration) var(--oe-fade-timing), filter var(--oe-fade-duration) var(--oe-fade-timing);
-}
-
-button:not([disabled]):hover {
-    outline: 1px solid var(--oe-clr-fg);
-}
-
-footer button {
-    padding-left: 0.6em;
-    padding-right: 0.6em;
-}
-
-h2 {
-    font-size: 1.6em;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-h3 {
-    font-weight: 200;
-    font-size: 1em;
-    margin: 0.3em 0 0.6em 0;
-}
-
-h4 {
-    font-size: 1em;
-    font-weight: 300;
-    margin: 0;
-    opacity: 60%;
-}
-
-
-dialog:modal {
-    background-color: var(--oe-clr-modal-bg);
-    color: var(--oe-clr-modal-fg);
-    padding: 1em;
-    font-size: 130%;
 }

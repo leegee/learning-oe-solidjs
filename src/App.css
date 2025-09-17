@@ -7,6 +7,9 @@
     margin: 0 auto;
     padding-top: 0;
     padding: 10pt;
+    color: var(--oe-clr-fg);
+    font-family: 'Work Sans';
+    border-radius: var(--oe-border-radius);
 }
 
 #main,
@@ -21,7 +24,7 @@
     }
 }
 
-article {
+#main article {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -29,11 +32,11 @@ article {
     /* padding: 10pt; */
 }
 
-footer {
+#main footer {
     width: 100%;
 }
 
-.card {
+#main .card {
     color: var(--oe-clr-card-fg);
     background-color: var(--oe-clr-card-bg);
     border: 1pt solid var(--oe-clr-border);
@@ -47,90 +50,79 @@ footer {
     justify-content: space-between
 }
 
-.card:last-child {
+#main .card:last-child {
     margin-bottom: 0;
 }
 
-.card.no-border {
+#main .card.no-border {
     border-color: transparent;
     padding: 0;
 }
 
-.card.no-set-height {
+#main .card.no-set-height {
     flex: unset;
     height: auto;
     min-height: 3em;
 }
 
-.card * {
+#main .card * {
     background-color: var(--oe-clr-card-bg);
 }
 
-h3.question {
+#main h3.question {
     margin: 1em 0;
     font-size: 1.2em;
     font-weight: normal;
 }
 
-/* h3.question::before {
-    content: '“';
-    opacity: 0.3;
-}
-
-h3.question::after {
-    content: '”';
-    opacity: 0.3;
-} */
-
-.correct,
-.incorrect {
+#main .correct,
+#main .incorrect {
     color: var(--oe-clr-fg);
 }
 
-.correct {
+#main .correct {
     background-color: var(--oe-clr-correct-bg);
 }
 
-.incorrect {
+#main .incorrect {
     background-color: var(--oe-clr-incorrect-bg);
 }
 
-.shake {
+#main .shake {
     color: white;
     background-color: var(--oe-clr-incorrect-bg);
 }
 
-.correct-next-button,
-.incorrect-next-button,
-.try-again-button,
-.next-button {
+#main .correct-next-button,
+#main .incorrect-next-button,
+#main .try-again-button,
+#main .next-button {
     text-align: center;
     width: 100%;
     background-color: var(--oe-clr-primary-bg);
     color: var(--oe-clr-primary-fg);
 }
 
-.next-button {
+#main .next-button {
     background-color: var(--oe-clr-primary-bg);
 }
 
-.correct-next-button {
+#main .correct-next-button {
     background-color: var(--oe-clr-highlight-success-bg);
     color: var(--oe-clr-highlight-success-fg);
 }
 
-.incorrect-next-button,
-.try-again-button {
+#main .incorrect-next-button,
+#main .try-again-button {
     background-color: var(--oe-clr-incorrect-bg);
 }
 
-
-.card textarea {
+#main .card textarea {
     color: var(--oe-clr-fg);
     background-color: var(--oe-clr-bg);
 }
 
-.large-icon-button {
+#main .large-icon-button {
     cursor: pointer;
     font-size: 150%;
     font-weight: 100;
@@ -151,38 +143,114 @@ h3.question::after {
     background-color: var(--oe-clr-question-button-bg);
 }
 
-.large-icon-button:hover {
+#main .large-icon-button:hover {
     outline: none !important;
     font-weight: bolder;
     opacity: 90%;
 }
 
-.large-icon-button.selected {
+#main .large-icon-button.selected {
     color: var(--oe-clr-highlight-success-bg);
 }
 
-/* button:disabled:not(.correct):not(.incorrect) {
-    background-color: #333;
-    color: #666;
-} */
-
-button.correct[disabled],
-button.incorrect[disabled] {
+#main button.correct[disabled],
+#main button.incorrect[disabled] {
     opacity: 0.6;
     filter: brightness(80%);
 }
 
-button[disabled]:hover {
+#main button[disabled]:hover {
     cursor: default;
 }
 
-button.selected {
+#main button.selected {
     border-color: var(--oe-clr-fg);
     filter: brightness(160%);
     border-color: var(--oe-clr-primary-bg);
 }
 
-button.selected[disabled] {
+#main button.selected[disabled] {
     filter: brightness(70%);
     opacity: 80%;
+}
+
+#main [lang="ang"] {
+    font-family: 'Junicode', serif;
+    font-style: italic;
+    font-size: 150%;
+    line-height: 80%;
+}
+
+#main [lang="ang"] input,
+#main [lang="ang"] textarea,
+#main input[lang="ang"],
+#main textarea[lang="ang"] {
+    font-style: oblique;
+}
+
+#main [lang="en"] {
+    font-family: 'Work Sans', sans;
+}
+
+[hidden] {
+    display: none;
+}
+
+#main p {
+    padding: 1em 0;
+    margin: 0;
+}
+
+#main button,
+#main a {
+    color: var(--oe-clr-fg);
+    background-color: var(--oe-clr-bg);
+    cursor: pointer;
+}
+
+#main button {
+    text-align: left;
+    font-size: 125%;
+    border: 1pt solid var(--oe-clr-border);
+    padding: 0.3em;
+    cursor: pointer;
+    transition: background-color var(--oe-fade-duration) var(--oe-fade-timing), filter var(--oe-fade-duration) var(--oe-fade-timing);
+}
+
+#main button:not([disabled]):hover {
+    outline: 1px solid var(--oe-clr-fg);
+}
+
+#main footer button {
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+}
+
+#main h2 {
+    font-size: 1.6em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#main h3 {
+    font-weight: 200;
+    font-size: 1em;
+    margin: 0.3em 0 0.6em 0;
+}
+
+#main h4 {
+    font-size: 1em;
+    font-weight: 300;
+    margin: 0;
+    opacity: 60%;
+}
+
+
+#main dialog:modal {
+    background-color: var(--oe-clr-modal-bg);
+    color: var(--oe-clr-modal-fg);
+    padding: 1em;
+    font-size: 130%;
 }
