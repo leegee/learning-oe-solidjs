@@ -107,3 +107,11 @@ export const loadConfig = async (): Promise<Config> => {
     return configPromise;
 };
 
+export const initializeAppConfig = async (): Promise<Config | null> => {
+    try {
+        return await loadConfig();
+    } catch (error) {
+        console.error("Error loading configuration:", error);
+        return null;
+    }
+};
