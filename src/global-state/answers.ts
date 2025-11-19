@@ -52,11 +52,6 @@ export const useLessonStore = (courseIdx: number) => {
 
   const setCurrentLessonIdx = (lessonIdx: number) => setState('currentLessonIdx', lessonIdx);
 
-  // const getCurrentLessonIdx = () => (state.currentLessonIdx === -1 ? 0 : state.currentLessonIdx);
-  const getCurrentLessonIdx = () => (state.currentLessonIdx);
-
-  const incrementCurrentLessonIdx = () => setState('currentLessonIdx', getCurrentLessonIdx() + 1);
-
   const saveAnswer = (lessonIdx: number, cardIdx: number, incorrectAnswer: string = ''): void => {
     console.log('calling lessonsStore.saveAnswer for', lessonIdx)
     _getOrCreateLesson(lessonIdx);
@@ -72,6 +67,7 @@ export const useLessonStore = (courseIdx: number) => {
   };
 
   const getLessonAnswers = (lessonIndex: number): LessonAnswers => {
+    // console.log("getLessonAnswers", lessonIndex, "=", state.answers[lessonIndex], state.answers)
     return state.answers[lessonIndex] ?? [];
   };
 
@@ -135,9 +131,7 @@ export const useLessonStore = (courseIdx: number) => {
   };
 
   return {
-    getCurrentLessonIdx,
     setCurrentLessonIdx,
-    incrementCurrentLessonIdx,
     saveAnswer,
     getLessonAnswers,
     resetLesson,

@@ -19,24 +19,24 @@ describe("useLessonStore", () => {
         lessonStore = useLessonStore(0);
     });
 
-    describe("initial state", () => {
-        it("should initialize with currentLessonIdx", () => {
-            expect(lessonStore.getCurrentLessonIdx()).toBe(-1);
-        });
-    });
+    // describe("initial state", () => {
+    //     it("should initialize with currentLessonIdx", () => {
+    //         expect(lessonStore.getCurrentLessonIdx()).toBe(-1);
+    //     });
+    // });
 
-    describe("lesson index operations", () => {
-        it("should set current lesson index", () => {
-            lessonStore.setCurrentLessonIdx(5);
-            expect(lessonStore.getCurrentLessonIdx()).toBe(5);
-        });
+    // describe("lesson index operations", () => {
+    //     it("should set current lesson index", () => {
+    //         lessonStore.setCurrentLessonIdx(5);
+    //         expect(lessonStore.getCurrentLessonIdx()).toBe(5);
+    //     });
 
-        it("should increment lesson index", () => {
-            lessonStore.setCurrentLessonIdx(2);
-            lessonStore.incrementCurrentLessonIdx();
-            expect(lessonStore.getCurrentLessonIdx()).toBe(3);
-        });
-    });
+    //     it("should increment lesson index", () => {
+    //         lessonStore.setCurrentLessonIdx(2);
+    //         lessonStore.incrementCurrentLessonIdx();
+    //         expect(lessonStore.getCurrentLessonIdx()).toBe(3);
+    //     });
+    // });
 
     describe("saveAnswer", () => {
         it("should save an incorrect answer to a new lesson/card", () => {
