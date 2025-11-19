@@ -23,17 +23,18 @@
 .lesson-list button.completed {
     background-color: var(--oe-clr-complete-bg);
     color: var(--oe-clr-complete-fg);
-    font-weight: bold;
+    font-weight: lighter;
 }
 
 .lesson-list button.current {
     background-color: var(--oe-clr-current-bg);
     color: var(--oe-clr-current-fg);
+    font-weight: bold;
 }
 
 
 .lesson-list button.todo {
-    color: grey;
+    color: grey !important;
 }
 
 .lesson-list button .index {
