@@ -10,7 +10,7 @@ import LessonCompletedScreen from "./views/course/lesson/LessonCompletedScreen";
 import LessonInProgressScreen from "./views/course/lesson/LessonInProgressScreen";
 import LessonIntroScreen from "./views/course/lesson/LessonIntroScreen";
 import MenuScreen from "./views/menu/MenuScreen";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { useConfigContext } from "./contexts/ConfigProvider";
 import Homepage from "./views/Homepage";
 

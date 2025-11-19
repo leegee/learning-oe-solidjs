@@ -7,6 +7,8 @@ interface ProtectedRouteProps {
   children: JSX.Element;
 }
 
-export const ProtectedRoute = (props: ProtectedRouteProps) => {
+const ProtectedRoute = (props: ProtectedRouteProps) => {
   return props.allowed ? props.children : <Navigate href={props.redirect} />;
 };
+
+export default ProtectedRoute;
