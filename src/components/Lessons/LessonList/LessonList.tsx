@@ -39,8 +39,6 @@ const LessonList = (props: LessonListProps) => {
                                 const isNext = idx === currentIdx && !done;
                                 const isTodo = idx > currentIdx && !done;
 
-                                console.log(JSON.stringify({ idx, done, isNext, isTodo }, null, 4))
-
                                 return (
                                     <li>
                                         <button
