@@ -1,5 +1,6 @@
 .stats-component {
     height: unset;
+    max-height: 15em;
     flex: unset;
 }
 
@@ -47,4 +48,5 @@
 .horizontal-stats th,
 .horizontal-stats td {
     text-align: center;
+    color: var(--oe-clr-fg) !important;
 }

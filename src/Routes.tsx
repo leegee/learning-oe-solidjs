@@ -5,7 +5,7 @@ import CardEditorScreen from "./views/card/CardEditorScreen";
 import CompletedAllLessons from "./views/course/lesson/CompletedAllLessons";
 import CourseEditor from "./components/CourseEditor";
 import CourseHomeScreen from "./views/course/CourseHomeScreen";
-import CourseRootScreen from "./views/course/CourseRootScreen";
+import CourseRootLayout from "./views/course/CourseRootLayout";
 import LessonCompletedScreen from "./views/course/lesson/LessonCompletedScreen";
 import LessonInProgressScreen from "./views/course/lesson/LessonInProgressScreen";
 import LessonIntroScreen from "./views/course/lesson/LessonIntroScreen";
@@ -21,7 +21,7 @@ export const Routes = (): JSX.Element => {
 
             {/* Course routes */}
             <Route path="/course" component={() => <Navigate href="/menu" />} />
-            <Route path="/course/:courseIdx" component={CourseRootScreen}>
+            <Route path="/course/:courseIdx" component={CourseRootLayout}>
                 <Route path="/" component={CourseHomeScreen} />
                 <Route path=":lessonIdx" component={LessonIntroScreen} />
                 <Route path=":lessonIdx/intro" component={LessonIntroScreen} />

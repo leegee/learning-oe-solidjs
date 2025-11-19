@@ -4,8 +4,7 @@ interface ICourseRootScreenProps {
     children?: JSX.Element;
 }
 
-// A host to whatever course is specified later in the URL
-const CourseRootScreen = (props: ICourseRootScreenProps) => {
+const CourseRootLayout = (props: ICourseRootScreenProps) => {
     const resolvedChildren = children(() => props.children);
 
     return (
@@ -15,4 +14,4 @@ const CourseRootScreen = (props: ICourseRootScreenProps) => {
     );
 };
 
-export default CourseRootScreen;
+export default CourseRootLayout;
