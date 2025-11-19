@@ -15,7 +15,7 @@ const LessonCompletedComponent = (props: LessonCompletedComponentProps) => {
     const { t } = useI18n();
     const params = useParams();
     const lessonStore = useLessonStore(Number(params.courseIdx || -1));
-    const lessonIdx = params.lessonIdx;
+    const lessonIdx = Number(params.lessonIdx);
     const incorrectAnswerCount = lessonStore!.getTotalWrongAttemptsInLesson(lessonIdx);
     const questionCount = lessonStore!.getLessonQuestionCount(lessonIdx);
 
